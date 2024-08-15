@@ -36,24 +36,28 @@ rgen: TypeAlias = Callable[[int], trow]
 tgen: TypeAlias = Callable[[int, int], int]
 
 
-def PseudoGenerator(T: tabl) -> rgen:
+def PseudoGenerator(T: tabl, max: int) -> rgen:
     def gen(n: int) -> list[int]:
-        return [T[n][k] for k in range(n + 1)]
+        if n >= max:
+            raise ValueError('requested size > size of given table')
+        return T[n]
     return gen
 
 
 class Table:
     def __init__(
             self, 
-            gen: rgen | tabl, 
+            gen: rgen | tabl,
             id: str, 
-            sim: list[str] = [''], 
+            sim: list[str] = [''],
             invabl: bool | None = None
             ) -> None:
-        
+
         if isinstance(gen, list):
-            self.gen = PseudoGenerator(gen)
+            self.max = len(gen)
+            self.gen = PseudoGenerator(gen, self.max)
         else:
+            self.max = int(10**4)
             self.gen = gen
 
         self.id = id
@@ -119,6 +123,7 @@ class Table:
 
 
 def View(T:Table, size: int = 6) -> None:
+    print()
     print("name       ", T.id)
     print("similars   ", T.sim)
     print("invertible ", T.invabl)
@@ -160,3 +165,6 @@ if __name__ == "__main__":
     Babel = Table(T, "Babel", ["A059297"], True)
 
     View(Babel)
+
+    Babel.tab(7)
+    # ValueError('requested size > size of given table')
