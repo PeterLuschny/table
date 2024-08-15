@@ -1,4 +1,5 @@
 from typing import Callable, TypeAlias
+from itertools import accumulate
 from _tablinverse import InvertTriangle, InvertMatrix
 
 # #@
@@ -35,18 +36,30 @@ rgen: TypeAlias = Callable[[int], trow]
 tgen: TypeAlias = Callable[[int, int], int]
 
 
+def PseudoGenerator(T: tabl) -> rgen:
+    def gen(n: int) -> list[int]:
+        return [T[n][k] for k in range(n + 1)]
+    return gen
+
+
 class Table:
     def __init__(
             self, 
-            gen: rgen, 
+            gen: rgen | tabl, 
             id: str, 
             sim: list[str] = [''], 
             invabl: bool | None = None
             ) -> None:
-        self.gen = gen
+        
+        if isinstance(gen, list):
+            self.gen = PseudoGenerator(gen)
+        else:
+            self.gen = gen
+
         self.id = id
         self.sim = sim
         self.invabl = invabl
+
 
     def val(self, n:int, k:int) -> int:
         return self.gen(n)[k]
@@ -59,6 +72,14 @@ class Table:
 
     def rev(self, size: int) -> tabl:
         return [list(reversed(self.gen(n))) for n in range(size)]
+
+    def diag(self, size: int) -> tabl:
+        """Return the table of (upward) anti-diagonals."""
+        return [[self.gen(n - k - 1)[k] 
+                 for k in range((n + 1) // 2)] for n in range(1, size + 1)]
+
+    def acc(self, size: int) -> tabl:
+        return [list(accumulate(self.gen(n))) for n in range(size)]
 
     def mat(self, size: int) -> tabl:
         return [[self.gen(n)[k] if k <= n else 0 for k in range(size)] for n in range(size)]
@@ -102,21 +123,23 @@ def View(T:Table, size: int = 6) -> None:
     print("similars   ", T.sim)
     print("invertible ", T.invabl)
     print("table      ", T.tab(size))
+    print("anti-diag  ", T.diag(size))
+    print("accumulated", T.acc(size))
     print("inverted   ", T.inv(size))
     print("rev of inv ", T.revinv(size))
     print("reverted   ", T.rev(size))
     print("inv of rev ", T.invrev(size))
-    print("inv rev 11 ", T.invrev11(size))
     print("matrix     ", T.mat(size))
     print("flatt seq  ", T.flat(size))
-    print("some row   ", T.row(size))
-    print("some value ", T.val(size, size//2))
+    print("inv rev 11 ", T.invrev11(size-1))
     T11 = Table(T.off(1, 1), "Toffset11")
-    print("1-1-based  ", T11.tab(size))
-    
+    print("1-1-based  ", T11.tab(size-1))
+    print("some row   ", T.row(size-1))
+    print("some value ", T.val(size-1, (size-1)//2))
+
 
 if __name__ == "__main__":
-    
+
     from functools import cache
     from math import comb as binomial
 
@@ -128,4 +151,12 @@ if __name__ == "__main__":
 
     Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
 
-    View(Abel, 6)
+    View(Abel)
+
+# =================================================================
+
+    T = [[1], [0, 1], [0, -2, 1], [0, 3, -6, 1], [0, -4, 24, -12, 1], [0, 5, -80, 90, -20, 1]]
+
+    Babel = Table(T, "Babel", ["A059297"], True)
+
+    View(Babel)
