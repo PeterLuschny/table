@@ -1,6 +1,11 @@
-# For users:
+# The objectives of this library. 
 
-Installation: Following the advice of https://stackoverflow.com/a/16196400
+The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. 
+
+
+# Installation:
+
+Following the advice of https://stackoverflow.com/a/16196400
 
 Query in your shell: 
 
@@ -10,22 +15,23 @@ Create the path given in the answer:
 
     mkdir -p "put the answer from the query"
 
-On Windows this creates the diretory:
+On Windows this creates the directory:
 
     C:\Users\UserName\AppData\Roaming\Python\Python312\site-packages
 
 Put the file Tables.py (only this file!) there.
 
+# Examples:
+
 Next test the installation: Put the following lines in some test.py.
 
-
-    from functools import cache
-    from math import comb as binomial
-    from Tables import Table, View, StirlingSet
+ ### Example 1
+    from Tables import Tables, Table, View, StirlingSet
 
     View(StirlingSet)
 
 
+### Example 2
     T = [[ 1 ], [0, 1], [0, -2, 1], [0, 3, -6, 1], [0, -4, 24, -12, 1], 
          [0, 5, -80, 90, -20, 1]]
 
@@ -33,6 +39,10 @@ Next test the installation: Put the following lines in some test.py.
 
     View(Babel)
 
+
+ ### Example 3
+    from functools import cache
+    from math import comb as binomial
 
     @cache
     def abel(n: int) -> list[int]:
@@ -44,26 +54,61 @@ Next test the installation: Put the following lines in some test.py.
 
     View(Abel)
 
+The last example shows how you can use the functionality of Tables with sequences you define yourself.
 
-A brief overview of the sequences covered and their relevance can be found in the file _statistics.txt.
+### Example 4
+    for tabl in Tables: 
+        print(tabl.id)
+
+This shows the list of the sequences implemented. A brief overview of their relative relevance can be found in the file _statistics.txt.
+
+
+# How to use:
+
+There is only one constructor: Table(...). The parameters are:
+
+    gen: rgen | tabl       # The generator.
+
+    id: str                # The name of the sequence.
+
+    sim: list[str] = ['']  # A-number references to similar sequences in the OEIS.
+
+    invQ: bool | None = None  # Is the triangle invertible? The default 'None' means 'I do not know'.
+
+
+The generator is either a triangular array of integers as in example 2.
+
+Or a function of type: fun(n: int) -> list[int] defined for all nonnegative n as in example 3. 
+This function should be decorated with '@cache' and return a list of integers of length n + 1.
+
+A Table provides the following functionality:
+
+    def val(n:int, k:int)   -> int:
+    def row(n: int)         -> trow:
+    def tab(size: int)      -> tabl:
+    def rev(size: int)      -> tabl:
+    def diag(size: int)     -> tabl:
+    def acc(size: int)      -> tabl:
+    def mat(size: int)      -> tabl:
+    def flat(size: int)     -> trow:
+    def inv(size: int)      -> tabl:
+    def revinv(size: int)   -> tabl:
+    def invrev(size: int)   -> tabl:
+    def off(N: int, K: int) -> rgen:
+    def invrev11(size: int) -> tabl:
 
 
 # For developers:
 
-The last example above shows how you can use the functionality of Tables with sequence you define.
-
-You are invited to share your code and add it to this library. 
+You are invited to share your code and add it to the library. Only sequences already in the OEIS will be considered.
 Send a pull request!
 
-The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. 
-
-We have three design constraints:
+Observe the design constraints:
 
   1) No use of extern modules (like SymPy or NumPy); only use standard modules.
 
-  2) Keep the simple design philosophy you see in the implementations, which all are based on the rows of a triangle, not on individual terms T(n, k).
+  2) All tables are (0,0)-based. If the table in the OEIS is (1,1)-based adapt it. Often the best way to do this is to prepend a column (1, 0, 0, ...) to the left of the table.
 
-  3) We do not aim for one-liners. Readability is more important.
+  3) Keep the design philosophy you see in the code: all implementations are based on the rows of a triangle, not on individual terms T(n, k).
 
-
-... the documentation is still incomplete. We are working on it.
+  4) We do not aim for one-liners. Readability is important.

@@ -50,19 +50,17 @@ class Table:
             gen: rgen | tabl,
             id: str, 
             sim: list[str] = [''],
-            invabl: bool | None = None
+            invQ: bool | None = None
             ) -> None:
 
         if isinstance(gen, list):
-            self.max = len(gen)
-            self.gen = PseudoGenerator(gen, self.max)
+            self.gen = PseudoGenerator(gen, len(gen))
         else:
-            self.max = int(10**4)
             self.gen = gen
 
         self.id = id
         self.sim = sim
-        self.invabl = invabl
+        self.invQ = invQ
 
 
     def val(self, n:int, k:int) -> int:
@@ -92,11 +90,11 @@ class Table:
         return [self.gen(n)[k] for n in range(size) for k in range(n + 1)]
 
     def inv(self, size: int) -> tabl:
-        if self.invabl == False:
+        if self.invQ == False:
             return []
         V = InvertTriangle(self.gen, size)
         if V == []:
-            self.invabl = False
+            self.invQ = False
             return []
         return V
 
@@ -126,7 +124,7 @@ def View(T:Table, size: int = 6) -> None:
     print()
     print("name       ", T.id)
     print("similars   ", T.sim)
-    print("invertible ", T.invabl)
+    print("invertible ", T.invQ)
     print("table      ", T.tab(size))
     print("anti-diag  ", T.diag(size))
     print("accumulated", T.acc(size))
