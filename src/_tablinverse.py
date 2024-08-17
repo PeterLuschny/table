@@ -12,12 +12,12 @@ def InvertMatrix(L: list[list[int]]) -> list[list[int]]:
 
     Returns:
         list[list[int]]: The integer inverse of the lower triangular matrix if it exists.
-        
+
         []: If the inverse does not exist.
 
     """
     n = len(L)
-    inv = [[0 for i in range(n)] for _ in range(n)]  # Identity matrix
+    inv = [[0 for _ in range(n)] for _ in range(n)]  # Identity matrix
     for i in range(n):
         inv[i][i] = 1
     for k in range(n):
@@ -39,13 +39,13 @@ def InvertMatrix(L: list[list[int]]) -> list[list[int]]:
 
 
 def InvertTriangle(r, dim: int) -> list[list[int]]:
-    M = [[r(n)[k] if k <= n else 0 for k in range(dim)] for n in range(dim)]
+    M = [[r(n)[k] for k in range(n + 1)] for n in range(dim)]
     return InvertMatrix(M)
 
 
 if __name__ == "__main__":
 
-    def test():
+    def test() -> None:
         M = [[1, 0, 0], [1, 2, 0], [1, 2, 3]]
         V = InvertMatrix(M)
         print(V)
@@ -66,6 +66,8 @@ if __name__ == "__main__":
         ]
         V = InvertMatrix(M)
         print(V)
+
+    test()
 
     from Abel import Abel
     from Bell import Bell

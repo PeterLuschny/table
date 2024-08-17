@@ -1,9 +1,9 @@
-# The objectives of this library. 
+# The objectives of this library
 
 The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. 
 
 
-# Installation:
+# Installation
 
 Following the advice of https://stackoverflow.com/a/16196400
 
@@ -21,7 +21,7 @@ On Windows this creates the directory:
 
 Put the file Tables.py (only this file!) there.
 
-# Examples:
+# Examples
 
 Next test the installation: Put the following lines in some test.py.
 
@@ -63,15 +63,15 @@ The last example shows how you can use the functionality of Tables with sequence
 This shows the list of the sequences implemented. A brief overview of their relative relevance can be found in the file _statistics.txt.
 
 
-# How to use:
+# How to use
 
 There is only one constructor: Table(...). The parameters are:
 
-    gen: rgen | tabl       # The generator.
+    gen: rgen | tabl          # The generator.
 
-    id: str                # The name of the sequence.
+    id: str                   # The name of the sequence.
 
-    sim: list[str] = ['']  # A-number references to similar sequences in the OEIS.
+    sim: list[str] = ['']     # A-number references to similar sequences in the OEIS.
 
     invQ: bool | None = None  # Is the triangle invertible? The default 'None' means 'I do not know'.
 
@@ -98,7 +98,7 @@ A Table provides the following functionality:
     def invrev11(size: int) -> tabl:
 
 
-# For developers:
+# For developers
 
 You are invited to share your code and add it to the library. Only sequences already in the OEIS will be considered.
 Send a pull request!
