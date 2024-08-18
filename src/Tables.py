@@ -852,6 +852,12 @@ def leibniz(n: int) -> list[int]:
     return row
 Leibniz = Table(leibniz, "Leibniz", ["A003506"], False)
 @cache
+def leibnizscheme(n: int) -> list[int]:
+    if n == 0: return [0]
+    L = leibnizscheme(n - 1)
+    return [L[k] + k for k in range(n)] + [n]
+LeibnizScheme = Table(leibnizscheme, "LeibnizScheme", ["A003991"]) 
+@cache
 def levin(n: int) -> list[int]:
     if n == 0:
         return [1]
@@ -1378,6 +1384,7 @@ Tables: list[Table] = [
     Lah,
     Lehmer,
     Leibniz,
+    LeibnizScheme,
     Levin,
     Lozanic,
     Lucas,
