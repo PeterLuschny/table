@@ -3,15 +3,17 @@
 # #@
 
 
-def InvertMatrix(L: list[list[int]]) -> list[list[int]]:
+def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
     """
     Calculates the inverse of a lower triangular matrix.
 
     Args:
-        L (list[list[int]]): The lower triangular matrix.
+        The lower triangular matrix to be inverted.
+
+        Check whether the inverse exists as an integer matrix, defaults to True.
 
     Returns:
-        list[list[int]]: The integer inverse of the lower triangular matrix if it exists.
+        The integer inverse of the lower triangular matrix if it exists.
 
         []: If the inverse does not exist.
 
@@ -24,23 +26,24 @@ def InvertMatrix(L: list[list[int]]) -> list[list[int]]:
         for j in range(n):
             for i in range(k):
                 inv[k][j] -= inv[i][j] * L[k][i]
-            a = inv[k][j]
-            b = L[k][k]
-            if b == 0:
-                # print("Warning: Inverse does not exist!")
-                # raise ValueError("Inverse does not exist!")
-                return []
-            a, r = divmod(a, b)  # make sure that a is integer
-            if r != 0:
-                # print("Warning: Integer terms do not exist!")
-                # raise ValueError("Integer terms do not exist!")
-                return []
+            if check:
+                a = inv[k][j]
+                b = L[k][k]
+                if b == 0:
+                    # print("Warning: Inverse does not exist!")
+                    # raise ValueError("Inverse does not exist!")
+                    return []
+                a, r = divmod(a, b)  # make sure that a is integer
+                if r != 0:
+                    # print("Warning: Integer terms do not exist!")
+                    # raise ValueError("Integer inverse does not exist!")
+                    return []
     return [row[0:n + 1] for n, row in enumerate(inv)]
 
 
 def InvertTriangle(r, dim: int) -> list[list[int]]:
     M = [[r(n)[k] for k in range(n + 1)] for n in range(dim)]
-    return InvertMatrix(M)
+    return InvertMatrix(M, True)
 
 
 if __name__ == "__main__":
@@ -48,11 +51,14 @@ if __name__ == "__main__":
     def test() -> None:
         M = [[1, 0, 0], [1, 2, 0], [1, 2, 3]]
         V = InvertMatrix(M)
-        print(V)
+        print(M)
+        print("Inverse:", V)
 
         M = [[1, 0, 0], [1, 2, 0], [1, 2, 0]]
         V = InvertMatrix(M)
-        print(V)
+        print(M)
+        print("Inverse:", V)
+        print()
 
         M = [
             [1,      0,      0,     0,    0,   0,  0, 0],
@@ -64,7 +70,7 @@ if __name__ == "__main__":
             [0,   7776,   6480,  2160,  360,  30,  1, 0],
             [0, 117649, 100842, 36015, 6860, 735, 42, 1],
         ]
-        V = InvertMatrix(M)
+        V = InvertMatrix(M, False)
         print(V)
 
     test()
@@ -76,9 +82,9 @@ if __name__ == "__main__":
     dim = 8
     print(InvertMatrix(Abel.tab(dim)))
     print(InvertTriangle(Abel.gen, dim))
-
+    print()
     print(InvertMatrix(StirlingSet.tab(dim)))
     print(InvertTriangle(StirlingSet.gen, dim))
-
+    print()
     print(InvertMatrix(Bell.tab(dim)))
     print(InvertTriangle(Bell.gen, dim))

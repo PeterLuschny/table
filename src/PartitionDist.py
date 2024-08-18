@@ -22,7 +22,9 @@ def _pdist(n: int, k: int, r: int) -> int:
         return 1 if k == 0 else 0
     if k == 0 or r == 0:
         return 0
-    return (sum(_pdist(n - r * j, k - 1, r - 1) for j in range(1, n // r + 1))
+    if k > n // 2 + 1: return 0
+    return (sum(_pdist(n - r * j, k - 1, r - 1) 
+            for j in range(1, n // r + 1))
            + _pdist(n, k, r - 1))
 
 
@@ -35,7 +37,8 @@ PartnumDist = Table(partnumdist, "PartitionDist", ["A365676", "A116608", "A06017
 
 
 if __name__ == "__main__":
-    # View has to big test cases
     from _tabltypes import View
 
     View(PartnumDist)
+    for n in range(13):
+        print(partnumdist(n))

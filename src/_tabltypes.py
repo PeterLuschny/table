@@ -38,7 +38,7 @@ tgen: TypeAlias = Callable[[int, int], int]
 
 
 def PseudoGenerator(T: tabl, max: int) -> rgen:
-    """_summary_
+    """A generator for an already existing table.
 
     Args:
         T, table to be wrapped
@@ -55,7 +55,10 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
 
 
 class Table:
-    """Provides basic functionality for manipulating integer triangles.
+    """Provides basic methods for manipulating integer triangles. 
+    The triangles are constructed by a row generator,
+    that is a function of type Callable[[int], list[int], and 
+    defined for all n >= 0, or given as a parameter.
     """
     def __init__(
         self, 
@@ -99,8 +102,7 @@ class Table:
         return self.gen(n)
 
     def tab(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -110,8 +112,7 @@ class Table:
         return [list(self.gen(n)) for n in range(size)]
 
     def rev(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -121,8 +122,7 @@ class Table:
         return [list(reversed(self.gen(n))) for n in range(size)]
 
     def diag(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -133,19 +133,17 @@ class Table:
                  for k in range((n + 1) // 2)] for n in range(1, size + 1)]
 
     def acc(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
         Returns:
-            table with accumulated rows
+            table with rows accumulated
         """
         return [list(accumulate(self.gen(n))) for n in range(size)]
 
     def mat(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -155,8 +153,7 @@ class Table:
         return [[self.gen(n)[k] if k <= n else 0 for k in range(size)] for n in range(size)]
 
     def flat(self, size: int) -> list[int]:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -166,8 +163,7 @@ class Table:
         return [self.gen(n)[k] for n in range(size) for k in range(n + 1)]
 
     def inv(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -184,8 +180,7 @@ class Table:
         return V
 
     def revinv(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -198,8 +193,7 @@ class Table:
         return [[V[n][n - k] for k in range(n + 1)] for n in range(size)]
 
     def invrev(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -210,8 +204,7 @@ class Table:
         return InvertMatrix(M)
 
     def off(self, N: int, K: int) -> rgen:
-        """_summary_
-
+        """
         Args:
             N, shifts row-offset by N 
             K, shifts column-offset by K
@@ -224,8 +217,7 @@ class Table:
         return subgen
 
     def invrev11(self, size: int) -> tabl:
-        """_summary_
-
+        """
         Args:
             size, number of rows
 
@@ -237,8 +229,7 @@ class Table:
 
 
 def View(T:Table, size: int = 6) -> None:
-    """_summary_
-
+    """
     Args:
         T, table to inspect
         size, number of rows, defaults to 6.

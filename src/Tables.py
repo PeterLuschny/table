@@ -6,13 +6,14 @@ from sys import setrecursionlimit, set_int_max_str_digits
 from typing import Callable, TypeAlias
 setrecursionlimit(3000)
 set_int_max_str_digits(5000)
-def InvertMatrix(L: list[list[int]]) -> list[list[int]]:
+def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
     """
     Calculates the inverse of a lower triangular matrix.
     Args:
-        L (list[list[int]]): The lower triangular matrix.
+        The lower triangular matrix to be inverted.
+        Check whether the inverse exists as an integer matrix, defaults to True.
     Returns:
-        list[list[int]]: The integer inverse of the lower triangular matrix if it exists.
+        The integer inverse of the lower triangular matrix if it exists.
         []: If the inverse does not exist.
     """
     n = len(L)
@@ -23,21 +24,22 @@ def InvertMatrix(L: list[list[int]]) -> list[list[int]]:
         for j in range(n):
             for i in range(k):
                 inv[k][j] -= inv[i][j] * L[k][i]
-            a = inv[k][j]
-            b = L[k][k]
-            if b == 0:
-                # print("Warning: Inverse does not exist!")
-                # raise ValueError("Inverse does not exist!")
-                return []
-            a, r = divmod(a, b)  # make sure that a is integer
-            if r != 0:
-                # print("Warning: Integer terms do not exist!")
-                # raise ValueError("Integer terms do not exist!")
-                return []
+            if check:
+                a = inv[k][j]
+                b = L[k][k]
+                if b == 0:
+                    # print("Warning: Inverse does not exist!")
+                    # raise ValueError("Inverse does not exist!")
+                    return []
+                a, r = divmod(a, b)  # make sure that a is integer
+                if r != 0:
+                    # print("Warning: Integer terms do not exist!")
+                    # raise ValueError("Integer inverse does not exist!")
+                    return []
     return [row[0:n + 1] for n, row in enumerate(inv)]
 def InvertTriangle(r, dim: int) -> list[list[int]]:
     M = [[r(n)[k] for k in range(n + 1)] for n in range(dim)]
-    return InvertMatrix(M)
+    return InvertMatrix(M, True)
 """Type: table row"""
 trow: TypeAlias = list[int]
 """Type: triangle (resp. table)"""
@@ -49,7 +51,7 @@ rgen: TypeAlias = Callable[[int], trow]
 """Type: triangle (resp. table) generator"""
 tgen: TypeAlias = Callable[[int, int], int]
 def PseudoGenerator(T: tabl, max: int) -> rgen:
-    """_summary_
+    """A generator for an already existing table.
     Args:
         T, table to be wrapped
         max, size of the table
@@ -62,7 +64,10 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         return T[n]
     return gen
 class Table:
-    """Provides basic functionality for manipulating integer triangles.
+    """Provides basic methods for manipulating integer triangles. 
+    The triangles are constructed by a row generator,
+    that is a function of type Callable[[int], list[int], and 
+    defined for all n >= 0, or given as a parameter.
     """
     def __init__(
         self, 
@@ -96,7 +101,7 @@ class Table:
         """
         return self.gen(n)
     def tab(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -104,7 +109,7 @@ class Table:
         """
         return [list(self.gen(n)) for n in range(size)]
     def rev(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -112,7 +117,7 @@ class Table:
         """
         return [list(reversed(self.gen(n))) for n in range(size)]
     def diag(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -121,15 +126,15 @@ class Table:
         return [[self.gen(n - k - 1)[k] 
                  for k in range((n + 1) // 2)] for n in range(1, size + 1)]
     def acc(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
-            table with accumulated rows
+            table with rows accumulated
         """
         return [list(accumulate(self.gen(n))) for n in range(size)]
     def mat(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -137,7 +142,7 @@ class Table:
         """
         return [[self.gen(n)[k] if k <= n else 0 for k in range(size)] for n in range(size)]
     def flat(self, size: int) -> list[int]:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -145,7 +150,7 @@ class Table:
         """
         return [self.gen(n)[k] for n in range(size) for k in range(n + 1)]
     def inv(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -160,7 +165,7 @@ class Table:
             return []
         return V
     def revinv(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -171,7 +176,7 @@ class Table:
             return []
         return [[V[n][n - k] for k in range(n + 1)] for n in range(size)]
     def invrev(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -180,7 +185,7 @@ class Table:
         M = [list(reversed(self.gen(n))) for n in range(size)]
         return InvertMatrix(M)
     def off(self, N: int, K: int) -> rgen:
-        """_summary_
+        """
         Args:
             N, shifts row-offset by N 
             K, shifts column-offset by K
@@ -191,7 +196,7 @@ class Table:
             return self.gen(n + N)[K : N + n + 1] 
         return subgen
     def invrev11(self, size: int) -> tabl:
-        """_summary_
+        """
         Args:
             size, number of rows
         Returns:
@@ -200,7 +205,7 @@ class Table:
         M = [list(reversed(self.off(1, 1)(n))) for n in range(size)]
         return InvertMatrix(M)
 def View(T:Table, size: int = 6) -> None:
-    """_summary_
+    """
     Args:
         T, table to inspect
         size, number of rows, defaults to 6.
@@ -664,7 +669,15 @@ def fibolucas(n: int) -> list[int]:
 FiboLucas = Table(fibolucas, "FiboLucas", ["A374439"], False)
 @cache
 def fibolucasinv(n: int) -> list[int]:
-    return FiboLucas.invrev(n+1)[-1]
+    if n == 0: return [1]
+    if n == 1: return [-2, 1]
+    fli = fibolucasinv(n - 1)
+    row = [1] * (n + 1)
+    row[n - 1] = -2
+    for k in range(n - 2, 0, -1):
+        row[k] = fli[k - 1] - fli[k + 1]
+    row[0] = -2 * fli[0] - fli[1]
+    return row
 FiboLucasInv = Table(fibolucasinv, "FiboLucasInv", ["A375025"], True)
 @cache
 def fibolucasrev(n: int) -> list[int]:
@@ -766,6 +779,19 @@ def hyperharmonic(n: int) -> list[int]:
     row[0] *= n
     return row
 HyperHarmonic = Table(hyperharmonic, "HyperHarmonic", ["A165675", "A093905", "A105954", "A165674"], True)
+@cache
+def jacobsthal(n) -> list[int]:
+    if n == 0: return [1]
+    if n == 1: return [1, 1]
+    if n == 2: return [1, 2, 1] 
+    Jn1 = jacobsthal(n - 1) 
+    Jn2 = jacobsthal(n - 2) + [0]
+    row = [1] * (n + 1)
+    for k in range(1, n):
+        row[k] = Jn1[k-1] + Jn1[k] + 2 * Jn2[k]
+    row[0] = Jn1[0] + 2 * Jn2[0]
+    return row
+Jacobsthal = Table(jacobsthal, "Jacobsthal", ["A322942"], True)
 @cache
 def kekule(n: int) -> list[int]:
     return [dist_latt(n - k, k) for k in range(n + 1)]
@@ -993,7 +1019,9 @@ def _pdist(n: int, k: int, r: int) -> int:
         return 1 if k == 0 else 0
     if k == 0 or r == 0:
         return 0
-    return (sum(_pdist(n - r * j, k - 1, r - 1) for j in range(1, n // r + 1))
+    if k > n // 2 + 1: return 0
+    return (sum(_pdist(n - r * j, k - 1, r - 1) 
+            for j in range(1, n // r + 1))
            + _pdist(n, k, r - 1))
 @cache
 def partnumdist(n) -> list[int]:
@@ -1343,6 +1371,7 @@ Tables: list[Table] = [
     HermiteE,
     HermiteH,
     HyperHarmonic,
+    Jacobsthal,
     Kekule,
     LabeledGraphs,
     Laguerre,

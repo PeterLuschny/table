@@ -1,6 +1,8 @@
 # The objectives of this library
 
-The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. 
+* The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. 
+
+* In addition, it provides a dozen methods for manipulating the triangles.
 
 
 # Installation
@@ -11,9 +13,9 @@ Query in your shell:
 
     python -m site --user-site
 
-Create the path given in the answer: 
+Create the path given in the returned answer: 
 
-    mkdir -p "put the answer from the query"
+    mkdir -p "the answer from the query"
 
 On Windows this creates the directory:
 
@@ -68,12 +70,10 @@ This shows the list of the sequences implemented. A brief overview of their rela
 There is only one constructor: Table(...). The parameters are:
 
     gen: rgen | tabl          # The generator.
-
     id: str                   # The name of the sequence.
-
-    sim: list[str] = ['']     # A-number references to similar sequences in the OEIS.
-
-    invQ: bool | None = None  # Is the triangle invertible? The default 'None' means 'I do not know'.
+    sim: list[str] = ['']     # References to similar OEIS-sequences.
+    invQ: bool | None = None  # Is the triangle invertible? 
+                              # Default 'None' means 'I do not know'.
 
 
 The generator is either a triangular array of integers as in example 2.
@@ -81,21 +81,21 @@ The generator is either a triangular array of integers as in example 2.
 Or a function of type: fun(n: int) -> list[int] defined for all nonnegative n as in example 3. 
 This function should be decorated with '@cache' and return a list of integers of length n + 1.
 
-A Table provides the following functionality:
+A Table provides the following methods:
 
-    def val(n:int, k:int)   -> int:
-    def row(n: int)         -> trow:
-    def tab(size: int)      -> tabl:
-    def rev(size: int)      -> tabl:
-    def diag(size: int)     -> tabl:
-    def acc(size: int)      -> tabl:
-    def mat(size: int)      -> tabl:
-    def flat(size: int)     -> trow:
-    def inv(size: int)      -> tabl:
-    def revinv(size: int)   -> tabl:
-    def invrev(size: int)   -> tabl:
-    def off(N: int, K: int) -> rgen:
-    def invrev11(size: int) -> tabl:
+    val (n:int, k:int)   -> int  | T(n, k)
+    row (n: int)         -> trow | n-th row of table
+    tab (size: int)      -> tabl | table with size rows
+    rev (size: int)      -> tabl | row reversed
+    diag (size: int)     -> tabl | upwards antidiagonals
+    acc (size: int)      -> tabl | accumulated rows
+    mat (size: int)      -> tabl | matrix form
+    flat (size: int)     -> trow | flattened form
+    inv (size: int)      -> tabl | inverse table
+    revinv (size: int)   -> tabl | row reversed inverse
+    invrev (size: int)   -> tabl | inverse of row reversed
+    off (N: int, K: int) -> rgen | new offset (N, K)
+    invrev11 (size: int) -> tabl | invrev from offset (1, 1)
 
 
 # For developers
@@ -107,7 +107,7 @@ Observe the design constraints:
 
   1) No use of extern modules (like SymPy or NumPy); only use standard modules.
 
-  2) All tables are (0,0)-based. If the table in the OEIS is (1,1)-based adapt it. Often the best way to do this is to prepend a column (1, 0, 0, ...) to the left of the table.
+  2) All tables are (0,0)-based. If the table in the OEIS is (1,1)-based, adapt it. Often the best way to do this is to prepend a column (1, 0, 0, ...) to the left of the table.
 
   3) Keep the design philosophy you see in the code: all implementations are based on the rows of a triangle, not on individual terms T(n, k).
 
