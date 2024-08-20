@@ -236,6 +236,15 @@ def abel(n: int) -> list[int]:
     return [b[k - 1] * n ** (n - k) if k > 0 else 0 for k in range(n + 1)]
 Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
 @cache
+def _andre(n: int, k: int) -> int:
+    if k == 0: return 1 
+    if n == 0: return 0
+    return -sum(Binomial.val(k, j) * _andre(n, j) for j in range(0, k, n)) 
+@cache
+def andre(n: int) -> list[int]:
+    return [abs(_andre(k, n)) for k in range(n + 1)]
+Andre = Table(andre, "Andre", ["A375555", "A181937"], True)
+@cache
 def F(n: int) -> int:
     return factorial(n) ** 3 * ((n + 1) * (n + 1) * (n + 2))
 @cache
@@ -1331,6 +1340,7 @@ def riordan_num(n: int) -> int:
     return sum((-1) ** (n - k) * BinomialCatalan.val(n, k) for k in range(n + 1))
 Tables: list[Table] = [
     Abel,
+    Andre,
     Baxter,
     Bell,
     Bessel,

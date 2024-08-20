@@ -5,6 +5,7 @@ tabl_files: list[str] = [
     "_tablinverse.py",
     "_tabltypes.py",
     "Abel.py",
+    "Andre.py",
     "Baxter.py",
     "Bell.py",
     "Bessel.py",
@@ -113,6 +114,7 @@ tabl_files: list[str] = [
 str_tabl_fun: str = """\
 Tables: list[Table] = [
     Abel,
+    Andre,
     Baxter,
     Bell,
     Bessel,
