@@ -263,7 +263,6 @@ class Table:
         M = [list(reversed(self.off(1, 1)(n))) for n in range(size)]
         return InvertMatrix(M)
 
-
     def summap(self, s: seq, size: int) -> list[int]:
         """[sum(T(n, k) * s(k) for 0 <= k <= n) 
             for 0 <= n < size]
@@ -279,7 +278,6 @@ class Table:
         """
         return [sum(self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
-
 
     def invmap(self, s: seq, size: int) -> list[int]:
         """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n) 

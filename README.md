@@ -86,16 +86,20 @@ A Table provides the following methods:
     val (n:int, k:int)   -> int  | T(n, k)
     row (n: int)         -> trow | n-th row of table
     tab (size: int)      -> tabl | table with size rows
-    rev (size: int)      -> tabl | row reversed
-    diag (size: int)     -> tabl | upwards antidiagonals
-    acc (size: int)      -> tabl | accumulated rows
-    mat (size: int)      -> tabl | matrix form
+    rev (size: int)      -> tabl | tabel with reversed rows
+    adtab(size: int)     -> tabl | table of (upward) anti-diagonals
+    diag (size: int)     -> tabl | diagonal (downwards) starting at the left side
+    col(k, size: int)    -> list[int] | k-th column starting at the main diagonal
+    acc (size: int)      -> tabl | table with rows accumulated
+    mat (size: int)      -> tabl | matrix form of lower triangular array
     flat (size: int)     -> trow | flattened form
     inv (size: int)      -> tabl | inverse table
     revinv (size: int)   -> tabl | row reversed inverse
     invrev (size: int)   -> tabl | inverse of row reversed
     off (N: int, K: int) -> rgen | new offset (N, K)
     invrev11 (size: int) -> tabl | invrev from offset (1, 1)
+    summap(s: seq, size) -> list[int] | linear transformation induced by T
+    invmap(s: seq, size) -> list[int] | inverse transformation induced by T
 
 
 # For developers
