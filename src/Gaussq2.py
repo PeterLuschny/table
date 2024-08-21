@@ -32,6 +32,6 @@ Gaussq2 = Table(gaussq2, "Gaussq2", ["A022166"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Gaussq2)
+    PreView(Gaussq2)

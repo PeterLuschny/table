@@ -35,6 +35,6 @@ Harmonic = Table(harmonic, "Harmonic", ["A358694", "A109822"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Harmonic)
+    PreView(Harmonic)

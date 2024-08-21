@@ -36,6 +36,6 @@ EulerianZigZag = Table(eulerianzigzag, "EulerianZigZag", ["A205497"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(EulerianZigZag)
+    PreView(EulerianZigZag)

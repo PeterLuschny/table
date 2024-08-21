@@ -4,6 +4,7 @@ from os.path import join, isfile
 tabl_files: list[str] = [
     "_tablinverse.py",
     "_tabltypes.py",
+    "_tablutils.py",
     "Abel.py",
     "Andre.py",
     "Baxter.py",
@@ -214,6 +215,7 @@ import_header: list[str] = [
     "from itertools import accumulate\n",
     "from math import factorial\n",
     "from fractions import Fraction\n",
+    "import time\n",
     "from sys import setrecursionlimit, set_int_max_str_digits\n",
     "from typing import Callable, TypeAlias\n",
 ]

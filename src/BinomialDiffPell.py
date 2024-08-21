@@ -38,9 +38,9 @@ BinomialDiffPell = Table(binomialdiffpell, "BinomialDiffPell", ["A367564"], True
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(BinomialDiffPell)
+    PreView(BinomialDiffPell)
 
 '''* Statistic about BinomialDiffPell:
 

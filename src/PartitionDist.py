@@ -37,8 +37,8 @@ PartnumDist = Table(partnumdist, "PartitionDist", ["A365676", "A116608", "A06017
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(PartnumDist)
+    PreView(PartnumDist)
     for n in range(13):
         print(partnumdist(n))

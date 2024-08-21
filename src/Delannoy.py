@@ -34,6 +34,6 @@ Delannoy = Table(delannoy, "Delannoy", ["A008288"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Delannoy)
+    PreView(Delannoy)

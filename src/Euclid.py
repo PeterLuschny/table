@@ -36,8 +36,8 @@ Euclid = Table(euclid, "Euclid", ["A217831"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Euclid, 12)
+    PreView(Euclid, 12)
     # for n in range(22): print([n], euclid(n))
     # print([sum(euclid(n)) for n in range(53)])

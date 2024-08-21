@@ -36,9 +36,9 @@ def eulerS(n: int) -> int:
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(EulerSec)
+    PreView(EulerSec)
 
     print("Bonus:")
     print([eulerS(n) for n in range(30)])

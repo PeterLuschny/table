@@ -4,7 +4,7 @@ from _tablinverse import InvertMatrix
 
 # #@
 
-# T ENUMERATED AS A TRIANGLE
+# TABLE T ENUMERATED AS A TRIANGLE
 # Is always (0,0)-based!
 #
 # T(0,0)
@@ -19,6 +19,11 @@ from _tablinverse import InvertMatrix
 # For some dimension size > 0 it is defined as
 # T[N, K, size] = [[T(n, k) for k in range(K, N + n + 1)] 
 #                           for n in range(N, N + size)]
+#
+# Examples for the enumerations:
+# row(4)     = [T(4,0), T(4,1), T(4,2), T(4,3), T(4,4)]
+# col(2, 5)  = [T(2,2), T(3,2), T(4,2), T(5,2), T(6,2)]
+# diag(2, 5) = [T(2,0), T(3,1), T(4,2), T(5,3), T(6,4)]
 
 
 """Type: table row"""
@@ -46,10 +51,15 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
 
     Returns:
         table generator
+
+    Error:
+        Raises a ValueError if the requested size > size of given table, 
+        or returns an emtpy list, dependig on your choice.
     """
     def gen(n: int) -> trow:
         if n >= max:
-            raise ValueError('requested size > size of given table')
+            #raise ValueError('requested size > size of given table')
+            return []
         return T[n]
     return gen
 
@@ -59,6 +69,10 @@ class Table:
     The triangles are constructed by a row generator,
     that is a function of type Callable[[int], list[int], and 
     defined for all n >= 0, or given as a parameter.
+
+    Whenever possible provide a generator, not a table, because
+    in this case all the generatetibility of our approach is lost
+    and it is easy to produce 'index out of range' errors.
     """
     def __init__(
         self, 
@@ -121,7 +135,7 @@ class Table:
         """
         return [list(reversed(self.gen(n))) for n in range(size)]
 
-    def diag(self, size: int) -> tabl:
+    def adtab(self, size: int) -> tabl:
         """
         Args:
             size, number of rows
@@ -131,6 +145,28 @@ class Table:
         """
         return [[self.gen(n - k - 1)[k] 
                  for k in range((n + 1) // 2)] for n in range(1, size + 1)]
+
+    def diag(self, n: int, size: int) -> list[int]:
+        """
+        Args:
+            n, start at row n 
+            size, length of diagonal
+
+        Returns:
+            n-th diagonal starting at the left side
+        """
+        return [self.gen(n + k)[k] for k in range(size)]
+    
+    def col(self, k: int, size: int) -> list[int]:
+        """
+        Args:
+            k, start at column k
+            size, length of column
+
+        Returns:
+            k-th column starting at the main diagonal
+        """
+        return [self.gen(k + n)[k] for n in range(size)]
 
     def acc(self, size: int) -> tabl:
         """
@@ -228,36 +264,47 @@ class Table:
         return InvertMatrix(M)
 
 
-def View(T:Table, size: int = 6) -> None:
-    """
-    Args:
-        T, table to inspect
-        size, number of rows, defaults to 6.
-    """
-    print()
-    print("name       ", T.id)
-    print("similars   ", T.sim)
-    print("invertible ", T.invQ)
-    print("table      ", T.tab(size))
-    print("anti-diag  ", T.diag(size))
-    print("accumulated", T.acc(size))
-    print("inverted   ", T.inv(size))
-    print("rev of inv ", T.revinv(size))
-    print("reverted   ", T.rev(size))
-    print("inv of rev ", T.invrev(size))
-    print("matrix     ", T.mat(size))
-    print("flatt seq  ", T.flat(size))
-    print("inv rev 11 ", T.invrev11(size-1))
-    T11 = Table(T.off(1, 1), "Toffset11")
-    print("1-1-based  ", T11.tab(size-1))
-    print("some row   ", T.row(size-1))
-    print("some value ", T.val(size-1, (size-1)//2))
+    def summap(self, s: seq, size: int) -> list[int]:
+        """[sum(T(n, k) * s(k) for 0 <= k <= n) 
+            for 0 <= n < size]
+            For example, if T is the binomial then this is the 
+            'binomial transform'.
+
+        Args:
+            s, sequence
+            size 
+
+        Returns:
+            Initial segment of length size of s transformed.
+        """
+        return [sum(self.gen(n)[k] * s(k) 
+                    for k in range(n + 1)) for n in range(size)]
+
+
+    def invmap(self, s: seq, size: int) -> list[int]:
+        """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n) 
+            for 0 <= n < size]
+            For example, if T is the binomial then this is the 
+            'inverse binomial transform'.
+
+        Args:
+            s, sequence
+            size 
+
+        Returns:
+            Initial segment of length size of s transformed.
+        """
+        return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
+                    for k in range(n + 1)) for n in range(size)]
+    
 
 
 if __name__ == "__main__":
 
     from functools import cache
     from math import comb as binomial
+    from _tablutils import PreView
+    from StirlingSet import StirlingSet
 
     @cache
     def abel(n: int) -> list[int]:
@@ -267,15 +314,24 @@ if __name__ == "__main__":
 
     Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
 
-    View(Abel)
+    PreView(Abel)
 
 # =================================================================
 
-    T = [[1], [0, 1], [0, -2, 1], [0, 3, -6, 1], [0, -4, 24, -12, 1], [0, 5, -80, 90, -20, 1]]
+    T = [ [1], [0, 1], [0, -2, 1], [0, 3, -6, 1], [0, -4, 24, -12, 1], 
+         [0, 5, -80, 90, -20, 1], [0, -6, 240, -540, 240, -30, 1], 
+         [0, 7, -672, 2835, -2240, 525, -42, 1], 
+         [0, -8, 1792, -13608, 17920, -7000, 1008, -56, 1] ]
 
     Babel = Table(T, "Babel", ["A059297"], True)
 
-    View(Babel)
+    PreView(Babel)
+
+# =================================================================
+
+    PreView(StirlingSet)
+
+# =================================================================    
 
     # Error demonstration:
     # Babel.tab(7)

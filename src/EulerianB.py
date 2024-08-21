@@ -30,6 +30,6 @@ EulerianB = Table(eulerianb, "EulerianB", ["A060187", "A138076"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(EulerianB)
+    PreView(EulerianB)

@@ -39,6 +39,6 @@ Divisibility = Table(divisibility, "Divisibility", ["A113704", "A051731"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Divisibility)
+    PreView(Divisibility)

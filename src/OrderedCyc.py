@@ -33,6 +33,6 @@ OrderedCycle = Table(orderedcycle, "OrderedCycle", ["A225479", "A048594", "A0751
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(OrderedCycle)
+    PreView(OrderedCycle)

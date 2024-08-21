@@ -19,5 +19,5 @@ Naturals = Table(naturals, "Naturals", ['A000027', 'A001477'], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
-    View(Naturals)
+    from _tablutils import PreView
+    PreView(Naturals)

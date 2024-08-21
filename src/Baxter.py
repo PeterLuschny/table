@@ -35,6 +35,6 @@ Baxter = Table(baxter, "Baxter", ["A359363", "A056939"])
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Baxter)
+    PreView(Baxter)

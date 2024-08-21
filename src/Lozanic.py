@@ -41,6 +41,6 @@ Lozanic = Table(lozanic, "Lozanic", ["A034851"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Lozanic)
+    PreView(Lozanic)

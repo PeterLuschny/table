@@ -27,6 +27,6 @@ PartnumMax = Table(partnummax, "PartitionMax", ["A026820", "A058400"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(PartnumMax)
+    PreView(PartnumMax)

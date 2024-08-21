@@ -35,6 +35,6 @@ Fibonacci = Table(fibonacci, "Fibonacci", ["A354267", "A105809", "A228074"], Tru
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Fibonacci)
+    PreView(Fibonacci)

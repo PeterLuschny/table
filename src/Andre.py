@@ -32,6 +32,6 @@ Andre = Table(andre, "Andre", ["A375555", "A181937"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Andre)
+    PreView(Andre)

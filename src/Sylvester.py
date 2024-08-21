@@ -30,6 +30,6 @@ Sylvester = Table(sylvester, "Sylvester", ["A341101"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Sylvester)
+    PreView(Sylvester)

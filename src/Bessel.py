@@ -32,6 +32,6 @@ Bessel = Table(bessel, "Bessel", ["A132062", "A001497", "A001498", "A122850"], T
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Bessel)
+    PreView(Bessel)

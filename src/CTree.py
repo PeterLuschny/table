@@ -28,6 +28,6 @@ CTree = Table(ctree, "CTree", ["A106465", "A106470"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(CTree)
+    PreView(CTree)

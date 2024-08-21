@@ -32,6 +32,6 @@ TernaryTree = Table(ternarytree, "TernaryTrees", ["A355172"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(TernaryTree)
+    PreView(TernaryTree)

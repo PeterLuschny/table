@@ -35,6 +35,6 @@ ChebyshevT = Table(chebyshevt, "ChebyshevT", ["A053120", "A039991", "A081265"], 
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(ChebyshevT)
+    PreView(ChebyshevT)

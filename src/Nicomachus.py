@@ -29,6 +29,6 @@ Nicomachus = Table(nicomachus, "Nicomachus", ["A036561", "A081954", "A175840"], 
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Nicomachus)
+    PreView(Nicomachus)

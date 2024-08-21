@@ -35,7 +35,7 @@ Lehmer = Table(lehmer, "Lehmer", ["A354794", "A039621"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
     # TODO Needs a more efficient implementation.
-    View(Lehmer)
+    PreView(Lehmer)

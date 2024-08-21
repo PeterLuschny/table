@@ -36,6 +36,6 @@ DyckPaths = Table(dyckpaths, "DyckPaths", ["A039599", "A050155"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(DyckPaths)
+    PreView(DyckPaths)

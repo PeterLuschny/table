@@ -41,8 +41,8 @@ FiboLucas = Table(fibolucas, "FiboLucas", ["A374439"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
-    View(FiboLucas)
+    from _tablutils import PreView
+    PreView(FiboLucas)
 
     for n in range(11): print(fibolucas(n))
 

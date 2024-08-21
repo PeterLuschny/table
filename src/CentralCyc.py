@@ -32,6 +32,6 @@ CentralCycle = Table(centralcycle, "CentralCycle", ["A269940", "A111999", "A2594
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(CentralCycle)
+    PreView(CentralCycle)

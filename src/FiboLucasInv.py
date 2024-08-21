@@ -33,10 +33,10 @@ FiboLucasInv = Table(fibolucasinv, "FiboLucasInv", ["A375025"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
-    View(FiboLucasInv)
+    from _tablutils import PreView
+    PreView(FiboLucasInv)
 
-    from _tablbench import Timer
+    from _tablutils import Timer
     tabl = FiboLucasInv
     t = Timer(tabl.id)
     t.start()

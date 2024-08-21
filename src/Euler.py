@@ -33,8 +33,8 @@ Euler = Table(euler, "Euler", ["A247453", "A109449"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Euler)
+    PreView(Euler)
 
 # See also: https://oeis.org/wiki/User:Peter_Luschny/SwissKnifePolynomials

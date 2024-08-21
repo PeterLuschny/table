@@ -34,6 +34,6 @@ Levin = Table(levin, "Levin", ["A356546"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Levin)
+    PreView(Levin)

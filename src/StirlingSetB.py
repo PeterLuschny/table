@@ -38,6 +38,6 @@ StirlingSetB = Table(stirlingsetb, "StirlingSetB", ["A154602"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(StirlingSetB)
+    PreView(StirlingSetB)

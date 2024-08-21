@@ -27,6 +27,6 @@ One = Table(one, "One", ["A000012", "A008836", "A014077"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(One)
+    PreView(One)

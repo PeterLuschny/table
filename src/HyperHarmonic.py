@@ -32,6 +32,6 @@ HyperHarmonic = Table(hyperharmonic, "HyperHarmonic", ["A165675", "A093905", "A1
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(HyperHarmonic)
+    PreView(HyperHarmonic)

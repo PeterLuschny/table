@@ -32,6 +32,6 @@ Laguerre = Table(laguerre, "Laguerre", ["A021009", "A021010", "A144084"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Laguerre)
+    PreView(Laguerre)

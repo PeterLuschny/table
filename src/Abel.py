@@ -29,9 +29,9 @@ Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Abel)
+    PreView(Abel)
 
 '''
 * Statistic about Abel:

@@ -36,6 +36,6 @@ SchroederL = Table(schroederl, "SchroederL", ["A172094"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(SchroederL)
+    PreView(SchroederL)

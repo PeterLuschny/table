@@ -35,6 +35,6 @@ PartnumExact = Table(partnumexact, "Partition", ["A072233", "A008284", "A058398"
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(PartnumExact)
+    PreView(PartnumExact)

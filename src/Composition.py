@@ -29,6 +29,6 @@ Composition = Table(composition, "Composition", ["A048004"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Composition)
+    PreView(Composition)

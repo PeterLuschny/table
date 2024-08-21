@@ -53,6 +53,6 @@ Eulerian = Table(eulerian, "Eulerian", ["A123125", "A173018", "A008292"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Eulerian)
+    PreView(Eulerian)

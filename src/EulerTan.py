@@ -37,9 +37,9 @@ def eulerT(n: int) -> int:
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(EulerTan)
+    PreView(EulerTan)
 
     print("Bonus:")
     print([eulerT(n) for n in range(30)])

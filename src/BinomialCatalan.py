@@ -35,6 +35,6 @@ BinomialCatalan = Table(binomialcatalan, "BinomialCatalan", ["A124644", "A098474
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(BinomialCatalan)
+    PreView(BinomialCatalan)

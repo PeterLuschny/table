@@ -32,6 +32,6 @@ PowLaguerre = Table(powlaguerre, "PowLaguerre", ["A196347", "A021012"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(PowLaguerre)
+    PreView(PowLaguerre)

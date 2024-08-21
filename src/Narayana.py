@@ -38,6 +38,6 @@ Narayana = Table(narayana, "Narayana", ["A090181", "A001263", "A131198"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Narayana)
+    PreView(Narayana)

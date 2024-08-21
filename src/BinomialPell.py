@@ -17,7 +17,7 @@ from _tabltypes import Table
 
 
 @cache
-def binomialpell(n):
+def binomialpell(n) -> list[int]:
 
     if n == 0:
         return [1]
@@ -37,6 +37,6 @@ BinomialPell = Table(binomialpell, "BinomialPell", ["A367211"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(BinomialPell)
+    PreView(BinomialPell)

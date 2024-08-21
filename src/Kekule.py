@@ -24,9 +24,9 @@ Kekule = Table(kekule, "Kekule", ["A050446", "A050447"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Kekule)
+    PreView(Kekule)
     #for n in range(9): print(kekule(n))
 
 """

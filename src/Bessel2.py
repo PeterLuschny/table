@@ -39,6 +39,6 @@ Bessel2 = Table(
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Bessel2)
+    PreView(Bessel2)

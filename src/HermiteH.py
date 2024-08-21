@@ -29,6 +29,6 @@ HermiteH = Table(hermiteh, "HermiteH", ["A060821"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(HermiteH)
+    PreView(HermiteH)

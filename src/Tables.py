@@ -2,6 +2,7 @@ from functools import cache
 from itertools import accumulate
 from math import factorial
 from fractions import Fraction
+import time
 from sys import setrecursionlimit, set_int_max_str_digits
 from typing import Callable, TypeAlias
 setrecursionlimit(3000)
@@ -57,10 +58,14 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         max, size of the table
     Returns:
         table generator
+    Error:
+        Raises a ValueError if the requested size > size of given table, 
+        or returns an emtpy list, dependig on your choice.
     """
     def gen(n: int) -> trow:
         if n >= max:
-            raise ValueError('requested size > size of given table')
+            #raise ValueError('requested size > size of given table')
+            return []
         return T[n]
     return gen
 class Table:
@@ -68,6 +73,9 @@ class Table:
     The triangles are constructed by a row generator,
     that is a function of type Callable[[int], list[int], and 
     defined for all n >= 0, or given as a parameter.
+    Whenever possible provide a generator, not a table, because
+    in this case all the generatetibility of our approach is lost
+    and it is easy to produce 'index out of range' errors.
     """
     def __init__(
         self, 
@@ -116,7 +124,7 @@ class Table:
             tabel with reversed rows
         """
         return [list(reversed(self.gen(n))) for n in range(size)]
-    def diag(self, size: int) -> tabl:
+    def adtab(self, size: int) -> tabl:
         """
         Args:
             size, number of rows
@@ -125,6 +133,25 @@ class Table:
         """
         return [[self.gen(n - k - 1)[k] 
                  for k in range((n + 1) // 2)] for n in range(1, size + 1)]
+    def diag(self, n: int, size: int) -> list[int]:
+        """
+        Args:
+            n, start at row n 
+            size, length of diagonal
+        Returns:
+            n-th diagonal starting at the left side
+        """
+        return [self.gen(n + k)[k] for k in range(size)]
+    
+    def col(self, k: int, size: int) -> list[int]:
+        """
+        Args:
+            k, start at column k
+            size, length of column
+        Returns:
+            k-th column starting at the main diagonal
+        """
+        return [self.gen(k + n)[k] for n in range(size)]
     def acc(self, size: int) -> tabl:
         """
         Args:
@@ -204,7 +231,34 @@ class Table:
         """
         M = [list(reversed(self.off(1, 1)(n))) for n in range(size)]
         return InvertMatrix(M)
-def View(T:Table, size: int = 6) -> None:
+    def summap(self, s: seq, size: int) -> list[int]:
+        """[sum(T(n, k) * s(k) for 0 <= k <= n) 
+            for 0 <= n < size]
+            For example, if T is the binomial then this is the 
+            'binomial transform'.
+        Args:
+            s, sequence
+            size 
+        Returns:
+            Initial segment of length size of s transformed.
+        """
+        return [sum(self.gen(n)[k] * s(k) 
+                    for k in range(n + 1)) for n in range(size)]
+    def invmap(self, s: seq, size: int) -> list[int]:
+        """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n) 
+            for 0 <= n < size]
+            For example, if T is the binomial then this is the 
+            'inverse binomial transform'.
+        Args:
+            s, sequence
+            size 
+        Returns:
+            Initial segment of length size of s transformed.
+        """
+        return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
+                    for k in range(n + 1)) for n in range(size)]
+    
+def PreView(T:Table, size: int = 6) -> None:
     """
     Args:
         T, table to inspect
@@ -215,19 +269,43 @@ def View(T:Table, size: int = 6) -> None:
     print("similars   ", T.sim)
     print("invertible ", T.invQ)
     print("table      ", T.tab(size))
-    print("anti-diag  ", T.diag(size))
+    print("value      ", T.val(size-1, (size-1)//2))
+    print("row        ", T.row(size-1))
+    print("col        ", T.col(2, size))
+    print("diag       ", T.diag(2, size))
+    print("antidiagtab", T.adtab(size))
     print("accumulated", T.acc(size))
     print("inverted   ", T.inv(size))
-    print("rev of inv ", T.revinv(size))
     print("reverted   ", T.rev(size))
+    print("rev of inv ", T.revinv(size))
     print("inv of rev ", T.invrev(size))
     print("matrix     ", T.mat(size))
     print("flatt seq  ", T.flat(size))
     print("inv rev 11 ", T.invrev11(size-1))
     T11 = Table(T.off(1, 1), "Toffset11")
     print("1-1-based  ", T11.tab(size-1))
-    print("some row   ", T.row(size-1))
-    print("some value ", T.val(size-1, (size-1)//2))
+    print("summap     ", T.summap(lambda n: n*n, size))  
+    print("invmap     ", T.invmap(lambda n: n*n, size))  
+class Timer:
+    def __init__(
+        self,
+        comment: str
+    ) -> None:
+        self.start_time = None
+        self.text = comment
+    def start(self) -> None:
+        """Start a new timer"""
+        if self.start_time is not None:
+            raise RuntimeError("Timer is running. First stop it.")
+        self.start_time = time.perf_counter()
+    def stop(self) -> float:
+        """Stop the timer, and report the elapsed time"""
+        if self.start_time is None:
+            raise RuntimeError("Timer is not running.")
+        elapsed_time = time.perf_counter() - self.start_time
+        self.start_time = None
+        print(self.text.rjust(16), "{:0.4f}".format(elapsed_time), "sec")
+        return elapsed_time
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
@@ -350,7 +428,7 @@ def binomialcatalan(n: int) -> list[int]:
     return row
 BinomialCatalan = Table(binomialcatalan, "BinomialCatalan", ["A124644", "A098474"], True)
 @cache
-def binomialpell(n):
+def binomialpell(n) -> list[int]:
     if n == 0:
         return [1]
     if n == 1:

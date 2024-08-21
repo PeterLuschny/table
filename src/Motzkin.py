@@ -35,6 +35,6 @@ Motzkin = Table(motzkin, "Motzkin", ["A064189", "A026300", "A009766"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Motzkin)
+    PreView(Motzkin)

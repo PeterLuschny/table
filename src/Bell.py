@@ -31,6 +31,6 @@ Bell = Table(bell, "Bell", ["A011971", "A011972", "A123346"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Bell)
+    PreView(Bell)

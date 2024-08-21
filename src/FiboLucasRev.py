@@ -31,8 +31,8 @@ FiboLucasRev = Table(fibolucasrev, "FiboLucasRev", ["A124038"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
-    View(FiboLucasRev)
+    from _tablutils import PreView
+    PreView(FiboLucasRev)
 
     """
     * Statistic about FiboLucasRev:

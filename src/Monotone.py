@@ -32,6 +32,6 @@ Monotone = Table(monotone, "Monotone", ["A059481", "A027555"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Monotone)
+    PreView(Monotone)

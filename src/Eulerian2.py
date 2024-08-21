@@ -34,8 +34,8 @@ Eulerian2 = Table(
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Eulerian2)
+    PreView(Eulerian2)
 
 # See also http://luschny.de/math/oeis/A340556.html

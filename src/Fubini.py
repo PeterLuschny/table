@@ -33,6 +33,6 @@ Fubini = Table(fubini, "Fubini", ["A131689", "A019538", "A090582", "A278075"], F
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Fubini)
+    PreView(Fubini)

@@ -27,6 +27,6 @@ Ordinals = Table(
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Ordinals)
+    PreView(Ordinals)

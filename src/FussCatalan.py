@@ -31,6 +31,6 @@ FussCatalan = Table(fusscatalan, "FussCatalan", ["A355173", "A030237", "A054445"
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(FussCatalan)
+    PreView(FussCatalan)

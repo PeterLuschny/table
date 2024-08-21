@@ -34,6 +34,6 @@ WardSet = Table(wardset, "WardSet", ["A269939", "A134991"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(WardSet)
+    PreView(WardSet)

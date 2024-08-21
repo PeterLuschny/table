@@ -31,6 +31,6 @@ Seidel = Table(seidel, "Seidel", ["A008281", "A008282", "A010094"], False)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Seidel)
+    PreView(Seidel)

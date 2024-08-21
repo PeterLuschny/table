@@ -36,6 +36,6 @@ Charlier = Table(charlier, "Charlier", ["A046716", "A094816"], True)
 
 
 if __name__ == "__main__":
-    from _tabltypes import View
+    from _tablutils import PreView
 
-    View(Charlier)
+    PreView(Charlier)
