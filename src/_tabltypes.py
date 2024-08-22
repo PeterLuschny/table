@@ -263,6 +263,20 @@ class Table:
         M = [list(reversed(self.off(1, 1)(n))) for n in range(size)]
         return InvertMatrix(M)
 
+    def poly(self, n: int, x: int) -> int:
+        """The rows seen as the coefficients of a polynomial in
+        ascending order of powers. Evaluats the n-th row at x.
+
+        Args:
+            n, index of row
+            x, argument of the polynomial
+
+        Returns:
+            sum(T(n, k) * x^j for j=0..n)
+        """
+        row = self.gen(n)
+        return sum(c * (x ** j) for (j, c) in enumerate(row))
+
     def summap(self, s: seq, size: int) -> list[int]:
         """[sum(T(n, k) * s(k) for 0 <= k <= n) 
             for 0 <= n < size]

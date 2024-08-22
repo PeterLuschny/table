@@ -8,6 +8,10 @@ def PreView(T:Table, size: int = 6) -> None:
     Args:
         T, table to inspect
         size, number of rows, defaults to 6.
+
+    Returns:
+    None. Prints the result for some example parameters.
+
     """
     print()
     print("name       ", T.id)
@@ -18,6 +22,7 @@ def PreView(T:Table, size: int = 6) -> None:
     print("row        ", T.row(size-1))
     print("col        ", T.col(2, size))
     print("diag       ", T.diag(2, size))
+    print("poly       ", [T.poly(n, 1) for n in range(size)])
     print("antidiagtab", T.adtab(size))
     print("accumulated", T.acc(size))
     print("inverted   ", T.inv(size))
@@ -32,6 +37,34 @@ def PreView(T:Table, size: int = 6) -> None:
     print("summap     ", T.summap(lambda n: n*n, size))  
     print("invmap     ", T.invmap(lambda n: n*n, size))  
 
+
+def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offset: int=0) -> str:
+    """
+    Converts a sequence of integers into a string representation.
+
+    Args:
+        seq (list[int]): The sequence of integers to be converted.
+        maxchars (int): The maximum length of the resulting string.
+        maxterms (int): The maximum number of terms included.
+        sep (string, optional): String seperator. Default is ' '.
+        offset (int, optional): The starting index of the sequence. Defaults to 0.
+
+    Returns:
+        str: The string representation of the sequence.
+
+    """
+    seqstr = ""
+    maxt = maxl = 0
+    for trm in seq[offset:]:
+        maxt += 1
+        if maxt > maxterms:
+            break
+        s = str(trm) + sep
+        maxl += len(s)
+        if maxl > maxchars:
+            break
+        seqstr += s
+    return seqstr
 
 class Timer:
     def __init__(

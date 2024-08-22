@@ -25,7 +25,7 @@ Put the file Tables.py (only this file!) there.
 
 # Examples
 
-Next test the installation: Put the following lines in some test.py.
+Next test the installation: Put the following lines in some test.py. (This file can also be found in the root.)
 
  ### Example 1
     from Tables import Tables, Table, View, StirlingSet
@@ -34,8 +34,9 @@ Next test the installation: Put the following lines in some test.py.
 
 
 ### Example 2
-    T = [[ 1 ], [0, 1], [0, -2, 1], [0, 3, -6, 1], [0, -4, 24, -12, 1], 
-         [0, 5, -80, 90, -20, 1]]
+    T = [ [1], [0, 1], [0, -2, 1], [0, 3, -6, 1], [0, -4, 24, -12, 1], [0, 5,
+    -80, 90, -20, 1], [0, -6, 240, -540, 240, -30, 1], [0, 7, -672, 2835, 
+    -2240, 525, -42, 1], [0, -8, 1792, -13608, 17920, -7000, 1008, -56, 1] ]
 
     Babel = Table(T, "Babel", ["A059297"], True)
 
@@ -81,18 +82,19 @@ The generator is either a triangular array of integers as in example 2.
 Or a function of type: fun(n: int) -> list[int] defined for all nonnegative n as in example 3. 
 This function should be decorated with '@cache' and return a list of integers of length n + 1.
 
-A Table provides the following methods:
+A Table T provides the following methods:
 
     val (n:int, k:int)   -> int  | T(n, k)
+    poly(n: int, x: int) -> int  | sum(T(n, k) * x^j for j=0..n)
+    flat (size: int)     -> list[int] | flattened form of the first size rows
+    diag(n, size: int)   -> list[int] | diagonal starting at the left side
+    col (k, size: int)   -> list[int] | k-th column starting at the main diagonal
     row (n: int)         -> trow | n-th row of table
     tab (size: int)      -> tabl | table with size rows
     rev (size: int)      -> tabl | tabel with reversed rows
-    adtab(size: int)     -> tabl | table of (upward) anti-diagonals
-    diag (size: int)     -> tabl | diagonal (downwards) starting at the left side
-    col(k, size: int)    -> list[int] | k-th column starting at the main diagonal
+    adtab (size: int)    -> tabl | table of (upward) anti-diagonals
     acc (size: int)      -> tabl | table with rows accumulated
     mat (size: int)      -> tabl | matrix form of lower triangular array
-    flat (size: int)     -> trow | flattened form
     inv (size: int)      -> tabl | inverse table
     revinv (size: int)   -> tabl | row reversed inverse
     invrev (size: int)   -> tabl | inverse of row reversed
