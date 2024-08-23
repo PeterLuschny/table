@@ -1,4 +1,4 @@
-from Tables import Tables, Table, PreView, Timer, StirlingSet
+from Tables import Table, PreView, Benchmark, StirlingSet
 from functools import cache
 from math import comb as binomial
 
@@ -28,10 +28,8 @@ PreView(Babel)
 
 PreView(StirlingSet)
 
-t = Timer(StirlingSet.id)
-t.start()
-StirlingSet.tab(100)
-t.stop()
+Benchmark(StirlingSet)
+
 
 # =================================================================    
 

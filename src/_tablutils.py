@@ -14,7 +14,7 @@ def PreView(T:Table, size: int = 6) -> None:
 
     """
     print()
-    print("name       ", T.id)
+    print("NAME       ", T.id)
     print("similars   ", T.sim)
     print("invertible ", T.invQ)
     print("table      ", T.tab(size))
@@ -92,15 +92,16 @@ class Timer:
 
         return elapsed_time
 
-if __name__ == "__main__":
-    from Tables import Table, Tables
-        
-    def benchmark(tabl: Table) -> None:
-        t = Timer(tabl.id)
-        t.start()
-        tabl.tab(100)
-        t.stop()
 
+def Benchmark(tabl: Table, size: int = 100) -> None:
+    t = Timer(tabl.id)
+    t.start()
+    tabl.tab(size)
+    t.stop()
+
+
+if __name__ == "__main__":
+    from Tables import Tables
 
     for tabl in Tables: 
-        benchmark(tabl)
+        Benchmark(tabl) # type: ignore

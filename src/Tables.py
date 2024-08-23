@@ -231,6 +231,17 @@ class Table:
         """
         M = [list(reversed(self.off(1, 1)(n))) for n in range(size)]
         return InvertMatrix(M)
+    def poly(self, n: int, x: int) -> int:
+        """The rows seen as the coefficients of a polynomial in
+        ascending order of powers. Evaluats the n-th row at x.
+        Args:
+            n, index of row
+            x, argument of the polynomial
+        Returns:
+            sum(T(n, k) * x^j for j=0..n)
+        """
+        row = self.gen(n)
+        return sum(c * (x ** j) for (j, c) in enumerate(row))
     def summap(self, s: seq, size: int) -> list[int]:
         """[sum(T(n, k) * s(k) for 0 <= k <= n) 
             for 0 <= n < size]
@@ -263,6 +274,8 @@ def PreView(T:Table, size: int = 6) -> None:
     Args:
         T, table to inspect
         size, number of rows, defaults to 6.
+    Returns:
+    None. Prints the result for some example parameters.
     """
     print()
     print("name       ", T.id)
@@ -273,6 +286,7 @@ def PreView(T:Table, size: int = 6) -> None:
     print("row        ", T.row(size-1))
     print("col        ", T.col(2, size))
     print("diag       ", T.diag(2, size))
+    print("poly       ", [T.poly(n, 1) for n in range(size)])
     print("antidiagtab", T.adtab(size))
     print("accumulated", T.acc(size))
     print("inverted   ", T.inv(size))
@@ -286,6 +300,30 @@ def PreView(T:Table, size: int = 6) -> None:
     print("1-1-based  ", T11.tab(size-1))
     print("summap     ", T.summap(lambda n: n*n, size))  
     print("invmap     ", T.invmap(lambda n: n*n, size))  
+def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offset: int=0) -> str:
+    """
+    Converts a sequence of integers into a string representation.
+    Args:
+        seq (list[int]): The sequence of integers to be converted.
+        maxchars (int): The maximum length of the resulting string.
+        maxterms (int): The maximum number of terms included.
+        sep (string, optional): String seperator. Default is ' '.
+        offset (int, optional): The starting index of the sequence. Defaults to 0.
+    Returns:
+        str: The string representation of the sequence.
+    """
+    seqstr = ""
+    maxt = maxl = 0
+    for trm in seq[offset:]:
+        maxt += 1
+        if maxt > maxterms:
+            break
+        s = str(trm) + sep
+        maxl += len(s)
+        if maxl > maxchars:
+            break
+        seqstr += s
+    return seqstr
 class Timer:
     def __init__(
         self,
@@ -306,6 +344,11 @@ class Timer:
         self.start_time = None
         print(self.text.rjust(16), "{:0.4f}".format(elapsed_time), "sec")
         return elapsed_time
+def Benchmark(tabl: Table, size: int = 100) -> None:
+    t = Timer(tabl.id)
+    t.start()
+    tabl.tab(size)
+    t.stop()
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
