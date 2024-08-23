@@ -1,3 +1,5 @@
+![Tables](imag/IntegerTrianglesPy.png)
+
 # The objectives of this library
 
 * The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. 
