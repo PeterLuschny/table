@@ -88,7 +88,7 @@ class Timer:
         elapsed_time = time.perf_counter() - self.start_time
         self.start_time = None
 
-        print(self.text.rjust(16), "{:0.4f}".format(elapsed_time), "sec")
+        print(self.text.rjust(17), "{:0.4f}".format(elapsed_time), "sec")
 
         return elapsed_time
 

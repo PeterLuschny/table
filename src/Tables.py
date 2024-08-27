@@ -1,6 +1,6 @@
 from functools import cache
 from itertools import accumulate
-from math import factorial
+from math import factorial, sqrt
 from fractions import Fraction
 import time
 from sys import setrecursionlimit, set_int_max_str_digits
@@ -380,7 +380,7 @@ class Timer:
             raise RuntimeError("Timer is not running.")
         elapsed_time = time.perf_counter() - self.start_time
         self.start_time = None
-        print(self.text.rjust(16), "{:0.4f}".format(elapsed_time), "sec")
+        print(self.text.rjust(17), "{:0.4f}".format(elapsed_time), "sec")
         return elapsed_time
 def Benchmark(tabl: Table, size: int = 100) -> None:
     t = Timer(tabl.id)
@@ -665,9 +665,23 @@ def composition(n: int) -> list[int]:
     return [_composition(n - 1, k - 1) for k in range(n + 1)]
 Composition = Table(composition, "Composition", ["A048004"], True)
 @cache
-def compoacc(n: int) -> list[int]:
+def compocum(n: int) -> list[int]:
     return list(accumulate(composition(n))) 
-CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], False)
+CompoCum = Table(compocum, "CompositionCum", ["A126198"], False)
+@cache
+def _compodist(n: int, k: int) -> int:
+    if k < 0 or n < 0: return 0
+    if k == 0: 
+        if n==0: 
+            return 1
+        else:
+            return 0 
+    return _compodist(n - k, k) + k * _compodist(n - k, k - 1)
+@cache
+def compodist(n: int) -> list[int]:
+    f = (sqrt(1 + 8*n) - 1) // 2
+    return [_compodist(n, k) if k <= f else 0 for k in range(n + 1)]
+CompoDist = Table(compodist, "CompositionDist", ["A072574", "A216652"])
 @cache
 def ctree(n: int) -> list[int]:
     if n % 2 == 1:
@@ -1189,27 +1203,39 @@ def part(n: int, k: int) -> int:
         return 1 if n == 0 else 0
     return part(n - 1, k - 1) + part(n - k, k)
 @cache
-def partnumexact(n: int) -> list[int]:
+def partition(n: int) -> list[int]:
     return [part(n, k) for k in range(n + 1)]
-PartnumExact = Table(partnumexact, "Partition", ["A072233", "A008284", "A058398"], True)
+Partition = Table(partition, "Partition", ["A072233", "A008284", "A058398"], True)
 @cache
-def _pdist(n: int, k: int, r: int) -> int:
+def partcum(n: int) -> list[int]:
+    return list(accumulate(partition(n)))
+PartCum = Table(partcum, "PartitionCum", ["A026820", "A058400"], False)
+@cache
+def _partdist(n: int, k: int) -> int:
+    if k < 1 or n < k: return 0
+    if n == 1: return 1
+    return _partdist(n - k, k) + _partdist(n - k, k - 1) 
+@cache
+def partdist(n: int) -> list[int]:
+    if n == 0: return [1]
+    f = (sqrt(1 + 8*n) - 1) // 2
+    return [_partdist(n, k) if k <= f else 0 for k in range(n + 1)]
+PartDist = Table(partdist, "PartitionDist", ["A008289"], False)
+@cache
+def _partdistsize(n: int, k: int, r: int) -> int:
     if n == 0:
         return 1 if k == 0 else 0
     if k == 0 or r == 0:
         return 0
     if k > n // 2 + 1: return 0
-    return (sum(_pdist(n - r * j, k - 1, r - 1) 
+    return (sum(_partdistsize(n - r * j, k - 1, r - 1) 
             for j in range(1, n // r + 1))
-           + _pdist(n, k, r - 1))
+           + _partdistsize(n, k, r - 1))
 @cache
-def partnumdist(n) -> list[int]:
-    return [_pdist(n, k, n) for k in range(n + 1)]
-PartnumDist = Table(partnumdist, "PartitionDist", ["A365676", "A116608", "A060177"], False)
-@cache
-def partnummax(n: int) -> list[int]:
-    return list(accumulate(partnumexact(n)))
-PartnumMax = Table(partnummax, "PartitionMax", ["A026820", "A058400"], False)
+def partdistsize(n: int) -> list[int]:
+    f = (sqrt(1 + 8*n) - 1) // 2
+    return [_partdistsize(n, k, n) if k <= f else 0 for k in range(n + 1)]
+PartDistSize = Table(partdistsize, "PartitionDistSize", ["A365676", "A116608", "A060177"], False)
 @cache
 def pascal(n: int) -> list[int]:
     if n == 0:
@@ -1510,7 +1536,7 @@ def motzkin_num(n: int) -> int:
 def partlist_num(n: int) -> int:
     return sum(lah(n))
 def part_num(n: int) -> int:
-    return sum(partnumexact(n))
+    return sum(partition(n))
 def riordan_num(n: int) -> int:
     return sum((-1) ** (n - k) * BinomialCatalan.val(n, k) for k in range(n + 1))
 Tables: list[Table] = [
@@ -1536,7 +1562,8 @@ Tables: list[Table] = [
     ChebyshevT,
     ChebyshevU,
     Composition,
-    CompoAcc,
+    CompoCum,
+    CompoDist,
     CTree,
     Delannoy,
     Divisibility,
@@ -1584,9 +1611,10 @@ Tables: list[Table] = [
     Ordinals,
     OrderedCycle,
     Parades,
-    PartnumExact,
-    PartnumDist,
-    PartnumMax,
+    Partition,
+    PartCum,
+    PartDist,
+    PartDistSize,
     Pascal,
     Polygonal,
     PowLaguerre,

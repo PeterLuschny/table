@@ -27,14 +27,14 @@ def part(n: int, k: int) -> int:
 
 
 @cache
-def partnumexact(n: int) -> list[int]:
+def partition(n: int) -> list[int]:
     return [part(n, k) for k in range(n + 1)]
 
 
-PartnumExact = Table(partnumexact, "Partition", ["A072233", "A008284", "A058398"], True)
+Partition = Table(partition, "Partition", ["A072233", "A008284", "A058398"], True)
 
 
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(PartnumExact)
+    PreView(Partition)

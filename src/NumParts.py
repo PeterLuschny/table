@@ -1,4 +1,4 @@
-from Partition import partnumexact
+from Partition import partition
 
 """Partition numbers A000041
 
@@ -9,7 +9,7 @@ from Partition import partnumexact
 
 
 def part_num(n: int) -> int:
-    return sum(partnumexact(n))
+    return sum(partition(n))
 
 
 if __name__ == "__main__":

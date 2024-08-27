@@ -1,7 +1,7 @@
 from functools import cache
 from itertools import accumulate
 from _tabltypes import Table
-from Partition import partnumexact
+from Partition import partition
 
 """Euler's table, partition numbers at most.
 
@@ -19,14 +19,14 @@ from Partition import partnumexact
 
 
 @cache
-def partnummax(n: int) -> list[int]:
-    return list(accumulate(partnumexact(n)))
+def partcum(n: int) -> list[int]:
+    return list(accumulate(partition(n)))
 
 
-PartnumMax = Table(partnummax, "PartitionMax", ["A026820", "A058400"], False)
+PartCum = Table(partcum, "PartitionCum", ["A026820", "A058400"], False)
 
 
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(PartnumMax)
+    PreView(PartCum)

@@ -151,7 +151,8 @@ To give an idea of ​​the performance of the library, we provide the followin
           ChebyshevT 0.0017 sec
           ChebyshevU 0.0014 sec
          Composition 0.0177 sec
-      CompositionAcc 0.0012 sec
+      CompositionCum 0.0013 sec
+     CompositionDist 0.0057 sec
                CTree 0.0004 sec
             Delannoy 0.0015 sec
         Divisibility 0.0006 sec
@@ -200,8 +201,8 @@ To give an idea of ​​the performance of the library, we provide the followin
         OrderedCycle 0.0031 sec
              Parades 0.0648 sec
            Partition 0.0094 sec
-       PartitionDist 0.9134 sec
-        PartitionMax 0.0007 sec
+        PartitionCum 0.0007 sec
+       PartitionDist 0.4169 sec
               Pascal 0.0011 sec
            Polygonal 0.0011 sec
          PowLaguerre 0.0039 sec
