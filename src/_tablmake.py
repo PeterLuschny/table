@@ -27,7 +27,7 @@ tabl_files: list[str] = [
     "ChebyshevT.py",
     "ChebyshevU.py",
     "Composition.py",
-    "CompositionMax.py",
+    "CompositionAcc.py",
     "CTree.py",
     "Delannoy.py",
     "Divisibility.py",
@@ -99,6 +99,7 @@ tabl_files: list[str] = [
     "Sylvester.py",
     "TernaryTrees.py",
     "WardSet.py",
+    "WardCycle.py",
     "Worpitzky.py",
     "NumBell.py",
     "NumBernoulli.py",
@@ -136,7 +137,7 @@ Tables: list[Table] = [
     ChebyshevT,
     ChebyshevU,
     Composition,
-    CompoMax,
+    CompoAcc,
     CTree,
     Delannoy,
     Divisibility,
@@ -207,6 +208,7 @@ Tables: list[Table] = [
     Sylvester,
     TernaryTree,
     WardSet,
+    WardCycle,
     Worpitzky,
 ]\n""".format()
 

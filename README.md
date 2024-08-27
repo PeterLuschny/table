@@ -72,17 +72,17 @@ This shows the list of the sequences implemented. A brief overview of their rela
 
 There is only one constructor: Table(...). The parameters are:
 
-    gen: rgen | tabl          # The generator.
-    id: str                   # The name of the sequence.
-    sim: list[str] = ['']     # References to similar OEIS-sequences.
+    row:  rgen | tabl         # The row generator.
+    id:   str                 # The name of the sequence.
+    sim:  list[str] = ['']    # References to similar OEIS-sequences.
     invQ: bool | None = None  # Is the triangle invertible? 
                               # Default 'None' means 'I do not know'.
 
-
-The generator is either a triangular array of integers as in example 2.
-
-Or a function of type: fun(n: int) -> list[int] defined for all nonnegative n as in example 3. 
+The row generator is a function of type: g(n: int) -> list[int] defined for all nonnegative n (see example 3). 
 This function should be decorated with '@cache' and return a list of integers of length n + 1.
+
+Alternatively, a generator is a triangular array of integers (see example 2).
+However the use in this form is discouraged because the fixed size of an array can easily lead to range errors. 
 
 A Table T provides the following methods:
 
@@ -104,6 +104,10 @@ A Table T provides the following methods:
     invrev11 (size: int) -> tabl | invrev from offset (1, 1)
     summap(s: seq, size) -> list[int] | linear transformation induced by T
     invmap(s: seq, size) -> list[int] | inverse transformation induced by T
+
+The type 'tabl' is a triangular array that is a list of lists of the form
+[[0] * (n + 1) for n in range(size)] representing the first 'size' rows of 
+the triangle (see also example 2 above).
 
 
 # For developers
@@ -146,8 +150,8 @@ To give an idea of ​​the performance of the library, we provide the followin
           ChebyshevS 0.0057 sec
           ChebyshevT 0.0017 sec
           ChebyshevU 0.0014 sec
-         Composition 3.5305 sec
-      CompositionMax 0.0002 sec
+         Composition 0.0177 sec
+      CompositionAcc 0.0012 sec
                CTree 0.0004 sec
             Delannoy 0.0015 sec
         Divisibility 0.0006 sec
@@ -218,4 +222,5 @@ To give an idea of ​​the performance of the library, we provide the followin
            Sylvester 0.1575 sec
         TernaryTrees 0.0013 sec
              WardSet 0.0026 sec
+           WardCycle 0.0031 sec
            Worpitzky 0.0036 sec

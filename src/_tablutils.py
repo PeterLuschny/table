@@ -105,3 +105,5 @@ if __name__ == "__main__":
 
     for tabl in Tables: 
         Benchmark(tabl) # type: ignore
+
+    print(f"\n{len(Tables)} tables tested!\n")

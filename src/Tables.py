@@ -41,6 +41,44 @@ def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
 def InvertTriangle(r, dim: int) -> list[list[int]]:
     M = [[r(n)[k] for k in range(n + 1)] for n in range(dim)]
     return InvertMatrix(M, True)
+def _ConvTriangle(seq: Callable, dim: int = 10) -> list[list[int]]:
+    """Sometimes called the partition transform of seq. 
+    See A357368 for more information and some examples.
+    Args:
+        seq, sequence to be convoluted
+        dim, the size of the triangle
+    Returns:
+        The convolution triangle of seq.
+    """
+    A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
+    # print("In:", A)
+    C = [[0 for _ in range(m + 1)] for m in range(dim)]
+    C[0][0] = 1
+    for m in range(1, dim):
+        C[m][m] = C[m - 1][m - 1] * A[0]
+        for k in range(m - 1, 0, -1):
+            C[m][k] = sum(A[i] * C[m - i - 1][k - 1] for i in range(m - k + 1))
+    return C
+def ConvTriangle(T, seq: Callable, dim: int = 10) -> list[list[int]]:
+    A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
+    # print("In:", A)
+    C = [[0 for _ in range(m + 1)] for m in range(dim)]
+    C[0][0] = 1
+    for m in range(1, dim):
+        C[m][m] = T(m - 1, m - 1) * A[0]
+        for k in range(m - 1, 0, -1):
+            C[m][k] = sum(A[i] * T(m - i - 1, k - 1) for i in range(m - k + 1))
+    return C
+def conv(self, seq: Callable, dim: int): # -> tabl:
+    """Sometimes called the partition transform of seq. 
+    See A357368 for more information and some examples.
+    Args:
+        seq, sequence to be convoluted
+        dim, the size of the triangle
+    Returns:
+        The convolution triangle of seq.
+    """
+    return ConvTriangle(self.val, seq, dim)
 """Type: table row"""
 trow: TypeAlias = list[int]
 """Type: triangle (resp. table)"""
@@ -278,7 +316,7 @@ def PreView(T:Table, size: int = 6) -> None:
     None. Prints the result for some example parameters.
     """
     print()
-    print("name       ", T.id)
+    print("NAME       ", T.id)
     print("similars   ", T.sim)
     print("invertible ", T.invQ)
     print("table      ", T.tab(size))
@@ -610,21 +648,26 @@ def chebyshevu(n: int) -> list[int]:
     return row
 ChebyshevU = Table(chebyshevu, "ChebyshevU", ["A053117", "A053118", "A115322"], True)
 @cache
+def _composition(n: int, k: int) -> int:
+    if k < 0 or k > n:
+        return 0
+    if k == 0 or k == n:
+        return 1
+    return (
+        2 * _composition(n - 1, k)
+        + _composition(n - 1, k - 1)
+        - 2 * _composition(n - 2, k - 1)
+        + _composition(n - k - 1, k - 1)
+        - _composition(n - k - 2, k)
+    )
+@cache
 def composition(n: int) -> list[int]:
-    if n == 0:
-        return [1]
-    cm = compomax(n)
-    return [cm[k] - cm[k - 1] if k > 0 else 0 for k in range(n + 1)]
+    return [_composition(n - 1, k - 1) for k in range(n + 1)]
 Composition = Table(composition, "Composition", ["A048004"], True)
 @cache
-def compomax(n: int) -> list[int]:
-    @cache
-    def t(n: int, k: int) -> int:
-        if n == 0 or k == 1:
-            return 1
-        return sum(t(n - j, k) for j in range(1, min(n, k) + 1))
-    return [t(n, k) for k in range(n + 1)]
-CompoMax = Table(compomax, "CompositionMax", ["A126198"], False)
+def compoacc(n: int) -> list[int]:
+    return list(accumulate(composition(n))) 
+CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], False)
 @cache
 def ctree(n: int) -> list[int]:
     if n % 2 == 1:
@@ -1422,6 +1465,17 @@ def wardset(n: int) -> list[int]:
     return row
 WardSet = Table(wardset, "WardSet", ["A269939", "A134991"], False)
 @cache
+def wardcycle(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    if n == 1:
+        return [0, 1]
+    row = wardcycle(n - 1) + [0]
+    for k in range(n, 0, -1):
+        row[k] = (n + k - 1) * (row[k - 1] + row[k])
+    return row
+WardCycle = Table(wardcycle, "WardCycle", ["A269940", "A111999", "A259456"], False)
+@cache
 def worpitzky(n: int) -> list[int]:
     if n == 0:
         return [1]
@@ -1432,7 +1486,7 @@ def worpitzky(n: int) -> list[int]:
 Worpitzky = Table(
     worpitzky,
     "Worpitzky",
-    ["A028246", "A053440", "A075263", "A130850", "A163626"], False   
+    ["A028246", "A053440", "A075263", "A130850", "A163626"], False
 )
 def bell_num(n: int) -> int:
     if n == 0:
@@ -1482,7 +1536,7 @@ Tables: list[Table] = [
     ChebyshevT,
     ChebyshevU,
     Composition,
-    CompoMax,
+    CompoAcc,
     CTree,
     Delannoy,
     Divisibility,
@@ -1553,6 +1607,7 @@ Tables: list[Table] = [
     Sylvester,
     TernaryTree,
     WardSet,
+    WardCycle,
     Worpitzky,
 ]
 # for T in Tables: View(T)

@@ -1,5 +1,7 @@
 from functools import cache
+from itertools import accumulate
 from _tabltypes import Table
+from Composition import composition
 
 """Compositions of n into at most k parts.
 
@@ -13,24 +15,18 @@ from _tabltypes import Table
 [7] 0, 1, 21,  44,  56,  61,  63,  64;
 [8] 0, 1, 34,  81, 108, 120, 125, 127, 128;
 [9] 0, 1, 55, 149, 208, 236, 248, 253, 255, 256;
+
 """
 
-
 @cache
-def compomax(n: int) -> list[int]:
-    @cache
-    def t(n: int, k: int) -> int:
-        if n == 0 or k == 1:
-            return 1
-        return sum(t(n - j, k) for j in range(1, min(n, k) + 1))
-
-    return [t(n, k) for k in range(n + 1)]
+def compoacc(n: int) -> list[int]:
+    return list(accumulate(composition(n))) 
 
 
-CompoMax = Table(compomax, "CompositionMax", ["A126198"], False)
+CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], False)
 
 
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(CompoMax)
+    PreView(CompoAcc)

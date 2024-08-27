@@ -1,4 +1,4 @@
-
+from typing import Callable
 
 # #@
 
@@ -44,6 +44,55 @@ def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
 def InvertTriangle(r, dim: int) -> list[list[int]]:
     M = [[r(n)[k] for k in range(n + 1)] for n in range(dim)]
     return InvertMatrix(M, True)
+
+
+def _ConvTriangle(seq: Callable, dim: int = 10) -> list[list[int]]:
+    """Sometimes called the partition transform of seq. 
+    See A357368 for more information and some examples.
+
+    Args:
+        seq, sequence to be convoluted
+        dim, the size of the triangle
+
+    Returns:
+        The convolution triangle of seq.
+    """
+    A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
+    # print("In:", A)
+    C = [[0 for _ in range(m + 1)] for m in range(dim)]
+    C[0][0] = 1
+    for m in range(1, dim):
+        C[m][m] = C[m - 1][m - 1] * A[0]
+        for k in range(m - 1, 0, -1):
+            C[m][k] = sum(A[i] * C[m - i - 1][k - 1] for i in range(m - k + 1))
+    return C
+
+def ConvTriangle(T, seq: Callable, dim: int = 10) -> list[list[int]]:
+    A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
+    # print("In:", A)
+    C = [[0 for _ in range(m + 1)] for m in range(dim)]
+    C[0][0] = 1
+    for m in range(1, dim):
+        C[m][m] = T(m - 1, m - 1) * A[0]
+        for k in range(m - 1, 0, -1):
+            C[m][k] = sum(A[i] * T(m - i - 1, k - 1) for i in range(m - k + 1))
+    return C
+
+def conv(self, seq: Callable, dim: int): # -> tabl:
+    """Sometimes called the partition transform of seq. 
+    See A357368 for more information and some examples.
+
+    Args:
+        seq, sequence to be convoluted
+        dim, the size of the triangle
+
+    Returns:
+        The convolution triangle of seq.
+    """
+    return ConvTriangle(self.val, seq, dim)
+
+# conv(seq, size: int) -> tabl | convolution transform of a sequence
+# print("conv       ", T.conv(lambda n: n, size))
 
 
 if __name__ == "__main__":
