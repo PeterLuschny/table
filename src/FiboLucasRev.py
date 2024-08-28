@@ -50,29 +50,29 @@ The traits of the FiboLucasRev triangle as represented in the OEIS.
 |     | A-number| trait            | A-name                                                                         |
 |-----|---------|------------------|--------------------------------------------------------------------------------|
 | 1   | A000034 | Std-DiagCol1     | Period 2: repeat [1, 2]; a(n) = 1 + (n mod 2)                                  |
-| 2   | A001477 | Std-DiagRow2     | The nonnegative integers                                |
-| 3   | A005408 | Rev-PolyRow2     | The odd numbers: a(n) = 2*n + 1                                |
-| 4   | A005563 | Std-PolyRow2     | a(n) = n*(n+2) = (n+1)^2 - 1                                |
+| 2   | A001477 | Std-DiagRow2     | The nonnegative integers                                                       |
+| 3   | A005408 | Rev-PolyRow2     | The odd numbers: a(n) = 2*n + 1                                                |
+| 4   | A005563 | Std-PolyRow2     | a(n) = n*(n+2) = (n+1)^2 - 1                                                   |
 | 5   | A005843 | Std-DiagRow3     | The nonnegative even numbers: a(n) = 2n                                        |
 | 6   | A006131 | Std-PosHalf      | a(n) = a(n-1) + 4*a(n-2), a(0) = a(1) = 1                                      |
-| 7   | A056105 | Inv:Rev-PolyRow3 | First spoke of a hexagonal spiral                                |
-| 8   | A060747 | Inv:Rev-PolyRow2 | a(n) = 2*n - 1                                |
-| 9   | A067998 | Alt-PolyRow2     | a(n) = n^2 - 2*n                                |
-| 10  | A090412 | Inv-DiagCol1     | A Chebyshev transform of 2^n                                |
+| 7   | A056105 | Inv:Rev-PolyRow3 | First spoke of a hexagonal spiral                                              |
+| 8   | A060747 | Inv:Rev-PolyRow2 | a(n) = 2*n - 1                                                                 |
+| 9   | A067998 | Alt-PolyRow2     | a(n) = n^2 - 2*n                                                               |
+| 10  | A090412 | Inv-DiagCol1     | A Chebyshev transform of 2^n                                                   |
 | 11  | A133494 | Inv-PosHalf      | Diagonal of the array of iterated differences of A047848                       |
-| 12  | A162395 | Rev-PolyRow3     | a(n) = -(-1)^n * n^2                                |
+| 12  | A162395 | Rev-PolyRow3     | a(n) = -(-1)^n * n^2                                                           |
 | 13  | A198834 | Rev-OddSum       | Number of sequences of n coin flips that win on the last flip, if the sequence |
 | 14  | A324969 | Rev-EvenSum      | Number of unlabeled rooted identity trees with n vertices whose non-leaf termi |
 | 15  | B000032 | Std-RowSum       | Lucas numbers beginning at 2: L(n) = L(n-1) + L(n-2), L(0) = 2, L(1) = 1       |
 | 16  | B000045 | Std-AltSum       | Fibonacci numbers: F(n) = F(n-1) + F(n-2) with F(0) = 0 and F(1) = 1           |
-| 17  | B001629 | Alt-TransNat0    | Self-convolution of Fibonacci numbers                                |
+| 17  | B001629 | Alt-TransNat0    | Self-convolution of Fibonacci numbers                                          |
 | 18  | B005843 | Inv-DiagRow3     | The nonnegative even numbers: a(n) = 2n                                        |
-| 19  | B011379 | Alt-PolyRow3     | a(n) = n^2*(n+1)                                |
-| 20  | B016116 | Std-DiagSum      | a(n) = 2^floor(n/2)                                |
-| 21  | B022958 | Inv-DiagRow2     | a(n) = 2 - n                                |
+| 19  | B011379 | Alt-PolyRow3     | a(n) = n^2*(n+1)                                                               |
+| 20  | B016116 | Std-DiagSum      | a(n) = 2^floor(n/2)                                                            |
+| 21  | B022958 | Inv-DiagRow2     | a(n) = 2 - n                                                                   |
 | 22  | B029578 | Std-DiagCol2     | The natural numbers interleaved with the even numbers                          |
 | 23  | B029907 | Alt-AccRevSum    | a(n+1) = a(n) + a(n-1) + Fibonacci(n), with a(0) = 0 and a(1) = 1              |
-| 24  | B045991 | Std-PolyRow3     | a(n) = n^3 - n^2                                |
+| 24  | B045991 | Std-PolyRow3     | a(n) = n^3 - n^2                                                               |
 | 25  | B052542 | Alt-PolyCol2     | a(n) = 2*a(n-1) + a(n-2), with a(0) = 1, a(1) = 2, a(2) = 4                    |
 | 26  | B055642 | Std-DiagRow1     | Number of digits in the decimal expansion of n                                 |
 | 27  | B086990 | Inv-RowSum       | Expansion of (1+4x-sqrt(1+4x^2))/(4+6x) in powers of x                         |
@@ -83,6 +83,7 @@ The traits of the FiboLucasRev triangle as represented in the OEIS.
 | 32  | B152163 | Rev-AltSum       | a(n) = a(n-1)+a(n-2), n>1 ; a(0)=1, a(1)=-1                                    |
 | 33  | B280560 | Alt-DiagRow1     | a(n) = (-1)^n * 2 if n!=0, with a(0) = 1                                       |
 | 34  | B343643 | Inv-DiagRow1     | Z-coordinate of points following the 3D square spiral defined in A343640       |
+|-----|---------|------------------|--------------------------------------------------------------------------------|
 
 6 A001477 ['Std-DiagRow2', 'Std-PolyRow1', 'Alt-DiagRow2', 'Alt-PolyRow1', 'Rev-DiagCol2', 'Inv-PolyRow1']
           The nonnegative integers

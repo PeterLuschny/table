@@ -27,7 +27,6 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Kekule)
-    #for n in range(9): print(kekule(n))
 
 """
     # A050446

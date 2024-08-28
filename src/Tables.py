@@ -387,6 +387,23 @@ def Benchmark(tabl: Table, size: int = 100) -> None:
     t.start()
     tabl.tab(size)
     t.stop()
+def AnumQ(num: str = '') -> bool:
+    """Is the Anumber referenced in the library?
+    Args:
+        A-number as string.
+ 
+        Defaults to '', in which case the list of referenced Anumbers is printed.
+    Returns:
+        If 'True' a similar sequence is probably implemented.
+    """
+    list = []
+    for tab in Tables: 
+        for anum in tab.sim:
+            list.append(anum)
+    if num != '':
+        return num in list
+    print(sorted(list))
+    return False
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
@@ -396,8 +413,7 @@ def abel(n: int) -> list[int]:
 Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
 @cache
 def _andre(n: int, k: int) -> int:
-    if k == 0: return 1 
-    if n == 0: return 0
+    if k == 0 or n == 0: return 1 
     return -sum(Binomial.val(k, j) * _andre(n, j) for j in range(0, k, n)) 
 @cache
 def andre(n: int) -> list[int]:
@@ -1510,10 +1526,9 @@ def worpitzky(n: int) -> list[int]:
         row[k] = k * row[k - 1] + (k + 1) * row[k]
     return row
 Worpitzky = Table(
-    worpitzky,
-    "Worpitzky",
-    ["A028246", "A053440", "A075263", "A130850", "A163626"], False
-)
+    worpitzky, "Worpitzky",
+    ["A028246", "A053440", "A075263", "A130850", "A163626"], 
+    False)
 def bell_num(n: int) -> int:
     if n == 0:
         return 1

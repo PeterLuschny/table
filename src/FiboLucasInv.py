@@ -86,6 +86,7 @@ The traits of the FiboLucasInv triangle as represented in the OEIS.
 | 36  | B374439 | Std-RevInv       |                                                                                |
 | 37  | B375025 | Std-Triangle     |                                                                                |
 | 38  | B375026 | Std-AltSum       |                                                                                |
+|-----|---------|------------------|--------------------------------------------------------------------------------|
 
 5 A007395 ['Std-DiagRow1', 'Alt-DiagRow1', 'Rev-DiagCol1', 'Inv-DiagRow1', 'Inv:Rev-DiagCol1']
           Constant sequence: the all 2's sequence

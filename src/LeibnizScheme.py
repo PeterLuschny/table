@@ -27,7 +27,5 @@ LeibnizScheme = Table(leibnizscheme, "LeibnizScheme", ["A003991"])
 
 if __name__ == "__main__":
     from _tablutils import PreView
+
     PreView(LeibnizScheme)
-    
-    #for n in range(10):
-    #    print(leibnizscheme(n))

@@ -37,6 +37,4 @@ PartDist = Table(partdist, "PartitionDist", ["A008289"], False)
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    #PreView(PartDist)
-    for n in range(12):
-        print(partdist(n))
+    PreView(PartDist)

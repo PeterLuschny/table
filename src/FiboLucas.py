@@ -59,44 +59,45 @@ if __name__ == "__main__":
 
 The traits of the FiboLucas triangle as represented in the OEIS.
 
-|     | A-number| trait            | A-name                                   |
+|     | A-number| trait            | A-name                                                                         |
 |-----|---------|------------------|--------------------------------------------------------------------------------|
 | 1   | A000027 | Std-DiagCol2     | The positive integers. Also called the natural numbers, the whole numbers or t |
 | 2   | A000034 | Std-ColRight     | Period 2: repeat [1, 2]; a(n) = 1 + (n mod 2)                                  |
 | 3   | A000204 | Std-RowSum       | Lucas numbers (beginning with 1): L(n) = L(n-1) + L(n-2) with L(1) = 1, L(2) = |
-| 4   | A000244 | Rev:Inv-PosHalf  | Powers of 3: a(n) = 3^n                                   |
-| 5   | A005408 | Std-PolyRow1     | The odd numbers: a(n) = 2*n + 1                                   |
+| 4   | A000244 | Rev:Inv-PosHalf  | Powers of 3: a(n) = 3^n                                                        |
+| 5   | A005408 | Std-PolyRow1     | The odd numbers: a(n) = 2*n + 1                                                |
 | 6   | A007395 | Std-DiagCol1     | Constant sequence: the all 2's sequence                                        |
-| 7   | A020725 | Rev-PolyRow1     | Integers >= 2. a(n) = n+1                                   |
-| 8   | A022958 | Rev:Inv-PolyRow1 | a(n) = 2 - n                                   |
-| 9   | A022959 | Rev:Inv-DiagRow2 | 3-n                                   |
-| 10  | A023607 | Rev-TransNat0    | a(n) = n * Fibonacci(n+1)                                   |
+| 7   | A020725 | Rev-PolyRow1     | Integers >= 2. a(n) = n+1                                                      |
+| 8   | A022958 | Rev:Inv-PolyRow1 | a(n) = 2 - n                                                                   |
+| 9   | A022959 | Rev:Inv-DiagRow2 | 3-n                                                                            |
+| 10  | A023607 | Rev-TransNat0    | a(n) = n * Fibonacci(n+1)                                                      |
 | 11  | A039834 | Std-AltSum       | a(n+2) = -a(n+1) + a(n) (signed Fibonacci numbers) with a(-2) = a(-1) = 1; or  |
 | 12  | A048654 | Std-PosHalf      | a(n) = 2*a(n-1) + a(n-2); a(0)=1, a(1)=4                                       |
-| 13  | A060546 | Rev-DiagSum      | a(n) = 2^ceiling(n/2)                                   |
-| 14  | A060747 | Alt-PolyRow1     | a(n) = 2*n - 1                                   |
+| 13  | A060546 | Rev-DiagSum      | a(n) = 2^ceiling(n/2)                                                          |
+| 14  | A060747 | Alt-PolyRow1     | a(n) = 2*n - 1                                                                 |
 | 15  | A086990 | Rev:Inv-OddSum   | Expansion of (1+4x-sqrt(1+4x^2))/(4+6x) in powers of x                         |
-| 16  | A087113 | Std-DiagCol3     | Essentially a duplicate of A005843                                   |
-| 17  | A090412 | Rev:Inv-ColLeft  | A Chebyshev transform of 2^n                                   |
+| 16  | A087113 | Std-DiagCol3     | Essentially a duplicate of A005843                                             |
+| 17  | A090412 | Rev:Inv-ColLeft  | A Chebyshev transform of 2^n                                                   |
 | 18  | A108300 | Rev-PolyCol3     | a(n+2) = 3*a(n+1) + a(n), with a(0) = 1, a(1) = 5                              |
 | 19  | A124038 | Std-Rev          | Determinants of tridiagonal matrices in y with upper diagonal y-2: m(n,n,d)=If |
-| 20  | A162395 | Std-PolyRow2     | a(n) = -(-1)^n * n^2                                   |
+| 20  | A162395 | Std-PolyRow2     | a(n) = -(-1)^n * n^2                                                           |
 | 21  | A174902 | Alt-PolyRow2     | Denominator of 1 - 1/n^2, using 0 at the pole where n=0                        |
-| 22  | A176981 | Std-NegHalf      | Expansion of 1+(1-2*x)/(-1+2*x+x^2)                                   |
+| 22  | A176981 | Std-NegHalf      | Expansion of 1+(1-2*x)/(-1+2*x+x^2)                                            |
 | 23  | B000045 | Std-EvenSum      | Fibonacci numbers: F(n) = F(n-1) + F(n-2) with F(0) = 0 and F(1) = 1           |
 | 24  | B001629 | Alt-AccSum       | Self-convolution of Fibonacci numbers                                          |
 | 25  | B005843 | Rev:Inv-DiagRow3 | The nonnegative even numbers: a(n) = 2n                                        |
 | 26  | B006131 | Std-PolyCol2     | a(n) = a(n-1) + 4*a(n-2), a(0) = a(1) = 1                                      |
 | 27  | B006355 | Std-OddSum       | Number of binary vectors of length n containing no singletons                  |
 | 28  | B029578 | Std-DiagRow1     | The natural numbers interleaved with the even numbers                          |
-| 29  | B059100 | Rev:Inv-PolyRow2 | a(n) = n^2 + 2                                   |
+| 29  | B059100 | Rev:Inv-PolyRow2 | a(n) = n^2 + 2                                                                 |
 | 30  | B086990 | Rev:Inv-RowSum   | Expansion of (1+4x-sqrt(1+4x^2))/(4+6x) in powers of x                         |
 | 31  | B131259 | Std-DiagRow2     | a(2n)=A000217(n), a(2n+1)=-2*A000217(n)                                        |
 | 32  | B133585 | Rev-EvenSum      | Expansion of x - x^2*(2*x+1)*(x^2-2) / ( (x^2-x-1)*(x^2+x-1) )                 |
 | 33  | B133586 | Rev-OddSum       | Expansion of x*(1+2*x)/( (x^2-x-1)*(x^2+x-1) )                                 |
-| 34  | B188377 | Rev-PolyRow3     | a(n) = n^3 - 4n^2 + 6n - 2                                   |
+| 34  | B188377 | Rev-PolyRow3     | a(n) = n^3 - 4n^2 + 6n - 2                                                     |
 | 35  | B318829 | Std-RowGcd       | a(n) = A063994(n) / A049559(n) = (1/gcd(n-1, phi(n))) * Product_{primes p divi |
-| 36  | B374439 | Std-Triangle     |                                   |
+| 36  | B374439 | Std-Triangle     |                                                                                |
+|-----|---------|------------------|--------------------------------------------------------------------------------|
 
 6 A000204 ['Std-RowSum', 'Std-AbsSum', 'Alt-AltSum', 'Alt-AbsSum', 'Rev-RowSum', 'Rev-AbsSum']
           Lucas numbers (beginning with 1): L(n) = L(n-1) + L(n-2) with L(1) = 1, L(2) = 3

@@ -1,3 +1,5 @@
+# See https://github.com/PeterLuschny/table for hints how to install 'Tables'.
+
 from Tables import Table, PreView, Benchmark, StirlingSet
 from functools import cache
 from math import comb as binomial

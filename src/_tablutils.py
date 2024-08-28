@@ -100,10 +100,37 @@ def Benchmark(tabl: Table, size: int = 100) -> None:
     t.stop()
 
 
+def AnumQ(num: str = '') -> bool:
+    """Is the Anumber referenced in the library?
+
+    Args:
+        A-number as string.
+ 
+        Defaults to '', in which case the list of referenced Anumbers is printed.
+
+    Returns:
+        If 'True' a similar sequence is probably implemented.
+    """
+    list = []
+    for tab in Tables: 
+        for anum in tab.sim:
+            list.append(anum)
+    if num != '':
+        return num in list
+    print(sorted(list))
+    return False
+
+
 if __name__ == "__main__":
     from Tables import Tables
 
-    for tabl in Tables: 
-        Benchmark(tabl) # type: ignore
+    def bench() -> None:
+        for tabl in Tables: 
+            Benchmark(tabl) # type: ignore
 
-    print(f"\n{len(Tables)} tables tested!\n")
+        print(f"\n{len(Tables)} tables tested!\n")
+
+    #print(AnumQ('A047884'))
+    #AnumQ()
+
+    bench()

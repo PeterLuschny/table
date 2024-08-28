@@ -39,5 +39,3 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Euclid, 12)
-    # for n in range(22): print([n], euclid(n))
-    # print([sum(euclid(n)) for n in range(53)])

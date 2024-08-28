@@ -43,5 +43,3 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(CompoDist)
-    for n in range(16):
-        print(compodist(n))
