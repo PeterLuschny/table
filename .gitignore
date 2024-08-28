@@ -1,4 +1,4 @@
-incubator/*
+incubator/
 __pycache__/
 .vscode
 .gitignore
