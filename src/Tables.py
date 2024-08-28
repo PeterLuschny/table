@@ -1086,16 +1086,25 @@ def lozanic(n: int) -> list[int]:
 Lozanic = Table(lozanic, "Lozanic", ["A034851"], True)
 @cache
 def lucas(n: int) -> list[int]:
+    if n == 0: return [2]
+    if n == 1: return [1, 2]
+    row = lucas(n - 1) + [0]
+    for k in range(n, 0, -1):
+        row[k] += row[k - 1]
+    return row
+Lucas = Table(lucas, "Lucas", ["A029635", "A029653"])
+@cache
+def lucaspoly(n: int) -> list[int]:
     if n == 0: return [1]
     if n == 1: return [1, 0]
     if n == 2: return [1, 1, 1]
-    rowA = lucas(n - 2)
-    row  = lucas(n - 1) + [(n + 1) % 2]
+    rowA = lucaspoly(n - 2)
+    row  = lucaspoly(n - 1) + [(n + 1) % 2]
     row[1] += 1
     for k in range(3, n):
         row[k] += rowA[k - 2]
     return row
-Lucas = Table(lucas, "Lucas", ["A374440"], False)
+LucasPoly = Table(lucaspoly, "LucasPoly", ["A374440"], False)
 @cache
 def _moebius(n: int) -> int:
     if n == 1:
@@ -1615,6 +1624,7 @@ Tables: list[Table] = [
     Levin,
     Lozanic,
     Lucas,
+    LucasPoly,
     Moebius,
     Monotone,
     Motzkin,

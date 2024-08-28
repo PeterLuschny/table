@@ -189,6 +189,7 @@ To give an idea of ​​the performance of the library, we provide the followin
                Levin 0.0024 sec
              Lozanic 0.0014 sec
                Lucas 0.0013 sec
+           LucasPoly 0.0015 sec
              Moebius 0.0020 sec
             Monotone 0.0026 sec
              Motzkin 0.0081 sec
