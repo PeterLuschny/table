@@ -14,13 +14,13 @@ from _tabltypes import Table
 """
 
 @cache
-def youngcum(n: int) -> list[int]:
+def youngacc(n: int) -> list[int]:
     return [n] * (n+1)
 
 
-YoungCum = Table(
-    youngcum,
-    "YoungCum",
+YoungAcc = Table(
+    youngacc,
+    "YoungAcc",
     ["A049400", "A182172"],
     True )
 
@@ -28,4 +28,4 @@ YoungCum = Table(
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(YoungCum)
+    PreView(YoungAcc)

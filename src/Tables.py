@@ -681,9 +681,9 @@ def composition(n: int) -> list[int]:
     return [_composition(n - 1, k - 1) for k in range(n + 1)]
 Composition = Table(composition, "Composition", ["A048004"], True)
 @cache
-def compocum(n: int) -> list[int]:
+def compoacc(n: int) -> list[int]:
     return list(accumulate(composition(n))) 
-CompoCum = Table(compocum, "CompositionCum", ["A126198"], False)
+CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], False)
 @cache
 def _compodist(n: int, k: int) -> int:
     if k < 0 or n < 0: return 0
@@ -1223,9 +1223,9 @@ def partition(n: int) -> list[int]:
     return [part(n, k) for k in range(n + 1)]
 Partition = Table(partition, "Partition", ["A072233", "A008284", "A058398"], True)
 @cache
-def partcum(n: int) -> list[int]:
+def partacc(n: int) -> list[int]:
     return list(accumulate(partition(n)))
-PartCum = Table(partcum, "PartitionCum", ["A026820", "A058400"], False)
+PartAcc = Table(partacc, "PartitionAcc", ["A026820", "A058400"], False)
 @cache
 def _partdist(n: int, k: int) -> int:
     if k < 1 or n < k: return 0
@@ -1577,7 +1577,7 @@ Tables: list[Table] = [
     ChebyshevT,
     ChebyshevU,
     Composition,
-    CompoCum,
+    CompoAcc,
     CompoDist,
     CTree,
     Delannoy,
@@ -1627,7 +1627,7 @@ Tables: list[Table] = [
     OrderedCycle,
     Parades,
     Partition,
-    PartCum,
+    PartAcc,
     PartDist,
     PartDistSize,
     Pascal,

@@ -19,14 +19,14 @@ from Partition import partition
 
 
 @cache
-def partcum(n: int) -> list[int]:
+def partacc(n: int) -> list[int]:
     return list(accumulate(partition(n)))
 
 
-PartCum = Table(partcum, "PartitionCum", ["A026820", "A058400"], False)
+PartAcc = Table(partacc, "PartitionAcc", ["A026820", "A058400"], False)
 
 
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(PartCum)
+    PreView(PartAcc)

@@ -19,14 +19,14 @@ from Composition import composition
 """
 
 @cache
-def compocum(n: int) -> list[int]:
+def compoacc(n: int) -> list[int]:
     return list(accumulate(composition(n))) 
 
 
-CompoCum = Table(compocum, "CompositionCum", ["A126198"], False)
+CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], False)
 
 
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(CompoCum)
+    PreView(CompoAcc)
