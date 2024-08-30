@@ -38,10 +38,10 @@ def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
                     # raise ValueError("Integer inverse does not exist!")
                     return []
     return [row[0:n + 1] for n, row in enumerate(inv)]
-def InvertTriangle(r, dim: int) -> list[list[int]]:
+def InvertTriangle(r: Callable[[int], list[int]], dim: int) -> list[list[int]]:
     M = [[r(n)[k] for k in range(n + 1)] for n in range(dim)]
     return InvertMatrix(M, True)
-def _ConvTriangle(seq: Callable, dim: int = 10) -> list[list[int]]:
+def convtriangle(seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
     """Sometimes called the partition transform of seq. 
     See A357368 for more information and some examples.
     Args:
@@ -59,7 +59,7 @@ def _ConvTriangle(seq: Callable, dim: int = 10) -> list[list[int]]:
         for k in range(m - 1, 0, -1):
             C[m][k] = sum(A[i] * C[m - i - 1][k - 1] for i in range(m - k + 1))
     return C
-def ConvTriangle(T, seq: Callable, dim: int = 10) -> list[list[int]]:
+def ConvTriangle(T: Callable[[int, int], int], seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
     A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
     # print("In:", A)
     C = [[0 for _ in range(m + 1)] for m in range(dim)]
@@ -69,16 +69,6 @@ def ConvTriangle(T, seq: Callable, dim: int = 10) -> list[list[int]]:
         for k in range(m - 1, 0, -1):
             C[m][k] = sum(A[i] * T(m - i - 1, k - 1) for i in range(m - k + 1))
     return C
-def conv(self, seq: Callable, dim: int): # -> tabl:
-    """Sometimes called the partition transform of seq. 
-    See A357368 for more information and some examples.
-    Args:
-        seq, sequence to be convoluted
-        dim, the size of the triangle
-    Returns:
-        The convolution triangle of seq.
-    """
-    return ConvTriangle(self.val, seq, dim)
 """Type: table row"""
 trow: TypeAlias = list[int]
 """Type: triangle (resp. table)"""
@@ -307,37 +297,6 @@ class Table:
         return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
     
-def PreView(T:Table, size: int = 6) -> None:
-    """
-    Args:
-        T, table to inspect
-        size, number of rows, defaults to 6.
-    Returns:
-    None. Prints the result for some example parameters.
-    """
-    print()
-    print("NAME       ", T.id)
-    print("similars   ", T.sim)
-    print("invertible ", T.invQ)
-    print("table      ", T.tab(size))
-    print("value      ", T.val(size-1, (size-1)//2))
-    print("row        ", T.row(size-1))
-    print("col        ", T.col(2, size))
-    print("diag       ", T.diag(2, size))
-    print("poly       ", [T.poly(n, 1) for n in range(size)])
-    print("antidiagtab", T.adtab(size))
-    print("accumulated", T.acc(size))
-    print("inverted   ", T.inv(size))
-    print("reverted   ", T.rev(size))
-    print("rev of inv ", T.revinv(size))
-    print("inv of rev ", T.invrev(size))
-    print("matrix     ", T.mat(size))
-    print("flatt seq  ", T.flat(size))
-    print("inv rev 11 ", T.invrev11(size-1))
-    T11 = Table(T.off(1, 1), "Toffset11")
-    print("1-1-based  ", T11.tab(size-1))
-    print("summap     ", T.summap(lambda n: n*n, size))  
-    print("invmap     ", T.invmap(lambda n: n*n, size))  
 def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offset: int=0) -> str:
     """
     Converts a sequence of integers into a string representation.
@@ -387,23 +346,56 @@ def Benchmark(tabl: Table, size: int = 100) -> None:
     t.start()
     tabl.tab(size)
     t.stop()
-def AnumQ(num: str = '') -> bool:
-    """Is the Anumber referenced in the library?
+def AnumList() -> list[str]:
+    bag = []
+    for tab in Tables: 
+        for anum in tab.sim:
+            bag.append(anum) # type: ignore
+    return sorted(bag)       # type: ignore
+def AnumInListQ(anum: str) -> bool:
+    """Is the A-number referenced in the library?
     Args:
         A-number as string.
  
-        Defaults to '', in which case the list of referenced Anumbers is printed.
     Returns:
         If 'True' a similar sequence is probably implemented.
     """
-    list = []
-    for tab in Tables: 
-        for anum in tab.sim:
-            list.append(anum)
-    if num != '':
-        return num in list
-    print(sorted(list))
-    return False
+    return anum in AnumList()
+def PreView(T:Table, size: int = 8) -> None:
+    """
+    Args:
+        T, table to inspect
+        size, number of rows, defaults to 8.
+    Returns:
+    None. Prints the result for some example parameters.
+    """
+    print()
+    print("NAME       ", T.id)
+    print("similars   ", T.sim)
+    print("invertible ", T.invQ)
+    print("table      ", T.tab(size))
+    print("value      ", T.val(size-1, (size-1)//2))
+    print("row        ", T.row(size-1))
+    print("col        ", T.col(2, size))
+    print("diag       ", T.diag(2, size))
+    print("poly       ", [T.poly(n, 1) for n in range(size)])
+    print("antidiagtab", T.adtab(size))
+    print("accumulated", T.acc(size))
+    print("inverted   ", T.inv(size))
+    print("reverted   ", T.rev(size))
+    print("rev of inv ", T.revinv(size))
+    print("inv of rev ", T.invrev(size))
+    print("matrix     ", T.mat(size))
+    print("flatt seq  ", T.flat(size))
+    print("inv rev 11 ", T.invrev11(size-1))
+    T11 = Table(T.off(1, 1), "Toffset11")
+    print("1-1-based  ", T11.tab(size-1))
+    print("summap     ", T.summap(lambda n: n*n, size))  
+    print("invmap     ", T.invmap(lambda n: n*n, size))  
+    print("TABLE      ")
+    for n in range(10): print([n], T.row(n))
+    print("Timing 100 rows:", end='')
+    Benchmark(T)
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
@@ -525,7 +517,7 @@ def binomialcatalan(n: int) -> list[int]:
     return row
 BinomialCatalan = Table(binomialcatalan, "BinomialCatalan", ["A124644", "A098474"], True)
 @cache
-def binomialpell(n) -> list[int]:
+def binomialpell(n: int) -> list[int]:
     if n == 0:
         return [1]
     if n == 1:
@@ -983,7 +975,7 @@ def hyperharmonic(n: int) -> list[int]:
     return row
 HyperHarmonic = Table(hyperharmonic, "HyperHarmonic", ["A165675", "A093905", "A105954", "A165674"], True)
 @cache
-def jacobsthal(n) -> list[int]:
+def jacobsthal(n: int) -> list[int]:
     if n == 0: return [1]
     if n == 1: return [1, 1]
     if n == 2: return [1, 2, 1] 
@@ -1184,6 +1176,10 @@ def nicomachus(n: int) -> list[int]:
     return row
 Nicomachus = Table(nicomachus, "Nicomachus", ["A036561", "A081954", "A175840"], False)
 @cache
+def nimsum(n: int) -> list[int]:
+    return [k^(n - k) for k in range(n + 1)]
+NimSum = Table(nimsum, "NimSum", ["A003987"], False)
+@cache
 def one(n: int) -> list[int]:
     if n == 0:
         return [1]
@@ -1285,6 +1281,28 @@ Pascal = Table(
     True,
 )
 @cache
+def _polyatree(n: int, k: int) -> int:
+    """
+    Args:
+        n, the number of vertices
+        k, level of a vertex, the level of a vertex is the number of vertices in the path from the root to the vertex, the level of the root is 1.
+    Returns:
+        number of rooted trees with n vertices where the level of a vertex is bounded by k.
+    """
+    if k >  n: return _polyatree(n, n)
+    if k <= 0: return 0
+    if n == 1: return 0 if k == 0 else 1
+    def W(n: int, k: int, u: int, w: int) -> int: 
+       q, r = divmod(u, w)
+       if r != 0: return 0
+       return q * _polyatree(k, n) * _polyatree(q, n - 1)
+    return sum(sum(W(k, i, n - i, j) 
+           for i in range(1, n)) for j in range(1, n)) // (n - 1)
+@cache
+def polyatree(n: int) -> list[int]:
+    return [_polyatree(n, k) for k in range(n + 1)]
+PolyaTree = Table(polyatree, "PolyaTree", ["A375467"])
+@cache
 def polygonal(n: int) -> list[int]:
     if n == 0:
         return [0]
@@ -1332,6 +1350,11 @@ def risingfactorial(n: int) -> list[int]:
         row[k + 1] = row[k] * (n + k)
     return row
 RisingFactorial = Table(risingfactorial, "RisingFact", ["A124320"], False)
+@cache
+def rootedtree(n: int) -> list[int]:
+    p = polyatree(n)
+    return [0] + [p[k + 1] - p[k] for k in range(n)]
+RootedTree = Table(rootedtree, "RootedTree", ["A034781"])
 @cache
 def schroeder(n: int) -> list[int]:
     if n == 0:
@@ -1632,6 +1655,7 @@ Tables: list[Table] = [
     Narayana,
     Naturals,
     Nicomachus,
+    NimSum,
     One,
     Ordinals,
     OrderedCycle,
@@ -1641,10 +1665,12 @@ Tables: list[Table] = [
     PartDist,
     PartDistSize,
     Pascal,
+    PolyaTree,
     Polygonal,
     PowLaguerre,
     Rencontres,
     RisingFactorial,
+    RootedTree,
     Schroeder,
     SchroederL,
     SchroederPaths,

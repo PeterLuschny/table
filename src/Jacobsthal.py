@@ -18,7 +18,7 @@ from _tabltypes import Table
 
 
 @cache
-def jacobsthal(n) -> list[int]:
+def jacobsthal(n: int) -> list[int]:
     if n == 0: return [1]
     if n == 1: return [1, 1]
     if n == 2: return [1, 2, 1] 

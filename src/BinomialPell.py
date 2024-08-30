@@ -17,7 +17,7 @@ from _tabltypes import Table
 
 
 @cache
-def binomialpell(n) -> list[int]:
+def binomialpell(n: int) -> list[int]:
 
     if n == 0:
         return [1]

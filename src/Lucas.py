@@ -33,5 +33,3 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Lucas)
-    for n in range(10):
-        print([n], lucas(n))

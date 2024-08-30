@@ -3,41 +3,6 @@ import time
 
 # #@
 
-def PreView(T:Table, size: int = 6) -> None:
-    """
-    Args:
-        T, table to inspect
-        size, number of rows, defaults to 6.
-
-    Returns:
-    None. Prints the result for some example parameters.
-
-    """
-    print()
-    print("NAME       ", T.id)
-    print("similars   ", T.sim)
-    print("invertible ", T.invQ)
-    print("table      ", T.tab(size))
-    print("value      ", T.val(size-1, (size-1)//2))
-    print("row        ", T.row(size-1))
-    print("col        ", T.col(2, size))
-    print("diag       ", T.diag(2, size))
-    print("poly       ", [T.poly(n, 1) for n in range(size)])
-    print("antidiagtab", T.adtab(size))
-    print("accumulated", T.acc(size))
-    print("inverted   ", T.inv(size))
-    print("reverted   ", T.rev(size))
-    print("rev of inv ", T.revinv(size))
-    print("inv of rev ", T.invrev(size))
-    print("matrix     ", T.mat(size))
-    print("flatt seq  ", T.flat(size))
-    print("inv rev 11 ", T.invrev11(size-1))
-    T11 = Table(T.off(1, 1), "Toffset11")
-    print("1-1-based  ", T11.tab(size-1))
-    print("summap     ", T.summap(lambda n: n*n, size))  
-    print("invmap     ", T.invmap(lambda n: n*n, size))  
-
-
 def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offset: int=0) -> str:
     """
     Converts a sequence of integers into a string representation.
@@ -100,25 +65,63 @@ def Benchmark(tabl: Table, size: int = 100) -> None:
     t.stop()
 
 
-def AnumQ(num: str = '') -> bool:
-    """Is the Anumber referenced in the library?
+def AnumList() -> list[str]:
+    bag = []
+    for tab in Tables: 
+        for anum in tab.sim:
+            bag.append(anum) # type: ignore
+    return sorted(bag)       # type: ignore
+
+
+def AnumInListQ(anum: str) -> bool:
+    """Is the A-number referenced in the library?
 
     Args:
         A-number as string.
  
-        Defaults to '', in which case the list of referenced Anumbers is printed.
-
     Returns:
         If 'True' a similar sequence is probably implemented.
     """
-    list = []
-    for tab in Tables: 
-        for anum in tab.sim:
-            list.append(anum)
-    if num != '':
-        return num in list
-    print(sorted(list))
-    return False
+    return anum in AnumList()
+
+
+def PreView(T:Table, size: int = 8) -> None:
+    """
+    Args:
+        T, table to inspect
+        size, number of rows, defaults to 8.
+
+    Returns:
+    None. Prints the result for some example parameters.
+
+    """
+    print()
+    print("NAME       ", T.id)
+    print("similars   ", T.sim)
+    print("invertible ", T.invQ)
+    print("table      ", T.tab(size))
+    print("value      ", T.val(size-1, (size-1)//2))
+    print("row        ", T.row(size-1))
+    print("col        ", T.col(2, size))
+    print("diag       ", T.diag(2, size))
+    print("poly       ", [T.poly(n, 1) for n in range(size)])
+    print("antidiagtab", T.adtab(size))
+    print("accumulated", T.acc(size))
+    print("inverted   ", T.inv(size))
+    print("reverted   ", T.rev(size))
+    print("rev of inv ", T.revinv(size))
+    print("inv of rev ", T.invrev(size))
+    print("matrix     ", T.mat(size))
+    print("flatt seq  ", T.flat(size))
+    print("inv rev 11 ", T.invrev11(size-1))
+    T11 = Table(T.off(1, 1), "Toffset11")
+    print("1-1-based  ", T11.tab(size-1))
+    print("summap     ", T.summap(lambda n: n*n, size))  
+    print("invmap     ", T.invmap(lambda n: n*n, size))  
+    print("TABLE      ")
+    for n in range(10): print([n], T.row(n))
+    print("Timing 100 rows:", end='')
+    Benchmark(T)
 
 
 if __name__ == "__main__":
@@ -130,7 +133,6 @@ if __name__ == "__main__":
 
         print(f"\n{len(Tables)} tables tested!\n")
 
-    #print(AnumQ('A029635'))
-    #AnumQ()
+    # print(AnumInListQ('A021009'))
 
     bench()

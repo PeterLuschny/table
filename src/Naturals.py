@@ -2,7 +2,7 @@ from functools import cache
 from Tables import Table
 
 """
-This is a demo of the most primitive use of the 'Table' module.
+This is a demo (!) of the most primitive use of the 'Table' module.
 
 The function 'natural' computes the n-th row of a regular integer
 triangle. It has to be defined for n >= 0.
@@ -21,4 +21,4 @@ Naturals = Table(naturals, "Naturals", ['A000027', 'A001477'], True)
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(Naturals)
+    PreView(Naturals) # type: ignore

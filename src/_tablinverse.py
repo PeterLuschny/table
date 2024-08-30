@@ -41,12 +41,12 @@ def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
     return [row[0:n + 1] for n, row in enumerate(inv)]
 
 
-def InvertTriangle(r, dim: int) -> list[list[int]]:
+def InvertTriangle(r: Callable[[int], list[int]], dim: int) -> list[list[int]]:
     M = [[r(n)[k] for k in range(n + 1)] for n in range(dim)]
     return InvertMatrix(M, True)
 
 
-def _ConvTriangle(seq: Callable, dim: int = 10) -> list[list[int]]:
+def convtriangle(seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
     """Sometimes called the partition transform of seq. 
     See A357368 for more information and some examples.
 
@@ -67,7 +67,7 @@ def _ConvTriangle(seq: Callable, dim: int = 10) -> list[list[int]]:
             C[m][k] = sum(A[i] * C[m - i - 1][k - 1] for i in range(m - k + 1))
     return C
 
-def ConvTriangle(T, seq: Callable, dim: int = 10) -> list[list[int]]:
+def ConvTriangle(T: Callable[[int, int], int], seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
     A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
     # print("In:", A)
     C = [[0 for _ in range(m + 1)] for m in range(dim)]
@@ -78,38 +78,22 @@ def ConvTriangle(T, seq: Callable, dim: int = 10) -> list[list[int]]:
             C[m][k] = sum(A[i] * T(m - i - 1, k - 1) for i in range(m - k + 1))
     return C
 
-def conv(self, seq: Callable, dim: int): # -> tabl:
-    """Sometimes called the partition transform of seq. 
-    See A357368 for more information and some examples.
-
-    Args:
-        seq, sequence to be convoluted
-        dim, the size of the triangle
-
-    Returns:
-        The convolution triangle of seq.
-    """
-    return ConvTriangle(self.val, seq, dim)
-
-# conv(seq, size: int) -> tabl | convolution transform of a sequence
-# print("conv       ", T.conv(lambda n: n, size))
-
 
 if __name__ == "__main__":
 
     def test() -> None:
-        M = [[1, 0, 0], [1, 2, 0], [1, 2, 3]]
-        V = InvertMatrix(M)
-        print(M)
-        print("Inverse:", V)
+        m = [[1, 0, 0], [1, 2, 0], [1, 2, 3]]
+        v = InvertMatrix(m)
+        print(m)
+        print("Inverse:", v)
 
-        M = [[1, 0, 0], [1, 2, 0], [1, 2, 0]]
-        V = InvertMatrix(M)
-        print(M)
-        print("Inverse:", V)
+        m = [[1, 0, 0], [1, 2, 0], [1, 2, 0]]
+        v = InvertMatrix(m)
+        print(m)
+        print("Inverse:", v)
         print()
 
-        M = [
+        m = [
             [1,      0,      0,     0,    0,   0,  0, 0],
             [0,      1,      0,     0,    0,   0,  0, 0],
             [0,      2,      1,     0,    0,   0,  0, 0],
@@ -119,8 +103,8 @@ if __name__ == "__main__":
             [0,   7776,   6480,  2160,  360,  30,  1, 0],
             [0, 117649, 100842, 36015, 6860, 735, 42, 1],
         ]
-        V = InvertMatrix(M, False)
-        print(V)
+        v = InvertMatrix(m, False)
+        print(v)
 
     test()
 
