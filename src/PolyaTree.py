@@ -21,10 +21,13 @@ def _polyatree(n: int, k: int) -> int:
     """
     Args:
         n, the number of vertices
-        k, level of a vertex, the level of a vertex is the number of vertices in the path from the root to the vertex, the level of the root is 1.
+        k, level of a vertex, the level of a vertex is 
+        the number of vertices in the path from the root 
+        to the vertex, the level of the root is 1.
 
     Returns:
-        number of rooted trees with n vertices where the level of a vertex is bounded by k.
+        number of rooted trees with n vertices where the
+        level of a vertex is bounded by k.
     """
     if k >  n: return _polyatree(n, n)
     if k <= 0: return 0

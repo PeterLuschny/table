@@ -127,12 +127,11 @@ def PreView(T:Table, size: int = 8) -> None:
 if __name__ == "__main__":
     from Tables import Tables
 
+    # print(AnumInListQ('A021009'))
+
     def bench() -> None:
         for tabl in Tables: 
             Benchmark(tabl) # type: ignore
 
         print(f"\n{len(Tables)} tables tested!\n")
-
-    # print(AnumInListQ('A021009'))
-
     bench()

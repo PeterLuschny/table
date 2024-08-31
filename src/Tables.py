@@ -840,6 +840,18 @@ EulerTan = Table(
 def eulerT(n: int) -> int:
     return 0 if n % 2 == 0 else eulertan(n)[0]
 @cache
+def eytzinger(n: int) -> list[int]:
+    row = [0] * (n + 1)
+    def e_rec(k: int, i: int) -> int:
+        if k <= n:
+            i = e_rec(2 * k, i)
+            row[k] = i
+            i = e_rec(2 * k + 1, i + 1)
+        return i
+    e_rec(1, 1)
+    return row
+Eytzinger = Table(eytzinger, "Eytzinger", ["A368783"])
+@cache
 def fallingfactorial(n: int) -> list[int]:
     if n == 0:
         return [1]
@@ -1285,9 +1297,12 @@ def _polyatree(n: int, k: int) -> int:
     """
     Args:
         n, the number of vertices
-        k, level of a vertex, the level of a vertex is the number of vertices in the path from the root to the vertex, the level of the root is 1.
+        k, level of a vertex, the level of a vertex is 
+        the number of vertices in the path from the root 
+        to the vertex, the level of the root is 1.
     Returns:
-        number of rooted trees with n vertices where the level of a vertex is bounded by k.
+        number of rooted trees with n vertices where the
+        level of a vertex is bounded by k.
     """
     if k >  n: return _polyatree(n, n)
     if k <= 0: return 0
@@ -1623,6 +1638,7 @@ Tables: list[Table] = [
     EulerianZigZag,
     EulerSec,
     EulerTan,
+    Eytzinger,
     FallingFactorial,
     FiboLucas,
     FiboLucasInv,
