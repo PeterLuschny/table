@@ -134,4 +134,5 @@ if __name__ == "__main__":
             Benchmark(tabl) # type: ignore
 
         print(f"\n{len(Tables)} tables tested!\n")
+
     bench()

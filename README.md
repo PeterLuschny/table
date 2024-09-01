@@ -93,7 +93,7 @@ A Table T provides the following methods:
 
 The type 'tabl' is a triangular array that is a list of lists of the form
 [[0] * (n + 1) for n in range(size)] representing the first 'size' rows of 
-the triangle (see also example 2 above).
+the triangle.
 
 
 # For developers
@@ -151,7 +151,8 @@ To give an idea of ​​the performance of the library, we provide the followin
            EulerianZigZag 0.3919 sec
                  EulerSec 0.0026 sec
                  EulerTan 0.0023 sec
-                Eytzinger 0.0031 sec
+           EytzingerOrder 0.0028 sec
+            EytzingerPerm 0.0018 sec
               FallingFact 0.0012 sec
                 FiboLucas 0.0012 sec
              FiboLucasInv 0.0012 sec
@@ -218,4 +219,4 @@ To give an idea of ​​the performance of the library, we provide the followin
                 WardCycle 0.0026 sec
                 Worpitzky 0.0025 sec
 
-102 tables tested!
+103 tables tested!

@@ -840,17 +840,22 @@ EulerTan = Table(
 def eulerT(n: int) -> int:
     return 0 if n % 2 == 0 else eulertan(n)[0]
 @cache
-def eytzinger(n: int) -> list[int]:
+def eytzingerorder(n: int) -> list[int]:
     row = [0] * (n + 1)
     def e_rec(k: int, i: int) -> int:
-        if k <= n:
+        if k <= n + 1:
             i = e_rec(2 * k, i)
-            row[k] = i
+            row[k - 1] = i
             i = e_rec(2 * k + 1, i + 1)
         return i
-    e_rec(1, 1)
+    e_rec(1, 0)
     return row
-Eytzinger = Table(eytzinger, "Eytzinger", ["A368783"])
+EytzingerOrder = Table(eytzingerorder, "EytzingerOrder", ["A368783"])
+@cache
+def eytzingerpermutation(n: int) -> list[int]:
+    t = n * (n + 1) // 2
+    return [eytzingerorder(n)[k] + t for k in range(n + 1)]
+EytzingerPermutation = Table(eytzingerpermutation, "EytzingerPerm", ["A375469"])
 @cache
 def fallingfactorial(n: int) -> list[int]:
     if n == 0:
@@ -1638,7 +1643,8 @@ Tables: list[Table] = [
     EulerianZigZag,
     EulerSec,
     EulerTan,
-    Eytzinger,
+    EytzingerOrder,
+    EytzingerPermutation,
     FallingFactorial,
     FiboLucas,
     FiboLucasInv,
