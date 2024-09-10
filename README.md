@@ -195,7 +195,7 @@ To give an idea of ​​the performance of the library, we provide the followin
             PartitionDist 0.0026 sec
         PartitionDistSize 0.3128 sec
                    Pascal 0.0011 sec
-                PolyaTree 9.9018 sec
+             PolyaTreeAcc 0.4634 sec
                 Polygonal 0.0013 sec
               PowLaguerre 0.0031 sec
                Rencontres 0.0026 sec

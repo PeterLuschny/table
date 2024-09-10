@@ -297,7 +297,12 @@ class Table:
         return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
     
-def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offset: int=0) -> str:
+def SeqToString(seq: list[int], 
+                maxchars: int, 
+                maxterms: int, 
+                sep: str=' ', 
+                offset: int=0
+    ) -> str:
     """
     Converts a sequence of integers into a string representation.
     Args:
@@ -321,7 +326,7 @@ def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offs
             break
         seqstr += s
     return seqstr
-class Timer:
+class StopWatch:
     def __init__(
         self,
         comment: str
@@ -341,11 +346,33 @@ class Timer:
         self.start_time = None
         print(self.text.rjust(17), "{:0.4f}".format(elapsed_time), "sec")
         return elapsed_time
-def Benchmark(tabl: Table, size: int = 100) -> None:
-    t = Timer(tabl.id)
+def QuickTiming(tabl: Table, size: int = 100) -> None:
+    t = StopWatch(tabl.id)
     t.start()
     tabl.tab(size)
     t.stop()
+def Benchmark(T: Callable[[int, int], int], 
+              offset:int = 4, 
+              size:int = 4
+    ) -> list[float]:
+    """Benchmark for functions computing lower triangular arrays.
+    Args:
+        T(n, k), function defined for n >= 0 and 0 <= k <= n.
+        offset > 0, the power of two where the test starts. Defaults to 4.
+        size, the length of test run. Defaults to 4.
+    Returns:
+        List of factors that indicate by what the computing time multiplies 
+        when the number of rows doubles.
+    Example:
+        Benchmark(lambda n, k: n**k)
+    """
+    B: list[float] = []
+    for s in [2 << n for n in range(offset - 1, offset + size)]:
+        t = StopWatch(str(s))
+        t.start()
+        [[T(n, k) for k in range(n + 1)] for n in range(s)]
+        B.append(t.stop())
+    return [B[i + 1] / B[i] for i in range(size)]
 def AnumList() -> list[str]:
     bag = []
     for tab in Tables: 
@@ -395,7 +422,7 @@ def PreView(T:Table, size: int = 8) -> None:
     print("TABLE      ")
     for n in range(10): print([n], T.row(n))
     print("Timing 100 rows:", end='')
-    Benchmark(T)
+    QuickTiming(T)
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
@@ -1298,30 +1325,36 @@ Pascal = Table(
     True,
 )
 @cache
-def _polyatree(n: int, k: int) -> int:
+def divisors(n: int) -> list[int]:
+    return [d for d in range(n, 0, -1) if n % d == 0]
+@cache
+def _polyatree_vh(vertices: int, height: int) -> int:
+    return sum(d * _polyatree_vl(d, height) for d in divisors(vertices))
+@cache
+def _polyatree_vl(vertices: int, max_level: int) -> int:
     """
     Args:
-        n, the number of vertices
-        k, level of a vertex, the level of a vertex is 
+        nodes, the number of vertices.
+        Max level of a vertex. The level of a vertex is 
         the number of vertices in the path from the root 
         to the vertex, the level of the root is 1.
     Returns:
         number of rooted trees with n vertices where the
-        level of a vertex is bounded by k.
+        level of a vertex is bounded by max_level.
     """
-    if k >  n: return _polyatree(n, n)
-    if k <= 0: return 0
-    if n == 1: return 0 if k == 0 else 1
-    def W(n: int, k: int, u: int, w: int) -> int: 
-       q, r = divmod(u, w)
-       if r != 0: return 0
-       return q * _polyatree(k, n) * _polyatree(q, n - 1)
-    return sum(sum(W(k, i, n - i, j) 
-           for i in range(1, n)) for j in range(1, n)) // (n - 1)
+    if vertices == 1:
+        return int(max_level > 0)
+    if max_level == 0:
+        return 0
+    height = max_level - 1
+    return sum(
+        _polyatree_vl(i, max_level) * _polyatree_vh(vertices - i, height)
+        for i in range(1, vertices)
+    ) // (vertices - 1)
 @cache
-def polyatree(n: int) -> list[int]:
-    return [_polyatree(n, k) for k in range(n + 1)]
-PolyaTree = Table(polyatree, "PolyaTree", ["A375467"])
+def polyatreeacc(n: int) -> list[int]:
+    return [_polyatree_vl(n, k) for k in range(n + 1)]
+PolyaTreeAcc = Table(polyatreeacc, "PolyaTreeAcc", ["A375467"])
 @cache
 def polygonal(n: int) -> list[int]:
     if n == 0:
@@ -1372,7 +1405,7 @@ def risingfactorial(n: int) -> list[int]:
 RisingFactorial = Table(risingfactorial, "RisingFact", ["A124320"], False)
 @cache
 def rootedtree(n: int) -> list[int]:
-    p = polyatree(n)
+    p = polyatreeacc(n)
     return [0] + [p[k + 1] - p[k] for k in range(n)]
 RootedTree = Table(rootedtree, "RootedTree", ["A034781"])
 @cache
@@ -1687,7 +1720,7 @@ Tables: list[Table] = [
     PartDist,
     PartDistSize,
     Pascal,
-    PolyaTree,
+    PolyaTreeAcc,
     Polygonal,
     PowLaguerre,
     Rencontres,

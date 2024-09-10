@@ -36,7 +36,7 @@ from _tabltypes import Table
     [9] [6, 3, 8, 1, 5, 7, 9, 0, 2, 4]
 """
 
-# $cache  #  Variant 1
+# $cache  #  Variant 1, not used here!
 def Xeytzingerorder(n: int) -> list[int]:
     row = [0] * (n + 1)
     def e_rec(k: int, i: int) -> int:

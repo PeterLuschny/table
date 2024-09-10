@@ -1,5 +1,5 @@
 from functools import cache
-from PolyaTree import polyatree
+from PolyaTreeAcc import polyatreeacc
 from _tabltypes import Table
 
 """
@@ -18,7 +18,7 @@ from _tabltypes import Table
 
 @cache
 def rootedtree(n: int) -> list[int]:
-    p = polyatree(n)
+    p = polyatreeacc(n)
     return [0] + [p[k + 1] - p[k] for k in range(n)]
 
 

@@ -1,9 +1,15 @@
 from _tabltypes import Table
+from typing import Callable
 import time
 
 # #@
 
-def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offset: int=0) -> str:
+def SeqToString(seq: list[int], 
+                maxchars: int, 
+                maxterms: int, 
+                sep: str=' ', 
+                offset: int=0
+    ) -> str:
     """
     Converts a sequence of integers into a string representation.
 
@@ -31,7 +37,7 @@ def SeqToString(seq: list[int], maxchars: int, maxterms: int, sep: str=' ', offs
         seqstr += s
     return seqstr
 
-class Timer:
+class StopWatch:
     def __init__(
         self,
         comment: str
@@ -58,11 +64,38 @@ class Timer:
         return elapsed_time
 
 
-def Benchmark(tabl: Table, size: int = 100) -> None:
-    t = Timer(tabl.id)
+def QuickTiming(tabl: Table, size: int = 100) -> None:
+    t = StopWatch(tabl.id)
     t.start()
     tabl.tab(size)
     t.stop()
+
+
+def Benchmark(T: Callable[[int, int], int], 
+              offset:int = 4, 
+              size:int = 4
+    ) -> list[float]:
+    """Benchmark for functions computing lower triangular arrays.
+
+    Args:
+        T(n, k), function defined for n >= 0 and 0 <= k <= n.
+        offset > 0, the power of two where the test starts. Defaults to 4.
+        size, the length of test run. Defaults to 4.
+
+    Returns:
+        List of factors that indicate by what the computing time multiplies 
+        when the number of rows doubles.
+
+    Example:
+        Benchmark(lambda n, k: n**k)
+    """
+    B: list[float] = []
+    for s in [2 << n for n in range(offset - 1, offset + size)]:
+        t = StopWatch(str(s))
+        t.start()
+        [[T(n, k) for k in range(n + 1)] for n in range(s)]
+        B.append(t.stop())
+    return [B[i + 1] / B[i] for i in range(size)]
 
 
 def AnumList() -> list[str]:
@@ -121,7 +154,7 @@ def PreView(T:Table, size: int = 8) -> None:
     print("TABLE      ")
     for n in range(10): print([n], T.row(n))
     print("Timing 100 rows:", end='')
-    Benchmark(T)
+    QuickTiming(T)
 
 
 if __name__ == "__main__":
@@ -129,10 +162,13 @@ if __name__ == "__main__":
 
     # print(AnumInListQ('A021009'))
 
-    def bench() -> None:
+    def QuickBench() -> None:
         for tabl in Tables: 
-            Benchmark(tabl) # type: ignore
+            QuickTiming(tabl)  # type: ignore
 
-        print(f"\n{len(Tables)} tables tested!\n")
+    def OrderBench() -> None:
+        for tabl in Tables: 
+            print(Benchmark(tabl)) # type: ignore
 
-    bench()
+    QuickBench()
+    print(f"\n{len(Tables)} tables tested!\n")
