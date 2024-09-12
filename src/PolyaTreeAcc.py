@@ -16,9 +16,7 @@ from _tabltypes import Table
 
 # The implementation goes back to:
 # https://codegolf.stackexchange.com/questions/275413/
-# and relies on work of 
-# Jonathan Allan, https://codegolf.stackexchange.com/a/275420
-# and user gsitcia.
+# and relies on work of Jonathan Allan and user gsitcia. 
 
 
 @cache

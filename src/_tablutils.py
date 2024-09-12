@@ -40,21 +40,21 @@ def SeqToString(seq: list[int],
 class StopWatch:
     def __init__(
         self,
-        comment: str
+        comment: str = "elapsed time"
     ) -> None:
         self.start_time = None
         self.text = comment
 
     def start(self) -> None:
-        """Start a new timer"""
+        """Start a new StopWatch"""
         if self.start_time is not None:
-            raise RuntimeError("Timer is running. First stop it.")
+            raise RuntimeError("Watch is running. First stop it.")
         self.start_time = time.perf_counter()
 
     def stop(self) -> float:
-        """Stop the timer, and report the elapsed time"""
+        """Stop the StopWatch, and report the elapsed time."""
         if self.start_time is None:
-            raise RuntimeError("Timer is not running.")
+            raise RuntimeError("Watch is not running.")
 
         elapsed_time = time.perf_counter() - self.start_time
         self.start_time = None
