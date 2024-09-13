@@ -77,9 +77,10 @@ A Table T provides the following methods:
     flat (size: int)     -> list[int] | flattened form of the first size rows
     diag(n, size: int)   -> list[int] | diagonal starting at the left side
     col (k, size: int)   -> list[int] | k-th column starting at the main diagonal
+    sum (size: int)      -> list[int] | sums of the first size rows 
     row (n: int)         -> trow | n-th row of table
     tab (size: int)      -> tabl | table with size rows
-    rev (size: int)      -> tabl | tabel with reversed rows
+    rev (size: int)      -> tabl | table with reversed rows
     adtab (size: int)    -> tabl | table of (upward) anti-diagonals
     acc (size: int)      -> tabl | table with rows accumulated
     mat (size: int)      -> tabl | matrix form of lower triangular array
@@ -90,6 +91,7 @@ A Table T provides the following methods:
     invrev11 (size: int) -> tabl | invrev from offset (1, 1)
     summap(s: seq, size) -> list[int] | linear transformation induced by T
     invmap(s: seq, size) -> list[int] | inverse transformation induced by T
+    show(size: int)      -> None | prints the first 'size' rows with row-numbers
 
 The type 'tabl' is a triangular array that is a list of lists of the form
 [[0] * (n + 1) for n in range(size)] representing the first 'size' rows of 

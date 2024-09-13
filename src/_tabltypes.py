@@ -319,7 +319,7 @@ class Table:
                     for k in range(n + 1)) for n in range(size)]
 
     def show(self, size: int) -> None:
-        """Prints the first 'size' rows mit row-number.
+        """Prints the first 'size' rows with row-number.
 
         Args:
             size, number of rows
@@ -355,7 +355,7 @@ if __name__ == "__main__":
 
     Babel = Table(T, "Babel", ["A059297"], True)
 
-    PreView(Babel)
+    Babel.show(9)
 
 # =================================================================
 
