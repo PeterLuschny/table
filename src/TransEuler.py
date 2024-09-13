@@ -1,9 +1,21 @@
 from functools import cache
 from typing import Callable
+from _tabltypes import Table
+
 
 @cache
 def Divisors(n: int) -> list[int]:
     return [d for d in range(n, 0, -1) if n % d == 0]
+
+
+def Euler1Transform(a: Callable[[int], int]) -> Callable[[int], int]:
+    @cache
+    def b(n: int) -> int:
+        if n == 0: return 1 
+        return sum(sum(d * a(d) for d in Divisors(j)) * b(n - j) 
+               for j in range(1, n + 1)) // n 
+    return b
+
 
 def Euler2Transform(T: Callable[[int, int], int]) -> Callable[[int, int], int]:
     @cache
@@ -24,13 +36,18 @@ def Euler2Transform(T: Callable[[int, int], int]) -> Callable[[int, int], int]:
     return U
 
 
+def Euler2Tabl(T: Table) -> Table:
+    ET = Euler2Transform(T.val)
+    M = [[ET(n, k) for k in range(n + 1)] for n in range(10)]
+    return Table(M, "EulerTrans of " + T.id)
+ 
+
 if __name__ == "__main__":
 
     from math import comb
-    from _tabltypes import Table
+    from Tables import Tables
 
     def binomial(n:int, k:int) -> int: 
-        if n < 0 or k < 0: return 0
         return comb(n, k)
 
     print("Binomial")
@@ -40,24 +57,25 @@ if __name__ == "__main__":
         print([T(n, k) for k in range(n + 1)], 
               sum([T(n, k) for k in range(n + 1)]))
 
-    from Lah import Lah                           # type: ignore
-    from One import One                           # type: ignore
-    from Fubini import Fubini                     # type: ignore
-    from StirlingSet import StirlingSet           # type: ignore
-    from StirlingCycle import StirlingCycle       # type: ignore
-    from FallingFactorial import FallingFactorial # type: ignore
-    from RisingFactorial import RisingFactorial   # type: ignore
 
-    R: list[Table] = [One, Lah, Fubini, StirlingSet, StirlingCycle,
-         FallingFactorial, RisingFactorial]
+    def CheckE2T(T: Table) -> None:
+        ET = Euler2Tabl(T)
+        print("\n" + ET.id)
+        ET.show(10)
+        print("row sums", ET.sum(10))
 
-    for r in R:
-        t = Euler2Transform(r.val)
-        print(r.id, r.sim)
-        for n in range(9): 
-            row = [t(n, k) for k in range(n + 1)]
-            print([n], row, "sum", sum(row))
+        print("Euler1dimTrans")
+        for j in range(4):
+            c = T.col(j, 10)
+            b = Euler1Transform(lambda n: c[n])
+            print([b(n) for n in range(10)])
+        
+        input("Hit Return/Enter here > ")
 
+    for t in Tables: 
+        CheckE2T(t)  # type: ignore
+
+  
 """
 Binomial
 [1] 1
@@ -89,6 +107,16 @@ Lah
 [6] [0, 961, 1858, 1201, 300, 30, 1] sum 4351
 [7] [0, 6403, 15582, 12612, 4200, 630, 42, 1] sum 39470
 [8] [0, 49302, 145084, 141318, 58801, 11760, 1176, 56, 1] sum 407498
+Belll
+[0] [1]
+[1] [1, 2]
+[2] [3, 6, 5]
+[3] [8, 17, 10, 15]
+[4] [26, 54, 42, 37, 52]
+[5] [88, 179, 137, 114, 151, 203]
+[6] [340, 657, 547, 529, 523, 674, 877]
+[7] [1411, 2598, 2190, 2212, 2066, 2589, 3263, 4140]
+[8] [6417, 11219, 9705, 9845, 10467, 11155, 13744, 17007, 21147]
 Fubini
 [0] [1] sum 1
 [1] [0, 1] sum 1

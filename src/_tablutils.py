@@ -40,7 +40,7 @@ def SeqToString(seq: list[int],
 class StopWatch:
     def __init__(
         self,
-        comment: str = "elapsed time"
+        comment: str = "Elapsed time: "
     ) -> None:
         self.start_time = None
         self.text = comment
@@ -136,6 +136,7 @@ def PreView(T:Table, size: int = 8) -> None:
     print("value      ", T.val(size-1, (size-1)//2))
     print("row        ", T.row(size-1))
     print("col        ", T.col(2, size))
+    print("sum        ", T.sum(size))
     print("diag       ", T.diag(2, size))
     print("poly       ", [T.poly(n, 1) for n in range(size)])
     print("antidiagtab", T.adtab(size))
@@ -149,12 +150,10 @@ def PreView(T:Table, size: int = 8) -> None:
     print("inv rev 11 ", T.invrev11(size-1))
     T11 = Table(T.off(1, 1), "Toffset11")
     print("1-1-based  ", T11.tab(size-1))
-    print("summap     ", T.summap(lambda n: n*n, size))  
-    print("invmap     ", T.invmap(lambda n: n*n, size))  
-    print("TABLE      ")
-    for n in range(10): print([n], T.row(n))
-    print("Timing 100 rows:", end='')
-    QuickTiming(T)
+    print("summap     ", T.summap(lambda n: n*n, size))
+    print("invmap     ", T.invmap(lambda n: n*n, size))
+    print("TABLE      "); T.show(size + 2)
+    print("Timing 100 rows:", end=''); QuickTiming(T)
 
 
 if __name__ == "__main__":

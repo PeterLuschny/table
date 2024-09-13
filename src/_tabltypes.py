@@ -156,7 +156,7 @@ class Table:
             n-th diagonal starting at the left side
         """
         return [self.gen(n + k)[k] for k in range(size)]
-    
+
     def col(self, k: int, size: int) -> list[int]:
         """
         Args:
@@ -167,6 +167,16 @@ class Table:
             k-th column starting at the main diagonal
         """
         return [self.gen(k + n)[k] for n in range(size)]
+
+    def sum(self, size: int) -> list[int]:
+        """
+        Args:
+            size, number of rows to be summed
+
+        Returns:
+            The first 'size' row sums.
+        """
+        return [sum(self.gen(n)) for n in range(size)]
 
     def acc(self, size: int) -> tabl:
         """
@@ -278,10 +288,9 @@ class Table:
         return sum(c * (x ** j) for (j, c) in enumerate(row))
 
     def summap(self, s: seq, size: int) -> list[int]:
-        """[sum(T(n, k) * s(k) for 0 <= k <= n) 
-            for 0 <= n < size]
-            For example, if T is the binomial then this is the 
-            'binomial transform'.
+        """[sum(T(n, k) * s(k) for 0 <= k <= n) for 0 <= n < size]
+           For example, if T is the binomial then this is the 
+           'binomial transform'.
 
         Args:
             s, sequence
@@ -308,7 +317,16 @@ class Table:
         """
         return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
-    
+
+    def show(self, size: int) -> None:
+        """Prints the first 'size' rows mit row-number.
+
+        Args:
+            size, number of rows
+        """
+        for n in range(size):
+            print([n], self.gen(n))
+
 
 
 if __name__ == "__main__":

@@ -170,7 +170,6 @@ class Table:
             n-th diagonal starting at the left side
         """
         return [self.gen(n + k)[k] for k in range(size)]
-    
     def col(self, k: int, size: int) -> list[int]:
         """
         Args:
@@ -180,6 +179,14 @@ class Table:
             k-th column starting at the main diagonal
         """
         return [self.gen(k + n)[k] for n in range(size)]
+    def sum(self, size: int) -> list[int]:
+        """
+        Args:
+            size, number of rows to be summed
+        Returns:
+            The first 'size' row sums.
+        """
+        return [sum(self.gen(n)) for n in range(size)]
     def acc(self, size: int) -> tabl:
         """
         Args:
@@ -271,10 +278,9 @@ class Table:
         row = self.gen(n)
         return sum(c * (x ** j) for (j, c) in enumerate(row))
     def summap(self, s: seq, size: int) -> list[int]:
-        """[sum(T(n, k) * s(k) for 0 <= k <= n) 
-            for 0 <= n < size]
-            For example, if T is the binomial then this is the 
-            'binomial transform'.
+        """[sum(T(n, k) * s(k) for 0 <= k <= n) for 0 <= n < size]
+           For example, if T is the binomial then this is the 
+           'binomial transform'.
         Args:
             s, sequence
             size 
@@ -296,7 +302,13 @@ class Table:
         """
         return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
-    
+    def show(self, size: int) -> None:
+        """Prints the first 'size' rows mit row-number.
+        Args:
+            size, number of rows
+        """
+        for n in range(size):
+            print([n], self.gen(n))
 def SeqToString(seq: list[int], 
                 maxchars: int, 
                 maxterms: int, 
@@ -329,19 +341,19 @@ def SeqToString(seq: list[int],
 class StopWatch:
     def __init__(
         self,
-        comment: str
+        comment: str = "Elapsed time: "
     ) -> None:
         self.start_time = None
         self.text = comment
     def start(self) -> None:
-        """Start a new timer"""
+        """Start a new StopWatch"""
         if self.start_time is not None:
-            raise RuntimeError("Timer is running. First stop it.")
+            raise RuntimeError("Watch is running. First stop it.")
         self.start_time = time.perf_counter()
     def stop(self) -> float:
-        """Stop the timer, and report the elapsed time"""
+        """Stop the StopWatch, and report the elapsed time."""
         if self.start_time is None:
-            raise RuntimeError("Timer is not running.")
+            raise RuntimeError("Watch is not running.")
         elapsed_time = time.perf_counter() - self.start_time
         self.start_time = None
         print(self.text.rjust(17), "{:0.4f}".format(elapsed_time), "sec")
@@ -404,6 +416,7 @@ def PreView(T:Table, size: int = 8) -> None:
     print("value      ", T.val(size-1, (size-1)//2))
     print("row        ", T.row(size-1))
     print("col        ", T.col(2, size))
+    print("sum        ", T.sum(size))
     print("diag       ", T.diag(2, size))
     print("poly       ", [T.poly(n, 1) for n in range(size)])
     print("antidiagtab", T.adtab(size))
@@ -417,12 +430,10 @@ def PreView(T:Table, size: int = 8) -> None:
     print("inv rev 11 ", T.invrev11(size-1))
     T11 = Table(T.off(1, 1), "Toffset11")
     print("1-1-based  ", T11.tab(size-1))
-    print("summap     ", T.summap(lambda n: n*n, size))  
-    print("invmap     ", T.invmap(lambda n: n*n, size))  
-    print("TABLE      ")
-    for n in range(10): print([n], T.row(n))
-    print("Timing 100 rows:", end='')
-    QuickTiming(T)
+    print("summap     ", T.summap(lambda n: n*n, size))
+    print("invmap     ", T.invmap(lambda n: n*n, size))
+    print("TABLE      "); T.show(size + 2)
+    print("Timing 100 rows:", end=''); QuickTiming(T)
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
