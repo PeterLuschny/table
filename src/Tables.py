@@ -97,21 +97,22 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         return T[n]
     return gen
 class Table:
-    """Provides basic methods for manipulating integer triangles. 
-    The triangles are constructed by a row generator,
-    that is a function of type Callable[[int], list[int], and 
-    defined for all n >= 0, or given as a parameter.
-    Whenever possible provide a generator, not a table, because
-    in this case all the generatetibility of our approach is lost
-    and it is easy to produce 'index out of range' errors.
-    """
+    """Provides basic methods for manipulating integer triangles."""
     def __init__(
         self, 
-        gen: rgen | tabl,
+        gen: rgen,
         id: str, 
         sim: list[str] = [''],
         invQ: bool | None = None
         ) -> None:
+        """
+        Provides basic methods for manipulating integer triangles. 
+        Args:
+            gen, Function gen(n:int) -> list[int], defined for all n >= 0. 
+            id, The name of the triangle.
+            sim, A list of A-numbers of closley related OEIS triangles.
+            invQ, is the triangle invertible? Defaults to None meaning 'I do not know'.
+        """
         if isinstance(gen, list):
             self.gen = PseudoGenerator(gen, len(gen))
         else:
@@ -303,7 +304,7 @@ class Table:
         return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
     def show(self, size: int) -> None:
-        """Prints the first 'size' rows mit row-number.
+        """Prints the first 'size' rows with row-number.
         Args:
             size, number of rows
         """
@@ -1755,4 +1756,4 @@ Tables: list[Table] = [
     WardCycle,
     Worpitzky,
 ]
-# for T in Tables: View(T)
+# for T in Tables: print(T.id, T.sim); T.show(6)

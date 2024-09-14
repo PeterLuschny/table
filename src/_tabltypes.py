@@ -63,24 +63,29 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         return T[n]
     return gen
 
-
+#    We do not document the case gen: tabl below, because
+#    in this case all the generatetibility of our approach is lost
+#    and it is easy to produce 'index out of range' errors.
+#    Still in some test cases it is useful in connection with the
+#    above "PseudoGenerator". For internal use only.
 class Table:
-    """Provides basic methods for manipulating integer triangles. 
-    The triangles are constructed by a row generator,
-    that is a function of type Callable[[int], list[int], and 
-    defined for all n >= 0, or given as a parameter.
-
-    Whenever possible provide a generator, not a table, because
-    in this case all the generatetibility of our approach is lost
-    and it is easy to produce 'index out of range' errors.
-    """
+    """Provides basic methods for manipulating integer triangles."""
     def __init__(
         self, 
-        gen: rgen | tabl,
+        gen: rgen,
         id: str, 
         sim: list[str] = [''],
         invQ: bool | None = None
         ) -> None:
+        """
+        Provides basic methods for manipulating integer triangles. 
+
+        Args:
+            gen, Function gen(n:int) -> list[int], defined for all n >= 0. 
+            id, The name of the triangle.
+            sim, A list of A-numbers of closley related OEIS triangles.
+            invQ, is the triangle invertible? Defaults to None meaning 'I do not know'.
+        """
 
         if isinstance(gen, list):
             self.gen = PseudoGenerator(gen, len(gen))
@@ -336,6 +341,8 @@ if __name__ == "__main__":
     from _tablutils import PreView
     from StirlingSet import StirlingSet
 
+    PreView(StirlingSet)
+
     @cache
     def abel(n: int) -> list[int]:
         if n == 0: return [1]
@@ -345,23 +352,6 @@ if __name__ == "__main__":
     Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
 
     PreView(Abel)
-
-# =================================================================
-
-    T = [ [1], [0, 1], [0, -2, 1], [0, 3, -6, 1], [0, -4, 24, -12, 1], 
-         [0, 5, -80, 90, -20, 1], [0, -6, 240, -540, 240, -30, 1], 
-         [0, 7, -672, 2835, -2240, 525, -42, 1], 
-         [0, -8, 1792, -13608, 17920, -7000, 1008, -56, 1] ]
-
-    Babel = Table(T, "Babel", ["A059297"], True)
-
-    Babel.show(9)
-
-# =================================================================
-
-    PreView(StirlingSet)
-
-# =================================================================    
 
     # Error demonstration:
     # Babel.tab(7)

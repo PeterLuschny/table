@@ -285,7 +285,7 @@ def MakeTabl() -> None:
                 if line != "\n":
                     dest.write(line)
             src_file.close()
-    dest.write("# for T in Tables: View(T)\n")
+    dest.write("# for T in Tables: print(T.id, T.sim); T.show(6)\n")
     dest.close()
 
 

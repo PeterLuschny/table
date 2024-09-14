@@ -9,67 +9,87 @@ def Divisors(n: int) -> list[int]:
 
 
 def Euler1Transform(a: Callable[[int], int]) -> Callable[[int], int]:
+
     @cache
-    def b(n: int) -> int:
+    def s(n: int) -> int:
+        return sum(d * a(d) for d in Divisors(n))
+
+    @cache
+    def p(n: int) -> int:
         if n == 0: return 1 
-        return sum(sum(d * a(d) for d in Divisors(j)) * b(n - j) 
-               for j in range(1, n + 1)) // n 
-    return b
+        return sum(s(j) * p(n - j) for j in range(1, n + 1)) // n
+    return p
+
+
+def Euler1Generator(T: Table, rows: int, size: int) -> list[list[int]]:
+    L:list[list[int]] = []
+    for j in range(rows):
+        c = T.col(j, size)
+        b = Euler1Transform(lambda n: c[n])
+        L.append([b(n) for n in range(size)])
+    return L
 
 
 def Euler2Transform(T: Callable[[int, int], int]) -> Callable[[int, int], int]:
     @cache
-    def H(n: int, k: int) -> int:
+    def s(n: int, k: int) -> int:
         return sum(d * T(d, k) for d in Divisors(n) if k <= d)
 
     @cache
-    def S(n: int, k: int) -> int:
+    def p(n: int, k: int) -> int:
         if k == 0: return int(n == 0)
         if n == 1: return int(k > 0)
-        s = sum(S(j, k) * H(n - j, k - 1) for j in range(1, n))
-        return s // (n - 1)
+        r = sum(p(j, k) * s(n - j, k - 1) for j in range(1, n))
+        return r // (n - 1)
 
-    def U(n:int, k:int)->int:
+    def u(n:int, k:int)->int:
         if n == 0: return 1
-        return S(n + 1, k + 1)
+        return p(n + 1, k + 1)
 
-    return U
+    return u
 
 
-def Euler2Tabl(T: Table) -> Table:
-    ET = Euler2Transform(T.val)
-    M = [[ET(n, k) for k in range(n + 1)] for n in range(10)]
-    return Table(M, "EulerTrans of " + T.id)
- 
+def Euler2Generator(T: Table) -> Table:
+    H = Euler2Transform(T.val)
+    def gen(n: int) -> list[int]:
+        return [H(n, k) for k in range(n + 1)]
+    return Table(gen, "Euler2Trans of " + T.id)
+
 
 if __name__ == "__main__":
 
     from math import comb
     from Tables import Tables
+    from One import One
 
     def binomial(n:int, k:int) -> int: 
         return comb(n, k)
 
-    print("Binomial")
+    print("The Euler transform of the binomial.")
     T = Euler2Transform(binomial)
-
     for n in range(9): 
-        print([T(n, k) for k in range(n + 1)], 
-              sum([T(n, k) for k in range(n + 1)]))
+        print([T(n, k) for k in range(n + 1)]) 
 
+    print("\nThe Euler transform of ONE.")
+    print("dim1")
+    o = Euler1Transform(lambda n: 1)
+    print([o(n) for n in range(12)])
+
+    print("dim2")
+    O = Euler2Generator(One)
+    O.show(9)
 
     def CheckE2T(T: Table) -> None:
-        ET = Euler2Tabl(T)
-        print("\n" + ET.id)
+        ET = Euler2Generator(T)
+        print()
+        print(ET.id)
         ET.show(10)
-        print("row sums", ET.sum(10))
+        print("Row sums", ET.sum(10))
 
-        print("Euler1dimTrans")
-        for j in range(4):
-            c = T.col(j, 10)
-            b = Euler1Transform(lambda n: c[n])
-            print([b(n) for n in range(10)])
-        
+        print("Euler1Trans")
+        L = Euler1Generator(T, 4, 8)
+        for l in L: print(l)
+
         input("Hit Return/Enter here > ")
 
     for t in Tables: 
@@ -77,26 +97,42 @@ if __name__ == "__main__":
 
   
 """
-Binomial
-[1] 1
-[1, 1] 2
-[2, 3, 1] 6
-[3, 6, 3, 1] 13
-[5, 13, 7, 4, 1] 30
-[7, 24, 13, 10, 5, 1] 60
-[11, 48, 28, 21, 15, 6, 1] 130
-[15, 86, 52, 39, 35, 21, 7, 1] 256
-[22, 160, 107, 76, 71, 56, 28, 8, 1] 529
-One
-[0] [1] sum 1
-[1] [1, 1] sum 2
-[2] [2, 2, 1] sum 5
-[3] [3, 3, 1, 1] sum 8
-[4] [5, 5, 2, 1, 1] sum 14
-[5] [7, 7, 2, 1, 1, 1] sum 19
-[6] [11, 11, 4, 2, 1, 1, 1] sum 31
-[7] [15, 15, 4, 2, 1, 1, 1, 1] sum 40
-[8] [22, 22, 7, 3, 2, 1, 1, 1, 1] sum 60
+Euler2Trans of One
+[0] [1]
+[1] [1, 1]
+[2] [2, 2, 1]
+[3] [3, 3, 1, 1]
+[4] [5, 5, 2, 1, 1]
+[5] [7, 7, 2, 1, 1, 1]
+[6] [11, 11, 4, 2, 1, 1, 1]
+[7] [15, 15, 4, 2, 1, 1, 1, 1]
+[8] [22, 22, 7, 3, 2, 1, 1, 1, 1]
+[9] [30, 30, 8, 4, 2, 1, 1, 1, 1, 1]
+Row sums [1, 2, 5, 8, 14, 19, 31, 40, 60, 79]
+Euler1Trans
+[1, 1, 2, 3, 5, 7, 11, 15]
+[1, 1, 2, 3, 5, 7, 11, 15]
+[1, 1, 2, 3, 5, 7, 11, 15]
+[1, 1, 2, 3, 5, 7, 11, 15]
+
+Euler2Trans of Binomial
+[0] [1]
+[1] [1, 1]
+[2] [2, 3, 1]
+[3] [3, 6, 3, 1]
+[4] [5, 13, 7, 4, 1]
+[5] [7, 24, 13, 10, 5, 1]
+[6] [11, 48, 28, 21, 15, 6, 1]
+[7] [15, 86, 52, 39, 35, 21, 7, 1]
+[8] [22, 160, 107, 76, 71, 56, 28, 8, 1]
+[9] [30, 282, 203, 145, 131, 126, 84, 36, 9, 1]
+Row sums [1, 2, 6, 13, 30, 60, 130, 256, 529, 1047]
+Euler1Trans
+[1, 1, 2, 3, 5, 7, 11, 15]
+[1, 2, 6, 14, 33, 70, 149, 298]
+[1, 3, 12, 38, 117, 330, 906, 2367]
+[1, 4, 20, 80, 305, 1072, 3622, 11676]
+
 Lah
 [0] [1] sum 1
 [1] [0, 1] sum 1

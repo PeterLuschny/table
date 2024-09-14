@@ -15,7 +15,7 @@ Query in your shell:
 
     python -m site --user-site
 
-Create the path given in the returned answer: 
+If the returned directory does not exist create it with: 
 
     mkdir -p "the answer from the query"
 
@@ -61,13 +61,13 @@ This shows the list of the sequences implemented. A brief overview of their rela
 
 There is only one constructor: Table(...). The parameters are:
 
-    row:  rgen                # The row generator.
-    id:   str                 # The name of the sequence.
+    row:  gen                 # The row generator, gen(n:int) -> list[int].
+    id:   str                 # The name of the triangle.
     sim:  list[str] = ['']    # References to similar OEIS-sequences.
     invQ: bool | None = None  # Is the triangle invertible? 
                               # Default 'None' means 'I do not know'.
 
-The row generator is a function of type: g(n: int) -> list[int] defined for all nonnegative n (see example 3). 
+The row generator is a function of type: g(n: int) -> list[int] defined for all nonnegative n. 
 This function should be decorated with '@cache' and return a list of integers of length n + 1.
 
 A Table T provides the following methods:
@@ -108,7 +108,7 @@ Observe the design constraints:
 
   2) All tables are (0,0)-based. If the table in the OEIS is (1,1)-based, adapt it. Often the best way to do this is to prepend a column (1, 0, 0, ...) to the left of the table.
 
-  3) Keep the design philosophy you see in the code: all implementations are based on the rows of a triangle, not on individual terms T(n, k).
+  3) Keep the design philosophy you see in the code: base the implementations are based on the rows of a triangle, not on individual terms T(n, k), whenever possible.
 
   4) We do not aim for one-liners. Readability is important.
 
