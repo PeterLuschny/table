@@ -59,7 +59,11 @@ def convtriangle(seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
         for k in range(m - 1, 0, -1):
             C[m][k] = sum(A[i] * C[m - i - 1][k - 1] for i in range(m - k + 1))
     return C
-def ConvTriangle(T: Callable[[int, int], int], seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
+def ConvTriangle(
+        T: Callable[[int, int], int], 
+        seq: Callable[[int], int], 
+        dim: int = 10
+    ) -> list[list[int]]:
     A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
     # print("In:", A)
     C = [[0 for _ in range(m + 1)] for m in range(dim)]
@@ -67,7 +71,8 @@ def ConvTriangle(T: Callable[[int, int], int], seq: Callable[[int], int], dim: i
     for m in range(1, dim):
         C[m][m] = T(m - 1, m - 1) * A[0]
         for k in range(m - 1, 0, -1):
-            C[m][k] = sum(A[i] * T(m - i - 1, k - 1) for i in range(m - k + 1))
+            C[m][k] = sum(A[i] * T(m - i - 1, k - 1) 
+                          for i in range(m - k + 1))
     return C
 """Type: table row"""
 trow: TypeAlias = list[int]
@@ -283,13 +288,22 @@ class Table:
            For example, if T is the binomial then this is the 
            'binomial transform'.
         Args:
-            s, sequence
+            s, sequence. Recommended to be cached function.
             size 
         Returns:
             Initial segment of length size of s transformed.
         """
         return [sum(self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
+        # Alternative implementations:
+        # from math import sumprod
+        # import operator
+        # import itertools
+        # return [sum(itertools.starmap(operator.mul, zip(self.gen(n), 
+        #         map(s, range(n+1)), strict=True))) 
+        #         for n in range(size)]
+        # return [int(sumprod(self.gen(n), map(s, range(n+1)))) 
+        #         for n in range(size)]
     def invmap(self, s: seq, size: int) -> list[int]:
         """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n) 
             for 0 <= n < size]
@@ -435,6 +449,14 @@ def PreView(T:Table, size: int = 8) -> None:
     print("invmap     ", T.invmap(lambda n: n*n, size))
     print("TABLE      "); T.show(size + 2)
     print("Timing 100 rows:", end=''); QuickTiming(T)
+def QuickView(prompt: bool = False) -> None:
+    for T in Tables: 
+        print(T.id, T.sim)
+        T.show(6)
+        if prompt:
+            input("Hit Return/Enter > ")
+    # print("Provides efficient implementations for:")
+    # print(AnumList())
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
@@ -1340,32 +1362,22 @@ Pascal = Table(
 def divisors(n: int) -> list[int]:
     return [d for d in range(n, 0, -1) if n % d == 0]
 @cache
-def _polyatree_vh(vertices: int, height: int) -> int:
-    return sum(d * _polyatree_vl(d, height) for d in divisors(vertices))
+def h(n: int, k: int) -> int:
+    return sum(d * T(d, k) for d in divisors(n))
 @cache
-def _polyatree_vl(vertices: int, max_level: int) -> int:
-    """
-    Args:
-        nodes, the number of vertices.
-        Max level of a vertex. The level of a vertex is 
-        the number of vertices in the path from the root 
-        to the vertex, the level of the root is 1.
-    Returns:
-        number of rooted trees with n vertices where the
-        level of a vertex is bounded by max_level.
-    """
-    if vertices == 1:
-        return int(max_level > 0)
-    if max_level == 0:
-        return 0
-    height = max_level - 1
-    return sum(
-        _polyatree_vl(i, max_level) * _polyatree_vh(vertices - i, height)
-        for i in range(1, vertices)
-    ) // (vertices - 1)
+def H(n: int, k: int) -> int:
+    return sum(d * T(d, k) for d in divisors(n) if k <= d)
+@cache
+def e(n: int, k: int) -> int:
+    return sum(d * T(d, k) for d in divisors(n) if k == d)
+@cache
+def T(n: int, k: int) -> int:
+    if n == 1: return int(k > 0)
+    return sum(T(i, k) * h(n - i, k - 1) for i in range(1, n)
+           ) // (n - 1)
 @cache
 def polyatreeacc(n: int) -> list[int]:
-    return [_polyatree_vl(n, k) for k in range(n + 1)]
+    return [T(n + 1, k + 1) for k in range(n + 1)]
 PolyaTreeAcc = Table(polyatreeacc, "PolyaTreeAcc", ["A375467"])
 @cache
 def polygonal(n: int) -> list[int]:
@@ -1756,4 +1768,4 @@ Tables: list[Table] = [
     WardCycle,
     Worpitzky,
 ]
-# for T in Tables: print(T.id, T.sim); T.show(6)
+# QuickView()

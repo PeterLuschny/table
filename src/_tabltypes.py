@@ -298,14 +298,23 @@ class Table:
            'binomial transform'.
 
         Args:
-            s, sequence
-            size 
+            s, sequence. Recommended to be cached function.
+            size, length of the returned list 
 
         Returns:
             Initial segment of length size of s transformed.
         """
         return [sum(self.gen(n)[k] * s(k) 
                     for k in range(n + 1)) for n in range(size)]
+# Alternative implementations:
+# from math import sumprod
+# import operator
+# import itertools
+# return [sum(itertools.starmap(operator.mul, zip(self.gen(n), 
+#         map(s, range(n+1)), strict=True))) 
+#         for n in range(size)]
+# return [int(sumprod(self.gen(n), map(s, range(n+1)))) 
+#         for n in range(size)]
 
     def invmap(self, s: seq, size: int) -> list[int]:
         """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n) 
@@ -331,7 +340,6 @@ class Table:
         """
         for n in range(size):
             print([n], self.gen(n))
-
 
 
 if __name__ == "__main__":

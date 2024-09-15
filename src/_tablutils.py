@@ -156,6 +156,16 @@ def PreView(T:Table, size: int = 8) -> None:
     print("Timing 100 rows:", end=''); QuickTiming(T)
 
 
+def QuickView(prompt: bool = False) -> None:
+    for T in Tables: 
+        print(T.id, T.sim)
+        T.show(6)
+        if prompt:
+            input("Hit Return/Enter > ")
+    # print("Provides efficient implementations for:")
+    # print(AnumList())
+
+
 if __name__ == "__main__":
     from Tables import Tables
 

@@ -7,6 +7,14 @@ from _tabltypes import Table
 def Divisors(n: int) -> list[int]:
     return [d for d in range(n, 0, -1) if n % d == 0]
 
+@cache
+def H(n: int, k: int) -> int:
+    return sum(d * T(d, k) for d in Divisors(n) if k <= d)
+
+@cache
+def e(n: int, k: int) -> int:
+    return sum(d * T(d, k) for d in Divisors(n) if k == d)
+
 
 def Euler1Transform(a: Callable[[int], int]) -> Callable[[int], int]:
 

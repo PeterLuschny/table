@@ -67,7 +67,11 @@ def convtriangle(seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
             C[m][k] = sum(A[i] * C[m - i - 1][k - 1] for i in range(m - k + 1))
     return C
 
-def ConvTriangle(T: Callable[[int, int], int], seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
+def ConvTriangle(
+        T: Callable[[int, int], int], 
+        seq: Callable[[int], int], 
+        dim: int = 10
+    ) -> list[list[int]]:
     A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
     # print("In:", A)
     C = [[0 for _ in range(m + 1)] for m in range(dim)]
@@ -75,7 +79,8 @@ def ConvTriangle(T: Callable[[int, int], int], seq: Callable[[int], int], dim: i
     for m in range(1, dim):
         C[m][m] = T(m - 1, m - 1) * A[0]
         for k in range(m - 1, 0, -1):
-            C[m][k] = sum(A[i] * T(m - i - 1, k - 1) for i in range(m - k + 1))
+            C[m][k] = sum(A[i] * T(m - i - 1, k - 1) 
+                          for i in range(m - k + 1))
     return C
 
 
