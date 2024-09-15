@@ -1,7 +1,7 @@
 from functools import cache
 from _tabltypes import Table
 
-"""Polya Trees
+"""Polya Trees accumulated
 [0] [1]
 [1] [0, 1]
 [2] [0, 1,  2]
@@ -45,7 +45,8 @@ def T(n: int, k: int) -> int:
 # T(n, k) will add a (0,0,0...) column on the left.
 # Interpretations exist for both cases, it is mainly 
 # a matter of terminology. The form T(n + 1, k + 1) is
-# to be prefered as it covers A113704 in the case k = d.
+# to be prefered as it covers A113704 in the case k = d,
+# which is our Divisibility triangle.
 @cache
 def polyatreeacc(n: int) -> list[int]:
     return [T(n + 1, k + 1) for k in range(n + 1)]
@@ -58,3 +59,9 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(PolyaTreeAcc)
+
+    for n in range(9):
+        print([h(n, k) for k in range(n + 1)])
+
+    for n in range(9):
+        print([H(n, k) for k in range(n + 1)])
