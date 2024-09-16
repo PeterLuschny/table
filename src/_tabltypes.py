@@ -1,5 +1,6 @@
 from typing import Callable, TypeAlias
 from itertools import accumulate
+from more_itertools import difference
 from _tablinverse import InvertMatrix
 
 # #@
@@ -62,9 +63,8 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         return T[n]
     return gen
 
-#    We do not document the case gen: tabl below, because
-#    in this case all the generatetibility of our approach is lost
-#    and it is easy to produce 'index out of range' errors.
+#    We do not document the case gen: tabl below, because in this
+#    case it is easy to produce 'index out of range' errors.
 #    Still in some test cases it is useful in connection with the
 #    above "PseudoGenerator". For internal use only.
 class Table:
@@ -198,6 +198,17 @@ class Table:
             table with rows accumulated
         """
         return [list(accumulate(self.gen(n))) 
+                for n in range(size)]
+
+    def diff(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+
+        Returns:
+            table with first differences of rows
+        """
+        return [list(difference(self.gen(n))) 
                 for n in range(size)]
 
     def mat(self, size: int) -> tabl:

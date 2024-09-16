@@ -30,13 +30,13 @@ def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
                 a = inv[k][j]
                 b = L[k][k]
                 if b == 0:
-                    # print("Warning: Inverse does not exist!")
-                    # raise ValueError("Inverse does not exist!")
+# print("Warning: Inverse does not exist!")
+# raise ValueError("Inverse does not exist!")
                     return []
                 a, r = divmod(a, b)  # make sure that a is integer
                 if r != 0:
-                    # print("Warning: Integer terms do not exist!")
-                    # raise ValueError("Integer inverse does not exist!")
+# print("Warning: Integer terms do not exist!")
+# raise ValueError("Integer inverse does not exist!")
                     return []
     return [row[0:n + 1] for n, row in enumerate(inv)]
 

@@ -95,7 +95,9 @@ The statistics were created on 2024-06-16 18:27:42.747889.
 
 # Efficiency
 
-To give an idea of ​​the performance of the library, we provide the following table. It shows the time required to calculate the first 100 rows of each triangle (which corresponds to the calculation of 5050 terms).
+To give an idea of ​​the performance of the library, we provide the following table. 
+It shows the time required to calculate the first 100 rows of each triangle 
+(which corresponds to the calculation of 5050 terms).
 
                      Abel 0.0052 sec
                     Andre 0.0320 sec

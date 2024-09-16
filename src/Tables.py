@@ -29,13 +29,9 @@ def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
                 a = inv[k][j]
                 b = L[k][k]
                 if b == 0:
-                    # print("Warning: Inverse does not exist!")
-                    # raise ValueError("Inverse does not exist!")
                     return []
                 a, r = divmod(a, b)  # make sure that a is integer
                 if r != 0:
-                    # print("Warning: Integer terms do not exist!")
-                    # raise ValueError("Integer inverse does not exist!")
                     return []
     return [row[0:n + 1] for n, row in enumerate(inv)]
 def InvertTriangle(r: Callable[[int], list[int]], dim: int) -> list[list[int]]:
@@ -207,6 +203,15 @@ class Table:
             table with rows accumulated
         """
         return [list(accumulate(self.gen(n))) 
+                for n in range(size)]
+    def diff(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+        Returns:
+            table with first differences of rows
+        """
+        return [list(difference(self.gen(n))) 
                 for n in range(size)]
     def mat(self, size: int) -> tabl:
         """
@@ -426,11 +431,11 @@ def AnumInListQ(anum: str) -> bool:
         If 'True' a similar sequence is probably implemented.
     """
     return anum in AnumList()
-def PreView(T:Table, size: int = 8) -> None:
+def PreView(T:Table, size: int = 7) -> None:
     """
     Args:
         T, table to inspect
-        size, number of rows, defaults to 8.
+        size, number of rows, defaults to 7.
     Returns:
     None. Prints the result for some example parameters.
     """
@@ -438,17 +443,18 @@ def PreView(T:Table, size: int = 8) -> None:
     print("NAME       ", T.id)
     print("similars   ", T.sim)
     print("invertible ", T.invQ)
-    print("table      ", T.tab(size))
     print("value      ", T.val(size-1, (size-1)//2))
     print("row        ", T.row(size-1))
     print("col        ", T.col(2, size))
     print("sum        ", T.sum(size))
     print("diag       ", T.diag(2, size))
     print("poly       ", [T.poly(n, 1) for n in range(size)])
-    print("antidiagtab", T.adtab(size))
+    print("table      ", T.tab(size))
     print("accumulated", T.acc(size))
-    print("inverted   ", T.inv(size))
+    print("firstdiff  ", T.diff(size))
     print("reverted   ", T.rev(size))
+    print("inverted   ", T.inv(size))
+    print("antidiagtab", T.adtab(size))
     print("rev of inv ", T.revinv(size))
     print("inv of rev ", T.invrev(size))
     print("matrix     ", T.mat(size))
@@ -466,8 +472,6 @@ def QuickView(prompt: bool = False) -> None:
         T.show(6)
         if prompt:
             input("Hit Return/Enter > ")
-    # print("Provides efficient implementations for:")
-    # print(AnumList())
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
@@ -548,20 +552,12 @@ def binomial(n: int) -> list[int]:
     for k in range(1, n):
         row[k] += row[k + 1]
     return row
-Binomial = Table(
-    binomial,
-    "Binomial",
+Binomial = Table(binomial, "Binomial",
     [
-        "A007318",
-        "A074909",
-        "A108086",
-        "A117440",
-        "A118433",
-        "A130595",
-        "A135278",
-        "A154926",
+        "A007318", "A074909", "A108086", "A117440",
+        "A118433", "A130595", "A135278", "A154926",
     ],
-    True,
+    True 
 )
 @cache
 def binomialbell(n: int) -> list[int]:
@@ -1358,14 +1354,8 @@ Pascal = Table(
     pascal,
     "Pascal",
     [
-        "A007318",
-        "A074909",
-        "A108086",
-        "A117440",
-        "A118433",
-        "A130595",
-        "A135278",
-        "A154926",
+        "A007318", "A074909", "A108086", "A117440",
+        "A118433", "A130595", "A135278", "A154926",
     ],
     True,
 )
@@ -1565,14 +1555,8 @@ StirlingSet = Table(
     stirlingset,
     "StirlingSet",
     [
-        "A048993",
-        "A008277",
-        "A008278",
-        "A080417",
-        "A106800",
-        "A151511",
-        "A151512",
-        "A154959",
+        "A048993", "A008277", "A008278", "A080417",
+        "A106800", "A151511", "A151512", "A154959",
         "A213735",
     ],
     True,

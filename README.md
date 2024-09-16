@@ -2,16 +2,16 @@
 
 # The objectives of this library
 
-* The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. 
+* The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. If you are new to this subject look into the [ranking](https://github.com/PeterLuschny/table/blob/main/src/Ranking.txt) of the triangles to see where to begin your studies.
 
 * In addition, it provides a dozen methods for manipulating the triangles.
+
+* Further, the library serves as the basis for a project in which the triangles are analyzed in more detail and connections to other sequences are investigated.  You can take a look here: [TriangleAnalyser](https://luschny.de/math/oeis/Abel.html).
 
 
 # Installation
 
-Following the advice of https://stackoverflow.com/a/16196400
-
-Query in your shell: 
+Following an advice from [stackoverflow](https://stackoverflow.com/a/16196400) query the Python user directory in your shell: 
 
     python -m site --user-site
 
@@ -30,6 +30,8 @@ Put the file Tables.py (only this file!) there.
 Next test the installation.
 
  ### Example 1
+    from Tables import QuickView
+
     QuickView()
 
 This shows the list of the sequences implemented. A brief overview of their relative relevance can be found in the file _statistics.txt.
@@ -37,13 +39,14 @@ This shows the list of the sequences implemented. A brief overview of their rela
 Use a Table from the library:
 
  ### Example 2
-    from Tables import Tables, Table, PreView, StirlingSet
+    from Tables import PreView, StirlingSet
 
     PreView(StirlingSet)
 
 Define your own Table:
 
  ### Example 3
+    from Tables import Table, PreView
     from functools import cache
     from math import comb as binomial
 
@@ -84,6 +87,7 @@ A Table T provides the following methods:
     rev (size: int)      -> tabl | table with reversed rows
     adtab (size: int)    -> tabl | table of (upward) anti-diagonals
     acc (size: int)      -> tabl | table with rows accumulated
+    diff (size: int)     -> tabl | table with first difference of rows 
     mat (size: int)      -> tabl | matrix form of lower triangular array
     inv (size: int)      -> tabl | inverse table
     revinv (size: int)   -> tabl | row reversed inverse
@@ -101,14 +105,14 @@ the triangle.
 
 # For developers
 
-You are invited to share your code and add it to the library. Only sequences already in the OEIS will be considered. Send a pull request!
+You are invited to share your code and add it to the library. Only sequences already in the OEIS will be considered. Please send a pull request!
 
 Observe the design constraints:
 
-  1) No use of extern modules (like SymPy or NumPy); only use standard modules or package more-itertools.
+  1) No use of extern modules like SymPy or NumPy; only use standard modules, but the use of the package [more-itertools](https://pypi.org/project/more-itertools/) is OK.
 
   2) All tables are (0,0)-based. If the table in the OEIS is (1,1)-based, adapt it. Often the best way to do this is to prepend a column (1, 0, 0, ...) to the left of the table.
 
-  3) Keep the design philosophy you see in the code: base the implementations are based on the rows of a triangle, not on individual terms T(n, k), whenever possible.
+  3) Keep the design philosophy you see in the code: base the implementations on the rows of a triangle, not on the individual T(n, k), whenever possible. In other words, we regard a triangle as a 1-dim sequence of lists, not as a 2-dim matrix of terms.
 
   4) We do not aim for one-liners. Readability is important.

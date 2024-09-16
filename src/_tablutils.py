@@ -118,11 +118,11 @@ def AnumInListQ(anum: str) -> bool:
     return anum in AnumList()
 
 
-def PreView(T:Table, size: int = 8) -> None:
+def PreView(T:Table, size: int = 7) -> None:
     """
     Args:
         T, table to inspect
-        size, number of rows, defaults to 8.
+        size, number of rows, defaults to 7.
 
     Returns:
     None. Prints the result for some example parameters.
@@ -132,17 +132,18 @@ def PreView(T:Table, size: int = 8) -> None:
     print("NAME       ", T.id)
     print("similars   ", T.sim)
     print("invertible ", T.invQ)
-    print("table      ", T.tab(size))
     print("value      ", T.val(size-1, (size-1)//2))
     print("row        ", T.row(size-1))
     print("col        ", T.col(2, size))
     print("sum        ", T.sum(size))
     print("diag       ", T.diag(2, size))
     print("poly       ", [T.poly(n, 1) for n in range(size)])
-    print("antidiagtab", T.adtab(size))
+    print("table      ", T.tab(size))
     print("accumulated", T.acc(size))
-    print("inverted   ", T.inv(size))
+    print("firstdiff  ", T.diff(size))
     print("reverted   ", T.rev(size))
+    print("inverted   ", T.inv(size))
+    print("antidiagtab", T.adtab(size))
     print("rev of inv ", T.revinv(size))
     print("inv of rev ", T.invrev(size))
     print("matrix     ", T.mat(size))
@@ -162,8 +163,8 @@ def QuickView(prompt: bool = False) -> None:
         T.show(6)
         if prompt:
             input("Hit Return/Enter > ")
-    # print("Provides efficient implementations for:")
-    # print(AnumList())
+# print("Provides efficient implementations for:")
+# print(AnumList())
 
 
 if __name__ == "__main__":
