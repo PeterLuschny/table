@@ -34,7 +34,7 @@ Next test the installation.
 
     QuickView()
 
-This shows the list of the sequences implemented. A brief overview of their relative relevance can be found in the file _statistics.txt.
+This shows the list of the sequences implemented. 
 
 Use a Table from the library:
 
