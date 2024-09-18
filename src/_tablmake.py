@@ -233,6 +233,7 @@ Tables: list[Table] = [
 import_header: list[str] = [
     "from functools import cache\n",
     "from itertools import accumulate\n",
+    "from more_itertools import difference\n",
     "from math import factorial, sqrt\n",
     "from fractions import Fraction\n",
     "import time\n",
@@ -243,8 +244,8 @@ import_header: list[str] = [
 
 def MakeTabl() -> None:
     """
-    This function generates a 'tabl.py' file by combining the contents of multiple source files.
-    It reads the source files from the 'src' directory and writes the combined content to 'tabl.py'.
+    This function generates the 'Tables.py' file by combining the contents of multiple source files.
+    It reads the source files from the 'src' directory and writes the combined content to 'Tables.py'.
     The function also sets the recursion limit and the maximum number of digits for integer conversion.
 
     Parameters:
