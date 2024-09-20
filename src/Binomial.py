@@ -33,7 +33,7 @@ Binomial = Table(binomial, "Binomial",
         "A007318", "A074909", "A108086", "A117440",
         "A118433", "A130595", "A135278", "A154926",
     ],
-    True 
+    True
 )
 
 

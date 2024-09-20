@@ -13,6 +13,7 @@ from _tabltypes import Table
 [8] [0, 1, 22, 98, 191, 252, 278, 285, 286]
 """
 
+
 @cache
 def divisors(n: int) -> list[int]:
     return [d for d in range(n, 0, -1) if n % d == 0]
@@ -28,22 +29,26 @@ def h(n: int, k: int) -> int:
 def H(n: int, k: int) -> int:
     return sum(d * T(d, k) for d in divisors(n) if k <= d)
 
+
 # A113704
 @cache
 def e(n: int, k: int) -> int:
     return sum(d * T(d, k) for d in divisors(n) if k == d)
 
-# Call the function h, H, or e according to your use case. 
+
+# Call the function h, H, or e according to your use case.
 @cache
 def T(n: int, k: int) -> int:
-    if n == 1: return int(k > 0)
+    if n == 1:
+        return int(k > 0)
 
-    return sum(T(i, k) * h(n - i, k - 1) for i in range(1, n)
-           ) // (n - 1)
+    return sum(T(i, k) * h(n - i, k - 1)
+               for i in range(1, n)
+            ) // (n - 1)
 
 
 # T(n, k) will add a (0,0,0...) column on the left.
-# Interpretations exist for both cases, it is mainly 
+# Interpretations exist for both cases, it is mainly
 # a matter of terminology. The form T(n + 1, k + 1) is
 # to be prefered as it covers A113704 in the case k = d,
 # which is our Divisibility triangle.

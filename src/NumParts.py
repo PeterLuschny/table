@@ -7,21 +7,23 @@ from Partition import partition
 
 # #@
 
+
 def part_num(n: int) -> int:
     return sum(partition(n))
 
 
 if __name__ == "__main__":
-  
+
     from functools import cache
-    
+
     @cache
     def sigma(n: int) -> int:
         return sum(d for d in range(n, 0, -1) if n % d == 0)
 
     @cache
     def PartNum(n: int) -> int:
-        if n == 0: return 1 
+        if n == 0:
+            return 1
         return sum(sigma(j) * PartNum(n - j) for j in range(1, n + 1)) // n
 
     @cache

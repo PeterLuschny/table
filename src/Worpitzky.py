@@ -28,7 +28,7 @@ def worpitzky(n: int) -> list[int]:
 
 Worpitzky = Table(
     worpitzky, "Worpitzky",
-    ["A028246", "A053440", "A075263", "A130850", "A163626"], 
+    ["A028246", "A053440", "A075263", "A130850", "A163626"],
     False)
 
 

@@ -7,9 +7,11 @@ from _tabltypes import Table
 def Divisors(n: int) -> list[int]:
     return [d for d in range(n, 0, -1) if n % d == 0]
 
+
 @cache
 def H(n: int, k: int) -> int:
     return sum(d * T(d, k) for d in Divisors(n) if k <= d)
+
 
 @cache
 def e(n: int, k: int) -> int:
@@ -24,13 +26,14 @@ def Euler1Transform(a: Callable[[int], int]) -> Callable[[int], int]:
 
     @cache
     def p(n: int) -> int:
-        if n == 0: return 1 
+        if n == 0:
+            return 1
         return sum(s(j) * p(n - j) for j in range(1, n + 1)) // n
     return p
 
 
 def Euler1Generator(T: Table, rows: int, size: int) -> list[list[int]]:
-    L:list[list[int]] = []
+    L: list[list[int]] = []
     for j in range(rows):
         c = T.col(j, size)
         b = Euler1Transform(lambda n: c[n])
@@ -45,13 +48,16 @@ def Euler2Transform(T: Callable[[int, int], int]) -> Callable[[int, int], int]:
 
     @cache
     def p(n: int, k: int) -> int:
-        if k == 0: return int(n == 0)
-        if n == 1: return int(k > 0)
+        if k == 0:
+            return int(n == 0)
+        if n == 1:
+            return int(k > 0)
         r = sum(p(j, k) * s(n - j, k - 1) for j in range(1, n))
         return r // (n - 1)
 
-    def u(n:int, k:int)->int:
-        if n == 0: return 1
+    def u(n: int, k: int) -> int:
+        if n == 0:
+            return 1
         return p(n + 1, k + 1)
 
     return u
@@ -59,6 +65,7 @@ def Euler2Transform(T: Callable[[int, int], int]) -> Callable[[int, int], int]:
 
 def Euler2Generator(T: Table) -> Table:
     H = Euler2Transform(T.val)
+
     def gen(n: int) -> list[int]:
         return [H(n, k) for k in range(n + 1)]
     return Table(gen, "Euler2Trans of " + T.id)
@@ -70,13 +77,13 @@ if __name__ == "__main__":
     from Tables import Tables
     from One import One
 
-    def binomial(n:int, k:int) -> int: 
+    def binomial(n: int, k: int) -> int:
         return comb(n, k)
 
     print("The Euler transform of the binomial.")
     T = Euler2Transform(binomial)
-    for n in range(9): 
-        print([T(n, k) for k in range(n + 1)]) 
+    for n in range(9):
+        print([T(n, k) for k in range(n + 1)])
 
     print("\nThe Euler transform of ONE.")
     print("dim1")
@@ -100,10 +107,10 @@ if __name__ == "__main__":
 
         input("Hit Return/Enter here > ")
 
-    for t in Tables: 
+    for t in Tables:
         CheckE2T(t)  # type: ignore
 
-  
+
 """
 Euler2Trans of One
 [0] [1]

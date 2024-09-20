@@ -18,7 +18,7 @@ from _tablinverse import InvertMatrix
 # A subtriangle of the standard triangle T as indexed above
 # is given by a new root node [N, K].
 # For some dimension size > 0 it is defined as
-# T[N, K, size] = [[T(n, k) for k in range(K, N + n + 1)] 
+# T[N, K, size] = [[T(n, k) for k in range(K, N + n + 1)]
 #                           for n in range(N, N + size)]
 #
 # Examples for the enumerations:
@@ -54,7 +54,7 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         table generator
 
     Error:
-        If the requested size > size of given table then 
+        If the requested size > size of given table then
         an emtpy list is returned.
     """
     def gen(n: int) -> trow:
@@ -63,6 +63,7 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         return T[n]
     return gen
 
+
 #    We do not document the case gen: tabl below, because in this
 #    case it is easy to produce 'index out of range' errors.
 #    Still in some test cases it is useful in connection with the
@@ -70,20 +71,20 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
 class Table:
     """Provides basic methods for manipulating integer triangles."""
     def __init__(
-        self, 
-        gen: rgen,
-        id: str, 
-        sim: list[str] = [''],
-        invQ: bool | None = None
+            self,
+            gen: rgen,
+            id: str,
+            sim: list[str] = [''],
+            invQ: bool | None = None
         ) -> None:
         """
-        Provides basic methods for manipulating integer triangles. 
+        Provides basic methods for manipulating integer triangles.
 
         Args:
-            gen,  Function gen(n:int) -> list[int], defined for all n >= 0. 
+            gen,  Function gen(n:int) -> list[int], defined for all n >= 0.
             id,   The name of the triangle.
             sim,  A list of A-numbers of closley related OEIS triangles.
-            invQ, is the triangle invertible? 
+            invQ, is the triangle invertible?
                   Defaults to None meaning 'I do not know'.
         """
 
@@ -96,13 +97,12 @@ class Table:
         self.sim = sim
         self.invQ = invQ
 
-
-    def val(self, n:int, k:int) -> int:
+    def val(self, n: int, k: int) -> int:
         """Term of table with index (n, k).
 
         Args:
-            n, row index 
-            k, column index 
+            n, row index
+            k, column index
 
         Returns:
             term of the table
@@ -116,7 +116,7 @@ class Table:
             n, row index
 
         Returns:
-            n-th row 
+            n-th row
         """
         return self.gen(n)
 
@@ -126,9 +126,9 @@ class Table:
             size, number of rows
 
         Returns:
-            table generated 
+            table generated
         """
-        return [list(self.gen(n)) 
+        return [list(self.gen(n))
                 for n in range(size)]
 
     def rev(self, size: int) -> tabl:
@@ -139,7 +139,7 @@ class Table:
         Returns:
             tabel with reversed rows
         """
-        return [list(reversed(self.gen(n))) 
+        return [list(reversed(self.gen(n)))
                 for n in range(size)]
 
     def adtab(self, size: int) -> tabl:
@@ -150,20 +150,20 @@ class Table:
         Returns:
             table of (upward) anti-diagonals
         """
-        return [[self.gen(n - k - 1)[k] 
-                 for k in range((n + 1) // 2)] 
+        return [[self.gen(n - k - 1)[k]
+                 for k in range((n + 1) // 2)]
                  for n in range(1, size + 1)]
 
     def diag(self, n: int, size: int) -> list[int]:
         """
         Args:
-            n, start at row n 
+            n, start at row n
             size, length of diagonal
 
         Returns:
             n-th diagonal starting at the left side
         """
-        return [self.gen(n + k)[k] 
+        return [self.gen(n + k)[k]
                 for k in range(size)]
 
     def col(self, k: int, size: int) -> list[int]:
@@ -175,7 +175,7 @@ class Table:
         Returns:
             k-th column starting at the main diagonal
         """
-        return [self.gen(k + n)[k] 
+        return [self.gen(k + n)[k]
                 for n in range(size)]
 
     def sum(self, size: int) -> list[int]:
@@ -186,7 +186,7 @@ class Table:
         Returns:
             The first 'size' row sums.
         """
-        return [sum(self.gen(n)) 
+        return [sum(self.gen(n))
                 for n in range(size)]
 
     def acc(self, size: int) -> tabl:
@@ -197,7 +197,7 @@ class Table:
         Returns:
             table with rows accumulated
         """
-        return [list(accumulate(self.gen(n))) 
+        return [list(accumulate(self.gen(n)))
                 for n in range(size)]
 
     def diff(self, size: int) -> tabl:
@@ -208,7 +208,7 @@ class Table:
         Returns:
             table with first differences of rows
         """
-        return [list(difference(self.gen(n))) 
+        return [list(difference(self.gen(n)))
                 for n in range(size)]
 
     def mat(self, size: int) -> tabl:
@@ -219,9 +219,9 @@ class Table:
         Returns:
             matrix with generated table as lower triangle
         """
-        return [[self.gen(n)[k] if k <= n else 0 
-                 for k in range(size)] 
-                 for n in range(size)]
+        return [[self.gen(n)[k] if k <= n else 0
+                for k in range(size)]
+                for n in range(size)]
 
     def flat(self, size: int) -> list[int]:
         """
@@ -231,8 +231,8 @@ class Table:
         Returns:
             generated table read by rows, flattened
         """
-        return [self.gen(n)[k] 
-                for n in range(size) 
+        return [self.gen(n)[k]
+                for n in range(size)
                 for k in range(n + 1)]
 
     def inv(self, size: int) -> tabl:
@@ -243,10 +243,10 @@ class Table:
         Returns:
             inverse table
         """
-        if self.invQ == False:
+        if not self.invQ:
             return []
-        M = [[self.gen(n)[k] 
-             for k in range(n + 1)] 
+        M = [[self.gen(n)[k]
+             for k in range(n + 1)]
              for n in range(size)]
 
         V = InvertMatrix(M)
@@ -268,8 +268,8 @@ class Table:
         if V == []:
             return []
 
-        return [[V[n][n - k] 
-                 for k in range(n + 1)] 
+        return [[V[n][n - k]
+                 for k in range(n + 1)]
                  for n in range(size)]
 
     def invrev(self, size: int) -> tabl:
@@ -280,7 +280,7 @@ class Table:
         Returns:
             inverse table of reversed rows of generated table
         """
-        M = [list(reversed(self.gen(n))) 
+        M = [list(reversed(self.gen(n)))
              for n in range(size)]
 
         return InvertMatrix(M)
@@ -288,14 +288,14 @@ class Table:
     def off(self, N: int, K: int) -> rgen:
         """
         Args:
-            N, shifts row-offset by N 
+            N, shifts row-offset by N
             K, shifts column-offset by K
 
         Returns:
             row generator of shifted table
         """
         def subgen(n: int) -> trow:
-            return self.gen(n + N)[K : N + n + 1] 
+            return self.gen(n + N)[K: N + n + 1]
 
         return subgen
 
@@ -307,7 +307,7 @@ class Table:
         Returns:
             sub-table with offset (1,1), reversed rows and inverted
         """
-        M = [list(reversed(self.off(1, 1)(n))) 
+        M = [list(reversed(self.off(1, 1)(n)))
              for n in range(size)]
 
         return InvertMatrix(M)
@@ -324,49 +324,49 @@ class Table:
             sum(T(n, k) * x^j for j=0..n)
         """
         row = self.gen(n)
-        return sum(c * (x ** j) 
+        return sum(c * (x ** j)
                for (j, c) in enumerate(row))
 
     def summap(self, s: seq, size: int) -> list[int]:
         """[sum(T(n, k) * s(k) for 0 <= k <= n) for 0 <= n < size]
-           For example, if T is the binomial then this is the 
+           For example, if T is the binomial then this is the
            'binomial transform'.
 
         Args:
             s, sequence. Recommended to be cached function.
-            size, length of the returned list 
+            size, length of the returned list
 
         Returns:
             Initial segment of length size of s transformed.
         """
-        return [sum(self.gen(n)[k] * s(k) 
-                for k in range(n + 1)) 
+        return [sum(self.gen(n)[k] * s(k)
+                for k in range(n + 1))
                 for n in range(size)]
 # Alternative implementations:
 # from math import sumprod
 # import operator
 # import itertools
-# return [sum(itertools.starmap(operator.mul, zip(self.gen(n), 
-#         map(s, range(n+1)), strict=True))) 
+# return [sum(itertools.starmap(operator.mul, zip(self.gen(n),
+#         map(s, range(n+1)), strict=True)))
 #         for n in range(size)]
-# return [int(sumprod(self.gen(n), map(s, range(n+1)))) 
+# return [int(sumprod(self.gen(n), map(s, range(n+1))))
 #         for n in range(size)]
 
     def invmap(self, s: seq, size: int) -> list[int]:
-        """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n) 
+        """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n)
             for 0 <= n < size]
-            For example, if T is the binomial then this is the 
+            For example, if T is the binomial then this is the
             'inverse binomial transform'.
 
         Args:
             s, sequence. Recommended to be cached function.
-            size, length of the returned list 
+            size, length of the returned list
 
         Returns:
             Initial segment of length size of s transformed.
         """
-        return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) 
-                    for k in range(n + 1)) 
+        return [sum((-1)**(n-k) * self.gen(n)[k] * s(k)
+                    for k in range(n + 1))
                     for n in range(size)]
 
     def show(self, size: int) -> None:
@@ -390,8 +390,9 @@ if __name__ == "__main__":
 
     @cache
     def abel(n: int) -> list[int]:
-        if n == 0: return [1]
-        return [binomial(n - 1, k - 1) * n ** (n - k) if k > 0 else 0 
+        if n == 0:
+            return [1]
+        return [binomial(n - 1, k - 1) * n ** (n - k) if k > 0 else 0
                 for k in range(n + 1)]
 
     Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)

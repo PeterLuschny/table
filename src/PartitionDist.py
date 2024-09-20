@@ -18,15 +18,22 @@ from _tabltypes import Table
 
 """
 
+
 @cache
 def _partdist(n: int, k: int) -> int:
-    if k < 1 or n < k: return 0
-    if n == 1: return 1
-    return _partdist(n - k, k) + _partdist(n - k, k - 1) 
+    if k < 1 or n < k:
+        return 0
+    if n == 1:
+        return 1
+
+    return _partdist(n - k, k) + _partdist(n - k, k - 1)
+
 
 @cache
 def partdist(n: int) -> list[int]:
-    if n == 0: return [1]
+    if n == 0:
+        return [1]
+
     f = (sqrt(1 + 8*n) - 1) // 2
     return [_partdist(n, k) if k <= f else 0 for k in range(n + 1)]
 

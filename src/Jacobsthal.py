@@ -21,9 +21,9 @@ from _tabltypes import Table
 def jacobsthal(n: int) -> list[int]:
     if n == 0: return [1]
     if n == 1: return [1, 1]
-    if n == 2: return [1, 2, 1] 
+    if n == 2: return [1, 2, 1]
 
-    Jn1 = jacobsthal(n - 1) 
+    Jn1 = jacobsthal(n - 1)
     Jn2 = jacobsthal(n - 2) + [0]
     row = [1] * (n + 1)
     for k in range(1, n):
@@ -39,4 +39,3 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Jacobsthal)
- 

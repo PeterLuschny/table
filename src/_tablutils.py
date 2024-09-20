@@ -4,11 +4,13 @@ import time
 
 # #@
 
-def SeqToString(seq: list[int], 
-                maxchars: int, 
-                maxterms: int, 
-                sep: str=' ', 
-                offset: int=0
+
+def SeqToString(
+        seq: list[int],
+        maxchars: int,
+        maxterms: int,
+        sep: str = ' ',
+        offset: int = 0
     ) -> str:
     """
     Converts a sequence of integers into a string representation.
@@ -18,7 +20,8 @@ def SeqToString(seq: list[int],
         maxchars (int): The maximum length of the resulting string.
         maxterms (int): The maximum number of terms included.
         sep (string, optional): String seperator. Default is ' '.
-        offset (int, optional): The starting index of the sequence. Defaults to 0.
+        offset (int, optional): The starting index of the sequence.
+        Defaults to 0.
 
     Returns:
         str: The string representation of the sequence.
@@ -37,11 +40,13 @@ def SeqToString(seq: list[int],
         seqstr += s
     return seqstr
 
+
 class StopWatch:
     def __init__(
         self,
         comment: str = "Elapsed time: "
     ) -> None:
+
         self.start_time = None
         self.text = comment
 
@@ -71,9 +76,10 @@ def QuickTiming(tabl: Table, size: int = 100) -> None:
     t.stop()
 
 
-def Benchmark(T: Callable[[int, int], int], 
-              offset:int = 4, 
-              size:int = 4
+def Benchmark(
+        T: Callable[[int, int], int],
+        offset: int = 4,
+        size: int = 4
     ) -> list[float]:
     """Benchmark for functions computing lower triangular arrays.
 
@@ -83,7 +89,7 @@ def Benchmark(T: Callable[[int, int], int],
         size, the length of test run. Defaults to 4.
 
     Returns:
-        List of factors that indicate by what the computing time multiplies 
+        List of factors that indicate by what the computing time multiplies
         when the number of rows doubles.
 
     Example:
@@ -100,10 +106,10 @@ def Benchmark(T: Callable[[int, int], int],
 
 def AnumList() -> list[str]:
     bag = []
-    for tab in Tables: 
+    for tab in Tables:
         for anum in tab.sim:
-            bag.append(anum) # type: ignore
-    return sorted(bag)       # type: ignore
+            bag.append(anum)  # type: ignore
+    return sorted(bag)        # type: ignore
 
 
 def AnumInListQ(anum: str) -> bool:
@@ -111,14 +117,14 @@ def AnumInListQ(anum: str) -> bool:
 
     Args:
         A-number as string.
- 
+
     Returns:
         If 'True' a similar sequence is probably implemented.
     """
     return anum in AnumList()
 
 
-def PreView(T:Table, size: int = 7) -> None:
+def PreView(T: Table, size: int = 7) -> None:
     """
     Args:
         T, table to inspect
@@ -158,7 +164,7 @@ def PreView(T:Table, size: int = 7) -> None:
 
 
 def QuickView(prompt: bool = False) -> None:
-    for T in Tables: 
+    for T in Tables:
         print(T.id, T.sim)
         T.show(6)
         if prompt:
@@ -173,12 +179,12 @@ if __name__ == "__main__":
     # print(AnumInListQ('A021009'))
 
     def QuickBench() -> None:
-        for tabl in Tables: 
+        for tabl in Tables:
             QuickTiming(tabl)  # type: ignore
 
     def OrderBench() -> None:
-        for tabl in Tables: 
-            print(Benchmark(tabl)) # type: ignore
+        for tabl in Tables:
+            print(Benchmark(tabl))  # type: ignore
 
     QuickBench()
     print(f"\n{len(Tables)} tables tested!\n")

@@ -20,14 +20,15 @@ def T(n: int, k: int) -> int:
     return T(n - 1, k) + T(n - 2, k - 2)
 """
 
+
 @cache
 def fibolucasrev(n: int) -> list[int]:
-    if n == 0: return [1]
+    if n == 0:
+        return [1]
     return list(reversed(fibolucas(n)))
 
 
 FiboLucasRev = Table(fibolucasrev, "FiboLucasRev", ["A124038"], True)
-
 
 
 if __name__ == "__main__":

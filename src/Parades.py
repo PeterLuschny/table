@@ -17,11 +17,15 @@ from _tabltypes import Table
 
 @cache
 def A(n: int, k: int) -> int:
-    if n == 0: return int(k == 0)
-    if k > n: n, k = k, n
+    if n == 0:
+        return int(k == 0)
+    if k > n:
+        n, k = k, n
+
     b = binomial(k + 1)
     return k * A(n - 1, k) + sum(b[j + 1] * A(n - 1, k - j)
                              for j in range(1, k + 1))
+
 
 @cache
 def parades(n: int) -> list[int]:
@@ -29,7 +33,6 @@ def parades(n: int) -> list[int]:
 
 
 Parades = Table(parades, "Parades", ["A371761", "A272644"], False)
-
 
 
 if __name__ == "__main__":

@@ -21,4 +21,4 @@ Naturals = Table(naturals, "Naturals", ['A000027', 'A001477'], True)
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(Naturals) # type: ignore
+    PreView(Naturals)  # type: ignore

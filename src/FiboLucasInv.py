@@ -16,6 +16,7 @@ from _tabltypes import Table
 
 """
 
+
 @cache
 def fibolucasinv(n: int) -> list[int]:
     if n == 0: return [1]

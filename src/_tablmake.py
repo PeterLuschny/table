@@ -244,9 +244,11 @@ import_header: list[str] = [
 
 def MakeTabl() -> None:
     """
-    This function generates the 'Tables.py' file by combining the contents of multiple source files.
-    It reads the source files from the 'src' directory and writes the combined content to 'Tables.py'.
-    The function also sets the recursion limit and the maximum number of digits for integer conversion.
+    This function generates the 'Tables.py' file by combining the contents
+    of multiple source files. It reads the source files from the 'src'
+    directory and writes the combined content to 'Tables.py'. The function
+    also sets the recursion limit and the maximum number of digits for integer
+    conversion.
 
     Parameters:
     None

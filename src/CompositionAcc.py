@@ -18,9 +18,10 @@ from Composition import composition
 
 """
 
+
 @cache
 def compoacc(n: int) -> list[int]:
-    return list(accumulate(composition(n))) 
+    return list(accumulate(composition(n)))
 
 
 CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], False)

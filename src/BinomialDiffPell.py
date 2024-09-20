@@ -36,7 +36,6 @@ def binomialdiffpell(n: int) -> list[int]:
 BinomialDiffPell = Table(binomialdiffpell, "BinomialDiffPell", ["A367564"], True)
 
 
-
 if __name__ == "__main__":
     from _tablutils import PreView
 

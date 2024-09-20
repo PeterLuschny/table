@@ -10,7 +10,7 @@ def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
     Args:
         The lower triangular matrix to be inverted.
 
-        Check whether the inverse exists as an integer matrix, defaults to True.
+        Check whether the inverse exists as an integer matrix, default is True.
 
     Returns:
         The integer inverse of the lower triangular matrix if it exists.
@@ -47,7 +47,7 @@ def InvertTriangle(r: Callable[[int], list[int]], dim: int) -> list[list[int]]:
 
 
 def convtriangle(seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
-    """Sometimes called the partition transform of seq. 
+    """Sometimes called the partition transform of seq.
     See A357368 for more information and some examples.
 
     Args:
@@ -57,7 +57,7 @@ def convtriangle(seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
     Returns:
         The convolution triangle of seq.
     """
-    A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
+    A = [seq(i) for i in range(1, dim)]  # Cache the input sequence.
     # print("In:", A)
     C = [[0 for _ in range(m + 1)] for m in range(dim)]
     C[0][0] = 1
@@ -67,19 +67,20 @@ def convtriangle(seq: Callable[[int], int], dim: int = 10) -> list[list[int]]:
             C[m][k] = sum(A[i] * C[m - i - 1][k - 1] for i in range(m - k + 1))
     return C
 
+
 def ConvTriangle(
-        T: Callable[[int, int], int], 
-        seq: Callable[[int], int], 
+        T: Callable[[int, int], int],
+        seq: Callable[[int], int],
         dim: int = 10
     ) -> list[list[int]]:
-    A = [seq(i) for i in range(1, dim)] # Cache the input sequence.
+    A = [seq(i) for i in range(1, dim)]  # Cache the input sequence.
     # print("In:", A)
     C = [[0 for _ in range(m + 1)] for m in range(dim)]
     C[0][0] = 1
     for m in range(1, dim):
         C[m][m] = T(m - 1, m - 1) * A[0]
         for k in range(m - 1, 0, -1):
-            C[m][k] = sum(A[i] * T(m - i - 1, k - 1) 
+            C[m][k] = sum(A[i] * T(m - i - 1, k - 1)
                           for i in range(m - k + 1))
     return C
 

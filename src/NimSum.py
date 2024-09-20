@@ -19,7 +19,7 @@ from _tabltypes import Table
 
 @cache
 def nimsum(n: int) -> list[int]:
-    return [k^(n - k) for k in range(n + 1)]
+    return [k ^ (n - k) for k in range(n + 1)]
 
 
 NimSum = Table(nimsum, "NimSum", ["A003987"], False)

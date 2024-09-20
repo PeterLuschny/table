@@ -21,12 +21,13 @@ from _tabltypes import Table
 
 @cache
 def _compodist(n: int, k: int) -> int:
-    if k < 0 or n < 0: return 0
-    if k == 0: 
-        if n==0: 
+    if k < 0 or n < 0:
+        return 0
+    if k == 0:
+        if n == 0:
             return 1
         else:
-            return 0 
+            return 0
     return _compodist(n - k, k) + k * _compodist(n - k, k - 1)
 
 

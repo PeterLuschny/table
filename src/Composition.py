@@ -14,6 +14,7 @@ from _tabltypes import Table
 [9]  0,  1, 54,  94,  59, 28, 12,  5, 2, 1;
 """
 
+
 @cache
 def _composition(n: int, k: int) -> int:
     if k < 0 or k > n:

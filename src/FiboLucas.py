@@ -21,6 +21,7 @@ def T(n: int, k: int) -> int:
     return T(n - 1, k) + T(n - 2, k - 2)
 """
 
+
 @cache
 def fibolucas(n: int) -> list[int]:
     if n == 0: return [1]
@@ -44,7 +45,8 @@ if __name__ == "__main__":
     from _tablutils import PreView
     PreView(FiboLucas)
 
-    for n in range(11): print(fibolucas(n))
+    for n in range(11):
+        print(fibolucas(n))
 
     """
     * Statistic about FiboLucas:

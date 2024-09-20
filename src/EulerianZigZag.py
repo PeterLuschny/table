@@ -16,6 +16,7 @@ from _tabltypes import Table
 [8] [1, 46, 334, 623, 334, 46, 1, 0, 0]
 """
 
+
 @cache
 def eulerianzigzag(n: int) -> list[int]:
 

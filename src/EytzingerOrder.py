@@ -1,11 +1,11 @@
 from functools import cache
 from _tabltypes import Table
 
-""" 
+"""
     The Eytzinger order arranges elements of an array
     so that a binary search can be performed starting with
-    index k = 1 and at a given k step to 2*k or 2*k + 1, 
-    depending on whether the target is smaller or larger 
+    index k = 1 and at a given k step to 2*k or 2*k + 1,
+    depending on whether the target is smaller or larger
     than the element at k.
 
     Args: n, length of array
@@ -36,9 +36,11 @@ from _tabltypes import Table
     [9] [6, 3, 8, 1, 5, 7, 9, 0, 2, 4]
 """
 
+
 # $cache  #  Variant 1, not used here!
 def Xeytzingerorder(n: int) -> list[int]:
     row = [0] * (n + 1)
+
     def e_rec(k: int, i: int) -> int:
         if k <= n:
             i = e_rec(2 * k, i)

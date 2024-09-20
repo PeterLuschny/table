@@ -32,7 +32,6 @@ def levin(n: int) -> list[int]:
 Levin = Table(levin, "Levin", ["A356546"], False)
 
 
-
 if __name__ == "__main__":
     from _tablutils import PreView
 

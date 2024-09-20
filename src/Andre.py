@@ -16,11 +16,15 @@ from _tabltypes import Table
   [9]  1, 1, 7936, 1513, 496, 125, 83, 35, 8, 1;
 """
 
+
 # TODO Give a row based recurrence for this.
 @cache
 def _andre(n: int, k: int) -> int:
-    if k == 0 or n == 0: return 1 
-    return -sum(Binomial.val(k, j) * _andre(n, j) for j in range(0, k, n)) 
+    if k == 0 or n == 0:
+        return 1
+
+    return -sum(Binomial.val(k, j) * _andre(n, j) for j in range(0, k, n))
+
 
 @cache
 def andre(n: int) -> list[int]:

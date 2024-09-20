@@ -29,7 +29,6 @@ def fusscatalan(n: int) -> list[int]:
 FussCatalan = Table(fusscatalan, "FussCatalan", ["A355173", "A030237", "A054445"], False)
 
 
-
 if __name__ == "__main__":
     from _tablutils import PreView
 

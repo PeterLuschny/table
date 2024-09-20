@@ -30,7 +30,6 @@ def laguerre(n: int) -> list[int]:
 Laguerre = Table(laguerre, "Laguerre", ["A021009", "A021010", "A144084"], True)
 
 
-
 if __name__ == "__main__":
     from _tablutils import PreView
 
