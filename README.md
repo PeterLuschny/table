@@ -11,21 +11,28 @@
 
 # Installation
 
-Following an advice from [stackoverflow](https://stackoverflow.com/a/16196400) query the Python user directory in your shell: 
+* If you want to use the package only in one project just copy the file "Tables.py" (only this file!) into the root directory of your project.
 
-    python -m site --user-site
 
-If the returned directory does not exist create it with: 
+* If you want to install it globaly into your Python environment do this: Following the advice from [stackoverflow](https://stackoverflow.com/a/16196400) query the Python user directory in your shell: 
 
-    mkdir -p "the answer from the query"
+      python -m site --user-site
 
-On Windows this creates the directory:
+  If the returned directory does not yet exist create it with: 
 
-    C:\Users\UserName\AppData\Roaming\Python\Python312\site-packages
+      mkdir -p "the answer from the query"
 
-Put the file Tables.py (only this file!) there.
+  On Windows this creates the directory:
 
-# Examples
+      C:\Users\UserName\AppData\Roaming\Python\Python312\site-packages
+
+  Then move the file Tables.py (only this file!) to this directory.
+
+
+* If you want to contribute to the development fork it on GitHub.
+
+
+# Example use
 
 Next test the installation.
 
@@ -116,3 +123,11 @@ Observe the design constraints:
   3) Keep the design philosophy you see in the code: base the implementations on the rows of a triangle, not on the individual T(n, k), whenever possible. In other words, we regard a triangle as a 1-dim sequence of lists, not as a 2-dim matrix of terms.
 
   4) We do not aim for one-liners. Readability is important.
+
+Workflow:
+
+  1) Copy the Template.py file, rename the copy "Myseq.py", and replace in the file the function "template" with your sequence function "myseq" and the class "Template" by "Myseq". Note the case sensitivity and that "@cache" for "myseq" is mandatory.
+
+  2) In the file _tablmake insert the names "Myseq.py" and "Myseq" in the list of files and classes.
+
+  3) Execute the file _tablmake (producing a new Tables.py). Done.
