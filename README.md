@@ -8,17 +8,17 @@
 
 * Further, the library serves as the basis for a project in which the triangles are analyzed in more detail and connections to other sequences are investigated.  You can take a look here: [TriangleAnalyser](https://luschny.de/math/oeis/Abel.html).
 
-
 # Installation
+
+Currently there is only one dependency. Make sure your Python has the "more_itertools" package installed.
 
 * If you want to use the package only in one project just copy the file "Tables.py" (only this file!) into the root directory of your project.
 
-
-* If you want to install it globaly into your Python environment do this: Following the advice from [stackoverflow](https://stackoverflow.com/a/16196400) query the Python user directory in your shell: 
+* If you want to install it globaly into your Python environment do this: Following the advice from [stackoverflow](https://stackoverflow.com/a/16196400) query the Python user directory in your shell:
 
       python -m site --user-site
 
-  If the returned directory does not yet exist create it with: 
+  If the returned directory does not yet exist create it with:
 
       mkdir -p "the answer from the query"
 
@@ -28,6 +28,9 @@
 
   Then move the file Tables.py (only this file!) to this directory.
 
+* If you want to use it in a SageMath Jupyter notebook, then put on top of the file
+
+      load("Tables.py")
 
 * If you want to contribute to the development fork it on GitHub.
 
@@ -41,7 +44,7 @@ Next test the installation.
 
     QuickView()
 
-This shows the list of the sequences implemented. 
+This shows the list of the sequences implemented.
 
 Use a Table from the library:
 
@@ -60,7 +63,7 @@ Define your own Table:
     @cache
     def abel(n: int) -> list[int]:
         if n == 0: return [1]
-        return [binomial(n - 1, k - 1) * n ** (n - k) if k > 0 else 0 
+        return [binomial(n - 1, k - 1) * n ** (n - k) if k > 0 else 0
                 for k in range(n + 1)]
 
     Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
@@ -75,10 +78,10 @@ There is only one constructor: Table(...). The parameters are:
     row:  gen                 # The row generator, gen(n:int) -> list[int].
     id:   str                 # The name of the triangle.
     sim:  list[str] = ['']    # References to similar OEIS-sequences.
-    invQ: bool | None = None  # Is the triangle invertible? 
+    invQ: bool | None = None  # Is the triangle invertible?
                               # Default 'None' means 'I do not know'.
 
-The row generator is a function of type: g(n: int) -> list[int] defined for all nonnegative n. 
+The row generator is a function of type: g(n: int) -> list[int] defined for all nonnegative n.
 This function should be decorated with '@cache' and return a list of integers of length n + 1.
 
 A Table T provides the following methods:
@@ -88,13 +91,13 @@ A Table T provides the following methods:
     flat (size: int)     -> list[int] | flattened form of the first size rows
     diag(n, size: int)   -> list[int] | diagonal starting at the left side
     col (k, size: int)   -> list[int] | k-th column starting at the main diagonal
-    sum (size: int)      -> list[int] | sums of the first size rows 
+    sum (size: int)      -> list[int] | sums of the first size rows
     row (n: int)         -> trow | n-th row of table
     tab (size: int)      -> tabl | table with size rows
     rev (size: int)      -> tabl | table with reversed rows
     adtab (size: int)    -> tabl | table of (upward) anti-diagonals
     acc (size: int)      -> tabl | table with rows accumulated
-    diff (size: int)     -> tabl | table with first difference of rows 
+    diff (size: int)     -> tabl | table with first difference of rows
     mat (size: int)      -> tabl | matrix form of lower triangular array
     inv (size: int)      -> tabl | inverse table
     revinv (size: int)   -> tabl | row reversed inverse
@@ -106,7 +109,7 @@ A Table T provides the following methods:
     show(size: int)      -> None | prints the first 'size' rows with row-numbers
 
 The type 'tabl' is a triangular array that is a list of lists of the form
-[[0] * (n + 1) for n in range(size)] representing the first 'size' rows of 
+[[0] * (n + 1) for n in range(size)] representing the first 'size' rows of
 the triangle.
 
 
