@@ -233,12 +233,14 @@ Tables: list[Table] = [
 import_header: list[str] = [
     "from functools import cache\n",
     "from itertools import accumulate, islice\n",
-    "from more_itertools import difference, flatten\n",
+    "from more_itertools import difference\n",
     "from math import factorial, sqrt\n",
     "from fractions import Fraction\n",
     "import time\n",
+    "import requests\n", 
+    "from requests import get\n",
     "from sys import setrecursionlimit, set_int_max_str_digits\n",
-    "from typing import Callable, TypeAlias\n",
+    "from typing import Callable, TypeAlias, Iterator\n",
 ]
 
 

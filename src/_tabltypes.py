@@ -1,4 +1,4 @@
-from typing import Callable, TypeAlias
+from typing import Callable, TypeAlias, Iterator
 from itertools import accumulate, islice
 from more_itertools import difference, flatten
 from _tablinverse import InvertMatrix
@@ -97,8 +97,11 @@ class Table:
         self.sim = sim
         self.invQ = invQ
 
-    def __getitem__(self, n: int) -> int:
+    def __getitem__(self, n: int) -> list[int]:
         return self.gen(n)
+
+    def itr(self, size: int) -> Iterator[list[int]]:
+        return islice(iter(Abel), size)
 
     def val(self, n: int, k: int) -> int:
         """Term of table with index (n, k).
@@ -217,7 +220,7 @@ class Table:
     def mat(self, size: int) -> tabl:
         """
         Args:
-            size, number of rows
+            size, number of rows and columns
 
         Returns:
             matrix with generated table as lower triangle
@@ -226,6 +229,7 @@ class Table:
                 for k in range(size)]
                 for n in range(size)]
 
+#   list(flatten(islice(self, size))))
     def flat(self, size: int) -> list[int]:
         """
         Args:
@@ -248,6 +252,8 @@ class Table:
         """
         if not self.invQ:
             return []
+
+#   self.tab(size) = [list(self.gen(n)) for n in range(size)]
         M = [[self.gen(n)[k]
              for k in range(n + 1)]
              for n in range(size)]
@@ -409,14 +415,14 @@ if __name__ == "__main__":
     Abel.show(7)
 
     print()
-    print(list(islice(Abel, 7)))
+    print(Abel.tab(7))
 
     print()
-    print(list(flatten(islice(Abel, 7))))
+    print(list(flatten(Abel.itr(7))))
 
     print()
 
-    # Use it as an iterable:
-    seq = islice(Abel, 7)
-    for u in seq:
-        print(u, sum(u))
+    # Use the Table as an iterable:
+    rows = Abel.itr(7)
+    for r in rows:
+        print(r, sum(r))

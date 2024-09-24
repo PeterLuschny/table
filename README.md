@@ -60,15 +60,13 @@ Use a Table from the library:
 Different ways to display a Table:
 
     Abel.show(7)
+    print(Abel.tab(7))
+    print(list(flatten(Abel.itr(7))))
 
-    print(); print(list(islice(Abel, 7)))
-
-    print(); print(list(flatten(islice(Abel, 7))))
-
-    # Use it as an iterable:
-    seq = islice(Abel, 7)
-    for u in seq:
-        print(u, sum(u))
+    # Use the Table as an iterable:
+    rows = Abel.itr(7)
+    for r in rows:
+        print(r, sum(r))
 
 Next define your own Table:
 
@@ -124,6 +122,7 @@ A Table T provides the following methods:
     summap(s: seq, size) -> list[int] | linear transformation induced by T
     invmap(s: seq, size) -> list[int] | inverse transformation induced by T
     show(size: int)      -> None | prints the first 'size' rows with row-numbers
+    itr(size: int)       -> Iterator[list[int]] | traverse the first 'size' rows
 
 The type 'tabl' is a triangular array that is a list of lists of the form
 [[0] * (n + 1) for n in range(size)] representing the first 'size' rows of
