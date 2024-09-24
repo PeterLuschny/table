@@ -32,12 +32,14 @@ Currently there is only one dependency. Make sure your Python has the "more_iter
 
       load("Tables.py")
 
+  Again you might have to put the file Tables.py in the same directory where the notebook is.
+
 * If you want to contribute to the development fork it on GitHub.
 
 
 # Example use
 
-Next test the installation.
+First test the installation.
 
  ### Example 1
     from Tables import QuickView
@@ -53,9 +55,24 @@ Use a Table from the library:
 
     PreView(StirlingSet)
 
-Define your own Table:
+### Example 3
 
- ### Example 3
+Different ways to display a Table:
+
+    Abel.show(7)
+
+    print(); print(list(islice(Abel, 7)))
+
+    print(); print(list(flatten(islice(Abel, 7))))
+
+    # Use it as an iterable:
+    seq = islice(Abel, 7)
+    for u in seq:
+        print(u, sum(u))
+
+Next define your own Table:
+
+ ### Example 4
     from Tables import Table, PreView
     from functools import cache
     from math import comb as binomial
@@ -71,7 +88,7 @@ Define your own Table:
     PreView(Abel)
 
 
-# How to use
+# The methods
 
 There is only one constructor: Table(...). The parameters are:
 

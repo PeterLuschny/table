@@ -1,6 +1,6 @@
 from typing import Callable, TypeAlias
-from itertools import accumulate
-from more_itertools import difference
+from itertools import accumulate, islice
+from more_itertools import difference, flatten
 from _tablinverse import InvertMatrix
 
 # #@
@@ -96,6 +96,9 @@ class Table:
         self.id = id
         self.sim = sim
         self.invQ = invQ
+
+    def __getitem__(self, n: int) -> int:
+        return self.gen(n)
 
     def val(self, n: int, k: int) -> int:
         """Term of table with index (n, k).
@@ -398,3 +401,22 @@ if __name__ == "__main__":
     Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
 
     PreView(Abel)
+
+    print()
+    print("Different ways to display a Table:")
+    print()
+
+    Abel.show(7)
+
+    print()
+    print(list(islice(Abel, 7)))
+
+    print()
+    print(list(flatten(islice(Abel, 7))))
+
+    print()
+
+    # Use it as an iterable:
+    seq = islice(Abel, 7)
+    for u in seq:
+        print(u, sum(u))

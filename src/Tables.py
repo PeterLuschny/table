@@ -1,6 +1,6 @@
 from functools import cache
-from itertools import accumulate
-from more_itertools import difference
+from itertools import accumulate, islice
+from more_itertools import difference, flatten
 from math import factorial, sqrt
 from fractions import Fraction
 import time
@@ -133,6 +133,9 @@ class Table:
         self.id = id
         self.sim = sim
         self.invQ = invQ
+
+    def __getitem__(self, n: int) -> int:
+        return self.gen(n)
 
     def val(self, n: int, k: int) -> int:
         """Term of table with index (n, k).
