@@ -146,8 +146,30 @@ testdata: dict[str, int | str | list[str] ] = {"number": 367025, "data": "1,4,1,
 
 # #@
 
+# With CC BY-SA 4.0 from:
+# https://en.wikibooks.org/wiki/Algorithm_Implementation/Strings/Longest_common_substring
+def lcsubstr(s: str, t: str) -> tuple[int, int]: 
+    """
+    The longest common substring of s and t that is contiguous.
 
-def queryOEIS(
+    Returns:
+        (s, l): The matched substring starts at 's' and has lenght 'l'.
+    """
+    m = [[0] * (1 + len(t)) for _ in range(1 + len(s))]
+    longest, x_longest = 0, 0
+    for x in range(1, 1 + len(s)):
+        for y in range(1, 1 + len(t)):
+            if s[x - 1] == t[y - 1]:
+                m[x][y] = m[x - 1][y - 1] + 1
+                if m[x][y] > longest:
+                    longest = m[x][y]
+                    x_longest = x
+            else:
+                m[x][y] = 0
+    # lcs_str =  s[x_longest - longest : x_longest] 
+    return (x_longest - longest, longest)
+
+def QueryOEIS(
         seqlist: list[int], 
         maxnum: int = 3
     ) -> str:
@@ -165,11 +187,12 @@ def queryOEIS(
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
     """
-    if len(seqlist) < 28:
-        print("Sequence is too short!")
+    minlen = 20
+    if len(seqlist) < minlen:
+        print("Sequence is too short! We require at least {minlen} terms.")
         return ""
 
-    seqstr = SeqToString(seqlist, 140, 24, ",", 3)
+    seqstr = SeqToString(seqlist, 140, 24, ",", 0)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
 
     for _ in range(3):
@@ -177,8 +200,7 @@ def queryOEIS(
         try:
             jdata: None | list[dict[str, int | str | list[str] ]] = get(url, timeout=20).json()
             if jdata == None:
-                print("You looked for:")
-                print(seqstr)
+                print("You looked for:", seqstr)
                 print("Sorry, no match found!")
                 return ""
 
@@ -187,10 +209,13 @@ def queryOEIS(
                 seq = jdata[j]
                 number = seq["number"]
                 anumber = f"A{(6 - len(str(number))) * '0' + str(number)}"
-                print(anumber)
                 name = seq["name"]
-                print(name)
+                print(anumber, name)
                 data = seq["data"]
+                start, length = lcsubstr(data, seqstr)     # type: ignore
+                c = data.count(",", start, start + length) # type: ignore
+                print(f"There are {c} consecutive terms matching the search data.")
+                print(f"The matched substring starts at {start} and has length {length}.")
                 print(data)
             return anumber
 
@@ -205,22 +230,22 @@ if __name__ == "__main__":
 
     def test() -> None:
         print()
-        queryOEIS([1, 4, 1, 9, 9, 2, 16, 36])
+        QueryOEIS([1, 4, 1, 9, 9, 2, 16, 36])
         print()
-        queryOEIS([1,4,1,9,9,2,16,36,32,5,25,100,200,125,14,36,225,800,1125,504,
-                   42,49,441,2450,6125,6174,2058,132,64,784,6272,24500])
+        QueryOEIS([36,32,5,25,100,200,125,14,36,225,800,1125,504,
+                   42,49,441,2450,6125,6174,2058,132,64,784,6272])
         print()
-        queryOEIS([9991,2,48323,4,0,9991,2,48323,4,0,9991,2,48323,4,0,9991,2, 
-                   48323,4,0,9991,2,48323,4,0,9991,2,48323,4,0,9991,2,48323,4,0])
+        QueryOEIS([9991,2,48323,4,0,9991,2,48323,4,0,9991,2,48323,4,0,9991,2, 
+                   48323,4,0,9991,2,48323,4,0,9991,2,48323,4,0,9991,2,48323])
         print()
-        queryOEIS([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20,21,22,23, 
-                   24,25,26,27,28,29,30,31,32,33,34,35,36,37,38,39,40,41,42,43])
+        QueryOEIS([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,19,20,21,22,23]) 
+
 
     def testQuery() -> None:
-        for tabl in Tables[:6]:
+        for tabl in Tables[:5]:
             print("\nRow sums of:", tabl.id, tabl.sim)
             sumlist = tabl.sum(30)
-            queryOEIS(sumlist)
+            QueryOEIS(sumlist)
 
     test()
-    #testQuery()
+    testQuery()

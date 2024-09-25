@@ -513,7 +513,28 @@ def QuickView(prompt: bool = False) -> None:
             input("Hit Return/Enter > ")
 
 
-def queryOEIS(seqlist: list[int], maxnum: int = 3) -> str:
+def lcsubstr(s: str, t: str) -> tuple[int, int]:
+    """
+    The longest common substring of s and t that is contiguous.
+    Returns:
+        (s, l): The matched substring starts at 's' and has lenght 'l'.
+    """
+    m = [[0] * (1 + len(t)) for _ in range(1 + len(s))]
+    longest, x_longest = 0, 0
+    for x in range(1, 1 + len(s)):
+        for y in range(1, 1 + len(t)):
+            if s[x - 1] == t[y - 1]:
+                m[x][y] = m[x - 1][y - 1] + 1
+                if m[x][y] > longest:
+                    longest = m[x][y]
+                    x_longest = x
+            else:
+                m[x][y] = 0
+    # lcs_str =  s[x_longest - longest : x_longest]
+    return (x_longest - longest, longest)
+
+
+def QueryOEIS(seqlist: list[int], maxnum: int = 3) -> str:
     """
     Query if a given sequence is present in the OEIS.
     The search uses seqlist[3:] with max string length 160.
@@ -525,10 +546,11 @@ def queryOEIS(seqlist: list[int], maxnum: int = 3) -> str:
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
     """
-    if len(seqlist) < 28:
-        print("Sequence is too short!")
+    minlen = 20
+    if len(seqlist) < minlen:
+        print("Sequence is too short! We require at least {minlen} terms.")
         return ""
-    seqstr = SeqToString(seqlist, 140, 24, ",", 3)
+    seqstr = SeqToString(seqlist, 140, 24, ",", 0)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
     for _ in range(3):
         time.sleep(0.5)  # give the OEIS server some time to relax
@@ -537,8 +559,7 @@ def queryOEIS(seqlist: list[int], maxnum: int = 3) -> str:
                 url, timeout=20
             ).json()
             if jdata == None:
-                print("You looked for:")
-                print(seqstr)
+                print("You looked for:", seqstr)
                 print("Sorry, no match found!")
                 return ""
             anumber = ""
@@ -546,10 +567,15 @@ def queryOEIS(seqlist: list[int], maxnum: int = 3) -> str:
                 seq = jdata[j]
                 number = seq["number"]
                 anumber = f"A{(6 - len(str(number))) * '0' + str(number)}"
-                print(anumber)
                 name = seq["name"]
-                print(name)
+                print(anumber, name)
                 data = seq["data"]
+                start, length = lcsubstr(data, seqstr)  # type: ignore
+                c = data.count(",", start, start + length)  # type: ignore
+                print(f"There are {c} consecutive terms matching the search data.")
+                print(
+                    f"The matched substring starts at {start} and has length {length}."
+                )
                 print(data)
             return anumber
         except requests.exceptions.RequestException as e:
