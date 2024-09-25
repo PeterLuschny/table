@@ -397,48 +397,6 @@ def SeqToString(
     return seqstr
 
 
-def queryOEIS(seqlist: list[int], maxnum: int = 3) -> str:
-    """
-    Query if a given sequence is present in the OEIS.
-    The search uses seq[3:] with max string length 160.
-    Args:
-        seqlist: The sequence to search. Must have at least 28 terms.
-        maxnum: max number of sequences to be returned. Defaults to 3.
-    Returns:
-        str: The A-number of the sequence if found in OEIS, otherwise an empty string.
-    Raises:
-        Exception: If the OEIS server cannot be reached after multiple attempts.
-    """
-    if len(seqlist) < 28:
-        print("Sequence is too short!")
-        return ""
-    seqstr = SeqToString(seqlist, 140, 24, ",", 3)
-    url = f"https://oeis.org/search?q={seqstr}&fmt=json"
-    for _ in range(3):
-        time.sleep(0.5)  # give the OEIS server some time to relax
-        try:
-            jdata: None | list[dict[str, int | str | list[str]]] = get(
-                url, timeout=20
-            ).json()
-            if jdata == None:
-                print("Sorry, but no match!")
-                return ""
-            anumber = ""
-            for j in range(min(maxnum, len(jdata))):
-                seq = jdata[j]
-                number = seq["number"]
-                anumber = f"A{(6 - len(str(number))) * '0' + str(number)}"
-                print(anumber)
-                name = seq["name"]
-                print(name)
-                data = seq["data"]
-                print(data)
-            return anumber
-        except requests.exceptions.RequestException as e:
-            print(f"Error: {e}")
-    raise Exception(f"Could not open {url}.")
-
-
 class StopWatch:
     def __init__(self, comment: str = "Elapsed time: ") -> None:
         self.start_time = None
@@ -553,6 +511,50 @@ def QuickView(prompt: bool = False) -> None:
         T.show(6)
         if prompt:
             input("Hit Return/Enter > ")
+
+
+def queryOEIS(seqlist: list[int], maxnum: int = 3) -> str:
+    """
+    Query if a given sequence is present in the OEIS.
+    The search uses seqlist[3:] with max string length 160.
+    Args:
+        seqlist: The sequence to search. Must have at least 28 terms.
+        maxnum: max number of sequences to be returned. Defaults to 3.
+    Returns:
+        str: The A-number of the sequence if found in OEIS, otherwise an empty string.
+    Raises:
+        Exception: If the OEIS server cannot be reached after multiple attempts.
+    """
+    if len(seqlist) < 28:
+        print("Sequence is too short!")
+        return ""
+    seqstr = SeqToString(seqlist, 140, 24, ",", 3)
+    url = f"https://oeis.org/search?q={seqstr}&fmt=json"
+    for _ in range(3):
+        time.sleep(0.5)  # give the OEIS server some time to relax
+        try:
+            jdata: None | list[dict[str, int | str | list[str]]] = get(
+                url, timeout=20
+            ).json()
+            if jdata == None:
+                print("You looked for:")
+                print(seqstr)
+                print("Sorry, no match found!")
+                return ""
+            anumber = ""
+            for j in range(min(maxnum, len(jdata))):
+                seq = jdata[j]
+                number = seq["number"]
+                anumber = f"A{(6 - len(str(number))) * '0' + str(number)}"
+                print(anumber)
+                name = seq["name"]
+                print(name)
+                data = seq["data"]
+                print(data)
+            return anumber
+        except requests.exceptions.RequestException as e:
+            print(f"Error: {e}")
+    raise Exception(f"Could not open {url}.")
 
 
 @cache

@@ -5,6 +5,7 @@ tabl_files: list[str] = [
     "_tablinverse.py",
     "_tabltypes.py",
     "_tablutils.py",
+    "_tabloeis.py",
     "Abel.py",
     "Andre.py",
     "Baxter.py",

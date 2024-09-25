@@ -121,8 +121,8 @@ A Table T provides the following methods:
     invrev11 (size: int) -> tabl | invrev from offset (1, 1)
     summap(s: seq, size) -> list[int] | linear transformation induced by T
     invmap(s: seq, size) -> list[int] | inverse transformation induced by T
-    show(size: int)      -> None | prints the first 'size' rows with row-numbers
-    itr(size: int)       -> Iterator[list[int]] | traverse the first 'size' rows
+    show (size: int)     -> None | prints the first 'size' rows with row-numbers
+    itr (size: int)      -> Iterator[list[int]] | traverse the first 'size' rows
 
 The type 'tabl' is a triangular array that is a list of lists of the form
 [[0] * (n + 1) for n in range(size)] representing the first 'size' rows of
@@ -150,3 +150,14 @@ Workflow:
   2) In the file _tablmake insert the names "Myseq.py" and "Myseq" in the list of files and classes.
 
   3) Execute the file _tablmake (producing a new Tables.py). Done.
+
+
+# Contributing
+
+Contributions are what make the open source community such an amazing place to be learn, inspire, and create. We greatly appreciated any contributions that follow the above guidelines.
+
+  1) Fork the Project
+  2) Create your Feature Branch (`git checkout -b branch/AmazingTriangle`)
+  3) Commit your Changes (`git commit -m 'Add some AmazingTriangle'`)
+  4) Push to the Branch (`git push origin branch/AmazingTriangle`)
+  5) Open a Pull Request
