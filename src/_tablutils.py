@@ -9,7 +9,8 @@ def SeqToString(
         maxchars: int,
         maxterms: int,
         sep: str = ' ',
-        offset: int = 0
+        offset: int = 0,
+        absval: bool = False
     ) -> str:
     """
     Converts a sequence of integers into a string representation.
@@ -20,6 +21,7 @@ def SeqToString(
         maxterms: The maximum number of terms included.
         sep: String seperator. Default is ' '.
         offset: The starting index of the sequence. Defaults to 0.
+        absval: Use the absolute value of the terms. Defaults to False.
 
     Returns:
         str: The string representation of the sequence.
@@ -31,7 +33,10 @@ def SeqToString(
         maxt += 1
         if maxt > maxterms:
             break
-        s = str(trm) + sep
+        if absval:
+            s = str(abs(trm)) + sep
+        else:
+            s = str(trm) + sep
         maxl += len(s)
         if maxl > maxchars:
             break

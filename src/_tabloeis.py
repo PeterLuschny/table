@@ -169,30 +169,44 @@ def lcsubstr(s: str, t: str) -> tuple[int, int]:
     # lcs_str =  s[x_longest - longest : x_longest] 
     return (x_longest - longest, longest)
 
+
 def QueryOEIS(
         seqlist: list[int], 
-        maxnum: int = 3
-    ) -> str:
+        maxnum: int = 1,
+        info: bool = False
+    ) -> tuple[int, int, int]:
     """
     Query if a given sequence is present in the OEIS.
-    The search uses seqlist[3:] with max string length 160.
+    At least 20 terms of the sequence must be given.
+    This is a heuristic function! Use with caution.
+    The search uses seqlist[3:] with max string length 180.
+    In other words, we disregard the first three terms,
+    and sequences with huge terms might be truncated.
+    Also signs are disregarded.
 
     Args:
-        seqlist: The sequence to search. Must have at least 28 terms.
-        maxnum: max number of sequences to be returned. Defaults to 3.
+        seqlist: The sequence to search. Must have at least 20 terms.
+        maxnum: max number of sequences to be returned. Defaults to 1.
+        info: Prints details, otherwise is quiet except for warnings. Defaults to False.
 
     Returns:
-        str: The A-number of the sequence if found in OEIS, otherwise an empty string.
+        tuple(anum, sl, dl): anum is the A-number of the sequence, sl the number
+        of unmatched terms at the start of the sequence, dl the number of the
+        matched terms. sl = 3 is normal. Returns (0,0,0) if seq not found.
+        Summary of the heuristic: If sl < 5 and dl > 12, then anum denotes 
+        probably a matching sequence, modulo some first terms and signs.
 
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
     """
     minlen = 20
     if len(seqlist) < minlen:
-        print("Sequence is too short! We require at least {minlen} terms.")
-        return ""
+        if info: 
+            print(f"Sequence is too short! We require at least {minlen} terms.")
+        return (0, 0, 0)
 
-    seqstr = SeqToString(seqlist, 140, 24, ",", 0)
+    # WArning. These 'magical' constants are very sensible!
+    seqstr = SeqToString(seqlist, 180, 25, ",", 3, True)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
 
     for _ in range(3):
@@ -202,22 +216,32 @@ def QueryOEIS(
             if jdata == None:
                 print("You looked for:", seqstr)
                 print("Sorry, no match found!")
-                return ""
+                return (0, 0, 0)
 
-            anumber = ""
+            number = sl = dl = ol = 0
             for j in range(min(maxnum, len(jdata))):
                 seq = jdata[j]
                 number = seq["number"]
                 anumber = f"A{(6 - len(str(number))) * '0' + str(number)}"
                 name = seq["name"]
-                print(anumber, name)
-                data = seq["data"]
-                start, length = lcsubstr(data, seqstr)     # type: ignore
-                c = data.count(",", start, start + length) # type: ignore
-                print(f"There are {c} consecutive terms matching the search data.")
-                print(f"The matched substring starts at {start} and has length {length}.")
-                print(data)
-            return anumber
+                data = seq["data"].replace('-', '')         # type: ignore
+                start, length = lcsubstr(data, seqstr)      # type: ignore
+                ol = data.count(",")                        # type: ignore
+                sl = data.count(",", 0, start)              # type: ignore
+                dl = data.count(",", start, start + length) # type: ignore
+                if dl < 12:
+                    print(f"\n*** WARNING! Only {dl} out of {ol} terms match! ***\n")
+                if info or dl < 12:
+                    print("You looked for:", seqstr)
+                    print("OEIS-data is:  ", data)          # type: ignore
+                    print("--- Found:")
+                    print(anumber, name)
+                    print(f"The first {sl} terms do not match, the next {dl} consecutive terms match.")
+                    print(f"The matched substring starts at {start} and has length {length}.")
+                if dl > 12:
+                    break
+
+            return (int(number), int(sl), int(dl))  # type: ignore
 
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
@@ -228,24 +252,20 @@ def QueryOEIS(
 if __name__ == "__main__":
     from Tables import Tables
 
-    def test() -> None:
-        print()
-        QueryOEIS([1, 4, 1, 9, 9, 2, 16, 36])
-        print()
-        QueryOEIS([36,32,5,25,100,200,125,14,36,225,800,1125,504,
-                   42,49,441,2450,6125,6174,2058,132,64,784,6272])
-        print()
-        QueryOEIS([9991,2,48323,4,0,9991,2,48323,4,0,9991,2,48323,4,0,9991,2, 
-                   48323,4,0,9991,2,48323,4,0,9991,2,48323,4,0,9991,2,48323])
-        print()
-        QueryOEIS([1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,19,20,21,22,23]) 
+    data1 = [1, 4, 1, 9, 9, 2, 16, 36]
+    data2 = [36,32,5,25,100,200,125,14,36,225,800,1125,504,42,49,441,2450,6125,6174,2058,132,64,784,6272]
+    data3 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,19,20,21,22,23]
 
+    def test() -> None:
+        print(QueryOEIS(data1, 1, True)); print()
+        print(QueryOEIS(data2, 1, True)); print()
+        print(QueryOEIS(data3, 1, True)); print()
 
     def testQuery() -> None:
-        for tabl in Tables[:5]:
-            print("\nRow sums of:", tabl.id, tabl.sim)
+        for tabl in Tables:
+            print(f"\n*** Searching row sums of: {tabl.id} {tabl.sim}.")
             sumlist = tabl.sum(30)
-            QueryOEIS(sumlist)
+            print(QueryOEIS(sumlist))
 
     test()
     testQuery()

@@ -392,7 +392,8 @@ if __name__ == "__main__":
 
     from functools import cache
     from math import comb as binomial
-    from _tablutils import PreView, queryOEIS
+    from _tablutils import PreView
+    from _tabloeis import QueryOEIS
     from StirlingSet import StirlingSet
 
     PreView(StirlingSet)
@@ -429,4 +430,4 @@ if __name__ == "__main__":
 
     print()
     sumlist = Abel.sum(30)
-    queryOEIS(sumlist)
+    QueryOEIS(sumlist)
