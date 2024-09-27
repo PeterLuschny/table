@@ -1,13 +1,13 @@
 from functools import cache
 from itertools import accumulate, islice
-from more_itertools import difference
+from more_itertools import difference, flatten
 from math import factorial, sqrt
 from fractions import Fraction
 import time
 import requests
 from requests import get
 from sys import setrecursionlimit, set_int_max_str_digits
-from typing import Callable, TypeAlias, Iterator
+from typing import Callable, TypeAlias, Iterator, Dict
 
 setrecursionlimit(3000)
 set_int_max_str_digits(5000)
@@ -179,7 +179,7 @@ class Table:
         """
         return [list(reversed(self.gen(n))) for n in range(size)]
 
-    def adtab(self, size: int) -> tabl:
+    def antid(self, size: int) -> tabl:
         """
         Args:
             size, number of rows
@@ -498,7 +498,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print("firstdiff  ", T.diff(size))
     print("reverted   ", T.rev(size))
     print("inverted   ", T.inv(size))
-    print("antidiagtab", T.adtab(size))
+    print("antidiagtab", T.antid(size))
     print("rev of inv ", T.revinv(size))
     print("inv of rev ", T.invrev(size))
     print("matrix     ", T.mat(size))
@@ -547,27 +547,26 @@ def QueryOEIS(
     seqlist: list[int], maxnum: int = 1, info: bool = False
 ) -> tuple[int, int, int]:
     """
-    Query if a given sequence is present in the OEIS.
-    At least 20 terms of the sequence must be given.
-    This is a heuristic function! Use with caution.
-    The search uses seqlist[3:] with max string length 180.
-    In other words, we disregard the first three terms,
-    and sequences with huge terms might be truncated.
-    Also signs are disregarded.
+    Query if a given sequence is present in the OEIS. At least 24 terms of
+    the sequence must be given. The first three terms and signs are disregard.
+    Sequences with huge terms might have to few terms to give reliable results.
+    This is a heuristic function, understand it's limited reach.
     Args:
-        seqlist: The sequence to search. Must have at least 20 terms.
+        seqlist: The sequence to search. Must have at least 24 terms.
         maxnum: max number of sequences to be returned. Defaults to 1.
         info: Prints details, otherwise is quiet except for warnings. Defaults to False.
     Returns:
-        tuple(anum, sl, dl): anum is the A-number of the sequence, sl the number
-        of unmatched terms at the start of the sequence, dl the number of the
-        matched terms. sl = 3 is normal. Returns (0,0,0) if seq not found.
-        Summary of the heuristic: If sl < 5 and dl > 12, then anum denotes
-        probably a matching sequence, modulo some first terms and signs.
+        Returns a triple (anum, sl, dl) of integers:
+        - anum is the A-number of the sequence,
+        - sl is the number is of unmatched terms at the start of the sequence,
+        - dl is the number of the matched terms.
+        Returns (0, 0, 0) if the sequence was not found.
+        If sl < 5 and dl > 12, then anum probably matches the sequence,
+        modulo a couple of first terms and the signs.
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
     """
-    minlen = 20
+    minlen = 24
     if len(seqlist) < minlen:
         if info:
             print(f"Sequence is too short! We require at least {minlen} terms.")
@@ -582,8 +581,7 @@ def QueryOEIS(
                 url, timeout=20
             ).json()
             if jdata == None:
-                print("You looked for:", seqstr)
-                print("Sorry, no match found!")
+                print("Sorry, no match found for:", seqstr)
                 return (0, 0, 0)
             number = sl = dl = ol = 0
             for j in range(min(maxnum, len(jdata))):
@@ -599,22 +597,70 @@ def QueryOEIS(
                 if dl < 12:
                     print(f"\n*** WARNING! Only {dl} out of {ol} terms match! ***\n")
                 if info or dl < 12:
-                    print("You looked for:", seqstr)
-                    print("OEIS-data is:  ", data)  # type: ignore
-                    print("--- Found:")
-                    print(anumber, name)
+                    print("You searched:", seqstr)
+                    print("OEIS-data is:", data)  # type: ignore
                     print(
-                        f"The first {sl} terms do not match, the next {dl} consecutive terms match."
+                        f"Starting at index {sl} the next {dl} consecutive terms match. The matched substring starts at {start} and has length {length}."
                     )
-                    print(
-                        f"The matched substring starts at {start} and has length {length}."
-                    )
+                    print("*** Found:", anumber, name)
                 if dl > 12:
                     break
             return (int(number), int(sl), int(dl))  # type: ignore
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
     raise Exception(f"Could not open {url}.")
+
+
+class Profile:
+    """The profile of integer triangles."""
+
+    def __init__(
+        self,
+        tab: Table,
+    ) -> None:
+        self.tab = tab
+        self.prof: Dict[str, tuple[int, int, int]] = {}
+
+    def profile(self) -> Dict[str, tuple[int, int, int]]:
+        # flat (size: int)     -> list[int] | flattened form of the first size rows
+        self.prof[self.tab.id] = QueryOEIS(self.tab.flat(7))
+
+        # sum (size: int)      -> list[int] | sums of the first size rows
+        self.prof["sum"] = QueryOEIS(self.tab.sum(25))
+        # diag(n, size: int)   -> list[int] | diagonal starting at the left side
+        self.prof["diag0"] = QueryOEIS(self.tab.diag(0, 25))
+        self.prof["diag1"] = QueryOEIS(self.tab.diag(1, 25))
+        self.prof["diag2"] = QueryOEIS(self.tab.diag(2, 25))
+        # col (k, size: int)   -> list[int] | k-th column starting at the main diagonal
+        self.prof["col0"] = QueryOEIS(self.tab.col(0, 25))
+        self.prof["col1"] = QueryOEIS(self.tab.col(1, 25))
+        self.prof["col2"] = QueryOEIS(self.tab.col(2, 25))
+        # rev (size: int)      -> tabl | table with reversed rows
+        self.prof["rev"] = QueryOEIS(list(flatten(self.tab.rev(7))))
+        # acc (size: int)      -> tabl | table with rows accumulated
+        self.prof["acc"] = QueryOEIS(list(flatten(self.tab.acc(7))))
+        # diff (size: int)     -> tabl | table with first difference of rows
+        self.prof["diff"] = QueryOEIS(list(flatten(self.tab.diff(7))))
+        # inv (size: int)      -> tabl | inverse table
+        self.prof["inv"] = QueryOEIS(list(flatten(self.tab.inv(7))))
+        # revinv (size: int)   -> tabl | row reversed inverse
+        self.prof["revinv"] = QueryOEIS(list(flatten(self.tab.revinv(7))))
+        # invrev (size: int)   -> tabl | inverse of row reversed
+        self.prof["invrev"] = QueryOEIS(list(flatten(self.tab.invrev(7))))
+        # off (N: int, K: int) -> rgen | new offset (N, K)
+        T11 = Table(self.tab.off(1, 1), self.tab.id + "off11")
+        self.prof["off1"] = QueryOEIS(T11.flat(7))
+
+        # invrev11 (size: int) -> tabl | invrev from offset (1, 1)
+        InvT11 = Table(self.tab.off(1, 1), self.tab.id + "ioff11")
+        self.prof["ioff1"] = QueryOEIS(InvT11.flat(7))
+        # adtab (size: int)    -> tabl | table of (upward) anti-diagonals
+        self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
+        # print(self.prof)
+        return self.prof
+
+
+ProfileDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
 
 
 @cache
@@ -1122,7 +1168,7 @@ def euler(n: int) -> list[int]:
     return row
 
 
-Euler = Table(euler, "Euler", ["A247453", "A109449"], True)
+Euler = Table(euler, "Euler", ["A363394", "A247453", "A109449"], True)
 
 
 @cache
@@ -1163,7 +1209,10 @@ def eulerian2(n: int) -> list[int]:
 
 
 Eulerian2 = Table(
-    eulerian2, "Eulerian2", ["A340556", "A008517", "A112007", "A163936"], False
+    eulerian2,
+    "Eulerian2",
+    ["A340556", "A201637", "A008517", "A112007", "A163936"],
+    False,
 )
 
 
@@ -1253,7 +1302,7 @@ def eytzingerorder(n: int) -> list[int]:
     return row
 
 
-EytzingerOrder = Table(eytzingerorder, "EytzingerOrder", ["A368783"])
+EytzingerOrder = Table(eytzingerorder, "EytzingerOrder", ["A375825"])
 
 
 @cache

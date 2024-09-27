@@ -148,7 +148,7 @@ class Table:
         return [list(reversed(self.gen(n)))
                 for n in range(size)]
 
-    def adtab(self, size: int) -> tabl:
+    def antid(self, size: int) -> tabl:
         """
         Args:
             size, number of rows

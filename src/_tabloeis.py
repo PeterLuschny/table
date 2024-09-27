@@ -179,7 +179,7 @@ def QueryOEIS(
     Query if a given sequence is present in the OEIS. At least 24 terms of
     the sequence must be given. The first three terms and signs are disregard.
     Sequences with huge terms might have to few terms to give reliable results.
-    This is a heuristic function, do not rely on it.
+    This is a heuristic function, understand it's limited reach.
 
     Args:
         seqlist: The sequence to search. Must have at least 24 terms.
@@ -213,8 +213,7 @@ def QueryOEIS(
         try:
             jdata: None | list[dict[str, int | str | list[str] ]] = get(url, timeout=20).json()
             if jdata == None:
-                print("You looked for:", seqstr)
-                print("Sorry, no match found!")
+                print("Sorry, no match found for:", seqstr)
                 return (0, 0, 0)
 
             number = sl = dl = ol = 0
@@ -233,7 +232,7 @@ def QueryOEIS(
                 if info or dl < 12:
                     print("You searched:", seqstr)
                     print("OEIS-data is:", data)          # type: ignore
-                    print(f"The first {sl} terms do not match but the next {dl} consecutive terms do. The matched substring starts at index {start} and has length {length}.")
+                    print(f"Starting at index {sl} the next {dl} consecutive terms match. The matched substring starts at {start} and has length {length}.")
                     print("*** Found:", anumber, name)
                 if dl > 12:
                     break
@@ -250,8 +249,8 @@ if __name__ == "__main__":
     from Tables import Tables
 
     data1 = [1, 4, 1, 9, 9, 2, 16, 36]
-    data2 = [36,32,5,25,100,200,125,14,36,225,800,1125,504,42,49,441,2450,6125,6174,2058,132,64,784,6272]
-    data3 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,19,20,21,22,23]
+    data2 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,19,20,21,22,23,24,25,26,27]
+    data3 = [36,32,5,25,100,200,125,14,36,225,800,1125,504,42,49,441,2450,6125,6174,2058,132,64,784,6272]
 
     def test() -> None:
         print(QueryOEIS(data1, 1, True)); print()
@@ -259,7 +258,7 @@ if __name__ == "__main__":
         print(QueryOEIS(data3, 1, True)); print()
 
     def testQuerySum() -> None:
-        for tabl in Tables[:9]:
+        for tabl in Tables[:5]:
             print(f"*** Searching row sums of {tabl.id} {tabl.sim}.")
             sumlist = tabl.sum(30)
             print(QueryOEIS(sumlist))

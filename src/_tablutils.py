@@ -151,7 +151,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print("firstdiff  ", T.diff(size))
     print("reverted   ", T.rev(size))
     print("inverted   ", T.inv(size))
-    print("antidiagtab", T.adtab(size))
+    print("antidiagtab", T.antid(size))
     print("rev of inv ", T.revinv(size))
     print("inv of rev ", T.invrev(size))
     print("matrix     ", T.mat(size))
