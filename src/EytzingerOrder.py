@@ -11,7 +11,7 @@ from _tabltypes import Table
     Args: n, length of array
     Returns: The given array in Eytzinger order.
 
-    Variant 1, mostly used when (1, 1)-based.
+    Variant 1, A375825, mostly used when (1, 1)-based.
     [0] [0]
     [1] [0, 1]
     [2] [0, 2, 1]
@@ -23,7 +23,7 @@ from _tabltypes import Table
     [8] [0, 5, 3, 7, 2, 4, 6, 8, 1]
     [9] [0, 6, 4, 8, 2, 5, 7, 9, 1, 3]
 
-    Variant 2, we use this one (almost 'Rust')
+    Variant 2, we use this one:
     [0] [0]
     [1] [1, 0]
     [2] [1, 0, 2]
@@ -64,7 +64,7 @@ def eytzingerorder(n: int) -> list[int]:
     return row
 
 
-EytzingerOrder = Table(eytzingerorder, "EytzingerOrder", ["A368783"])
+EytzingerOrder = Table(eytzingerorder, "EytzingerOrder", ["A375825"])
 
 
 if __name__ == "__main__":

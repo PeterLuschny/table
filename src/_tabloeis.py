@@ -176,30 +176,29 @@ def QueryOEIS(
         info: bool = False
     ) -> tuple[int, int, int]:
     """
-    Query if a given sequence is present in the OEIS.
-    At least 20 terms of the sequence must be given.
-    This is a heuristic function! Use with caution.
-    The search uses seqlist[3:] with max string length 180.
-    In other words, we disregard the first three terms,
-    and sequences with huge terms might be truncated.
-    Also signs are disregarded.
+    Query if a given sequence is present in the OEIS. At least 24 terms of
+    the sequence must be given. The first three terms and signs are disregard.
+    Sequences with huge terms might have to few terms to give reliable results.
+    This is a heuristic function, do not rely on it.
 
     Args:
-        seqlist: The sequence to search. Must have at least 20 terms.
+        seqlist: The sequence to search. Must have at least 24 terms.
         maxnum: max number of sequences to be returned. Defaults to 1.
         info: Prints details, otherwise is quiet except for warnings. Defaults to False.
 
     Returns:
-        tuple(anum, sl, dl): anum is the A-number of the sequence, sl the number
-        of unmatched terms at the start of the sequence, dl the number of the
-        matched terms. sl = 3 is normal. Returns (0,0,0) if seq not found.
-        Summary of the heuristic: If sl < 5 and dl > 12, then anum denotes 
-        probably a matching sequence, modulo some first terms and signs.
+        Returns a triple (anum, sl, dl) of integers: 
+        - anum is the A-number of the sequence, 
+        - sl is the number is of unmatched terms at the start of the sequence,
+        - dl is the number of the matched terms. 
+        Returns (0, 0, 0) if the sequence was not found.
+        If sl < 5 and dl > 12, then anum probably matches the sequence,
+        modulo a couple of first terms and the signs.
 
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
     """
-    minlen = 20
+    minlen = 24
     if len(seqlist) < minlen:
         if info: 
             print(f"Sequence is too short! We require at least {minlen} terms.")
@@ -232,12 +231,10 @@ def QueryOEIS(
                 if dl < 12:
                     print(f"\n*** WARNING! Only {dl} out of {ol} terms match! ***\n")
                 if info or dl < 12:
-                    print("You looked for:", seqstr)
-                    print("OEIS-data is:  ", data)          # type: ignore
-                    print("--- Found:")
-                    print(anumber, name)
-                    print(f"The first {sl} terms do not match, the next {dl} consecutive terms match.")
-                    print(f"The matched substring starts at {start} and has length {length}.")
+                    print("You searched:", seqstr)
+                    print("OEIS-data is:", data)          # type: ignore
+                    print(f"The first {sl} terms do not match but the next {dl} consecutive terms do. The matched substring starts at index {start} and has length {length}.")
+                    print("*** Found:", anumber, name)
                 if dl > 12:
                     break
 
@@ -261,11 +258,11 @@ if __name__ == "__main__":
         print(QueryOEIS(data2, 1, True)); print()
         print(QueryOEIS(data3, 1, True)); print()
 
-    def testQuery() -> None:
-        for tabl in Tables:
-            print(f"\n*** Searching row sums of: {tabl.id} {tabl.sim}.")
+    def testQuerySum() -> None:
+        for tabl in Tables[:9]:
+            print(f"*** Searching row sums of {tabl.id} {tabl.sim}.")
             sumlist = tabl.sum(30)
             print(QueryOEIS(sumlist))
 
     test()
-    testQuery()
+    testQuerySum()

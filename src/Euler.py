@@ -29,7 +29,7 @@ def euler(n: int) -> list[int]:
     return row
 
 
-Euler = Table(euler, "Euler", ["A247453", "A109449"], True)
+Euler = Table(euler, "Euler", ["A363394", "A247453", "A109449"], True)
 
 
 if __name__ == "__main__":

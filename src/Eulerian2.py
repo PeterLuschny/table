@@ -29,7 +29,7 @@ def eulerian2(n: int) -> list[int]:
 
 
 Eulerian2 = Table(
-    eulerian2, "Eulerian2", ["A340556", "A008517", "A112007", "A163936"], False
+    eulerian2, "Eulerian2", ["A340556", "A201637",  "A008517", "A112007", "A163936"], False
 )
 
 
