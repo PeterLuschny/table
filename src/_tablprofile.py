@@ -19,9 +19,9 @@ class Profile:
     def profile(self) -> Dict[str, tuple[int, int, int]]:
         # flat (size: int)     -> list[int] | flattened form of the first size rows
         self.prof[self.tab.id] = QueryOEIS(self.tab.flat(7))
-        
+
         # sum (size: int)      -> list[int] | sums of the first size rows
-        self.prof["sum"] = QueryOEIS(self.tab.sum(25))
+        ##self.prof["sum"] = QueryOEIS(self.tab.sum(25))
 
         # diag(n, size: int)   -> list[int] | diagonal starting at the left side    
         self.prof["diag0"] = QueryOEIS(self.tab.diag(0, 25))
@@ -34,13 +34,13 @@ class Profile:
         self.prof["col2"] = QueryOEIS(self.tab.col(2, 25))
 
         # rev (size: int)      -> tabl | table with reversed rows
-        self.prof["rev"] = QueryOEIS(list(flatten(self.tab.rev(7))))
+        ##self.prof["rev"] = QueryOEIS(list(flatten(self.tab.rev(7))))
 
         # acc (size: int)      -> tabl | table with rows accumulated
-        self.prof["acc"] = QueryOEIS(list(flatten(self.tab.acc(7))))
+        ##self.prof["acc"] = QueryOEIS(list(flatten(self.tab.acc(7))))
 
         # diff (size: int)     -> tabl | table with first difference of rows
-        self.prof["diff"] = QueryOEIS(list(flatten(self.tab.diff(7))))
+        ##self.prof["diff"] = QueryOEIS(list(flatten(self.tab.diff(7))))
 
         # inv (size: int)      -> tabl | inverse table
         self.prof["inv"] = QueryOEIS(list(flatten(self.tab.inv(7))))
@@ -54,13 +54,13 @@ class Profile:
         # off (N: int, K: int) -> rgen | new offset (N, K)
         T11 = Table(self.tab.off(1, 1), self.tab.id + "off11")
         self.prof["off1"] = QueryOEIS(T11.flat(7))
-        
+
         # invrev11 (size: int) -> tabl | invrev from offset (1, 1)
         InvT11 = Table(self.tab.off(1, 1), self.tab.id + "ioff11")
         self.prof["ioff1"] = QueryOEIS(InvT11.flat(7))
 
         # adtab (size: int)    -> tabl | table of (upward) anti-diagonals
-        self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
+        ##self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
 
         # print(self.prof)
         return self.prof
@@ -75,7 +75,7 @@ if __name__ == "__main__":
         P = Profile(t) 
         ProfileDict[t.id] = P.profile()
 
-    for i in range(66, 68): 
+    for i in range(56, 58): 
         padd(Tables[i])  # type: ignore
 
     for tabl, dict in ProfileDict.items():

@@ -27,19 +27,19 @@ from _tablinverse import InvertMatrix
 # diag(2, 5) = [T(2,0), T(3,1), T(4,2), T(5,3), T(6,4)]
 
 
-"""Type: table row"""
+"""Type: row"""
 trow: TypeAlias = list[int]
 
-"""Type: triangle (resp. table)"""
+"""Type: triangle"""
 tabl: TypeAlias = list[list[int]]
 
-"""Type: sequence generator"""
+"""Type: sequence"""
 seq: TypeAlias = Callable[[int], int]
 
 """Type: row generator"""
 rgen: TypeAlias = Callable[[int], trow]
 
-"""Type: triangle (resp. table) generator"""
+"""Type: triangle generator"""
 tgen: TypeAlias = Callable[[int, int], int]
 
 
@@ -137,7 +137,7 @@ class Table:
         return [list(self.gen(n))
                 for n in range(size)]
 
-    def rev(self, size: int) -> tabl:
+    def rev(self, row: int) -> trow:
         """
         Args:
             size, number of rows
@@ -145,10 +145,9 @@ class Table:
         Returns:
             tabel with reversed rows
         """
-        return [list(reversed(self.gen(n)))
-                for n in range(size)]
+        return list(reversed(self.gen(row)))
 
-    def antid(self, size: int) -> tabl:
+    def antid(self, n: int) -> trow:
         """
         Args:
             size, number of rows
@@ -156,9 +155,8 @@ class Table:
         Returns:
             table of (upward) anti-diagonals
         """
-        return [[self.gen(n - k - 1)[k]
-                 for k in range((n + 1) // 2)]
-                 for n in range(1, size + 1)]
+        return [self.gen(n - k)[k]
+                 for k in range((n + 2) // 2)]
 
     def diag(self, n: int, size: int) -> list[int]:
         """
@@ -184,7 +182,7 @@ class Table:
         return [self.gen(k + n)[k]
                 for n in range(size)]
 
-    def sum(self, size: int) -> list[int]:
+    def sum(self, row: int) -> int:
         """
         Args:
             size, number of rows to be summed
@@ -192,10 +190,9 @@ class Table:
         Returns:
             The first 'size' row sums.
         """
-        return [sum(self.gen(n))
-                for n in range(size)]
+        return sum(self.gen(row))
 
-    def acc(self, size: int) -> tabl:
+    def acc(self, row: int) -> trow:
         """
         Args:
             size, number of rows
@@ -203,10 +200,9 @@ class Table:
         Returns:
             table with rows accumulated
         """
-        return [list(accumulate(self.gen(n)))
-                for n in range(size)]
+        return list(accumulate(self.gen(row)))
 
-    def diff(self, size: int) -> tabl:
+    def diff(self, n: int) -> trow:
         """
         Args:
             size, number of rows
@@ -214,8 +210,7 @@ class Table:
         Returns:
             table with first differences of rows
         """
-        return [list(difference(self.gen(n)))
-                for n in range(size)]
+        return list(difference(self.gen(n)))
 
     def mat(self, size: int) -> tabl:
         """
@@ -332,11 +327,10 @@ class Table:
         Returns:
             sum(T(n, k) * x^j for j=0..n)
         """
-        row = self.gen(n)
-        return sum(c * (x ** j)
-               for (j, c) in enumerate(row))
+        return sum(c * (x ** j) for (j, c) in enumerate(self.gen(n)))
 
-    def summap(self, s: seq, size: int) -> list[int]:
+    # Also called sumprod.
+    def trans(self, s: seq, size: int) -> list[int]:
         """[sum(T(n, k) * s(k) for 0 <= k <= n) for 0 <= n < size]
            For example, if T is the binomial then this is the
            'binomial transform'.
@@ -348,20 +342,10 @@ class Table:
         Returns:
             Initial segment of length size of s transformed.
         """
-        return [sum(self.gen(n)[k] * s(k)
-                for k in range(n + 1))
-                for n in range(size)]
-# Alternative implementations:
-# from math import sumprod
-# import operator
-# import itertools
-# return [sum(itertools.starmap(operator.mul, zip(self.gen(n),
-#         map(s, range(n+1)), strict=True)))
-#         for n in range(size)]
-# return [int(sumprod(self.gen(n), map(s, range(n+1))))
-#         for n in range(size)]
+        return [sum(self.gen(n)[k] * s(k) for k in range(n + 1))
+               for n in range(size)]
 
-    def invmap(self, s: seq, size: int) -> list[int]:
+    def invtrans(self, s: seq, size: int) -> list[int]:
         """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n)
             for 0 <= n < size]
             For example, if T is the binomial then this is the
@@ -374,9 +358,8 @@ class Table:
         Returns:
             Initial segment of length size of s transformed.
         """
-        return [sum((-1)**(n-k) * self.gen(n)[k] * s(k)
-                    for k in range(n + 1))
-                    for n in range(size)]
+        return [sum((-1)**(n-k) * self.gen(n)[k] * s(k) for k in range(n + 1))
+               for n in range(size)]
 
     def show(self, size: int) -> None:
         """Prints the first 'size' rows with row-number.
@@ -388,12 +371,15 @@ class Table:
             print([n], self.gen(n))
 
 
+"""Type: trait"""
+trait: TypeAlias = Callable[[Table, int], list[int]] 
+
+
 if __name__ == "__main__":
 
     from functools import cache
     from math import comb as binomial
     from _tablutils import PreView
-    from _tabloeis import QueryOEIS
     from StirlingSet import StirlingSet
 
     PreView(StirlingSet)
@@ -429,5 +415,4 @@ if __name__ == "__main__":
         print(r, sum(r))
 
     print()
-    sumlist = Abel.sum(30)
-    QueryOEIS(sumlist)
+

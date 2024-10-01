@@ -1,8 +1,10 @@
 from functools import cache
 from itertools import accumulate, islice
 from more_itertools import difference, flatten
-from math import factorial, sqrt
+from functools import reduce
+from math import factorial, sqrt, lcm, gcd
 from fractions import Fraction
+import operator
 import time
 import requests
 from requests import get
@@ -81,15 +83,15 @@ def ConvTriangle(
     return C
 
 
-"""Type: table row"""
+"""Type: row"""
 trow: TypeAlias = list[int]
-"""Type: triangle (resp. table)"""
+"""Type: triangle"""
 tabl: TypeAlias = list[list[int]]
-"""Type: sequence generator"""
+"""Type: sequence"""
 seq: TypeAlias = Callable[[int], int]
 """Type: row generator"""
 rgen: TypeAlias = Callable[[int], trow]
-"""Type: triangle (resp. table) generator"""
+"""Type: triangle generator"""
 tgen: TypeAlias = Callable[[int, int], int]
 
 
@@ -170,26 +172,23 @@ class Table:
         """
         return [list(self.gen(n)) for n in range(size)]
 
-    def rev(self, size: int) -> tabl:
+    def rev(self, row: int) -> trow:
         """
         Args:
             size, number of rows
         Returns:
             tabel with reversed rows
         """
-        return [list(reversed(self.gen(n))) for n in range(size)]
+        return list(reversed(self.gen(row)))
 
-    def antid(self, size: int) -> tabl:
+    def antid(self, n: int) -> trow:
         """
         Args:
             size, number of rows
         Returns:
             table of (upward) anti-diagonals
         """
-        return [
-            [self.gen(n - k - 1)[k] for k in range((n + 1) // 2)]
-            for n in range(1, size + 1)
-        ]
+        return [self.gen(n - k)[k] for k in range((n + 2) // 2)]
 
     def diag(self, n: int, size: int) -> list[int]:
         """
@@ -211,32 +210,32 @@ class Table:
         """
         return [self.gen(k + n)[k] for n in range(size)]
 
-    def sum(self, size: int) -> list[int]:
+    def sum(self, row: int) -> int:
         """
         Args:
             size, number of rows to be summed
         Returns:
             The first 'size' row sums.
         """
-        return [sum(self.gen(n)) for n in range(size)]
+        return sum(self.gen(row))
 
-    def acc(self, size: int) -> tabl:
+    def acc(self, row: int) -> trow:
         """
         Args:
             size, number of rows
         Returns:
             table with rows accumulated
         """
-        return [list(accumulate(self.gen(n))) for n in range(size)]
+        return list(accumulate(self.gen(row)))
 
-    def diff(self, size: int) -> tabl:
+    def diff(self, n: int) -> trow:
         """
         Args:
             size, number of rows
         Returns:
             table with first differences of rows
         """
-        return [list(difference(self.gen(n))) for n in range(size)]
+        return list(difference(self.gen(n)))
 
     def mat(self, size: int) -> tabl:
         """
@@ -329,10 +328,10 @@ class Table:
         Returns:
             sum(T(n, k) * x^j for j=0..n)
         """
-        row = self.gen(n)
-        return sum(c * (x**j) for (j, c) in enumerate(row))
+        return sum(c * (x**j) for (j, c) in enumerate(self.gen(n)))
 
-    def summap(self, s: seq, size: int) -> list[int]:
+    # Also called sumprod.
+    def trans(self, s: seq, size: int) -> list[int]:
         """[sum(T(n, k) * s(k) for 0 <= k <= n) for 0 <= n < size]
            For example, if T is the binomial then this is the
            'binomial transform'.
@@ -344,7 +343,7 @@ class Table:
         """
         return [sum(self.gen(n)[k] * s(k) for k in range(n + 1)) for n in range(size)]
 
-    def invmap(self, s: seq, size: int) -> list[int]:
+    def invtrans(self, s: seq, size: int) -> list[int]:
         """[sum((-1)^(n-k) * T(n, k) * s(k) for 0 <= k <= n)
             for 0 <= n < size]
             For example, if T is the binomial then this is the
@@ -367,6 +366,10 @@ class Table:
         """
         for n in range(size):
             print([n], self.gen(n))
+
+
+"""Type: trait"""
+trait: TypeAlias = Callable[[Table, int], list[int]]
 
 
 def SeqToString(
@@ -506,8 +509,8 @@ def PreView(T: Table, size: int = 7) -> None:
     print("inv rev 11 ", T.invrev11(size - 1))
     T11 = Table(T.off(1, 1), "Toffset11")
     print("1-1-based  ", T11.tab(size - 1))
-    print("summap     ", T.summap(lambda n: n * n, size))
-    print("invmap     ", T.invmap(lambda n: n * n, size))
+    print("summap     ", T.trans(lambda n: n * n, size))
+    print("invmap     ", T.invtrans(lambda n: n * n, size))
     print("TABLE      ")
     T.show(size + 2)
     print("Timing 100 rows:", end="")
@@ -611,6 +614,222 @@ def QueryOEIS(
     raise Exception(f"Could not open {url}.")
 
 
+def dotproduct(vec: list[int], tor: list[int]) -> int:
+    """Returns the dot product of the two vectors."""
+    return sum(map(operator.mul, vec, tor))
+
+
+def TablCol(T: Table, j: int, size: int) -> list[int]:
+    return [T.gen(j + k)[j] for k in range(size)]
+
+
+def TablCol1(T: Table, size: int) -> list[int]:
+    return [T.gen(1 + k)[1] for k in range(size)]
+
+
+def TablCol2(T: Table, size: int) -> list[int]:
+    return [T.gen(2 + k)[2] for k in range(size)]
+
+
+def TablCol3(T: Table, size: int) -> list[int]:
+    return [T.gen(3 + k)[3] for k in range(size)]
+
+
+def TablDiag(T: Table, j: int, size: int) -> list[int]:
+    return [T.gen(j + k)[k] for k in range(size)]
+
+
+def TablDiag1(T: Table, size: int) -> list[int]:
+    return [T.gen(1 + k)[k] for k in range(size)]
+
+
+def TablDiag2(T: Table, size: int) -> list[int]:
+    return [T.gen(2 + k)[k] for k in range(size)]
+
+
+def TablDiag3(T: Table, size: int) -> list[int]:
+    return [T.gen(3 + k)[k] for k in range(size)]
+
+
+def PolyRow(T: Table, row: int, size: int) -> list[int]:
+    return [T.poly(row, x) for x in range(size)]
+
+
+def PolyRow1(T: Table, size: int) -> list[int]:
+    return [T.poly(1, x) for x in range(size)]
+
+
+def PolyRow2(T: Table, size: int) -> list[int]:
+    return [T.poly(2, x) for x in range(size)]
+
+
+def PolyRow3(T: Table, size: int) -> list[int]:
+    return [T.poly(3, x) for x in range(size)]
+
+
+def PolyCol(T: Table, col: int, size: int) -> list[int]:
+    return [T.poly(x, col) for x in range(size)]
+
+
+def PolyCol1(T: Table, size: int) -> list[int]:
+    return [T.poly(x, 1) for x in range(size)]
+
+
+def PolyCol2(T: Table, size: int) -> list[int]:
+    return [T.poly(x, 2) for x in range(size)]
+
+
+def PolyCol3(T: Table, size: int) -> list[int]:
+    return [T.poly(x, 3) for x in range(size)]
+
+
+def PolyDiag(T: Table, size: int) -> list[int]:
+    return [T.poly(n, n) for n in range(size)]
+
+
+def RowLcmGcd(g: rgen, row: int, lg: bool) -> int:
+    Z = [v for v in g(row) if v not in [-1, 0, 1]]
+    if Z == []:
+        return 1
+    return lcm(*Z) if lg else gcd(*Z)
+
+
+def TablLcm(T: Table, size: int) -> list[int]:
+    return [RowLcmGcd(T.gen, row, True) for row in range(size)]
+
+
+def TablGcd(T: Table, size: int) -> list[int]:
+    return [RowLcmGcd(T.gen, row, False) for row in range(size)]
+
+
+def TablMax(T: Table, size: int) -> list[int]:
+    return [reduce(max, (abs(t) for t in T.gen(row))) for row in range(size)]
+
+
+def TablSum(T: Table, size: int) -> list[int]:
+    return [T.sum(n) for n in range(size)]
+
+
+def EvenSum(T: Table, size: int) -> list[int]:
+    return [sum(T.gen(n)[::2]) for n in range(size)]
+
+
+def OddSum(T: Table, size: int) -> list[int]:
+    return [sum(T.gen(n)[1::2]) for n in range(size)]
+
+
+def AltSum(T: Table, size: int) -> list[int]:
+    return [sum(T.gen(n)[::2]) - sum(T.gen(n)[1::2]) for n in range(size)]
+
+
+def AbsSum(T: Table, size: int) -> list[int]:
+    return [sum(abs(t) for t in T.gen(n)) for n in range(size)]
+
+
+def AccSum(T: Table, size: int) -> list[int]:
+    return [sum(T.acc(n)) for n in range(size)]
+
+
+def AccRevSum(T: Table, size: int) -> list[int]:
+    return [sum(accumulate(T.rev(n))) for n in range(size)]
+
+
+def AntiDSum(T: Table, size: int) -> list[int]:
+    return [sum(T.antid(n)) for n in range(size)]
+
+
+def ColMiddle(T: Table, size: int) -> list[int]:
+    return [T.gen(n)[n // 2] for n in range(size)]
+
+
+def CentralE(T: Table, size: int) -> list[int]:
+    return [T.gen(2 * n)[n] for n in range(size)]
+
+
+def CentralO(T: Table, size: int) -> list[int]:
+    return [T.gen(2 * n + 1)[n] for n in range(size)]
+
+
+def ColLeft(T: Table, size: int) -> list[int]:
+    return [T.gen(n)[0] for n in range(size)]
+
+
+def ColRight(T: Table, size: int) -> list[int]:
+    return [T.gen(n)[-1] for n in range(size)]
+
+
+def PolyFrac(T: Table, n: int, x: Fraction) -> Fraction | int:
+    return sum(c * (x**k) for (k, c) in enumerate(T.gen(n)))
+
+
+def PosHalf(T: Table, size: int) -> list[int]:
+    return [((2**n) * PolyFrac(T, n, Fraction(1, 2))).numerator for n in range(size)]
+
+
+def NegHalf(T: Table, size: int) -> list[int]:
+    return [
+        (((-2) ** n) * PolyFrac(T, n, Fraction(-1, 2))).numerator for n in range(size)
+    ]
+
+
+def TransNat0(T: Table, size: int) -> list[int]:
+    return T.trans(lambda k: k, size)
+
+
+def TransNat1(T: Table, size: int) -> list[int]:
+    return T.trans(lambda k: k + 1, size)
+
+
+def TransSqrs(T: Table, size: int) -> list[int]:
+    return T.trans(lambda k: k * k, size)
+
+
+def BinConv(T: Table, size: int) -> list[int]:
+    return [dotproduct(Binomial.gen(n), T.gen(n)) for n in range(size)]
+
+
+def InvBinConv(T: Table, size: int) -> list[int]:
+    return [dotproduct(InvBinomial.gen(n), T.gen(n)) for n in range(size)]
+
+
+Traits: dict[str, trait] = {
+    "TablCol1": TablCol1,
+    "TablCol2": TablCol2,
+    "TablCol3": TablCol3,
+    "TablDiag1": TablDiag1,
+    "TablDiag2": TablDiag2,
+    "TablDiag3": TablDiag3,
+    "PolyRow1": PolyRow1,
+    "PolyRow2": PolyRow2,
+    "PolyRow3": PolyRow3,
+    "PolyCol1": PolyCol1,
+    "PolyCol2": PolyCol2,
+    "PolyCol3": PolyCol3,
+    "PolyDiag": PolyDiag,
+    "TablLcm": TablLcm,
+    "TablGcd": TablGcd,
+    "TablMax": TablMax,
+    "TablSum": TablSum,
+    "EvenSum": EvenSum,
+    "OddSum": OddSum,
+    "AltSum": AltSum,
+    "AbsSum": AbsSum,
+    "AccSum": AccSum,
+    "AccRevSum": AccRevSum,
+    "AntiDSum": AntiDSum,
+    "ColMiddle": ColMiddle,
+    "CentralE": CentralE,
+    "CentralO": CentralO,
+    "PosHalf": PosHalf,
+    "NegHalf": NegHalf,
+    "TransSqrs": TransSqrs,
+    "TransNat0": TransNat0,
+    "TransNat1": TransNat1,
+    "BinConv": BinConv,
+    "InvBinConv": InvBinConv,
+}
+
+
 class Profile:
     """The profile of integer triangles."""
 
@@ -624,9 +843,8 @@ class Profile:
     def profile(self) -> Dict[str, tuple[int, int, int]]:
         # flat (size: int)     -> list[int] | flattened form of the first size rows
         self.prof[self.tab.id] = QueryOEIS(self.tab.flat(7))
-
         # sum (size: int)      -> list[int] | sums of the first size rows
-        self.prof["sum"] = QueryOEIS(self.tab.sum(25))
+        ##self.prof["sum"] = QueryOEIS(self.tab.sum(25))
         # diag(n, size: int)   -> list[int] | diagonal starting at the left side
         self.prof["diag0"] = QueryOEIS(self.tab.diag(0, 25))
         self.prof["diag1"] = QueryOEIS(self.tab.diag(1, 25))
@@ -636,11 +854,11 @@ class Profile:
         self.prof["col1"] = QueryOEIS(self.tab.col(1, 25))
         self.prof["col2"] = QueryOEIS(self.tab.col(2, 25))
         # rev (size: int)      -> tabl | table with reversed rows
-        self.prof["rev"] = QueryOEIS(list(flatten(self.tab.rev(7))))
+        ##self.prof["rev"] = QueryOEIS(list(flatten(self.tab.rev(7))))
         # acc (size: int)      -> tabl | table with rows accumulated
-        self.prof["acc"] = QueryOEIS(list(flatten(self.tab.acc(7))))
+        ##self.prof["acc"] = QueryOEIS(list(flatten(self.tab.acc(7))))
         # diff (size: int)     -> tabl | table with first difference of rows
-        self.prof["diff"] = QueryOEIS(list(flatten(self.tab.diff(7))))
+        ##self.prof["diff"] = QueryOEIS(list(flatten(self.tab.diff(7))))
         # inv (size: int)      -> tabl | inverse table
         self.prof["inv"] = QueryOEIS(list(flatten(self.tab.inv(7))))
         # revinv (size: int)   -> tabl | row reversed inverse
@@ -650,12 +868,11 @@ class Profile:
         # off (N: int, K: int) -> rgen | new offset (N, K)
         T11 = Table(self.tab.off(1, 1), self.tab.id + "off11")
         self.prof["off1"] = QueryOEIS(T11.flat(7))
-
         # invrev11 (size: int) -> tabl | invrev from offset (1, 1)
         InvT11 = Table(self.tab.off(1, 1), self.tab.id + "ioff11")
         self.prof["ioff1"] = QueryOEIS(InvT11.flat(7))
         # adtab (size: int)    -> tabl | table of (upward) anti-diagonals
-        self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
+        ##self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
         # print(self.prof)
         return self.prof
 
@@ -778,6 +995,10 @@ def binomial(n: int) -> list[int]:
     return row
 
 
+def invbinomial(n: int) -> list[int]:
+    return [(-1) ** (n + k) * binomial(n)[k] for k in range(n + 1)]
+
+
 Binomial = Table(
     binomial,
     "Binomial",
@@ -793,6 +1014,7 @@ Binomial = Table(
     ],
     True,
 )
+InvBinomial = Table(invbinomial, "InvBinomial", ["A130595"], True)
 
 
 @cache
@@ -2458,6 +2680,7 @@ Tables: list[Table] = [
     HermiteE,
     HermiteH,
     HyperHarmonic,
+    InvBinomial,
     Jacobsthal,
     Kekule,
     LabeledGraphs,
