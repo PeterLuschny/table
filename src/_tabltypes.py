@@ -102,6 +102,29 @@ class Table:
 
     def itr(self, size: int) -> Iterator[list[int]]:
         return islice(iter(Abel), size)
+    
+    def tab(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+
+        Returns:
+            table generated
+        """
+        return [list(self.gen(n))
+                for n in range(size)]
+
+    def mat(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows and columns
+
+        Returns:
+            matrix with generated table as lower triangle
+        """
+        return [[self.gen(n)[k] if k <= n else 0
+                for k in range(size)]
+                for n in range(size)]
 
     def val(self, n: int, k: int) -> int:
         """Term of table with index (n, k).
@@ -126,42 +149,51 @@ class Table:
         """
         return self.gen(n)
 
-    def tab(self, size: int) -> tabl:
-        """
-        Args:
-            size, number of rows
-
-        Returns:
-            table generated
-        """
-        return [list(self.gen(n))
-                for n in range(size)]
-
     def rev(self, row: int) -> trow:
         """
         Args:
-            size, number of rows
+            row number to be reversed
 
         Returns:
-            tabel with reversed rows
+            reversed row
         """
         return list(reversed(self.gen(row)))
 
     def antid(self, n: int) -> trow:
         """
         Args:
-            size, number of rows
+            start index of the antidiagonal
 
         Returns:
-            table of (upward) anti-diagonals
+            n-th antidiagonal
         """
         return [self.gen(n - k)[k]
                  for k in range((n + 2) // 2)]
 
+    def acc(self, row: int) -> trow:
+        """
+        Args:
+            index of row to be accumulated
+
+        Returns:
+            accumulated row
+        """
+        return list(accumulate(self.gen(row)))
+
+    def diff(self, n: int) -> trow:
+        """
+        Args:
+            index of row the first differences is searched
+
+        Returns:
+            first differences of row
+        """
+        return list(difference(self.gen(n)))
+
     def diag(self, n: int, size: int) -> list[int]:
         """
         Args:
-            n, start at row n
+            n is index of start of the diagonal
             size, length of diagonal
 
         Returns:
@@ -185,46 +217,13 @@ class Table:
     def sum(self, row: int) -> int:
         """
         Args:
-            size, number of rows to be summed
+            row number to be summed
 
         Returns:
-            The first 'size' row sums.
+            row sum
         """
         return sum(self.gen(row))
 
-    def acc(self, row: int) -> trow:
-        """
-        Args:
-            size, number of rows
-
-        Returns:
-            table with rows accumulated
-        """
-        return list(accumulate(self.gen(row)))
-
-    def diff(self, n: int) -> trow:
-        """
-        Args:
-            size, number of rows
-
-        Returns:
-            table with first differences of rows
-        """
-        return list(difference(self.gen(n)))
-
-    def mat(self, size: int) -> tabl:
-        """
-        Args:
-            size, number of rows and columns
-
-        Returns:
-            matrix with generated table as lower triangle
-        """
-        return [[self.gen(n)[k] if k <= n else 0
-                for k in range(size)]
-                for n in range(size)]
-
-#   list(flatten(islice(self, size))))
     def flat(self, size: int) -> list[int]:
         """
         Args:
@@ -415,4 +414,3 @@ if __name__ == "__main__":
         print(r, sum(r))
 
     print()
-

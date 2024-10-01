@@ -159,8 +159,8 @@ def PreView(T: Table, size: int = 7) -> None:
     print("inv rev 11 ", T.invrev11(size-1))
     T11 = Table(T.off(1, 1), "Toffset11")
     print("1-1-based  ", T11.tab(size-1))
-    print("summap     ", T.trans(lambda n: n*n, size))
-    print("invmap     ", T.invtrans(lambda n: n*n, size))
+    print("trans      ", T.trans(lambda n: n*n, size))
+    print("invtrans   ", T.invtrans(lambda n: n*n, size))
     print("TABLE      "); T.show(size + 2)
     print("Timing 100 rows:", end=''); QuickTiming(T)
 

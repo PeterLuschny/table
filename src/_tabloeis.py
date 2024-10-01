@@ -260,7 +260,7 @@ if __name__ == "__main__":
     def testQuerySum() -> None:
         for tabl in Tables[:5]:
             print(f"*** Searching row sums of {tabl.id} {tabl.sim}.")
-            sumlist = tabl.sum(30)
+            sumlist = [tabl.sum(n) for n in range(30)]
             print(QueryOEIS(sumlist))
 
     test()

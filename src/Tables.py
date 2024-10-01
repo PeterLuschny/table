@@ -144,6 +144,26 @@ class Table:
     def itr(self, size: int) -> Iterator[list[int]]:
         return islice(iter(Abel), size)
 
+    def tab(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+        Returns:
+            table generated
+        """
+        return [list(self.gen(n)) for n in range(size)]
+
+    def mat(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows and columns
+        Returns:
+            matrix with generated table as lower triangle
+        """
+        return [
+            [self.gen(n)[k] if k <= n else 0 for k in range(size)] for n in range(size)
+        ]
+
     def val(self, n: int, k: int) -> int:
         """Term of table with index (n, k).
         Args:
@@ -163,37 +183,46 @@ class Table:
         """
         return self.gen(n)
 
-    def tab(self, size: int) -> tabl:
-        """
-        Args:
-            size, number of rows
-        Returns:
-            table generated
-        """
-        return [list(self.gen(n)) for n in range(size)]
-
     def rev(self, row: int) -> trow:
         """
         Args:
-            size, number of rows
+            row number to be reversed
         Returns:
-            tabel with reversed rows
+            reversed row
         """
         return list(reversed(self.gen(row)))
 
     def antid(self, n: int) -> trow:
         """
         Args:
-            size, number of rows
+            start index of the antidiagonal
         Returns:
-            table of (upward) anti-diagonals
+            n-th antidiagonal
         """
         return [self.gen(n - k)[k] for k in range((n + 2) // 2)]
+
+    def acc(self, row: int) -> trow:
+        """
+        Args:
+            index of row to be accumulated
+        Returns:
+            accumulated row
+        """
+        return list(accumulate(self.gen(row)))
+
+    def diff(self, n: int) -> trow:
+        """
+        Args:
+            index of row the first differences is searched
+        Returns:
+            first differences of row
+        """
+        return list(difference(self.gen(n)))
 
     def diag(self, n: int, size: int) -> list[int]:
         """
         Args:
-            n, start at row n
+            n is index of start of the diagonal
             size, length of diagonal
         Returns:
             n-th diagonal starting at the left side
@@ -213,40 +242,11 @@ class Table:
     def sum(self, row: int) -> int:
         """
         Args:
-            size, number of rows to be summed
+            row number to be summed
         Returns:
-            The first 'size' row sums.
+            row sum
         """
         return sum(self.gen(row))
-
-    def acc(self, row: int) -> trow:
-        """
-        Args:
-            size, number of rows
-        Returns:
-            table with rows accumulated
-        """
-        return list(accumulate(self.gen(row)))
-
-    def diff(self, n: int) -> trow:
-        """
-        Args:
-            size, number of rows
-        Returns:
-            table with first differences of rows
-        """
-        return list(difference(self.gen(n)))
-
-    def mat(self, size: int) -> tabl:
-        """
-        Args:
-            size, number of rows and columns
-        Returns:
-            matrix with generated table as lower triangle
-        """
-        return [
-            [self.gen(n)[k] if k <= n else 0 for k in range(size)] for n in range(size)
-        ]
 
     def flat(self, size: int) -> list[int]:
         """
@@ -509,8 +509,8 @@ def PreView(T: Table, size: int = 7) -> None:
     print("inv rev 11 ", T.invrev11(size - 1))
     T11 = Table(T.off(1, 1), "Toffset11")
     print("1-1-based  ", T11.tab(size - 1))
-    print("summap     ", T.trans(lambda n: n * n, size))
-    print("invmap     ", T.invtrans(lambda n: n * n, size))
+    print("trans      ", T.trans(lambda n: n * n, size))
+    print("invtrans   ", T.invtrans(lambda n: n * n, size))
     print("TABLE      ")
     T.show(size + 2)
     print("Timing 100 rows:", end="")
@@ -617,6 +617,44 @@ def QueryOEIS(
 def dotproduct(vec: list[int], tor: list[int]) -> int:
     """Returns the dot product of the two vectors."""
     return sum(map(operator.mul, vec, tor))
+
+
+def Triangle(T: Table, size: int) -> list[int]:
+    return T.flat(size)
+
+
+def Trev(T: Table, size: int) -> list[int]:
+    return list(flatten([T.rev(n) for n in range(size)]))
+
+
+def Tinv(T: Table, size: int) -> list[int]:
+    return list(flatten(T.inv(size)))
+
+
+def Trevinv(T: Table, size: int) -> list[int]:
+    return list(flatten(T.revinv(size)))
+
+
+def Tinvrev(T: Table, size: int) -> list[int]:
+    return list(flatten(T.invrev(size)))
+
+
+def Toff11(T: Table, size: int) -> list[int]:
+    T11 = Table(T.off(1, 1), T.id + "off11")
+    return T11.flat(size)
+
+
+def Tinvrev11(T: Table, size: int) -> list[int]:
+    InvT11 = T.invrev11(size)  # , T.id + "ioff11")
+    return list(flatten(InvT11))
+
+
+def Tacc(T: Table, size: int) -> list[int]:
+    return list(flatten([T.acc(n) for n in range(size)]))
+
+
+def Tdiff(T: Table, size: int) -> list[int]:
+    return list(flatten([T.diff(n) for n in range(size)]))
 
 
 def TablCol(T: Table, j: int, size: int) -> list[int]:
@@ -792,7 +830,16 @@ def InvBinConv(T: Table, size: int) -> list[int]:
     return [dotproduct(InvBinomial.gen(n), T.gen(n)) for n in range(size)]
 
 
-Traits: dict[str, trait] = {
+AllTraits: dict[str, trait] = {
+    "Triangle": Triangle,
+    "Tinv": Tinv,
+    "Trev": Trev,
+    "Trevinv": Trevinv,
+    "Tinvrev": Tinvrev,
+    "Toff11": Toff11,
+    "Tinvrev11": Tinvrev11,
+    "Tacc": Tacc,
+    "Tdiff": Tdiff,
     "TablCol1": TablCol1,
     "TablCol2": TablCol2,
     "TablCol3": TablCol3,
@@ -830,54 +877,35 @@ Traits: dict[str, trait] = {
 }
 
 
-class Profile:
-    """The profile of integer triangles."""
-
-    def __init__(
-        self,
-        tab: Table,
-    ) -> None:
-        self.tab = tab
-        self.prof: Dict[str, tuple[int, int, int]] = {}
-
-    def profile(self) -> Dict[str, tuple[int, int, int]]:
-        # flat (size: int)     -> list[int] | flattened form of the first size rows
-        self.prof[self.tab.id] = QueryOEIS(self.tab.flat(7))
-        # sum (size: int)      -> list[int] | sums of the first size rows
-        ##self.prof["sum"] = QueryOEIS(self.tab.sum(25))
-        # diag(n, size: int)   -> list[int] | diagonal starting at the left side
-        self.prof["diag0"] = QueryOEIS(self.tab.diag(0, 25))
-        self.prof["diag1"] = QueryOEIS(self.tab.diag(1, 25))
-        self.prof["diag2"] = QueryOEIS(self.tab.diag(2, 25))
-        # col (k, size: int)   -> list[int] | k-th column starting at the main diagonal
-        self.prof["col0"] = QueryOEIS(self.tab.col(0, 25))
-        self.prof["col1"] = QueryOEIS(self.tab.col(1, 25))
-        self.prof["col2"] = QueryOEIS(self.tab.col(2, 25))
-        # rev (size: int)      -> tabl | table with reversed rows
-        ##self.prof["rev"] = QueryOEIS(list(flatten(self.tab.rev(7))))
-        # acc (size: int)      -> tabl | table with rows accumulated
-        ##self.prof["acc"] = QueryOEIS(list(flatten(self.tab.acc(7))))
-        # diff (size: int)     -> tabl | table with first difference of rows
-        ##self.prof["diff"] = QueryOEIS(list(flatten(self.tab.diff(7))))
-        # inv (size: int)      -> tabl | inverse table
-        self.prof["inv"] = QueryOEIS(list(flatten(self.tab.inv(7))))
-        # revinv (size: int)   -> tabl | row reversed inverse
-        self.prof["revinv"] = QueryOEIS(list(flatten(self.tab.revinv(7))))
-        # invrev (size: int)   -> tabl | inverse of row reversed
-        self.prof["invrev"] = QueryOEIS(list(flatten(self.tab.invrev(7))))
-        # off (N: int, K: int) -> rgen | new offset (N, K)
-        T11 = Table(self.tab.off(1, 1), self.tab.id + "off11")
-        self.prof["off1"] = QueryOEIS(T11.flat(7))
-        # invrev11 (size: int) -> tabl | invrev from offset (1, 1)
-        InvT11 = Table(self.tab.off(1, 1), self.tab.id + "ioff11")
-        self.prof["ioff1"] = QueryOEIS(InvT11.flat(7))
-        # adtab (size: int)    -> tabl | table of (upward) anti-diagonals
-        ##self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
-        # print(self.prof)
-        return self.prof
+def Traits(T: Table, LEN: int = 10) -> None:
+    for id, tr in AllTraits.items():
+        name = (T.id + id).ljust(9 + len(T.id), " ")
+        print(name, tr(T, LEN))
 
 
-ProfileDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
+def AnumbersDict(T: Table) -> Dict[str, tuple[int, int, int]]:
+    """The profile of integer triangles in the OEIS."""
+    anum: Dict[str, tuple[int, int, int]] = {}
+    # flat (size: int)     -> list[int] | flattened form of the first size rows
+    anum[T.id] = QueryOEIS(T.flat(7))
+    # inv (size: int)      -> tabl | inverse table
+    anum["inv"] = QueryOEIS(list(flatten(T.inv(7))))
+    # revinv (size: int)   -> tabl | row reversed inverse
+    anum["revinv"] = QueryOEIS(list(flatten(T.revinv(7))))
+    # invrev (size: int)   -> tabl | inverse of row reversed
+    anum["invrev"] = QueryOEIS(list(flatten(T.invrev(7))))
+    # off (N: int, K: int) -> rgen | new offset (N, K)
+    T11 = Table(T.off(1, 1), T.id + "off11")
+    anum["off1"] = QueryOEIS(T11.flat(7))
+    # invrev11 (size: int) -> tabl | invrev from offset (1, 1)
+    InvT11 = Table(T.off(1, 1), T.id + "ioff11")
+    anum["ioff1"] = QueryOEIS(InvT11.flat(7))
+    # antid (size: int)    -> tabl | table of (upward) anti-diagonals
+    ##self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
+    return anum
+
+
+OEISDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
 
 
 @cache

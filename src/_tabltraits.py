@@ -1,5 +1,6 @@
 from _tabltypes import Table, rgen, trait
 from itertools import accumulate
+from more_itertools import flatten
 from functools import reduce
 from math import lcm, gcd
 from fractions import Fraction
@@ -11,6 +12,35 @@ import operator
 def dotproduct(vec: list[int], tor: list[int]) -> int:
     """Returns the dot product of the two vectors."""
     return sum(map(operator.mul, vec, tor))
+
+def Triangle(T: Table, size: int) -> list[int]:
+    return T.flat(size)
+
+def Trev(T: Table, size: int) -> list[int]:
+    return list(flatten([T.rev(n) for n in range(size)]))
+
+def Tinv(T: Table, size: int) -> list[int]:
+    return list(flatten(T.inv(size)))
+
+def Trevinv(T: Table, size: int) -> list[int]:
+    return list(flatten(T.revinv(size)))
+
+def Tinvrev(T: Table, size: int) -> list[int]:
+    return list(flatten(T.invrev(size)))
+
+def Toff11(T: Table, size: int) -> list[int]:
+    T11 = Table(T.off(1, 1), T.id + "off11")
+    return T11.flat(size)
+
+def Tinvrev11(T: Table, size: int) -> list[int]:
+    InvT11 = T.invrev11(size)  #, T.id + "ioff11")
+    return list(flatten(InvT11))
+
+def Tacc(T: Table, size: int) -> list[int]:
+    return list(flatten([T.acc(n) for n in range(size)]))
+
+def Tdiff(T: Table, size: int) -> list[int]:
+    return list(flatten([T.diff(n) for n in range(size)]))
 
 def TablCol(T: Table, j: int, size: int) -> list[int]:
     return [T.gen(j + k)[j] for k in range(size)]
@@ -126,8 +156,7 @@ def PosHalf(T: Table, size: int) -> list[int]:
             for n in range(size)]
 
 def NegHalf(T: Table, size: int) -> list[int]:
-    return [(((-2) ** n) * PolyFrac(T, n, Fraction(-1, 2))).numerator 
-            for n in range(size)]
+    return [(((-2) ** n) * PolyFrac(T, n, Fraction(-1, 2))).numerator for n in range(size)]
 
 def TransNat0(T: Table, size: int) -> list[int]:
     return T.trans(lambda k: k, size)
@@ -146,7 +175,16 @@ def InvBinConv(T:Table, size: int) -> list[int]:
     return [dotproduct(InvBinomial.gen(n), T.gen(n)) 
             for n in range(size)]
 
-Traits: dict[str, trait] =  {
+AllTraits: dict[str, trait] =  {
+    "Triangle"  : Triangle,
+    "Tinv"      : Tinv,
+    "Trev"      : Trev,
+    "Trevinv"   : Trevinv,
+    "Tinvrev"   : Tinvrev,
+    "Toff11"    : Toff11,
+    "Tinvrev11" : Tinvrev11,
+    "Tacc"      : Tacc,
+    "Tdiff"     : Tdiff,
     "TablCol1"  : TablCol1,
     "TablCol2"  : TablCol2,
     "TablCol3"  : TablCol3,
@@ -183,52 +221,58 @@ Traits: dict[str, trait] =  {
     "InvBinConv": InvBinConv,
 }
 
+def Traits(T: Table, LEN: int=10) -> None:
+    for id, tr in AllTraits.items():
+        name = (T.id + id).ljust(9+len(T.id), ' ') 
+        print(name, tr(T, LEN))
+
 
 if __name__ == "__main__":
+
     from Abel import Abel
     from StirlingSet import StirlingSet
-    
-    def test() -> None:
+
+
+    def test(T: Table, LEN: int) -> None:
         print("TablCol")
-        for n in range(4): print(TablCol(Abel, n, 10))
+        for n in range(4): 
+            print(TablCol(T, n, LEN))
         print("TablDiag")
-        for n in range(4): print(TablDiag(Abel, n, 10))
+        for n in range(4): 
+            print(TablDiag(T, n, LEN))
         print("PolyRow")
-        for n in range(4): print(PolyRow(Abel, n, 10))
+        for n in range(4): 
+            print(PolyRow(T, n, LEN))
         print("PolyCol")
-        for n in range(4): print(PolyCol(Abel, n, 10))
+        for n in range(4): 
+            print(PolyCol(T, n, LEN))
         print()
-        
-        print(PolyDiag(Abel, 10))
-        print(TablLcm(Abel, 10))
-        print(TablGcd(Abel, 10))
-        print(TablMax(Abel, 10))
-        print(TablSum(Abel,  10))
-        print(EvenSum(Abel, 10))
-        print(OddSum(Abel, 10))
-        print(AltSum(Abel, 10))
-        print(AbsSum(Abel, 10))
-        print(AccSum(Abel, 10))
-        print(AccRevSum(Abel, 10))
-        print(AntiDSum(Abel, 10))
-        print(ColMiddle(Abel, 10))
-        print(CentralE(Abel, 10))
-        print(CentralO(Abel, 10))
-        print(ColLeft(Abel, 10))
-        print(ColRight(Abel, 10))
-        print(PosHalf(Abel, 10))
-        print(NegHalf(Abel, 10))
-        print(TransNat0(Abel, 10))
-        print(TransNat1(Abel, 10))
-        print(TransSqrs(Abel, 10))
-        print(BinConv(Abel, 10))
-        print(InvBinConv(Abel, 10))
 
-    def test2() -> None:
-        T = StirlingSet
-        for id, tr in Traits.items():
-            name = (T.id + id).ljust(9+len(T.id), ' ') 
-            print(name, tr(T, 10))
+        print(PolyDiag(T, LEN))
+        print(TablLcm(T, LEN))
+        print(TablGcd(T, LEN))
+        print(TablMax(T, LEN))
+        print(TablSum(T, LEN))
+        print(EvenSum(T, LEN))
+        print(OddSum(T, LEN))
+        print(AltSum(T, LEN))
+        print(AbsSum(T, LEN))
+        print(AccSum(T, LEN))
+        print(AccRevSum(T, LEN))
+        print(AntiDSum(T, LEN))
+        print(ColMiddle(T, LEN))
+        print(CentralE(T, LEN))
+        print(CentralO(T, LEN))
+        print(ColLeft(T, LEN))
+        print(ColRight(T, LEN))
+        print(PosHalf(T, LEN))
+        print(NegHalf(T, LEN))
+        print(TransNat0(T, LEN))
+        print(TransNat1(T, LEN))
+        print(TransSqrs(T, LEN))
+        print(BinConv(T, LEN))
+        print(InvBinConv(T, LEN))
 
-    test2()
-
+    #test(StirlingSet, 10)
+    Traits(Abel)
+    Traits(StirlingSet)
