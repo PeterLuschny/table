@@ -7,7 +7,6 @@ tabl_files: list[str] = [
     "_tablutils.py",
     "_tabloeis.py",
     "_tabltraits.py",
-    "_tablprofile.py",
     "Abel.py",
     "Andre.py",
     "Baxter.py",

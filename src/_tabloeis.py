@@ -200,12 +200,12 @@ def QueryOEIS(
     """
     minlen = 24
     if len(seqlist) < minlen:
-        if info: 
-            print(f"Sequence is too short! We require at least {minlen} terms.")
-        return (0, 0, 0)
+      print(f"Sequence is too short! We require at least {minlen} terms.")
+      print("You provided:", seqlist)
+      return (0, 0, 0)
 
-    # WArning. These 'magical' constants are very sensible!
-    seqstr = SeqToString(seqlist, 180, 25, ",", 3, True)
+    # Warning. These 'magical' constants are very sensible!
+    seqstr = SeqToString(seqlist, 222, 25, ",", 3, True)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
 
     for _ in range(3):
@@ -213,7 +213,8 @@ def QueryOEIS(
         try:
             jdata: None | list[dict[str, int | str | list[str] ]] = get(url, timeout=20).json()
             if jdata == None:
-                print("Sorry, no match found for:", seqstr)
+                if info:
+                    print("Sorry, no match found for:", seqstr)
                 return (0, 0, 0)
 
             number = sl = dl = ol = 0
@@ -223,6 +224,7 @@ def QueryOEIS(
                 anumber = f"A{(6 - len(str(number))) * '0' + str(number)}"
                 name = seq["name"]
                 data = seq["data"].replace('-', '')         # type: ignore
+                seqstr = SeqToString(seqlist, 600, 25, ",", 0, True)
                 start, length = lcsubstr(data, seqstr)      # type: ignore
                 ol = data.count(",")                        # type: ignore
                 sl = data.count(",", 0, start)              # type: ignore

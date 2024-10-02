@@ -309,6 +309,35 @@ class Table:
 
         return subgen
 
+    def rev11(self, n: int) -> trow:
+        """
+        Args:
+            size, number of rows
+        Returns:
+            sub-table with offset (1,1) and reversed rows
+        """
+        return list(reversed(self.off(1, 1)(n)))
+
+    def inv11(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+        Returns:
+            inverse of the sub-table with offset (1,1)
+        """
+        M = [list(self.off(1, 1)(n)) for n in range(size)]
+        return InvertMatrix(M)
+
+    def revinv11(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+        Returns:
+            reversed rows of the inverse sub-table with offset (1,1)
+        """
+        M = self.inv11(size)
+        return [list(reversed(row)) for row in M]
+
     def invrev11(self, size: int) -> tabl:
         """
         Args:
@@ -571,11 +600,11 @@ def QueryOEIS(
     """
     minlen = 24
     if len(seqlist) < minlen:
-        if info:
-            print(f"Sequence is too short! We require at least {minlen} terms.")
+        print(f"Sequence is too short! We require at least {minlen} terms.")
+        print("You provided:", seqlist)
         return (0, 0, 0)
-    # WArning. These 'magical' constants are very sensible!
-    seqstr = SeqToString(seqlist, 180, 25, ",", 3, True)
+    # Warning. These 'magical' constants are very sensible!
+    seqstr = SeqToString(seqlist, 222, 25, ",", 3, True)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
     for _ in range(3):
         time.sleep(0.5)  # give the OEIS server some time to relax
@@ -584,7 +613,8 @@ def QueryOEIS(
                 url, timeout=20
             ).json()
             if jdata == None:
-                print("Sorry, no match found for:", seqstr)
+                if info:
+                    print("Sorry, no match found for:", seqstr)
                 return (0, 0, 0)
             number = sl = dl = ol = 0
             for j in range(min(maxnum, len(jdata))):
@@ -593,6 +623,7 @@ def QueryOEIS(
                 anumber = f"A{(6 - len(str(number))) * '0' + str(number)}"
                 name = seq["name"]
                 data = seq["data"].replace("-", "")  # type: ignore
+                seqstr = SeqToString(seqlist, 600, 25, ",", 0, True)
                 start, length = lcsubstr(data, seqstr)  # type: ignore
                 ol = data.count(",")  # type: ignore
                 sl = data.count(",", 0, start)  # type: ignore
@@ -619,109 +650,122 @@ def dotproduct(vec: list[int], tor: list[int]) -> int:
     return sum(map(operator.mul, vec, tor))
 
 
-def Triangle(T: Table, size: int) -> list[int]:
+def Triangle(T: Table, size: int = 7) -> list[int]:
     return T.flat(size)
 
 
-def Trev(T: Table, size: int) -> list[int]:
+def Trev(T: Table, size: int = 7) -> list[int]:
     return list(flatten([T.rev(n) for n in range(size)]))
 
 
-def Tinv(T: Table, size: int) -> list[int]:
+def Tinv(T: Table, size: int = 7) -> list[int]:
     return list(flatten(T.inv(size)))
 
 
-def Trevinv(T: Table, size: int) -> list[int]:
+def Trevinv(T: Table, size: int = 7) -> list[int]:
     return list(flatten(T.revinv(size)))
 
 
-def Tinvrev(T: Table, size: int) -> list[int]:
+def Tinvrev(T: Table, size: int = 7) -> list[int]:
     return list(flatten(T.invrev(size)))
 
 
-def Toff11(T: Table, size: int) -> list[int]:
+def Toff11(T: Table, size: int = 7) -> list[int]:
     T11 = Table(T.off(1, 1), T.id + "off11")
     return T11.flat(size)
 
 
-def Tinvrev11(T: Table, size: int) -> list[int]:
-    InvT11 = T.invrev11(size)  # , T.id + "ioff11")
+def Trev11(T: Table, size: int = 7) -> list[int]:
+    return list(flatten([T.rev11(n) for n in range(size)]))
+
+
+def Tinv11(T: Table, size: int = 7) -> list[int]:
+    InvT11 = T.inv11(size)
     return list(flatten(InvT11))
 
 
-def Tacc(T: Table, size: int) -> list[int]:
+def Trevinv11(T: Table, size: int = 7) -> list[int]:
+    return list(flatten(T.revinv11(size)))
+
+
+def Tinvrev11(T: Table, size: int = 7) -> list[int]:
+    InvrevT11 = T.invrev11(size)
+    return list(flatten(InvrevT11))
+
+
+def Tacc(T: Table, size: int = 7) -> list[int]:
     return list(flatten([T.acc(n) for n in range(size)]))
 
 
-def Tdiff(T: Table, size: int) -> list[int]:
+def Tdiff(T: Table, size: int = 7) -> list[int]:
     return list(flatten([T.diff(n) for n in range(size)]))
 
 
-def TablCol(T: Table, j: int, size: int) -> list[int]:
+def TablCol(T: Table, j: int, size: int = 28) -> list[int]:
     return [T.gen(j + k)[j] for k in range(size)]
 
 
-def TablCol1(T: Table, size: int) -> list[int]:
+def TablCol1(T: Table, size: int = 28) -> list[int]:
     return [T.gen(1 + k)[1] for k in range(size)]
 
 
-def TablCol2(T: Table, size: int) -> list[int]:
+def TablCol2(T: Table, size: int = 28) -> list[int]:
     return [T.gen(2 + k)[2] for k in range(size)]
 
 
-def TablCol3(T: Table, size: int) -> list[int]:
+def TablCol3(T: Table, size: int = 28) -> list[int]:
     return [T.gen(3 + k)[3] for k in range(size)]
 
 
-def TablDiag(T: Table, j: int, size: int) -> list[int]:
+def TablDiag(T: Table, j: int, size: int = 28) -> list[int]:
     return [T.gen(j + k)[k] for k in range(size)]
 
 
-def TablDiag1(T: Table, size: int) -> list[int]:
+def TablDiag1(T: Table, size: int = 28) -> list[int]:
     return [T.gen(1 + k)[k] for k in range(size)]
 
 
-def TablDiag2(T: Table, size: int) -> list[int]:
+def TablDiag2(T: Table, size: int = 28) -> list[int]:
     return [T.gen(2 + k)[k] for k in range(size)]
 
 
-def TablDiag3(T: Table, size: int) -> list[int]:
+def TablDiag3(T: Table, size: int = 28) -> list[int]:
     return [T.gen(3 + k)[k] for k in range(size)]
 
 
-def PolyRow(T: Table, row: int, size: int) -> list[int]:
+def PolyRow(T: Table, row: int, size: int = 28) -> list[int]:
     return [T.poly(row, x) for x in range(size)]
 
 
-def PolyRow1(T: Table, size: int) -> list[int]:
+def PolyRow1(T: Table, size: int = 28) -> list[int]:
     return [T.poly(1, x) for x in range(size)]
 
 
-def PolyRow2(T: Table, size: int) -> list[int]:
+def PolyRow2(T: Table, size: int = 28) -> list[int]:
     return [T.poly(2, x) for x in range(size)]
 
 
-def PolyRow3(T: Table, size: int) -> list[int]:
+def PolyRow3(T: Table, size: int = 28) -> list[int]:
     return [T.poly(3, x) for x in range(size)]
 
 
-def PolyCol(T: Table, col: int, size: int) -> list[int]:
+def PolyCol(T: Table, col: int, size: int = 28) -> list[int]:
     return [T.poly(x, col) for x in range(size)]
 
 
-def PolyCol1(T: Table, size: int) -> list[int]:
+def PolyCol1(T: Table, size: int = 28) -> list[int]:
     return [T.poly(x, 1) for x in range(size)]
 
 
-def PolyCol2(T: Table, size: int) -> list[int]:
+def PolyCol2(T: Table, size: int = 28) -> list[int]:
     return [T.poly(x, 2) for x in range(size)]
 
 
-def PolyCol3(T: Table, size: int) -> list[int]:
+def PolyCol3(T: Table, size: int = 28) -> list[int]:
     return [T.poly(x, 3) for x in range(size)]
 
 
-def PolyDiag(T: Table, size: int) -> list[int]:
+def PolyDiag(T: Table, size: int = 28) -> list[int]:
     return [T.poly(n, n) for n in range(size)]
 
 
@@ -732,67 +776,67 @@ def RowLcmGcd(g: rgen, row: int, lg: bool) -> int:
     return lcm(*Z) if lg else gcd(*Z)
 
 
-def TablLcm(T: Table, size: int) -> list[int]:
+def TablLcm(T: Table, size: int = 28) -> list[int]:
     return [RowLcmGcd(T.gen, row, True) for row in range(size)]
 
 
-def TablGcd(T: Table, size: int) -> list[int]:
+def TablGcd(T: Table, size: int = 28) -> list[int]:
     return [RowLcmGcd(T.gen, row, False) for row in range(size)]
 
 
-def TablMax(T: Table, size: int) -> list[int]:
+def TablMax(T: Table, size: int = 28) -> list[int]:
     return [reduce(max, (abs(t) for t in T.gen(row))) for row in range(size)]
 
 
-def TablSum(T: Table, size: int) -> list[int]:
+def TablSum(T: Table, size: int = 28) -> list[int]:
     return [T.sum(n) for n in range(size)]
 
 
-def EvenSum(T: Table, size: int) -> list[int]:
+def EvenSum(T: Table, size: int = 28) -> list[int]:
     return [sum(T.gen(n)[::2]) for n in range(size)]
 
 
-def OddSum(T: Table, size: int) -> list[int]:
+def OddSum(T: Table, size: int = 28) -> list[int]:
     return [sum(T.gen(n)[1::2]) for n in range(size)]
 
 
-def AltSum(T: Table, size: int) -> list[int]:
+def AltSum(T: Table, size: int = 28) -> list[int]:
     return [sum(T.gen(n)[::2]) - sum(T.gen(n)[1::2]) for n in range(size)]
 
 
-def AbsSum(T: Table, size: int) -> list[int]:
+def AbsSum(T: Table, size: int = 28) -> list[int]:
     return [sum(abs(t) for t in T.gen(n)) for n in range(size)]
 
 
-def AccSum(T: Table, size: int) -> list[int]:
+def AccSum(T: Table, size: int = 28) -> list[int]:
     return [sum(T.acc(n)) for n in range(size)]
 
 
-def AccRevSum(T: Table, size: int) -> list[int]:
+def AccRevSum(T: Table, size: int = 28) -> list[int]:
     return [sum(accumulate(T.rev(n))) for n in range(size)]
 
 
-def AntiDSum(T: Table, size: int) -> list[int]:
+def AntiDSum(T: Table, size: int = 28) -> list[int]:
     return [sum(T.antid(n)) for n in range(size)]
 
 
-def ColMiddle(T: Table, size: int) -> list[int]:
+def ColMiddle(T: Table, size: int = 28) -> list[int]:
     return [T.gen(n)[n // 2] for n in range(size)]
 
 
-def CentralE(T: Table, size: int) -> list[int]:
+def CentralE(T: Table, size: int = 28) -> list[int]:
     return [T.gen(2 * n)[n] for n in range(size)]
 
 
-def CentralO(T: Table, size: int) -> list[int]:
+def CentralO(T: Table, size: int = 28) -> list[int]:
     return [T.gen(2 * n + 1)[n] for n in range(size)]
 
 
-def ColLeft(T: Table, size: int) -> list[int]:
+def ColLeft(T: Table, size: int = 28) -> list[int]:
     return [T.gen(n)[0] for n in range(size)]
 
 
-def ColRight(T: Table, size: int) -> list[int]:
+def ColRight(T: Table, size: int = 28) -> list[int]:
     return [T.gen(n)[-1] for n in range(size)]
 
 
@@ -800,33 +844,33 @@ def PolyFrac(T: Table, n: int, x: Fraction) -> Fraction | int:
     return sum(c * (x**k) for (k, c) in enumerate(T.gen(n)))
 
 
-def PosHalf(T: Table, size: int) -> list[int]:
+def PosHalf(T: Table, size: int = 28) -> list[int]:
     return [((2**n) * PolyFrac(T, n, Fraction(1, 2))).numerator for n in range(size)]
 
 
-def NegHalf(T: Table, size: int) -> list[int]:
+def NegHalf(T: Table, size: int = 28) -> list[int]:
     return [
         (((-2) ** n) * PolyFrac(T, n, Fraction(-1, 2))).numerator for n in range(size)
     ]
 
 
-def TransNat0(T: Table, size: int) -> list[int]:
+def TransNat0(T: Table, size: int = 28) -> list[int]:
     return T.trans(lambda k: k, size)
 
 
-def TransNat1(T: Table, size: int) -> list[int]:
+def TransNat1(T: Table, size: int = 28) -> list[int]:
     return T.trans(lambda k: k + 1, size)
 
 
-def TransSqrs(T: Table, size: int) -> list[int]:
+def TransSqrs(T: Table, size: int = 28) -> list[int]:
     return T.trans(lambda k: k * k, size)
 
 
-def BinConv(T: Table, size: int) -> list[int]:
+def BinConv(T: Table, size: int = 28) -> list[int]:
     return [dotproduct(Binomial.gen(n), T.gen(n)) for n in range(size)]
 
 
-def InvBinConv(T: Table, size: int) -> list[int]:
+def InvBinConv(T: Table, size: int = 28) -> list[int]:
     return [dotproduct(InvBinomial.gen(n), T.gen(n)) for n in range(size)]
 
 
@@ -837,6 +881,9 @@ AllTraits: dict[str, trait] = {
     "Trevinv": Trevinv,
     "Tinvrev": Tinvrev,
     "Toff11": Toff11,
+    "Trev11": Trev11,
+    "Tinv11": Tinv11,
+    "Trevinv11": Trevinv11,
     "Tinvrev11": Tinvrev11,
     "Tacc": Tacc,
     "Tdiff": Tdiff,
@@ -877,35 +924,56 @@ AllTraits: dict[str, trait] = {
 }
 
 
-def Traits(T: Table, LEN: int = 10) -> None:
+def TraitsList(T: Table) -> None:
     for id, tr in AllTraits.items():
         name = (T.id + id).ljust(9 + len(T.id), " ")
-        print(name, tr(T, LEN))
+        print(name, tr(T))  # type: ignore
 
 
 def AnumbersDict(T: Table) -> Dict[str, tuple[int, int, int]]:
-    """The profile of integer triangles in the OEIS."""
+    """Collects the A-nunmbers of traits present in the OEIS."""
     anum: Dict[str, tuple[int, int, int]] = {}
-    # flat (size: int)     -> list[int] | flattened form of the first size rows
-    anum[T.id] = QueryOEIS(T.flat(7))
-    # inv (size: int)      -> tabl | inverse table
-    anum["inv"] = QueryOEIS(list(flatten(T.inv(7))))
-    # revinv (size: int)   -> tabl | row reversed inverse
-    anum["revinv"] = QueryOEIS(list(flatten(T.revinv(7))))
-    # invrev (size: int)   -> tabl | inverse of row reversed
-    anum["invrev"] = QueryOEIS(list(flatten(T.invrev(7))))
-    # off (N: int, K: int) -> rgen | new offset (N, K)
-    T11 = Table(T.off(1, 1), T.id + "off11")
-    anum["off1"] = QueryOEIS(T11.flat(7))
-    # invrev11 (size: int) -> tabl | invrev from offset (1, 1)
-    InvT11 = Table(T.off(1, 1), T.id + "ioff11")
-    anum["ioff1"] = QueryOEIS(InvT11.flat(7))
-    # antid (size: int)    -> tabl | table of (upward) anti-diagonals
-    ##self.prof["antid"] = QueryOEIS(list(flatten(self.tab.antid(7))))
+    for id, trai in AllTraits.items():
+        name = (T.id + id).ljust(9 + len(T.id), " ")
+        # use the defaults: 7 rows or 28 terms!
+        seq = trai(T)  # type: ignore
+        if seq != []:
+            anum[name] = QueryOEIS(seq)  # type: ignore
     return anum
 
 
 OEISDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
+
+
+def BuildOEISDict() -> None:
+    """Joins the traits with the A-numbers present in the OEIS."""
+    for T in Tables:
+        OEISDict[T.id] = AnumbersDict(T)  # type: ignore
+    for tabl, dict in OEISDict.items():
+        print("*** Table", tabl, "***")
+        for trait in dict:
+            print("   ", f"{trait} -> {dict[trait]}")
+
+
+def OEISDictToFile() -> None:
+    """Saves the A-numbers of traits present in the OEIS to a file."""
+    for T in Tables[32:33]:
+        OEISDict[T.id] = AnumbersDict(T)  # type: ignore
+    tablpath = "Traits.html"
+    with open(tablpath, "w+", encoding="utf-8") as dest:
+        dest.write(
+            "<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>\n"
+        )
+        for tabl, dict in OEISDict.items():
+            print(f"*** Table {tabl} ***", flush=True)
+            for trait in dict:
+                print(f"     {trait} -> {dict[trait]}")
+                n = dict[trait][0]
+                if n != 0:
+                    num = str(n).rjust(6, "0")
+                    url = f"<a href='https://oeis.org/A{num}'>A{num}</a>"
+                    dest.write(f"<br>{url} {trait}")
+    print(f"Info: Traits represented in the OEIS written to {tablpath}.")
 
 
 @cache

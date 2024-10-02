@@ -302,6 +302,41 @@ class Table:
 
         return subgen
 
+    def rev11(self, n: int) -> trow:
+        """
+        Args:
+            size, number of rows
+
+        Returns:
+            sub-table with offset (1,1) and reversed rows
+        """
+
+        return list(reversed(self.off(1, 1)(n)))
+
+    def inv11(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+
+        Returns:
+            inverse of the sub-table with offset (1,1)
+        """
+        M = [list(self.off(1, 1)(n))
+             for n in range(size)]
+
+        return InvertMatrix(M)
+    
+    def revinv11(self, size: int) -> tabl:
+        """
+        Args:
+            size, number of rows
+
+        Returns:
+            reversed rows of the inverse sub-table with offset (1,1)
+        """
+        M = self.inv11(size)
+        return [list(reversed(row)) for row in M]
+
     def invrev11(self, size: int) -> tabl:
         """
         Args:
@@ -371,7 +406,7 @@ class Table:
 
 
 """Type: trait"""
-trait: TypeAlias = Callable[[Table, int], list[int]] 
+trait: TypeAlias = Callable[[Table, int], list[int]]
 
 
 if __name__ == "__main__":
