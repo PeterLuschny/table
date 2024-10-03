@@ -57,6 +57,9 @@ def Tacc(T: Table, size: int = 7) -> list[int]:
 def Tdiff(T: Table, size: int = 7) -> list[int]:
     return list(flatten([T.diff(n) for n in range(size)]))
 
+def Tder(T: Table, size: int = 7) -> list[int]:
+    return list(flatten([T.der(n) for n in range(size)]))
+
 def TablCol(T: Table, j: int, size: int = 28) -> list[int]:
     return [T.gen(j + k)[j] for k in range(size)]
 
@@ -203,6 +206,7 @@ AllTraits: dict[str, trait] =  {
     "Tinvrev11" : Tinvrev11,
     "Tacc"      : Tacc,
     "Tdiff"     : Tdiff,
+    "Tder"      : Tder,
     "TablCol1"  : TablCol1,
     "TablCol2"  : TablCol2,
     "TablCol3"  : TablCol3,
@@ -274,23 +278,27 @@ def BuildOEISDict() -> None:
 
 def OEISDictToFile() -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
-    for T in Tables[32:33]:
+    for T in Tables:
         OEISDict[T.id] = AnumbersDict(T) # type: ignore
 
-    tablpath = "Traits.html"
-    with open(tablpath, "w+", encoding="utf-8") as dest:
-        dest.write("<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>\n")
-        for tabl, dict in OEISDict.items():
-            print(f"*** Table {tabl} ***", flush = True)
-            for trait in dict:
-                print(f"     {trait} -> {dict[trait]}")
-                n = dict[trait][0]
-                if n != 0:
-                    num = str(n).rjust(6, '0')
-                    url = f"<a href='https://oeis.org/A{num}'>A{num}</a>" 
-                    dest.write(f"<br>{url} {trait}")
+    with open("Traits.html", "w+", encoding="utf-8") as oeis:
+        with open("Missing.html", "w+", encoding="utf-8") as miss:
+            doc = "<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>"
+            oeis.write(doc)
+            miss.write(doc)
+            for tabl, dict in OEISDict.items():
+                print(f"*** Table {tabl} ***", flush = True)
+                for trait in dict:
+                    print(f"     {trait} -> {dict[trait]}")
+                    n = dict[trait][0]
+                    if n == 0:
+                        miss.write(f"<br>{trait}")
+                    else:
+                        num = str(n).rjust(6, '0')
+                        url = f"<a href='https://oeis.org/A{num}'>A{num}</a>" 
+                        oeis.write(f"<br>{url} {trait}")
 
-    print(f"Info: Traits represented in the OEIS written to {tablpath}.")
+    print(f"Info: Traits represented in the OEIS written to Traits.html.")
 
 
 if __name__ == "__main__":
@@ -315,7 +323,7 @@ if __name__ == "__main__":
 
     # test(Abel, 10)
     # print(AnumbersDict(StirlingSet))
-    
+
     def tost() -> None:
         for i in range(2): 
             T = Tables[i]                    # type: ignore

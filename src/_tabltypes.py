@@ -1,6 +1,8 @@
 from typing import Callable, TypeAlias, Iterator
 from itertools import accumulate, islice
-from more_itertools import difference, flatten
+from functools import cache
+import operator
+from more_itertools import difference
 from _tablinverse import InvertMatrix
 
 # #@
@@ -101,7 +103,7 @@ class Table:
         return self.gen(n)
 
     def itr(self, size: int) -> Iterator[list[int]]:
-        return islice(iter(Abel), size)
+        return islice(iter(self.tab(size)), size)
     
     def tab(self, size: int) -> tabl:
         """
@@ -159,7 +161,7 @@ class Table:
         """
         return list(reversed(self.gen(row)))
 
-    def antid(self, n: int) -> trow:
+    def antid(self, n: int) -> list[int]:
         """
         Args:
             start index of the antidiagonal
@@ -189,6 +191,18 @@ class Table:
             first differences of row
         """
         return list(difference(self.gen(n)))
+    
+    def der(self, n: int) -> trow:
+        """
+        Args:
+            index of row-polynomial the derivative is searched
+
+        Returns:
+            derivative of row-polynomial
+        """
+        powers = range(n + 3)
+        coeffs = self.gen(n + 1)
+        return list(map(operator.mul, coeffs, powers))[1:]
 
     def diag(self, n: int, size: int) -> list[int]:
         """
@@ -290,6 +304,7 @@ class Table:
 
     def off(self, N: int, K: int) -> rgen:
         """
+        Subtriangle based in (N, K).
         Args:
             N, shifts row-offset by N
             K, shifts column-offset by K
@@ -403,6 +418,31 @@ class Table:
         """
         for n in range(size):
             print([n], self.gen(n))
+ 
+
+def RevTable(T: Table) -> Table:
+    """ """
+    @cache
+    def revgen(n: int) -> trow:
+        return T.rev(n)
+    return Table(revgen, T.id + ":Rev")
+
+
+def SubTriangle(T: Table, N: int, K: int) -> Table:
+    """
+    Generates a sub-triangle of a given size from a given triangle.
+
+    Args:
+        T (Table) 
+        N (int): The starting row index of the sub-triangle.
+        K (int): The starting column index of the sub-triangle.
+        size (int): The size of the sub-triangle.
+
+    Returns:
+        tabl: The generated sub-triangle.
+
+    """
+    return Table(T.off(N, K), T.id + ":Off")
 
 
 """Type: trait"""
@@ -414,6 +454,7 @@ if __name__ == "__main__":
     from functools import cache
     from math import comb as binomial
     from _tablutils import PreView
+    from more_itertools import flatten
     from StirlingSet import StirlingSet
 
     PreView(StirlingSet)
@@ -444,7 +485,7 @@ if __name__ == "__main__":
     print()
 
     # Use the Table as an iterable:
-    rows = Abel.itr(7)
+    rows = StirlingSet.itr(7)
     for r in rows:
         print(r, sum(r))
 

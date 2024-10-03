@@ -101,26 +101,28 @@ This function should be decorated with '@cache' and return a list of integers of
 
 A Table T provides the following methods:
 
+    off (N: int, K: int) -> rgen | new offset (N, K)
     val (n:int, k:int)   -> int  | T(n, k)
     poly(n: int, x: int) -> int  | sum(T(n, k) * x^j for j=0..n)
     flat (size: int)     -> list[int] | flattened form of the first size rows
     diag(n, size: int)   -> list[int] | diagonal starting at the left side
     col (k, size: int)   -> list[int] | k-th column starting at the main diagonal
     sum (size: int)      -> list[int] | sums of the first size rows
+    antid (size: int)    -> list[int] | upward anti-diagonals
     row (n: int)         -> trow | n-th row of table
+    rev (size: int)      -> trow | reversed rows
+    acc (size: int)      -> trow | accumulated row 
+    diff (size: int)     -> trow | first difference of row
+    der (size: int)      -> trow | derivative of row
     tab (size: int)      -> tabl | table with size rows
-    rev (size: int)      -> tabl | table with reversed rows
-    adtab (size: int)    -> tabl | table of (upward) anti-diagonals
-    acc (size: int)      -> tabl | table with rows accumulated
-    diff (size: int)     -> tabl | table with first difference of rows
     mat (size: int)      -> tabl | matrix form of lower triangular array
     inv (size: int)      -> tabl | inverse table
     revinv (size: int)   -> tabl | row reversed inverse
     invrev (size: int)   -> tabl | inverse of row reversed
-    off (N: int, K: int) -> rgen | new offset (N, K)
+    revinv11 (size: int) -> tabl | revinv from offset (1, 1)
     invrev11 (size: int) -> tabl | invrev from offset (1, 1)
-    summap(s: seq, size) -> list[int] | linear transformation induced by T
-    invmap(s: seq, size) -> list[int] | inverse transformation induced by T
+    trans(s: seq, size)  -> list[int] | linear transformation induced by T
+    invtrans(s: seq, size) -> list[int] | inverse transformation induced by T
     show (size: int)     -> None | prints the first 'size' rows with row-numbers
     itr (size: int)      -> Iterator[list[int]] | traverse the first 'size' rows
 

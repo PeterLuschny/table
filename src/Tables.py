@@ -142,7 +142,7 @@ class Table:
         return self.gen(n)
 
     def itr(self, size: int) -> Iterator[list[int]]:
-        return islice(iter(Abel), size)
+        return islice(iter(self.tab(size)), size)
 
     def tab(self, size: int) -> tabl:
         """
@@ -192,7 +192,7 @@ class Table:
         """
         return list(reversed(self.gen(row)))
 
-    def antid(self, n: int) -> trow:
+    def antid(self, n: int) -> list[int]:
         """
         Args:
             start index of the antidiagonal
@@ -218,6 +218,17 @@ class Table:
             first differences of row
         """
         return list(difference(self.gen(n)))
+
+    def der(self, n: int) -> trow:
+        """
+        Args:
+            index of row-polynomial the derivative is searched
+        Returns:
+            derivative of row-polynomial
+        """
+        powers = range(n + 3)
+        coeffs = self.gen(n + 1)
+        return list(map(operator.mul, coeffs, powers))[1:]
 
     def diag(self, n: int, size: int) -> list[int]:
         """
@@ -297,6 +308,7 @@ class Table:
 
     def off(self, N: int, K: int) -> rgen:
         """
+        Subtriangle based in (N, K).
         Args:
             N, shifts row-offset by N
             K, shifts column-offset by K
@@ -395,6 +407,30 @@ class Table:
         """
         for n in range(size):
             print([n], self.gen(n))
+
+
+def RevTable(T: Table) -> Table:
+    """ """
+
+    @cache
+    def revgen(n: int) -> trow:
+        return T.rev(n)
+
+    return Table(revgen, T.id + ":Rev")
+
+
+def SubTriangle(T: Table, N: int, K: int) -> Table:
+    """
+    Generates a sub-triangle of a given size from a given triangle.
+    Args:
+        T (Table)
+        N (int): The starting row index of the sub-triangle.
+        K (int): The starting column index of the sub-triangle.
+        size (int): The size of the sub-triangle.
+    Returns:
+        tabl: The generated sub-triangle.
+    """
+    return Table(T.off(N, K), T.id + ":Off")
 
 
 """Type: trait"""
@@ -528,6 +564,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print("table      ", T.tab(size))
     print("accumulated", T.acc(size))
     print("firstdiff  ", T.diff(size))
+    print("derivative ", T.der(size))
     print("reverted   ", T.rev(size))
     print("inverted   ", T.inv(size))
     print("antidiagtab", T.antid(size))
@@ -536,6 +573,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print("matrix     ", T.mat(size))
     print("flatt seq  ", T.flat(size))
     print("inv rev 11 ", T.invrev11(size - 1))
+    print("rev inv 11 ", T.revinv11(size - 1))
     T11 = Table(T.off(1, 1), "Toffset11")
     print("1-1-based  ", T11.tab(size - 1))
     print("trans      ", T.trans(lambda n: n * n, size))
@@ -699,6 +737,10 @@ def Tacc(T: Table, size: int = 7) -> list[int]:
 
 def Tdiff(T: Table, size: int = 7) -> list[int]:
     return list(flatten([T.diff(n) for n in range(size)]))
+
+
+def Tder(T: Table, size: int = 7) -> list[int]:
+    return list(flatten([T.der(n) for n in range(size)]))
 
 
 def TablCol(T: Table, j: int, size: int = 28) -> list[int]:
@@ -887,6 +929,7 @@ AllTraits: dict[str, trait] = {
     "Tinvrev11": Tinvrev11,
     "Tacc": Tacc,
     "Tdiff": Tdiff,
+    "Tder": Tder,
     "TablCol1": TablCol1,
     "TablCol2": TablCol2,
     "TablCol3": TablCol3,
@@ -957,23 +1000,25 @@ def BuildOEISDict() -> None:
 
 def OEISDictToFile() -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
-    for T in Tables[32:33]:
+    for T in Tables[:2]:
         OEISDict[T.id] = AnumbersDict(T)  # type: ignore
-    tablpath = "Traits.html"
-    with open(tablpath, "w+", encoding="utf-8") as dest:
-        dest.write(
-            "<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>\n"
-        )
-        for tabl, dict in OEISDict.items():
-            print(f"*** Table {tabl} ***", flush=True)
-            for trait in dict:
-                print(f"     {trait} -> {dict[trait]}")
-                n = dict[trait][0]
-                if n != 0:
-                    num = str(n).rjust(6, "0")
-                    url = f"<a href='https://oeis.org/A{num}'>A{num}</a>"
-                    dest.write(f"<br>{url} {trait}")
-    print(f"Info: Traits represented in the OEIS written to {tablpath}.")
+    with open("Traits.html", "w+", encoding="utf-8") as dest:
+        with open("Missing.html", "w+", encoding="utf-8") as miss:
+            doc = "<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>"
+            dest.write(doc)
+            miss.write(doc)
+            for tabl, dict in OEISDict.items():
+                print(f"*** Table {tabl} ***", flush=True)
+                for trait in dict:
+                    print(f"     {trait} -> {dict[trait]}")
+                    n = dict[trait][0]
+                    if n == 0:
+                        miss.write(f"<br>{trait}")
+                    else:
+                        num = str(n).rjust(6, "0")
+                        url = f"<a href='https://oeis.org/A{num}'>A{num}</a>"
+                        dest.write(f"<br>{url} {trait}")
+    print(f"Info: Traits represented in the OEIS written to Traits.html.")
 
 
 @cache
