@@ -205,7 +205,7 @@ def QueryOEIS(
       return (0, 0, 0)
 
     # Warning. These 'magical' constants are very sensible!
-    seqstr = SeqToString(seqlist, 222, 25, ",", 3, True)
+    seqstr = SeqToString(seqlist, 180, 25, ",", 3, True)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
 
     for _ in range(3):

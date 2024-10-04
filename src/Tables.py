@@ -6,6 +6,7 @@ from math import factorial, sqrt, lcm, gcd
 from fractions import Fraction
 import operator
 import time
+from pathlib import Path
 import requests
 from requests import get
 from sys import setrecursionlimit, set_int_max_str_digits
@@ -13,6 +14,36 @@ from typing import Callable, TypeAlias, Iterator, Dict
 
 setrecursionlimit(3000)
 set_int_max_str_digits(5000)
+path = Path(__file__).parent.parent
+strippedpath = (path / "data/stripped").resolve()
+oeisnamespath = (path / "data/names").resolve()
+
+
+def GetRoot(name: str = "") -> Path:
+    return (path / name).resolve()
+
+
+def GetData(name: str) -> Path:
+    relpath = f"data/{name}"
+    return (path / relpath).resolve()
+
+
+def GetDataPath(name: str, fix: str) -> Path:
+    relpath = f"data/{fix}/{name}.{fix}"
+    return (path / relpath).resolve()
+
+
+def MakeDirectory(dir: Path) -> None:
+    """Checks if a path exists, and if not,
+    creates the new path."""
+    Path(dir).mkdir(parents=True, exist_ok=True)
+
+
+def EnsureDataDirectories() -> None:
+    MakeDirectory(GetRoot("data/csv"))
+    MakeDirectory(GetRoot("data/db"))
+    MakeDirectory(GetRoot("data/html"))
+    MakeDirectory(GetRoot("data/md"))
 
 
 def InvertMatrix(L: list[list[int]], check: bool = True) -> list[list[int]]:
@@ -200,6 +231,9 @@ class Table:
             n-th antidiagonal
         """
         return [self.gen(n - k)[k] for k in range((n + 2) // 2)]
+
+    def alt(self, n: int) -> trow:
+        return [(-1) ** k * term for k, term in enumerate(self.gen(n))]
 
     def acc(self, row: int) -> trow:
         """
@@ -417,6 +451,16 @@ def RevTable(T: Table) -> Table:
         return T.rev(n)
 
     return Table(revgen, T.id + ":Rev")
+
+
+def AltTable(T: Table) -> Table:
+    """ """
+
+    @cache
+    def altgen(n: int) -> trow:
+        return T.alt(n)
+
+    return Table(altgen, T.id + ":Alt")
 
 
 def SubTriangle(T: Table, N: int, K: int) -> Table:
@@ -642,7 +686,7 @@ def QueryOEIS(
         print("You provided:", seqlist)
         return (0, 0, 0)
     # Warning. These 'magical' constants are very sensible!
-    seqstr = SeqToString(seqlist, 222, 25, ",", 3, True)
+    seqstr = SeqToString(seqlist, 180, 25, ",", 3, True)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
     for _ in range(3):
         time.sleep(0.5)  # give the OEIS server some time to relax
@@ -729,6 +773,10 @@ def Trevinv11(T: Table, size: int = 7) -> list[int]:
 def Tinvrev11(T: Table, size: int = 7) -> list[int]:
     InvrevT11 = T.invrev11(size)
     return list(flatten(InvrevT11))
+
+
+def Talt(T: Table, size: int = 7) -> list[int]:
+    return list(flatten([T.alt(n) for n in range(size)]))
 
 
 def Tacc(T: Table, size: int = 7) -> list[int]:
@@ -928,6 +976,7 @@ AllTraits: dict[str, trait] = {
     "Trevinv11": Trevinv11,
     "Tinvrev11": Tinvrev11,
     "Tacc": Tacc,
+    "Talt": Talt,
     "Tdiff": Tdiff,
     "Tder": Tder,
     "TablCol1": TablCol1,
@@ -967,14 +1016,26 @@ AllTraits: dict[str, trait] = {
 }
 
 
-def TraitsList(T: Table) -> None:
+def TableTraits(T: Table) -> None:
     for id, tr in AllTraits.items():
         name = (T.id + id).ljust(9 + len(T.id), " ")
         print(name, tr(T))  # type: ignore
 
 
-def AnumbersDict(T: Table) -> Dict[str, tuple[int, int, int]]:
-    """Collects the A-nunmbers of traits present in the OEIS."""
+GlobalDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
+
+
+def ShowdGlobalDict() -> None:
+    for tabl, dict in GlobalDict.items():
+        print(f"*** Table {tabl} ***")
+        for trait in dict:
+            print(f"    {trait} -> {dict[trait]}")
+
+
+def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
+    """Collects the A-nunmbers of traits present in the OEIS.
+    Add: Add to global OEISDict if requested. Defaults to False.
+    """
     anum: Dict[str, tuple[int, int, int]] = {}
     for id, trai in AllTraits.items():
         name = (T.id + id).ljust(9 + len(T.id), " ")
@@ -982,43 +1043,36 @@ def AnumbersDict(T: Table) -> Dict[str, tuple[int, int, int]]:
         seq = trai(T)  # type: ignore
         if seq != []:
             anum[name] = QueryOEIS(seq)  # type: ignore
+    if add:
+        GlobalDict[T.id] = anum
     return anum
 
 
-OEISDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
-
-
-def BuildOEISDict() -> None:
-    """Joins the traits with the A-numbers present in the OEIS."""
-    for T in Tables:
-        OEISDict[T.id] = AnumbersDict(T)  # type: ignore
-    for tabl, dict in OEISDict.items():
-        print("*** Table", tabl, "***")
-        for trait in dict:
-            print("   ", f"{trait} -> {dict[trait]}")
-
-
-def OEISDictToFile() -> None:
+def AnumbersToFile(T: Table) -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
-    for T in Tables[:2]:
-        OEISDict[T.id] = AnumbersDict(T)  # type: ignore
-    with open("Traits.html", "w+", encoding="utf-8") as dest:
-        with open("Missing.html", "w+", encoding="utf-8") as miss:
+    dict = AnumberDict(T)  # type: ignore
+    hitpath = GetRoot("data/" + T.id + "Traits.html")
+    mispath = GetRoot("data/" + T.id + "Missing.html")
+    with open(hitpath, "w+", encoding="utf-8") as oeis:
+        with open(mispath, "w+", encoding="utf-8") as miss:
             doc = "<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>"
-            dest.write(doc)
+            oeis.write(doc)
             miss.write(doc)
-            for tabl, dict in OEISDict.items():
-                print(f"*** Table {tabl} ***", flush=True)
-                for trait in dict:
-                    print(f"     {trait} -> {dict[trait]}")
-                    n = dict[trait][0]
-                    if n == 0:
-                        miss.write(f"<br>{trait}")
-                    else:
-                        num = str(n).rjust(6, "0")
-                        url = f"<a href='https://oeis.org/A{num}'>A{num}</a>"
-                        dest.write(f"<br>{url} {trait}")
-    print(f"Info: Traits represented in the OEIS written to Traits.html.")
+            print(f"*** Table {T.id} ***")
+            for trait, anum in dict.items():
+                print(f"     {trait} -> {anum}")
+                if anum[0] == 0:
+                    miss.write(f"<br>{trait}")
+                else:
+                    num = str(anum[0]).rjust(6, "0")
+                    url = f"<a href='https://oeis.org/A{num}'>A{num}</a>"
+                    oeis.write(f"<br>{url} {trait}")
+
+
+def RefreshDatabase() -> None:
+    """Takes 3-4 hours."""
+    for tbl in Tables:
+        AnumbersToFile(tbl)  # type: ignore
 
 
 @cache

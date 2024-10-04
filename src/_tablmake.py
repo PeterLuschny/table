@@ -2,6 +2,7 @@ from os import getcwd
 from os.path import join, isfile
 
 tabl_files: list[str] = [
+    "_tablpaths.py",
     "_tablinverse.py",
     "_tabltypes.py",
     "_tablutils.py",
@@ -242,6 +243,7 @@ import_header: list[str] = [
     "from fractions import Fraction\n",
     "import operator\n", 
     "import time\n",
+    "from pathlib import Path\n",
     "import requests\n", 
     "from requests import get\n",
     "from sys import setrecursionlimit, set_int_max_str_digits\n",

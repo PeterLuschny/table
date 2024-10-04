@@ -112,6 +112,7 @@ A Table T provides the following methods:
     row (n: int)         -> trow | n-th row of table
     rev (size: int)      -> trow | reversed rows
     acc (size: int)      -> trow | accumulated row 
+    alt (size: int)      -> trow | alternating signs 
     diff (size: int)     -> trow | first difference of row
     der (size: int)      -> trow | derivative of row
     tab (size: int)      -> tabl | table with size rows

@@ -9,6 +9,7 @@ from fractions import Fraction
 from Binomial import Binomial, InvBinomial
 import operator 
 from Tables import Tables
+from _tablpaths import GetRoot
 
 # #@
 
@@ -50,6 +51,9 @@ def Trevinv11(T: Table, size: int = 7) -> list[int]:
 def Tinvrev11(T: Table, size: int = 7) -> list[int]:
     InvrevT11 = T.invrev11(size) 
     return list(flatten(InvrevT11))
+
+def Talt(T: Table, size: int = 7) -> list[int]:
+    return list(flatten([T.alt(n) for n in range(size)]))
 
 def Tacc(T: Table, size: int = 7) -> list[int]:
     return list(flatten([T.acc(n) for n in range(size)]))
@@ -205,6 +209,7 @@ AllTraits: dict[str, trait] =  {
     "Trevinv11" : Trevinv11,
     "Tinvrev11" : Tinvrev11,
     "Tacc"      : Tacc,
+    "Talt"      : Talt,
     "Tdiff"     : Tdiff,
     "Tder"      : Tder,
     "TablCol1"  : TablCol1,
@@ -243,15 +248,23 @@ AllTraits: dict[str, trait] =  {
     "InvBinConv": InvBinConv,
 }
 
-def TraitsList(T: Table) -> None:
+def TableTraits(T: Table) -> None:
     for id, tr in AllTraits.items():
         name = (T.id + id).ljust(9 + len(T.id), ' ') 
         print(name, tr(T)) # type: ignore
 
+GlobalDict: Dict[str, Dict[str, tuple[int, int, int]]] = {} 
 
-def AnumbersDict(T: Table) -> Dict[str, tuple[int, int, int]]:
-    """Collects the A-nunmbers of traits present in the OEIS."""
+def ShowdGlobalDict() -> None:
+    for tabl, dict in GlobalDict.items():
+        print(f"*** Table {tabl} ***")
+        for trait in dict:
+            print(f"    {trait} -> {dict[trait]}")
 
+def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
+    """Collects the A-nunmbers of traits present in the OEIS.
+    Add: Add to global OEISDict if requested. Defaults to False.
+    """
     anum: Dict[str, tuple[int, int, int]] = {}
 
     for id, trai in AllTraits.items():
@@ -261,50 +274,42 @@ def AnumbersDict(T: Table) -> Dict[str, tuple[int, int, int]]:
         if seq != []:
             anum[name] = QueryOEIS(seq) # type: ignore
 
+    if add: GlobalDict[T.id] = anum
     return anum
 
-OEISDict: Dict[str, Dict[str, tuple[int, int, int]]] = {} 
-
-def BuildOEISDict() -> None:
-    """Joins the traits with the A-numbers present in the OEIS."""
-    for T in Tables:
-        OEISDict[T.id] = AnumbersDict(T) # type: ignore
-
-    for tabl, dict in OEISDict.items():
-        print("*** Table", tabl, "***")
-        for trait in dict:
-            print('   ', f"{trait} -> {dict[trait]}")
-
-
-def OEISDictToFile() -> None:
+def AnumbersToFile(T: Table) -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
-    for T in Tables:
-        OEISDict[T.id] = AnumbersDict(T) # type: ignore
+    dict = AnumberDict(T) # type: ignore
 
-    with open("Traits.html", "w+", encoding="utf-8") as oeis:
-        with open("Missing.html", "w+", encoding="utf-8") as miss:
+    hitpath = GetRoot('data/' + T.id + 'Traits.html')
+    mispath = GetRoot('data/' + T.id + 'Missing.html')
+    with open(hitpath, "w+", encoding="utf-8") as oeis:
+        with open(mispath, "w+", encoding="utf-8") as miss:
             doc = "<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>"
             oeis.write(doc)
             miss.write(doc)
-            for tabl, dict in OEISDict.items():
-                print(f"*** Table {tabl} ***", flush = True)
-                for trait in dict:
-                    print(f"     {trait} -> {dict[trait]}")
-                    n = dict[trait][0]
-                    if n == 0:
-                        miss.write(f"<br>{trait}")
-                    else:
-                        num = str(n).rjust(6, '0')
-                        url = f"<a href='https://oeis.org/A{num}'>A{num}</a>" 
-                        oeis.write(f"<br>{url} {trait}")
+            print(f"*** Table {T.id} ***")
+            for trait, anum in dict.items():
+                print(f"     {trait} -> {anum}")
+                if anum[0] == 0:
+                    miss.write(f"<br>{trait}")
+                else:
+                    num = str(anum[0]).rjust(6, '0')
+                    url = f"<a href='https://oeis.org/A{num}'>A{num}</a>" 
+                    oeis.write(f"<br>{url} {trait}")
 
-    print(f"Info: Traits represented in the OEIS written to Traits.html.")
+def RefreshDatabase() -> None:
+    """Takes 3-4 hours."""
+    for tbl in Tables:
+       AnumbersToFile(tbl) # type: ignore
 
-
+    
 if __name__ == "__main__":
 
     from Abel import Abel               # type: ignore
+    from Binomial import Binomial               # type: ignore
     from StirlingSet import StirlingSet # type: ignore
+
 
     def test(T: Table, LEN: int) -> None:
         print("TablCol")
@@ -322,17 +327,5 @@ if __name__ == "__main__":
         print()
 
     # test(Abel, 10)
-    # print(AnumbersDict(StirlingSet))
-
-    def tost() -> None:
-        for i in range(2): 
-            T = Tables[i]                    # type: ignore
-            OEISDict[T.id] = AnumbersDict(T) # type: ignore
-
-        for tabl, dict in OEISDict.items():
-            print("*** Table", tabl, "***")
-            for trait in dict:
-                print('   ', trait, '->', dict[trait])
-
-    #tost()
-    OEISDictToFile()
+    
+    RefreshDatabase()

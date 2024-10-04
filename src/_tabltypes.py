@@ -172,6 +172,10 @@ class Table:
         return [self.gen(n - k)[k]
                  for k in range((n + 2) // 2)]
 
+    def alt(self, n: int) -> trow:
+        return [(-1) ** k * term 
+                for k, term in enumerate(self.gen(n))]
+
     def acc(self, row: int) -> trow:
         """
         Args:
@@ -426,6 +430,13 @@ def RevTable(T: Table) -> Table:
     def revgen(n: int) -> trow:
         return T.rev(n)
     return Table(revgen, T.id + ":Rev")
+
+def AltTable(T: Table) -> Table:
+    """ """
+    @cache
+    def altgen(n: int) -> trow:
+        return T.alt(n)
+    return Table(altgen, T.id + ":Alt")
 
 
 def SubTriangle(T: Table, N: int, K: int) -> Table:
