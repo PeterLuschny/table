@@ -152,7 +152,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print("derivative ", T.der(size))
     print("reverted   ", T.rev(size))
     print("inverted   ", T.inv(size))
-    print("antidiagtab", T.antid(size))
+    print("antidiagtab", T.antidiag(size))
     print("rev of inv ", T.revinv(size))
     print("inv of rev ", T.invrev(size))
     print("matrix     ", T.mat(size))
@@ -190,5 +190,7 @@ if __name__ == "__main__":
         for tabl in Tables:
             print(Benchmark(tabl))  # type: ignore
 
-    QuickBench()
-    print(f"\n{len(Tables)} tables tested!\n")
+    #QuickBench()
+    #print(f"\n{len(Tables)} tables tested!\n")
+    
+    print(AnumInListQ("A002426"))

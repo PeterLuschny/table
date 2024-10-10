@@ -108,7 +108,7 @@ A Table T provides the following methods:
     diag(n, size: int)   -> list[int] | diagonal starting at the left side
     col (k, size: int)   -> list[int] | k-th column starting at the main diagonal
     sum (size: int)      -> list[int] | sums of the first size rows
-    antid (size: int)    -> list[int] | upward anti-diagonals
+    antidiag (size: int) -> list[int] | upward anti-diagonals
     row (n: int)         -> trow | n-th row of table
     rev (size: int)      -> trow | reversed rows
     acc (size: int)      -> trow | accumulated row 

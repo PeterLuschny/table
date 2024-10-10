@@ -10,7 +10,7 @@ from pathlib import Path
 import requests
 from requests import get
 from sys import setrecursionlimit, set_int_max_str_digits
-from typing import Callable, TypeAlias, Iterator, Dict
+from typing import Callable, TypeAlias, Iterator, Dict, Tuple
 
 setrecursionlimit(3000)
 set_int_max_str_digits(5000)
@@ -150,24 +150,28 @@ class Table:
     """Provides basic methods for manipulating integer triangles."""
 
     def __init__(
-        self, gen: rgen, id: str, sim: list[str] = [""], invQ: bool | None = None
+        self,
+        gen: rgen,
+        id: str,
+        sim: list[str] = [""],
+        invQ: bool | None = None,
+        tex: str = "",
     ) -> None:
         """
         Provides basic methods for manipulating integer triangles.
         Args:
-            gen,  Function gen(n:int) -> list[int], defined for all n >= 0.
-            id,   The name of the triangle.
-            sim,  A list of A-numbers of closley related OEIS triangles.
-            invQ, is the triangle invertible?
+            gen:  Function gen(n:int) -> list[int], defined for all n >= 0.
+            id:   The name of the triangle.
+            sim:  A list of A-numbers of closley related OEIS triangles.
+            invQ: is the triangle invertible?
                   Defaults to None meaning 'I do not know'.
+            tex: Defining formula as a TeX-string.
         """
-        if isinstance(gen, list):
-            self.gen = PseudoGenerator(gen, len(gen))
-        else:
-            self.gen = gen
+        self.gen = gen
         self.id = id
         self.sim = sim
         self.invQ = invQ
+        self.tex = tex
 
     def __getitem__(self, n: int) -> list[int]:
         return self.gen(n)
@@ -223,7 +227,7 @@ class Table:
         """
         return list(reversed(self.gen(row)))
 
-    def antid(self, n: int) -> list[int]:
+    def antidiag(self, n: int) -> list[int]:
         """
         Args:
             start index of the antidiagonal
@@ -611,7 +615,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print("derivative ", T.der(size))
     print("reverted   ", T.rev(size))
     print("inverted   ", T.inv(size))
-    print("antidiagtab", T.antid(size))
+    print("antidiagtab", T.antidiag(size))
     print("rev of inv ", T.revinv(size))
     print("inv of rev ", T.invrev(size))
     print("matrix     ", T.mat(size))
@@ -791,8 +795,16 @@ def Tder(T: Table, size: int = 7) -> list[int]:
     return list(flatten([T.der(n) for n in range(size)]))
 
 
+def Tantidiag(T: Table, size: int = 9) -> list[int]:
+    return list(flatten([T.antidiag(n) for n in range(size)]))
+
+
 def TablCol(T: Table, j: int, size: int = 28) -> list[int]:
     return [T.gen(j + k)[j] for k in range(size)]
+
+
+def TablCol0(T: Table, size: int = 28) -> list[int]:
+    return [T.gen(k)[0] for k in range(size)]
 
 
 def TablCol1(T: Table, size: int = 28) -> list[int]:
@@ -809,6 +821,10 @@ def TablCol3(T: Table, size: int = 28) -> list[int]:
 
 def TablDiag(T: Table, j: int, size: int = 28) -> list[int]:
     return [T.gen(j + k)[k] for k in range(size)]
+
+
+def TablDiag0(T: Table, size: int = 28) -> list[int]:
+    return [T.gen(k)[k] for k in range(size)]
 
 
 def TablDiag1(T: Table, size: int = 28) -> list[int]:
@@ -907,7 +923,7 @@ def AccRevSum(T: Table, size: int = 28) -> list[int]:
 
 
 def AntiDSum(T: Table, size: int = 28) -> list[int]:
-    return [sum(T.antid(n)) for n in range(size)]
+    return [sum(T.antidiag(n)) for n in range(size)]
 
 
 def ColMiddle(T: Table, size: int = 28) -> list[int]:
@@ -964,62 +980,80 @@ def InvBinConv(T: Table, size: int = 28) -> list[int]:
     return [dotproduct(InvBinomial.gen(n), T.gen(n)) for n in range(size)]
 
 
-AllTraits: dict[str, trait] = {
-    "Triangle": Triangle,
-    "Tinv": Tinv,
-    "Trev": Trev,
-    "Trevinv": Trevinv,
-    "Tinvrev": Tinvrev,
-    "Toff11": Toff11,
-    "Trev11": Trev11,
-    "Tinv11": Tinv11,
-    "Trevinv11": Trevinv11,
-    "Tinvrev11": Tinvrev11,
-    "Tacc": Tacc,
-    "Talt": Talt,
-    "Tdiff": Tdiff,
-    "Tder": Tder,
-    "TablCol1": TablCol1,
-    "TablCol2": TablCol2,
-    "TablCol3": TablCol3,
-    "TablDiag1": TablDiag1,
-    "TablDiag2": TablDiag2,
-    "TablDiag3": TablDiag3,
-    "PolyRow1": PolyRow1,
-    "PolyRow2": PolyRow2,
-    "PolyRow3": PolyRow3,
-    "PolyCol1": PolyCol1,
-    "PolyCol2": PolyCol2,
-    "PolyCol3": PolyCol3,
-    "PolyDiag": PolyDiag,
-    "TablLcm": TablLcm,
-    "TablGcd": TablGcd,
-    "TablMax": TablMax,
-    "TablSum": TablSum,
-    "EvenSum": EvenSum,
-    "OddSum": OddSum,
-    "AltSum": AltSum,
-    "AbsSum": AbsSum,
-    "AccSum": AccSum,
-    "AccRevSum": AccRevSum,
-    "AntiDSum": AntiDSum,
-    "ColMiddle": ColMiddle,
-    "CentralE": CentralE,
-    "CentralO": CentralO,
-    "PosHalf": PosHalf,
-    "NegHalf": NegHalf,
-    "TransSqrs": TransSqrs,
-    "TransNat0": TransNat0,
-    "TransNat1": TransNat1,
-    "BinConv": BinConv,
-    "InvBinConv": InvBinConv,
+"""The basic construction is a map
+    (Table:Class, Trait:Function) -> (Anum:Url, TreatInfo:TeXString)
+"""
+TraitInfo: TypeAlias = Tuple[trait, str]
+AllTraits: dict[str, TraitInfo] = {
+    "Triangle  ": (Triangle, r"\((n,k) \mapsto T_{n, k}\)"),
+    "Tinv      ": (Tinv, r"\((n,k) \mapsto T^{-1}_{n, k}\)"),
+    "Trev      ": (Trev, r"\((n,k) \mapsto T_{n, n - k}\)"),
+    "Trevinv   ": (Trevinv, r"\((n,k) \mapsto T^{-1}_{n, n - k}\)"),
+    "Tinvrev   ": (Tinvrev, r"\((n,k) \mapsto (T_{n, n - k})^{-1}\)"),
+    "Toff11    ": (Toff11, r"\((n,k) \mapsto T_{n + 1, k + 1} \)"),
+    "Trev11    ": (Trev11, r"\((n,k) \mapsto T_{n + 1, n - k + 1} \)"),
+    "Tinv11    ": (Tinv11, r"\((n,k) \mapsto T^{-1}_{n + 1, k + 1}\)"),
+    "Trevinv11 ": (Trevinv11, r"\((n,k) \mapsto T^{-1}_{n + 1, n - k + 1}\)"),
+    "Tinvrev11 ": (Tinvrev11, r"\((n,k) \mapsto (T_{n + 1, n - k + 1})^{-1}\)"),
+    "Tantidiag ": (Tantidiag, r"\((n,k) \mapsto T_{n - k, k} \ \ (k \le n/2)\)"),
+    "Tacc      ": (Tacc, r"\((n,k) \mapsto \sum_{j=0}^{k} T_{n, j}\)"),
+    "Talt      ": (Talt, r"\((n,k) \mapsto T_{n, k}\ (-1)^{k}\)"),
+    "Tder      ": (Tder, r"\((n,k) \mapsto T_{n + 1, k + 1}\ (k + 1) \)"),
+    "TablCol0  ": (TablCol0, r"\(n \mapsto T_{n    , 0}\)"),
+    "TablCol1  ": (TablCol1, r"\(n \mapsto T_{n + 1, 1}\)"),
+    "TablCol2  ": (TablCol2, r"\(n \mapsto T_{n + 2, 2}\)"),
+    "TablCol3  ": (TablCol3, r"\(n \mapsto T_{n + 3, 3}\)"),
+    "TablDiag0 ": (TablDiag0, r"\(n \mapsto T_{n    , n}\)"),
+    "TablDiag1 ": (TablDiag1, r"\(n \mapsto T_{n + 1, n}\)"),
+    "TablDiag2 ": (TablDiag2, r"\(n \mapsto T_{n + 2, n}\)"),
+    "TablDiag3 ": (TablDiag3, r"\(n \mapsto T_{n + 3, n}\)"),
+    "PolyRow1  ": (PolyRow1, r"\(n \mapsto \sum_{k=0}^{1} T_{1, k}\  n^k\)"),
+    "PolyRow2  ": (PolyRow2, r"\(n \mapsto \sum_{k=0}^{2} T_{2, k}\  n^k\)"),
+    "PolyRow3  ": (PolyRow3, r"\(n \mapsto \sum_{k=0}^{3} T_{3, k}\  n^k\)"),
+    "PolyCol1  ": (PolyCol1, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  1^k\)"),
+    "PolyCol2  ": (PolyCol2, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  2^k\)"),
+    "PolyCol3  ": (PolyCol3, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  3^k\)"),
+    "PolyDiag  ": (PolyDiag, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  n^k\)"),
+    "TablLcm   ": (
+        TablLcm,
+        r"\(n \mapsto lcm_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)",
+    ),
+    "TablGcd   ": (
+        TablGcd,
+        r"\(n \mapsto gcd_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)",
+    ),
+    "TablMax   ": (TablMax, r"\(n \mapsto max_{k=0}^{n}\ | T_{n, k} |\)"),
+    "TablSum   ": (TablSum, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\)"),
+    "EvenSum   ": (EvenSum, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  [2 | k]\)"),
+    "OddSum    ": (OddSum, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (1 - [2 | k])\)"),
+    "AltSum    ": (AltSum, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (-1)^{k}\)"),
+    "AbsSum    ": (AbsSum, r"\(n \mapsto \sum_{k=0}^{n} | T_{n, k} |\)"),
+    "AccSum    ": (AccSum, r"\(n \mapsto \sum_{k=0}^{n} \sum_{j=0}^{k} T_{n, j}\)"),
+    "AccRevSum ": (
+        AccRevSum,
+        r"\(n \mapsto \sum_{k=0}^{n} \sum_{j=0}^{k} T_{n, n - j}\)",
+    ),
+    "AntiDSum  ": (AntiDSum, r"\(n \mapsto \sum_{k=0}^{n/2} T_{n - k, k}\)"),
+    "ColMiddle ": (ColMiddle, r"\(n \mapsto T_{n, n / 2}\)"),
+    "CentralE  ": (CentralE, r"\(n \mapsto T_{2 n, n}\)"),
+    "CentralO  ": (CentralO, r"\(n \mapsto T_{2 n + 1, n}\)"),
+    "PosHalf   ": (PosHalf, r"\(n \mapsto \sum_{k=0}^{n}   2^{n - k}\ T_{n, k}\)"),
+    "NegHalf   ": (NegHalf, r"\(n \mapsto \sum_{k=0}^{n}(-2)^{n - k}\ T_{n, k}\)"),
+    "TransNat0 ": (TransNat0, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k\)"),
+    "TransNat1 ": (TransNat1, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (k + 1)\)"),
+    "TransSqrs ": (TransSqrs, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k^{2}\)"),
+    "BinConv   ": (BinConv, r"\(n \mapsto \sum_{k=0}^{n} \binom{n}{k} T_{n, k}\)"),
+    "InvBinConv": (
+        InvBinConv,
+        r"\(n \mapsto \sum_{k=0}^{n} (-1)^{k}\ \binom{n}{k} T_{n, n-k}\)",
+    ),
 }
 
 
 def TableTraits(T: Table) -> None:
     for id, tr in AllTraits.items():
         name = (T.id + id).ljust(9 + len(T.id), " ")
-        print(name, tr(T))  # type: ignore
+        print(name, tr[0](T))  # type: ignore
 
 
 GlobalDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
@@ -1038,9 +1072,9 @@ def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
     """
     anum: Dict[str, tuple[int, int, int]] = {}
     for id, trai in AllTraits.items():
-        name = (T.id + id).ljust(9 + len(T.id), " ")
+        name = (T.id + ":" + id).ljust(10 + len(T.id), " ")
         # use the defaults: 7 rows or 28 terms!
-        seq = trai(T)  # type: ignore
+        seq = trai[0](T)  # type: ignore
         if seq != []:
             anum[name] = QueryOEIS(seq)  # type: ignore
     if add:
@@ -1048,29 +1082,67 @@ def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
     return anum
 
 
+header = [
+    '<!DOCTYPE html><html><head><title>Traits></title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" ',
+    'integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">',
+    '<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"',
+    ' integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>',
+    '<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" ',
+    'integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"',
+    ' onload="renderMathInElement(document.body);"></script>',
+    "<style> .katex {font-size:1.0em; color:#004080;}.katex-display {margin-top:0.0em;margin-bottom:0.0em;padding-top:0.5em;padding-bottom:0.4em;}",
+    ".katex-display {overflow-x: visible;overflow-y: hidden;}.katex > .katex-html {white-space: normal;}.katex .base {margin-top:2px; margin-bottom:2px;}</style>",
+    "<style>body {background-color: #C0C0C0; margin-left: 0.5em;} p{font-family: monospace;color: #004080;}a {color: #804040;}</style></head>",
+    "<body width='38%'><iframe name = 'OEISframe' frameborder='0' scrolling='yes' width='62%' height='2200' align='left' title='Sequences' src='https://oeis.org/A137452'> </iframe><p>",
+]
+"""
+W = {'Abel:Triangle  ': (137452, 0, 25), 'Abel:Tinv      ': (59297, 0, 25), 'Abel:Trev      ': (0, 0, 0), 'Abel:Trevinv   ': (59299, 0, 25), 'Abel:Toff11    ': (61356, 0, 25), 'Abel:Trev11    ': (139526, 0, 25), 'Abel:Tinv11    ': (59298, 0, 25), 'Abel:Trevinv11 ': (59300, 0, 25), 'Abel:Tacc      ': (0, 0, 0), 'Abel:Talt      ': (137452, 0, 25), 'Abel:Tder      ': (225465, 0, 25), 'Abel:TablCol0  ': (7, 0, 25), 'Abel:TablCol1  ': (169, 0, 19), 'Abel:TablCol2  ': (53506, 1, 18), 'Abel:TablCol3  ': (53507, 2, 16), 'Abel:TablDiag0 ': (12, 0, 25), 'Abel:TablDiag1 ': (2378, 0, 25), 'Abel:TablDiag2 ': (0, 0, 0), 'Abel:TablDiag3 ': (0, 0, 0), 'Abel:PolyRow1  ': (27, 0, 24), 'Abel:PolyRow2  ': (5563, 0, 25), 'Abel:PolyRow3  ': (0, 0, 0), 'Abel:PolyCol1  ': (272, 1, 18), 'Abel:PolyCol2  ': (7334, 0, 18), 'Abel:PolyCol3  ': (362354, 0, 19), 'Abel:PolyDiag  ': (193678, 0, 16), 'Abel:TablLcm   ': (0, 0, 0), 'Abel:TablGcd   ': (27, 0, 24), 'Abel:TablMax   ': (169, 0, 19), 'Abel:TablSum   ': (272, 1, 18), 'Abel:EvenSum   ': (274278, 0, 23), 'Abel:OddSum    ': (195136, 0, 24), 'Abel:AltSum    ': (312, 0, 19), 'Abel:AbsSum    ': (272, 1, 18), 'Abel:AccSum    ': (0, 0, 0), 'Abel:AccRevSum ': (367255, 0, 19), 'Abel:AntiDSum  ': (0, 0, 0), 'Abel:ColMiddle ': (0, 0, 0), 'Abel:CentralE  ': (367254, 0, 15), 'Abel:CentralO  ': (0, 0, 0), 'Abel:PosHalf   ': (52750, 0, 16), 'Abel:NegHalf   ': (85527, 0, 17), 'Abel:TransNat0 ': (89946, 0, 18), 'Abel:TransNat1 ': (367255, 0, 19), 'Abel:TransSqrs ': (225497, 0, 19), 'Abel:BinConv   ': (367256, 0, 18), 'Abel:InvBinConv': (367257, 0, 19)}
+"""
+
+
 def AnumbersToFile(T: Table) -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
-    dict = AnumberDict(T)  # type: ignore
-    hitpath = GetRoot("data/" + T.id + "Traits.html")
-    mispath = GetRoot("data/" + T.id + "Missing.html")
+    print(f"*** Table {T.id} under construction ***")
+    hitpath = GetRoot(f"data/{T.id}Traits.html")
+    mispath = GetRoot(f"data/{T.id}Missing.html")
+    dict = AnumberDict(T)  # W
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
-            doc = "<!doctype html><title>Traits</title><style>p{font-family:monospace;font-size:xx-small;}</style><p>"
-            oeis.write(doc)
-            miss.write(doc)
-            print(f"*** Table {T.id} ***")
+            for h in header:
+                oeis.write(h)
+                miss.write(h)
+            oeis.write(T.tex)
+            miss.write(T.tex)
             for trait, anum in dict.items():
                 print(f"     {trait} -> {anum}")
+                tname = AllTraits[trait.split(":")[1]]
+                tex = tname[1]
+                seq = SeqToString(tname[0](T), 60, 24)  # type: ignore
                 if anum[0] == 0:
-                    miss.write(f"<br>{trait}")
+                    miss.write(
+                        f"<br><span style='white-space: pre'>{trait}</span> {tex}<br>"
+                    )
+                    miss.write(seq)  # type: ignore
                 else:
                     num = str(anum[0]).rjust(6, "0")
-                    url = f"<a href='https://oeis.org/A{num}'>A{num}</a>"
-                    oeis.write(f"<br>{url} {trait}")
+                    url = f"<a href='https://oeis.org/A{num}' target='OEISframe'>A{num}</a>"
+                    oeis.write(
+                        f"<br>{url} <span style='white-space: pre'>{trait}</span> {tex}<br>"
+                    )
+                    oeis.write(seq)  # type: ignore
+            oeis.write(
+                f"<p style='font-size:large'><a href='https://luschny.de/math/seq/tabls/{T.id}Missing.html'>[MISSING TRAITS]</a><a href='https://luschny.de/math/seq/tabls/TablIndex.html'>[INDEX]</a></p></body></html>"
+            )
+            miss.write(
+                f"<p style='font-size:large'><a href='https://luschny.de/math/seq/tabls/{T.id}Traits.html'>[PUBLISHED TRAITS]</a><a href='https://luschny.de/math/seq/tabls/TablIndex.html'>[INDEX]</a></p></body></html>"
+            )
 
 
 def RefreshDatabase() -> None:
-    """Takes 3-4 hours."""
+    """Use with caution."""
+    print("Are you sure? This takes 3-4 hours.")
+    print("Don't forget to update Tables.py first.")
+    input()
     for tbl in Tables:
         AnumbersToFile(tbl)  # type: ignore
 
@@ -1083,7 +1155,13 @@ def abel(n: int) -> list[int]:
     return [b[k - 1] * n ** (n - k) if k > 0 else 0 for k in range(n + 1)]
 
 
-Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True)
+Abel = Table(
+    abel,
+    "Abel",
+    ["A137452", "A061356", "A139526"],
+    True,
+    r"\(\Large{T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k}}\)",
+)
 
 
 @cache
@@ -1126,7 +1204,13 @@ def bell(n: int) -> list[int]:
     return row
 
 
-Bell = Table(bell, "Bell", ["A011971", "A011972", "A123346"], False)
+Bell = Table(
+    bell,
+    "Bell",
+    ["A011971", "A011972", "A123346"],
+    False,
+    r"\(\Large{T_{n, k} = \sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}}\)",
+)
 
 
 @cache
@@ -1554,7 +1638,13 @@ def dyckpaths(n: int) -> list[int]:
     return row
 
 
-DyckPaths = Table(dyckpaths, "DyckPaths", ["A039599", "A050155"], True)
+DyckPaths = Table(
+    dyckpaths,
+    "DyckPaths",
+    ["A039599", "A050155"],
+    True,
+    r"\(\Large{T_{n, k}\ =\ \binom{2n}{n - k} (2k + 1) / (n + k + 1)}\)",
+)
 
 
 @cache
@@ -2003,7 +2093,11 @@ def lah(n: int) -> list[int]:
 
 
 Lah = Table(
-    lah, "Lah", ["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"], True
+    lah,
+    "Lah",
+    ["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"],
+    True,
+    r"\(\Large{T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n}{k} (n-1)!/(k-1)! }\)",
 )
 
 
@@ -2167,7 +2261,13 @@ def motzkin(n: int) -> list[int]:
     return row
 
 
-Motzkin = Table(motzkin, "Motzkin", ["A064189", "A026300", "A009766"], True)
+Motzkin = Table(
+    motzkin,
+    "Motzkin",
+    ["A064189", "A026300", "A009766"],
+    True,
+    r"\(\Large{ T(n, k) \ =\  \binom{n}{k} hyper_{2,1}([(k - n)/2, (k - n + 1)/2], [k + 2], 4)} \)",
+)
 
 
 @cache
@@ -2668,6 +2768,7 @@ StirlingSet = Table(
         "A213735",
     ],
     True,
+    r"\(\Large{ T(n, k)\ = \ (1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n}} \)",
 )
 
 

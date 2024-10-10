@@ -45,6 +45,10 @@ rgen: TypeAlias = Callable[[int], trow]
 tgen: TypeAlias = Callable[[int, int], int]
 
 
+#    We do not document the case gen: tabl below, because in this
+#    case it is easy to produce 'index out of range' errors.
+#    Still in some test cases it is useful in connection with the
+#    above "PseudoGenerator". For internal use only.
 def PseudoGenerator(T: tabl, max: int) -> rgen:
     """A generator for an already existing table.
 
@@ -65,11 +69,6 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         return T[n]
     return gen
 
-
-#    We do not document the case gen: tabl below, because in this
-#    case it is easy to produce 'index out of range' errors.
-#    Still in some test cases it is useful in connection with the
-#    above "PseudoGenerator". For internal use only.
 class Table:
     """Provides basic methods for manipulating integer triangles."""
     def __init__(
@@ -77,27 +76,30 @@ class Table:
             gen: rgen,
             id: str,
             sim: list[str] = [''],
-            invQ: bool | None = None
+            invQ: bool | None = None,
+            tex: str = ''
         ) -> None:
         """
         Provides basic methods for manipulating integer triangles.
 
         Args:
-            gen,  Function gen(n:int) -> list[int], defined for all n >= 0.
-            id,   The name of the triangle.
-            sim,  A list of A-numbers of closley related OEIS triangles.
-            invQ, is the triangle invertible?
+            gen:  Function gen(n:int) -> list[int], defined for all n >= 0.
+            id:   The name of the triangle.
+            sim:  A list of A-numbers of closley related OEIS triangles.
+            invQ: is the triangle invertible?
                   Defaults to None meaning 'I do not know'.
+            tex: Defining formula as a TeX-string. 
         """
 
-        if isinstance(gen, list):
-            self.gen = PseudoGenerator(gen, len(gen))
-        else:
-            self.gen = gen
+#if isinstance(gen, tabl): # type: ignore
+#    self.gen = PseudoGenerator(gen, len(gen))
+#else:
+        self.gen = gen
 
         self.id = id
         self.sim = sim
         self.invQ = invQ
+        self.tex = tex
 
     def __getitem__(self, n: int) -> list[int]:
         return self.gen(n)
@@ -161,7 +163,7 @@ class Table:
         """
         return list(reversed(self.gen(row)))
 
-    def antid(self, n: int) -> list[int]:
+    def antidiag(self, n: int) -> list[int]:
         """
         Args:
             start index of the antidiagonal
