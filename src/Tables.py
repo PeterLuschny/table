@@ -8,6 +8,7 @@ import operator
 import time
 from pathlib import Path
 import requests
+import json
 from requests import get
 from sys import setrecursionlimit, set_int_max_str_digits
 from typing import Callable, TypeAlias, Iterator, Dict, Tuple
@@ -662,7 +663,7 @@ def lcsubstr(s: str, t: str) -> tuple[int, int]:
 
 
 def QueryOEIS(
-    seqlist: list[int], maxnum: int = 1, info: bool = False
+    seqlist: list[int], maxnum: int = 1, info: bool = False, minlen: int = 24
 ) -> tuple[int, int, int]:
     """
     Query if a given sequence is present in the OEIS. At least 24 terms of
@@ -673,6 +674,7 @@ def QueryOEIS(
         seqlist: The sequence to search. Must have at least 24 terms.
         maxnum: max number of sequences to be returned. Defaults to 1.
         info: Prints details, otherwise is quiet except for warnings. Defaults to False.
+        minlen: At least {minlen} terms are required.
     Returns:
         Returns a triple (anum, sl, dl) of integers:
         - anum is the A-number of the sequence,
@@ -684,7 +686,6 @@ def QueryOEIS(
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
     """
-    minlen = 24
     if len(seqlist) < minlen:
         print(f"Sequence is too short! We require at least {minlen} terms.")
         print("You provided:", seqlist)
@@ -699,6 +700,13 @@ def QueryOEIS(
                 url, timeout=20
             ).json()
             if jdata == None:
+                if 0 == sum(seqlist[::2]) or 0 == sum(seqlist[1::2]):
+                    seqlist = [k for k in seqlist if k != 0]
+                    seqstr = SeqToString(seqlist, 180, 25, ",", 3, True)
+                    if info:
+                        print("Searching list without zeros:", seqstr)
+                    url = f"https://oeis.org/search?q={seqstr}&fmt=json"
+                    raise ValueError("Try again")
                 if info:
                     print("Sorry, no match found for:", seqstr)
                 return (0, 0, 0)
@@ -726,6 +734,8 @@ def QueryOEIS(
                 if dl > 12:
                     break
             return (int(number), int(sl), int(dl))  # type: ignore
+        except ValueError:
+            continue
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
     raise Exception(f"Could not open {url}.")
@@ -1016,13 +1026,13 @@ AllTraits: dict[str, TraitInfo] = {
     "PolyDiag  ": (PolyDiag, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  n^k\)"),
     "TablLcm   ": (
         TablLcm,
-        r"\(n \mapsto lcm_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)",
+        r"\(n \mapsto \text{lcm}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)",
     ),
     "TablGcd   ": (
         TablGcd,
-        r"\(n \mapsto gcd_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)",
+        r"\(n \mapsto \text{gcd}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)",
     ),
-    "TablMax   ": (TablMax, r"\(n \mapsto max_{k=0}^{n}\ | T_{n, k} |\)"),
+    "TablMax   ": (TablMax, r"\(n \mapsto \text{max}_{k=0}^{n}\ | T_{n, k} |\)"),
     "TablSum   ": (TablSum, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\)"),
     "EvenSum   ": (EvenSum, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  [2 | k]\)"),
     "OddSum    ": (OddSum, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (1 - [2 | k])\)"),
@@ -1073,7 +1083,7 @@ def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
     anum: Dict[str, tuple[int, int, int]] = {}
     for id, trai in AllTraits.items():
         name = (T.id + ":" + id).ljust(10 + len(T.id), " ")
-        # use the defaults: 7 rows or 28 terms!
+        # use the defaults: 7 rows or 28 terms! Tantidiag 9 rows.
         seq = trai[0](T)  # type: ignore
         if seq != []:
             anum[name] = QueryOEIS(seq)  # type: ignore
@@ -1083,34 +1093,25 @@ def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
 
 
 header = [
-    '<!DOCTYPE html><html><head><title>Traits></title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" ',
-    'integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">',
-    '<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"',
-    ' integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>',
-    '<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" ',
-    'integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"',
-    ' onload="renderMathInElement(document.body);"></script>',
-    "<style> .katex {font-size:1.0em; color:#004080;}.katex-display {margin-top:0.0em;margin-bottom:0.0em;padding-top:0.5em;padding-bottom:0.4em;}",
-    ".katex-display {overflow-x: visible;overflow-y: hidden;}.katex > .katex-html {white-space: normal;}.katex .base {margin-top:2px; margin-bottom:2px;}</style>",
-    "<style>body {background-color: #C0C0C0; margin-left: 0.5em;} p{font-family: monospace;color: #004080;}a {color: #804040;}</style></head>",
-    "<body width='38%'><iframe name = 'OEISframe' frameborder='0' scrolling='yes' width='62%' height='2200' align='left' title='Sequences' src='https://oeis.org/A137452'> </iframe><p>",
+    '<html><head><title>Traits></title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head><body width="38%"><iframe name="OEISframe" frameborder="0" scrolling="yes" width="62%" height="2200" align="left" title="Sequences"'
 ]
-"""
-W = {'Abel:Triangle  ': (137452, 0, 25), 'Abel:Tinv      ': (59297, 0, 25), 'Abel:Trev      ': (0, 0, 0), 'Abel:Trevinv   ': (59299, 0, 25), 'Abel:Toff11    ': (61356, 0, 25), 'Abel:Trev11    ': (139526, 0, 25), 'Abel:Tinv11    ': (59298, 0, 25), 'Abel:Trevinv11 ': (59300, 0, 25), 'Abel:Tacc      ': (0, 0, 0), 'Abel:Talt      ': (137452, 0, 25), 'Abel:Tder      ': (225465, 0, 25), 'Abel:TablCol0  ': (7, 0, 25), 'Abel:TablCol1  ': (169, 0, 19), 'Abel:TablCol2  ': (53506, 1, 18), 'Abel:TablCol3  ': (53507, 2, 16), 'Abel:TablDiag0 ': (12, 0, 25), 'Abel:TablDiag1 ': (2378, 0, 25), 'Abel:TablDiag2 ': (0, 0, 0), 'Abel:TablDiag3 ': (0, 0, 0), 'Abel:PolyRow1  ': (27, 0, 24), 'Abel:PolyRow2  ': (5563, 0, 25), 'Abel:PolyRow3  ': (0, 0, 0), 'Abel:PolyCol1  ': (272, 1, 18), 'Abel:PolyCol2  ': (7334, 0, 18), 'Abel:PolyCol3  ': (362354, 0, 19), 'Abel:PolyDiag  ': (193678, 0, 16), 'Abel:TablLcm   ': (0, 0, 0), 'Abel:TablGcd   ': (27, 0, 24), 'Abel:TablMax   ': (169, 0, 19), 'Abel:TablSum   ': (272, 1, 18), 'Abel:EvenSum   ': (274278, 0, 23), 'Abel:OddSum    ': (195136, 0, 24), 'Abel:AltSum    ': (312, 0, 19), 'Abel:AbsSum    ': (272, 1, 18), 'Abel:AccSum    ': (0, 0, 0), 'Abel:AccRevSum ': (367255, 0, 19), 'Abel:AntiDSum  ': (0, 0, 0), 'Abel:ColMiddle ': (0, 0, 0), 'Abel:CentralE  ': (367254, 0, 15), 'Abel:CentralO  ': (0, 0, 0), 'Abel:PosHalf   ': (52750, 0, 16), 'Abel:NegHalf   ': (85527, 0, 17), 'Abel:TransNat0 ': (89946, 0, 18), 'Abel:TransNat1 ': (367255, 0, 19), 'Abel:TransSqrs ': (225497, 0, 19), 'Abel:BinConv   ': (367256, 0, 18), 'Abel:InvBinConv': (367257, 0, 19)}
-"""
 
 
-def AnumbersToFile(T: Table) -> None:
+def AnumbersToFile(T: Table, add: bool = False) -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
+    SRC = f"https://oeis.org/{T.sim[0]}"
+    SH = f"src={SRC}></iframe><p>"
     print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
-    dict = AnumberDict(T)  # W
+    dict = AnumberDict(T, add)  # W
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
             for h in header:
                 oeis.write(h)
                 miss.write(h)
+            oeis.write(SH)
+            miss.write(SH)
             oeis.write(T.tex)
             miss.write(T.tex)
             for trait, anum in dict.items():
@@ -1130,21 +1131,49 @@ def AnumbersToFile(T: Table) -> None:
                         f"<br>{url} <span style='white-space: pre'>{trait}</span> {tex}<br>"
                     )
                     oeis.write(seq)  # type: ignore
-            oeis.write(
-                f"<p style='font-size:large'><a href='https://luschny.de/math/seq/tabls/{T.id}Missing.html'>[MISSING TRAITS]</a><a href='https://luschny.de/math/seq/tabls/TablIndex.html'>[INDEX]</a></p></body></html>"
-            )
-            miss.write(
-                f"<p style='font-size:large'><a href='https://luschny.de/math/seq/tabls/{T.id}Traits.html'>[PUBLISHED TRAITS]</a><a href='https://luschny.de/math/seq/tabls/TablIndex.html'>[INDEX]</a></p></body></html>"
-            )
+            L = "<a href='https://luschny.de/math/seq/tabls/"
+            A = f"{L}{T.id}Traits.html'>[online]</a>"
+            B = f"{L}{T.id}Missing.html'>[missing]</a>"
+            C = f"{L}index.html'>[index]</a>"
+            oeis.write(f"<p style='color:blue'>{B}{C}</p></body></html>")
+            miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
+
+
+indheader = "<!DOCTYPE html><html lang='en'><head><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
+
+
+def warn() -> None:
+    print("Are you sure? This takes 3-4 hours.")
+    print("Don't forget to update Tables.py first.")
+    input()
 
 
 def RefreshDatabase() -> None:
     """Use with caution."""
-    print("Are you sure? This takes 3-4 hours.")
-    print("Don't forget to update Tables.py first.")
-    input()
-    for tbl in Tables:
-        AnumbersToFile(tbl)  # type: ignore
+    warn()
+    global GlobalDict
+    GlobalDict = {}
+    indexpath = GetRoot(f"data/index.html")
+    with open(indexpath, "w+", encoding="utf-8") as index:
+        index.write(indheader)
+        for tbl in Tables:
+            AnumbersToFile(tbl, True)  # type: ignore
+            index.write(
+                f"<tr><td align='left'>{tbl.id}</td><td align='left'><a href='{tbl.id}Traits.html'>[online]</a></td><td align='left'><a href='{tbl.id}Missing.html'>[missing]</a></td></tr>"
+            )
+        index.write("</tbody></table></body></html>")
+        index.flush()
+    # Save to a JSON file
+    jsonpath = GetRoot(f"data/AllTraits.json")
+    with open(jsonpath, "w") as fileson:
+        json.dump(GlobalDict, fileson)
+
+
+def ReadTraitJson() -> None:
+    with open("data.json", "r") as file:
+        data = json.load(file)
+    # Now, data is a Python dictionary
+    print(data)
 
 
 @cache
@@ -1160,7 +1189,7 @@ Abel = Table(
     "Abel",
     ["A137452", "A061356", "A139526"],
     True,
-    r"\(\Large{T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k}}\)",
+    r"\(T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k}\)",
 )
 
 
@@ -1209,7 +1238,7 @@ Bell = Table(
     "Bell",
     ["A011971", "A011972", "A123346"],
     False,
-    r"\(\Large{T_{n, k} = \sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}}\)",
+    r"\(T_{n, k} = \sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}\)",
 )
 
 
@@ -1643,7 +1672,7 @@ DyckPaths = Table(
     "DyckPaths",
     ["A039599", "A050155"],
     True,
-    r"\(\Large{T_{n, k}\ =\ \binom{2n}{n - k} (2k + 1) / (n + k + 1)}\)",
+    r"\(T_{n, k}\ =\ \binom{2n}{n - k} (2k + 1) / (n + k + 1)\)",
 )
 
 
@@ -2097,7 +2126,7 @@ Lah = Table(
     "Lah",
     ["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"],
     True,
-    r"\(\Large{T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n}{k} (n-1)!/(k-1)! }\)",
+    r"\(T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n}{k} (n-1)!/(k-1)! \)",
 )
 
 
@@ -2266,7 +2295,7 @@ Motzkin = Table(
     "Motzkin",
     ["A064189", "A026300", "A009766"],
     True,
-    r"\(\Large{ T(n, k) \ =\  \binom{n}{k} hyper_{2,1}([(k - n)/2, (k - n + 1)/2], [k + 2], 4)} \)",
+    r"\( T(n, k) \ =\  \binom{n}{k} hyper_{2,1}([(k - n)/2, (k - n + 1)/2], [k + 2], 4) \)",
 )
 
 
@@ -2768,7 +2797,7 @@ StirlingSet = Table(
         "A213735",
     ],
     True,
-    r"\(\Large{ T(n, k)\ = \ (1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n}} \)",
+    r"\(T(n, k)\ = \ (1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n} \)",
 )
 
 

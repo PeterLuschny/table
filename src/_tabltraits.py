@@ -10,8 +10,11 @@ from more_itertools import flatten
 from functools import reduce
 from math import lcm, gcd
 from fractions import Fraction
+import json
 import operator
 
+
+W = {'Abel:Triangle  ': (137452, 0, 25), 'Abel:Tinv      ': (59297, 0, 25), 'Abel:Trev      ': (0, 0, 0), 'Abel:Trevinv   ': (59299, 0, 25), 'Abel:Toff11    ': (61356, 0, 25), 'Abel:Trev11    ': (139526, 0, 25), 'Abel:Tinv11    ': (59298, 0, 25), 'Abel:Trevinv11 ': (59300, 0, 25), 'Abel:Tacc      ': (0, 0, 0), 'Abel:Talt      ': (137452, 0, 25), 'Abel:Tder      ': (225465, 0, 25), 'Abel:TablCol0  ': (7, 0, 25), 'Abel:TablCol1  ': (169, 0, 19), 'Abel:TablCol2  ': (53506, 1, 18), 'Abel:TablCol3  ': (53507, 2, 16), 'Abel:TablDiag0 ': (12, 0, 25), 'Abel:TablDiag1 ': (2378, 0, 25), 'Abel:TablDiag2 ': (0, 0, 0), 'Abel:TablDiag3 ': (0, 0, 0), 'Abel:PolyRow1  ': (27, 0, 24), 'Abel:PolyRow2  ': (5563, 0, 25), 'Abel:PolyRow3  ': (0, 0, 0), 'Abel:PolyCol1  ': (272, 1, 18), 'Abel:PolyCol2  ': (7334, 0, 18), 'Abel:PolyCol3  ': (362354, 0, 19), 'Abel:PolyDiag  ': (193678, 0, 16), 'Abel:TablLcm   ': (0, 0, 0), 'Abel:TablGcd   ': (27, 0, 24), 'Abel:TablMax   ': (169, 0, 19), 'Abel:TablSum   ': (272, 1, 18), 'Abel:EvenSum   ': (274278, 0, 23), 'Abel:OddSum    ': (195136, 0, 24), 'Abel:AltSum    ': (312, 0, 19), 'Abel:AbsSum    ': (272, 1, 18), 'Abel:AccSum    ': (0, 0, 0), 'Abel:AccRevSum ': (367255, 0, 19), 'Abel:AntiDSum  ': (0, 0, 0), 'Abel:ColMiddle ': (0, 0, 0), 'Abel:CentralE  ': (367254, 0, 15), 'Abel:CentralO  ': (0, 0, 0), 'Abel:PosHalf   ': (52750, 0, 16), 'Abel:NegHalf   ': (85527, 0, 17), 'Abel:TransNat0 ': (89946, 0, 18), 'Abel:TransNat1 ': (367255, 0, 19), 'Abel:TransSqrs ': (225497, 0, 19), 'Abel:BinConv   ': (367256, 0, 18), 'Abel:InvBinConv': (367257, 0, 19)}
 
 # #@
 
@@ -306,9 +309,9 @@ AllTraits: dict[str, TraitInfo] = {
     "PolyCol2  ": (PolyCol2,  r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  2^k\)"),
     "PolyCol3  ": (PolyCol3,  r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  3^k\)"),
     "PolyDiag  ": (PolyDiag,  r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  n^k\)"),
-    "TablLcm   ": (TablLcm,   r"\(n \mapsto lcm_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
-    "TablGcd   ": (TablGcd,   r"\(n \mapsto gcd_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
-    "TablMax   ": (TablMax,   r"\(n \mapsto max_{k=0}^{n}\ | T_{n, k} |\)"),
+    "TablLcm   ": (TablLcm,   r"\(n \mapsto \text{lcm}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
+    "TablGcd   ": (TablGcd,   r"\(n \mapsto \text{gcd}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
+    "TablMax   ": (TablMax,   r"\(n \mapsto \text{max}_{k=0}^{n}\ | T_{n, k} |\)"),
     "TablSum   ": (TablSum,   r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\)"),
     "EvenSum   ": (EvenSum,   r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  [2 | k]\)"),
     "OddSum    ": (OddSum,    r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (1 - [2 | k])\)"),
@@ -354,7 +357,7 @@ def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
 
     for id, trai in AllTraits.items():
         name = (T.id + ":" + id).ljust(10 + len(T.id), " ")
-        # use the defaults: 7 rows or 28 terms!
+        # use the defaults: 7 rows or 28 terms! Tantidiag 9 rows.
         seq = trai[0](T)  # type: ignore
         if seq != []:
             anum[name] = QueryOEIS(seq)  # type: ignore
@@ -364,39 +367,28 @@ def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
     return anum
 
 
-header = [
-    '<!DOCTYPE html><html><head><title>Traits></title><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.css" ',
-    'integrity="sha384-nB0miv6/jRmo5UMMR1wu3Gz6NLsoTkbqJghGIsx//Rlm+ZU03BU6SQNC66uf4l5+" crossorigin="anonymous">',
-    '<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/katex.min.js"',
-    ' integrity="sha384-7zkQWkzuo3B5mTepMUcHkMB5jZaolc2xDwL6VFqjFALcbeS9Ggm/Yr2r3Dy4lfFg" crossorigin="anonymous"></script>',
-    '<script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.11/dist/contrib/auto-render.min.js" ',
-    'integrity="sha384-43gviWU0YVjaDtb/GhzOouOXtZMP/7XUzwPTstBeZFe/+rCMvRwr4yROQP43s0Xk" crossorigin="anonymous"',
-    ' onload="renderMathInElement(document.body);"></script>',
-    "<style> .katex {font-size:1.0em; color:#004080;}.katex-display {margin-top:0.0em;margin-bottom:0.0em;padding-top:0.5em;padding-bottom:0.4em;}",
-    ".katex-display {overflow-x: visible;overflow-y: hidden;}.katex > .katex-html {white-space: normal;}.katex .base {margin-top:2px; margin-bottom:2px;}</style>",
-    "<style>body {background-color: #C0C0C0; margin-left: 0.5em;} p{font-family: monospace;color: #004080;}a {color: #804040;}</style></head>",
-    "<body width='38%'><iframe name = 'OEISframe' frameborder='0' scrolling='yes' width='62%' height='2200' align='left' title='Sequences' src='https://oeis.org/A137452'> </iframe><p>",
-]
+header = ['<html><head><title>Traits></title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head><body width="38%"><iframe name="OEISframe" frameborder="0" scrolling="yes" width="62%" height="2200" align="left" title="Sequences"']
 
-"""
-W = {'Abel:Triangle  ': (137452, 0, 25), 'Abel:Tinv      ': (59297, 0, 25), 'Abel:Trev      ': (0, 0, 0), 'Abel:Trevinv   ': (59299, 0, 25), 'Abel:Toff11    ': (61356, 0, 25), 'Abel:Trev11    ': (139526, 0, 25), 'Abel:Tinv11    ': (59298, 0, 25), 'Abel:Trevinv11 ': (59300, 0, 25), 'Abel:Tacc      ': (0, 0, 0), 'Abel:Talt      ': (137452, 0, 25), 'Abel:Tder      ': (225465, 0, 25), 'Abel:TablCol0  ': (7, 0, 25), 'Abel:TablCol1  ': (169, 0, 19), 'Abel:TablCol2  ': (53506, 1, 18), 'Abel:TablCol3  ': (53507, 2, 16), 'Abel:TablDiag0 ': (12, 0, 25), 'Abel:TablDiag1 ': (2378, 0, 25), 'Abel:TablDiag2 ': (0, 0, 0), 'Abel:TablDiag3 ': (0, 0, 0), 'Abel:PolyRow1  ': (27, 0, 24), 'Abel:PolyRow2  ': (5563, 0, 25), 'Abel:PolyRow3  ': (0, 0, 0), 'Abel:PolyCol1  ': (272, 1, 18), 'Abel:PolyCol2  ': (7334, 0, 18), 'Abel:PolyCol3  ': (362354, 0, 19), 'Abel:PolyDiag  ': (193678, 0, 16), 'Abel:TablLcm   ': (0, 0, 0), 'Abel:TablGcd   ': (27, 0, 24), 'Abel:TablMax   ': (169, 0, 19), 'Abel:TablSum   ': (272, 1, 18), 'Abel:EvenSum   ': (274278, 0, 23), 'Abel:OddSum    ': (195136, 0, 24), 'Abel:AltSum    ': (312, 0, 19), 'Abel:AbsSum    ': (272, 1, 18), 'Abel:AccSum    ': (0, 0, 0), 'Abel:AccRevSum ': (367255, 0, 19), 'Abel:AntiDSum  ': (0, 0, 0), 'Abel:ColMiddle ': (0, 0, 0), 'Abel:CentralE  ': (367254, 0, 15), 'Abel:CentralO  ': (0, 0, 0), 'Abel:PosHalf   ': (52750, 0, 16), 'Abel:NegHalf   ': (85527, 0, 17), 'Abel:TransNat0 ': (89946, 0, 18), 'Abel:TransNat1 ': (367255, 0, 19), 'Abel:TransSqrs ': (225497, 0, 19), 'Abel:BinConv   ': (367256, 0, 18), 'Abel:InvBinConv': (367257, 0, 19)}
-"""
-
-
-def AnumbersToFile(T: Table) -> None:
+def AnumbersToFile(T: Table, add: bool = False)  -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
+    SRC = f"https://oeis.org/{T.sim[0]}"
+    SH = f"src={SRC}></iframe><p>"
+
     print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
-    dict = AnumberDict(T)  # W
+    dict = AnumberDict(T, add)  # W
 
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
             for h in header:
                 oeis.write(h)
                 miss.write(h)
+            oeis.write(SH)
+            miss.write(SH)
             oeis.write(T.tex)
             miss.write(T.tex)
+
             for trait, anum in dict.items():
                 print(f"     {trait} -> {anum}")
                 tname = AllTraits[trait.split(":")[1]]
@@ -410,29 +402,64 @@ def AnumbersToFile(T: Table) -> None:
                     url = f"<a href='https://oeis.org/A{num}' target='OEISframe'>A{num}</a>"
                     oeis.write(f"<br>{url} <span style='white-space: pre'>{trait}</span> {tex}<br>")
                     oeis.write(seq)  # type: ignore
-            oeis.write(f"<p style='font-size:large'><a href='https://luschny.de/math/seq/tabls/{T.id}Missing.html'>[MISSING TRAITS]</a><a href='https://luschny.de/math/seq/tabls/TablIndex.html'>[INDEX]</a></p></body></html>")
-            miss.write(f"<p style='font-size:large'><a href='https://luschny.de/math/seq/tabls/{T.id}Traits.html'>[PUBLISHED TRAITS]</a><a href='https://luschny.de/math/seq/tabls/TablIndex.html'>[INDEX]</a></p></body></html>")
+
+            L = "<a href='https://luschny.de/math/seq/tabls/"
+            A = f"{L}{T.id}Traits.html'>[online]</a>"
+            B = f"{L}{T.id}Missing.html'>[missing]</a>"
+            C = f"{L}index.html'>[index]</a>"
+
+            oeis.write(f"<p style='color:blue'>{B}{C}</p></body></html>")
+            miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
 
 
-def RefreshDatabase() -> None:
-    """Use with caution."""
+indheader = "<!DOCTYPE html><html lang='en'><head><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
+
+def warn() -> None:
     print("Are you sure? This takes 3-4 hours.")
     print("Don't forget to update Tables.py first.")
     input()
-    for tbl in Tables:
-        AnumbersToFile(tbl)  # type: ignore
+
+def RefreshDatabase() -> None:
+    """Use with caution."""
+    warn()
+    global GlobalDict
+
+    GlobalDict = {} 
+    indexpath = GetRoot(f"data/index.html")
+    with open(indexpath, "w+", encoding="utf-8") as index:
+        index.write(indheader)
+
+        for tbl in Tables:
+            AnumbersToFile(tbl, True) # type: ignore
+            index.write(f"<tr><td align='left'>{tbl.id}</td><td align='left'><a href='{tbl.id}Traits.html'>[online]</a></td><td align='left'><a href='{tbl.id}Missing.html'>[missing]</a></td></tr>")
+
+        index.write("</tbody></table></body></html>")
+        index.flush()
+
+    # Save to a JSON file
+    jsonpath = GetRoot(f"data/AllTraits.json")
+    with open(jsonpath, 'w') as fileson:
+        json.dump(GlobalDict, fileson)
+
+
+def ReadTraitJson() -> None:
+    with open('data.json', 'r') as file:
+        data = json.load(file)
+
+    # Now, data is a Python dictionary
+    print(data)
 
 
 if __name__ == "__main__":
 
-    from Abel import Abel  # type: ignore
-    from Bell import Bell  # type: ignore
-    from Lah import Lah  # type: ignore
-    from DyckPaths import DyckPaths  # type: ignore
-    from Binomial import Binomial  # type: ignore
+    from Abel import Abel                # type: ignore
+    from Bell import Bell                # type: ignore
+    from Lah import Lah                  # type: ignore
+    from DyckPaths import DyckPaths      # type: ignore
+    from Binomial import Binomial        # type: ignore
     from StirlingSet import StirlingSet  # type: ignore
-    from Motzkin import Motzkin  # type: ignore
-    from Worpitzky import Worpitzky  # type: ignore
+    from Motzkin import Motzkin          # type: ignore
+    from Worpitzky import Worpitzky      # type: ignore
 
     def test(T: Table, LEN: int) -> None:
         print("TablCol")
@@ -449,7 +476,6 @@ if __name__ == "__main__":
             print(PolyCol(T, n, LEN))
         print()
 
-    # test(Abel, 10)
-    # AnumbersToFile(Abel)
-
-    # RefreshDatabase()
+    #test(Abel, 10)
+    #AnumbersToFile(Abel)
+    #RefreshDatabase()

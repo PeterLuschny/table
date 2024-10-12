@@ -30,7 +30,7 @@ def stirlingset(n: int) -> list[int]:
 StirlingSet = Table(stirlingset, "StirlingSet",
     [   "A048993", "A008277", "A008278", "A080417",
         "A106800", "A151511", "A151512", "A154959", "A213735",
-    ], True, r'\(\Large{ T(n, k)\ = \ (1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n}} \)' )
+    ], True, r'\(T(n, k)\ = \ (1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n} \)' )
 
 
 if __name__ == "__main__":

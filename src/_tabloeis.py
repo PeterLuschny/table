@@ -173,7 +173,8 @@ def lcsubstr(s: str, t: str) -> tuple[int, int]:
 def QueryOEIS(
         seqlist: list[int], 
         maxnum: int = 1,
-        info: bool = False
+        info: bool = False, 
+        minlen: int = 24 
     ) -> tuple[int, int, int]:
     """
     Query if a given sequence is present in the OEIS. At least 24 terms of
@@ -185,6 +186,7 @@ def QueryOEIS(
         seqlist: The sequence to search. Must have at least 24 terms.
         maxnum: max number of sequences to be returned. Defaults to 1.
         info: Prints details, otherwise is quiet except for warnings. Defaults to False.
+        minlen: At least {minlen} terms are required.
 
     Returns:
         Returns a triple (anum, sl, dl) of integers: 
@@ -198,7 +200,6 @@ def QueryOEIS(
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
     """
-    minlen = 24
     if len(seqlist) < minlen:
       print(f"Sequence is too short! We require at least {minlen} terms.")
       print("You provided:", seqlist)
@@ -213,6 +214,13 @@ def QueryOEIS(
         try:
             jdata: None | list[dict[str, int | str | list[str] ]] = get(url, timeout=20).json()
             if jdata == None:
+                if 0 == sum(seqlist[::2]) or 0 == sum(seqlist[1::2]): 
+                    seqlist = [k for k in seqlist if k != 0]
+                    seqstr = SeqToString(seqlist, 180, 25, ",", 3, True)
+                    if info:
+                        print("Searching list without zeros:", seqstr)
+                    url = f"https://oeis.org/search?q={seqstr}&fmt=json"
+                    raise ValueError('Try again')
                 if info:
                     print("Sorry, no match found for:", seqstr)
                 return (0, 0, 0)
@@ -241,6 +249,8 @@ def QueryOEIS(
 
             return (int(number), int(sl), int(dl))  # type: ignore
 
+        except ValueError: 
+            continue
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
 
@@ -253,6 +263,7 @@ if __name__ == "__main__":
     data1 = [1, 4, 1, 9, 9, 2, 16, 36]
     data2 = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,17,19,20,21,22,23,24,25,26,27]
     data3 = [36,32,5,25,100,200,125,14,36,225,800,1125,504,42,49,441,2450,6125,6174,2058,132,64,784,6272]
+    data4 =[1,0,1,0,2,0,2,0,4,0,4,0,8,0,10,0,20,0,30,0,56,0,94,0,180,0,316,0,596,0, 1096,0,2068,0,3856,0]
 
     def test() -> None:
         print(QueryOEIS(data1, 1, True)); print()
@@ -267,3 +278,4 @@ if __name__ == "__main__":
 
     test()
     testQuerySum()
+    print(QueryOEIS(data4))
