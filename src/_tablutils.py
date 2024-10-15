@@ -108,7 +108,7 @@ def Benchmark(
 
 def AnumList() -> list[str]:
     bag = []
-    for tab in Tables:
+    for tab in TablesList:
         for anum in tab.sim:
             bag.append(anum)  # type: ignore
     return sorted(bag)        # type: ignore
@@ -168,7 +168,7 @@ def PreView(T: Table, size: int = 7) -> None:
 
 
 def QuickView(prompt: bool = False) -> None:
-    for T in Tables:
+    for T in TablesList:
         print(T.id, T.sim)
         T.show(6)
         if prompt:
@@ -178,16 +178,16 @@ def QuickView(prompt: bool = False) -> None:
 
 
 if __name__ == "__main__":
-    from Tables import Tables
+    from Tables import TablesList
 
     # print(AnumInListQ('A021009'))
 
     def QuickBench() -> None:
-        for tabl in Tables:
+        for tabl in TablesList:
             QuickTiming(tabl)  # type: ignore
 
     def OrderBench() -> None:
-        for tabl in Tables:
+        for tabl in TablesList:
             print(Benchmark(tabl))  # type: ignore
 
     #QuickBench()

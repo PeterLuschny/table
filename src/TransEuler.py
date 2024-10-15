@@ -74,7 +74,7 @@ def Euler2Generator(T: Table) -> Table:
 if __name__ == "__main__":
 
     from math import comb
-    from Tables import Tables
+    from Tables import TablesList
     from One import One
 
     def binomial(n: int, k: int) -> int:
@@ -107,7 +107,7 @@ if __name__ == "__main__":
 
         input("Hit Return/Enter here > ")
 
-    for t in Tables:
+    for t in TablesList:
         CheckE2T(t)  # type: ignore
 
 

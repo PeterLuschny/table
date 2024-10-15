@@ -43,8 +43,9 @@ def polygonal(n: int) -> list[int]:
 
 
 Polygonal = Table(
-    polygonal, "Polygonal", ["A139600", "A057145", "A134394", "A139601"], False
-)
+    polygonal, "Polygonal", 
+    ["A139600", "A057145", "A134394", "A139601"], False,
+    r"\(T_{n, k} = k + \frac{1}{2}\, n\, k\, (k-1) \)" )
 
 
 if __name__ == "__main__":

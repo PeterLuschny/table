@@ -31,7 +31,7 @@ def motzkin(n: int) -> list[int]:
 
 
 Motzkin = Table(motzkin, "Motzkin", ["A064189", "A026300", "A009766"], True, 
-    r'\( T(n, k) \ =\  \binom{n}{k} hyper_{2,1}([(k - n)/2, (k - n + 1)/2], [k + 2], 4) \)')
+    r'\(T_{n, k} \ =\  \binom{n}{k} \text{Hyper}([(k-n)/2, (k-n+1)/2], [k+2], 4) \)')
 
 
 if __name__ == "__main__":

@@ -126,7 +126,7 @@ tabl_files: list[str] = [
 ]
 
 str_tabl_fun: str = """\
-Tables: list[Table] = [
+TablesList: list[Table] = [
     Abel,
     Andre,
     Baxter,

@@ -1,4 +1,4 @@
-from Tables import Tables
+from Tables import TablesList
 from Binomial import Binomial, InvBinomial
 from _tabltypes import Table, rgen, trait
 from _tabloeis import QueryOEIS
@@ -244,13 +244,13 @@ def PolyFrac(T: Table, n: int, x: Fraction) -> Fraction | int:
 
 
 def PosHalf(T: Table, size: int = 28) -> list[int]:
-    return [((2**n) * PolyFrac(T, n, Fraction(1, 2))).numerator for n in range(size)]
+    return [((2**n) * PolyFrac(T, n, Fraction(1, 2))).numerator 
+            for n in range(size)]
 
 
 def NegHalf(T: Table, size: int = 28) -> list[int]:
-    return [
-        (((-2) ** n) * PolyFrac(T, n, Fraction(-1, 2))).numerator for n in range(size)
-    ]
+    return [(((-2) ** n) * PolyFrac(T, n, Fraction(-1, 2))).numerator 
+            for n in range(size)]
 
 
 def TransNat0(T: Table, size: int = 28) -> list[int]:
@@ -277,131 +277,129 @@ def InvBinConv(T: Table, size: int = 28) -> list[int]:
     (Table:Class, Trait:Function) -> (Anum:Url, TreatInfo:TeXString)
 """
 
-TraitInfo: TypeAlias = Tuple[trait, str]
+TraitInfo: TypeAlias = Tuple[trait, int, str]
 
 AllTraits: dict[str, TraitInfo] = {
-    "Triangle  ": (Triangle,  r"\((n,k) \mapsto T_{n, k}\)"),
-    "Tinv      ": (Tinv,      r"\((n,k) \mapsto T^{-1}_{n, k}\)"),
-    "Trev      ": (Trev,      r"\((n,k) \mapsto T_{n, n - k}\)"),
-    "Trevinv   ": (Trevinv,   r"\((n,k) \mapsto T^{-1}_{n, n - k}\)"),
-    "Tinvrev   ": (Tinvrev,   r"\((n,k) \mapsto (T_{n, n - k})^{-1}\)"),
-    "Toff11    ": (Toff11,    r"\((n,k) \mapsto T_{n + 1, k + 1} \)"),
-    "Trev11    ": (Trev11,    r"\((n,k) \mapsto T_{n + 1, n - k + 1} \)"),
-    "Tinv11    ": (Tinv11,    r"\((n,k) \mapsto T^{-1}_{n + 1, k + 1}\)"),
-    "Trevinv11 ": (Trevinv11, r"\((n,k) \mapsto T^{-1}_{n + 1, n - k + 1}\)"),
-    "Tinvrev11 ": (Tinvrev11, r"\((n,k) \mapsto (T_{n + 1, n - k + 1})^{-1}\)"),
-    "Tantidiag ": (Tantidiag, r"\((n,k) \mapsto T_{n - k, k} \ \ (k \le n/2)\)"),
-    "Tacc      ": (Tacc,      r"\((n,k) \mapsto \sum_{j=0}^{k} T_{n, j}\)"),
-    "Talt      ": (Talt,      r"\((n,k) \mapsto T_{n, k}\ (-1)^{k}\)"),
-    "Tder      ": (Tder,      r"\((n,k) \mapsto T_{n + 1, k + 1}\ (k + 1) \)"),
-    "TablCol0  ": (TablCol0,  r"\(n \mapsto T_{n    , 0}\)"),
-    "TablCol1  ": (TablCol1,  r"\(n \mapsto T_{n + 1, 1}\)"),
-    "TablCol2  ": (TablCol2,  r"\(n \mapsto T_{n + 2, 2}\)"),
-    "TablCol3  ": (TablCol3,  r"\(n \mapsto T_{n + 3, 3}\)"),
-    "TablDiag0 ": (TablDiag0, r"\(n \mapsto T_{n    , n}\)"),
-    "TablDiag1 ": (TablDiag1, r"\(n \mapsto T_{n + 1, n}\)"),
-    "TablDiag2 ": (TablDiag2, r"\(n \mapsto T_{n + 2, n}\)"),
-    "TablDiag3 ": (TablDiag3, r"\(n \mapsto T_{n + 3, n}\)"),
-    "PolyRow1  ": (PolyRow1,  r"\(n \mapsto \sum_{k=0}^{1} T_{1, k}\  n^k\)"),
-    "PolyRow2  ": (PolyRow2,  r"\(n \mapsto \sum_{k=0}^{2} T_{2, k}\  n^k\)"),
-    "PolyRow3  ": (PolyRow3,  r"\(n \mapsto \sum_{k=0}^{3} T_{3, k}\  n^k\)"),
-    "PolyCol1  ": (PolyCol1,  r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  1^k\)"),
-    "PolyCol2  ": (PolyCol2,  r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  2^k\)"),
-    "PolyCol3  ": (PolyCol3,  r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  3^k\)"),
-    "PolyDiag  ": (PolyDiag,  r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  n^k\)"),
-    "TablLcm   ": (TablLcm,   r"\(n \mapsto \text{lcm}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
-    "TablGcd   ": (TablGcd,   r"\(n \mapsto \text{gcd}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
-    "TablMax   ": (TablMax,   r"\(n \mapsto \text{max}_{k=0}^{n}\ | T_{n, k} |\)"),
-    "TablSum   ": (TablSum,   r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\)"),
-    "EvenSum   ": (EvenSum,   r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  [2 | k]\)"),
-    "OddSum    ": (OddSum,    r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (1 - [2 | k])\)"),
-    "AltSum    ": (AltSum,    r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (-1)^{k}\)"),
-    "AbsSum    ": (AbsSum,    r"\(n \mapsto \sum_{k=0}^{n} | T_{n, k} |\)"),
-    "AccSum    ": (AccSum,    r"\(n \mapsto \sum_{k=0}^{n} \sum_{j=0}^{k} T_{n, j}\)"),
-    "AccRevSum ": (AccRevSum, r"\(n \mapsto \sum_{k=0}^{n} \sum_{j=0}^{k} T_{n, n - j}\)"),
-    "AntiDSum  ": (AntiDSum,  r"\(n \mapsto \sum_{k=0}^{n/2} T_{n - k, k}\)"),
-    "ColMiddle ": (ColMiddle, r"\(n \mapsto T_{n, n / 2}\)"),
-    "CentralE  ": (CentralE,  r"\(n \mapsto T_{2 n, n}\)"),
-    "CentralO  ": (CentralO,  r"\(n \mapsto T_{2 n + 1, n}\)"),
-    "PosHalf   ": (PosHalf,   r"\(n \mapsto \sum_{k=0}^{n}   2^{n - k}\ T_{n, k}\)"),
-    "NegHalf   ": (NegHalf,   r"\(n \mapsto \sum_{k=0}^{n}(-2)^{n - k}\ T_{n, k}\)"),
-    "TransNat0 ": (TransNat0, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k\)"),
-    "TransNat1 ": (TransNat1, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (k + 1)\)"),
-    "TransSqrs ": (TransSqrs, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k^{2}\)"),
-    "BinConv   ": (BinConv,   r"\(n \mapsto \sum_{k=0}^{n} \binom{n}{k} T_{n, k}\)"),
-    "InvBinConv": (InvBinConv, r"\(n \mapsto \sum_{k=0}^{n} (-1)^{k}\ \binom{n}{k} T_{n, n-k}\)"),
+    "Triangle  ": (Triangle,  7, r"\((n,k) \mapsto T_{n, k}\)"),
+    "Tinv      ": (Tinv,      7, r"\((n,k) \mapsto T^{-1}_{n, k}\)"),
+    "Trev      ": (Trev,      7, r"\((n,k) \mapsto T_{n, n - k}\)"),
+    "Trevinv   ": (Trevinv,   7, r"\((n,k) \mapsto T^{-1}_{n, n - k}\)"),
+    "Tinvrev   ": (Tinvrev,   7, r"\((n,k) \mapsto (T_{n, n - k})^{-1}\)"),
+    "Toff11    ": (Toff11,    7, r"\((n,k) \mapsto T_{n + 1, k + 1} \)"),
+    "Trev11    ": (Trev11,    7, r"\((n,k) \mapsto T_{n + 1, n - k + 1} \)"),
+    "Tinv11    ": (Tinv11,    7, r"\((n,k) \mapsto T^{-1}_{n + 1, k + 1}\)"),
+    "Trevinv11 ": (Trevinv11, 7, r"\((n,k) \mapsto T^{-1}_{n + 1, n - k + 1}\)"),
+    "Tinvrev11 ": (Tinvrev11, 7, r"\((n,k) \mapsto (T_{n + 1, n - k + 1})^{-1}\)"),
+    "Tantidiag ": (Tantidiag, 9, r"\((n,k) \mapsto T_{n - k, k} \ \ (k \le n/2)\)"),
+    "Tacc      ": (Tacc,      7, r"\((n,k) \mapsto \sum_{j=0}^{k} T_{n, j}\)"),
+    "Talt      ": (Talt,      7, r"\((n,k) \mapsto T_{n, k}\ (-1)^{k}\)"),
+    "Tder      ": (Tder,      7, r"\((n,k) \mapsto T_{n + 1, k + 1}\ (k + 1) \)"),
+    "TablCol0  ": (TablCol0,  28, r"\(n \mapsto T_{n    , 0}\)"),
+    "TablCol1  ": (TablCol1,  28, r"\(n \mapsto T_{n + 1, 1}\)"),
+    "TablCol2  ": (TablCol2,  28, r"\(n \mapsto T_{n + 2, 2}\)"),
+    "TablCol3  ": (TablCol3,  28, r"\(n \mapsto T_{n + 3, 3}\)"),
+    "TablDiag0 ": (TablDiag0, 28, r"\(n \mapsto T_{n    , n}\)"),
+    "TablDiag1 ": (TablDiag1, 28, r"\(n \mapsto T_{n + 1, n}\)"),
+    "TablDiag2 ": (TablDiag2, 28, r"\(n \mapsto T_{n + 2, n}\)"),
+    "TablDiag3 ": (TablDiag3, 28, r"\(n \mapsto T_{n + 3, n}\)"),
+    "PolyRow1  ": (PolyRow1,  28, r"\(n \mapsto \sum_{k=0}^{1} T_{1, k}\  n^k\)"),
+    "PolyRow2  ": (PolyRow2,  28, r"\(n \mapsto \sum_{k=0}^{2} T_{2, k}\  n^k\)"),
+    "PolyRow3  ": (PolyRow3,  28, r"\(n \mapsto \sum_{k=0}^{3} T_{3, k}\  n^k\)"),
+    "PolyCol1  ": (PolyCol1,  28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  1^k\)"),
+    "PolyCol2  ": (PolyCol2,  28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  2^k\)"),
+    "PolyCol3  ": (PolyCol3,  28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  3^k\)"),
+    "PolyDiag  ": (PolyDiag,  28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  n^k\)"),
+    "TablLcm   ": (TablLcm,   28, r"\(n \mapsto \text{lcm}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
+    "TablGcd   ": (TablGcd,   28, r"\(n \mapsto \text{gcd}_{k=0}^{n}\ | T_{n, k} |\ \  (T_{n,k}>1)\)"),
+    "TablMax   ": (TablMax,   28, r"\(n \mapsto \text{max}_{k=0}^{n}\ | T_{n, k} |\)"),
+    "TablSum   ": (TablSum,   28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\)"),
+    "EvenSum   ": (EvenSum,   28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  [2 | k]\)"),
+    "OddSum    ": (OddSum,    28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (1 - [2 | k])\)"),
+    "AltSum    ": (AltSum,    28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (-1)^{k}\)"),
+    "AbsSum    ": (AbsSum,    28, r"\(n \mapsto \sum_{k=0}^{n} | T_{n, k} |\)"),
+    "AccSum    ": (AccSum,    28, r"\(n \mapsto \sum_{k=0}^{n} \sum_{j=0}^{k} T_{n, j}\)"),
+    "AccRevSum ": (AccRevSum, 28, r"\(n \mapsto \sum_{k=0}^{n} \sum_{j=0}^{k} T_{n, n - j}\)"),
+    "AntiDSum  ": (AntiDSum,  28, r"\(n \mapsto \sum_{k=0}^{n/2} T_{n - k, k}\)"),
+    "ColMiddle ": (ColMiddle, 28, r"\(n \mapsto T_{n, n / 2}\)"),
+    "CentralE  ": (CentralE,  28, r"\(n \mapsto T_{2 n, n}\)"),
+    "CentralO  ": (CentralO,  28, r"\(n \mapsto T_{2 n + 1, n}\)"),
+    "PosHalf   ": (PosHalf,   28, r"\(n \mapsto \sum_{k=0}^{n}   2^{n - k}\ T_{n, k}\)"),
+    "NegHalf   ": (NegHalf,   28, r"\(n \mapsto \sum_{k=0}^{n}(-2)^{n - k}\ T_{n, k}\)"),
+    "TransNat0 ": (TransNat0, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k\)"),
+    "TransNat1 ": (TransNat1, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (k + 1)\)"),
+    "TransSqrs ": (TransSqrs, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k^{2}\)"),
+    "BinConv   ": (BinConv,   28, r"\(n \mapsto \sum_{k=0}^{n} \binom{n}{k} T_{n, k}\)"),
+    "InvBinConv": (InvBinConv, 28, r"\(n \mapsto \sum_{k=0}^{n} (-1)^{k}\ \binom{n}{k} T_{n, n-k}\)"),
 }
 
 
 def TableTraits(T: Table) -> None:
     for id, tr in AllTraits.items():
         name = (T.id + id).ljust(9 + len(T.id), " ")
-        print(name, tr[0](T))  # type: ignore
+        print(name, tr[0](T, tr[1]))
 
 
 GlobalDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
 
 
 def ShowdGlobalDict() -> None:
+    global GlobalDict
     for tabl, dict in GlobalDict.items():
         print(f"*** Table {tabl} ***")
         for trait in dict:
             print(f"    {trait} -> {dict[trait]}")
 
 
-def AnumberDict(T: Table, add: bool = False) -> Dict[str, tuple[int, int, int]]:
+def AnumberDict(
+    T: Table, 
+    info: bool = False
+) -> Dict[str, tuple[int, int, int]]:
     """Collects the A-nunmbers of traits present in the OEIS.
-    Add: Add to global OEISDict if requested. Defaults to False.
     """
-    anum: Dict[str, tuple[int, int, int]] = {}
+    tdict: Dict[str, tuple[int, int, int]] = {}
 
-    for id, trai in AllTraits.items():
+    for id, tr in AllTraits.items():
         name = (T.id + ":" + id).ljust(10 + len(T.id), " ")
-        # use the defaults: 7 rows or 28 terms! Tantidiag 9 rows.
-        seq = trai[0](T)  # type: ignore
+        seq: list[int] = tr[0](T, tr[1]) 
         if seq != []:
-            anum[name] = QueryOEIS(seq)  # type: ignore
-
-    if add:
-        GlobalDict[T.id] = anum
-    return anum
+            tdict[name] = QueryOEIS(seq, info)
+    return tdict
 
 
-header = ['<html><head><title>Traits></title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script></head><body width="38%"><iframe name="OEISframe" frameborder="0" scrolling="yes" width="62%" height="2200" align="left" title="Sequences"']
+header = '<html><head><title>Traits</title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> window.MathJax = {loader: {load: ["[tex]/bbox"]}, tex: {packages: {"[+]": ["bbox"]}}}</script></head><body width="38%"><iframe name="OEISframe" frameborder="0" scrolling="yes" width="62%" height="2200" align="left" title="Sequences"'
 
-def AnumbersToFile(T: Table, add: bool = False)  -> None:
+def AnumbersToFile(
+    T: Table, 
+    info: bool = False
+)  -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
-    SRC = f"https://oeis.org/{T.sim[0]}"
-    SH = f"src={SRC}></iframe><p>"
+    global GlobalDict
+    SRC = f'https://oeis.org/{T.sim[0]}'
+    SH = f'src={SRC}></iframe><p>'
 
     print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
-    dict = AnumberDict(T, add)  # W
+    dict = AnumberDict(T, info)  # W
+    GlobalDict[T.id] = dict
 
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
-            for h in header:
-                oeis.write(h)
-                miss.write(h)
-            oeis.write(SH)
-            miss.write(SH)
-            oeis.write(T.tex)
-            miss.write(T.tex)
+            oeis.write(header); oeis.write(SH); oeis.write(T.tex)
+            miss.write(header); miss.write(SH); miss.write(T.tex)
 
-            for trait, anum in dict.items():
-                print(f"     {trait} -> {anum}")
-                tname = AllTraits[trait.split(":")[1]]
-                tex = tname[1]
-                seq = SeqToString(tname[0](T), 60, 24)  # type: ignore
+            for tr, anum in dict.items():
+                if info: print(f"     {tr} -> {anum}")
+                tr, trn, tex = AllTraits[tr.split(":")[1]]
+                seq = SeqToString(tr(T, trn), 60, 24) 
                 if anum[0] == 0:
-                    miss.write(f"<br><span style='white-space: pre'>{trait}</span> {tex}<br>")
-                    miss.write(seq)  # type: ignore
+                    miss.write(f"<br><span style='white-space: pre'>{tr}</span> {tex}<br>")
+                    miss.write(seq) 
                 else:
                     num = str(anum[0]).rjust(6, "0")
                     url = f"<a href='https://oeis.org/A{num}' target='OEISframe'>A{num}</a>"
-                    oeis.write(f"<br>{url} <span style='white-space: pre'>{trait}</span> {tex}<br>")
-                    oeis.write(seq)  # type: ignore
+                    oeis.write(f"<br>{url} <span style='white-space: pre'>{tr}</span> {tex}<br>")
+                    oeis.write(seq) 
 
             L = "<a href='https://luschny.de/math/seq/tabls/"
             A = f"{L}{T.id}Traits.html'>[online]</a>"
@@ -412,24 +410,25 @@ def AnumbersToFile(T: Table, add: bool = False)  -> None:
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
 
 
-indheader = "<!DOCTYPE html><html lang='en'><head><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
+indheader = "<!DOCTYPE html><html lang='en'><head><title>Index></title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
 
 def warn() -> None:
     print("Are you sure? This takes 3-4 hours.")
     print("Don't forget to update Tables.py first.")
+    print("Hit return:")
     input()
 
 def RefreshDatabase() -> None:
     """Use with caution."""
     warn()
+
     global GlobalDict
 
-    GlobalDict = {} 
     indexpath = GetRoot(f"data/index.html")
     with open(indexpath, "w+", encoding="utf-8") as index:
         index.write(indheader)
 
-        for tbl in Tables:
+        for tbl in TablesList:
             AnumbersToFile(tbl, True) # type: ignore
             index.write(f"<tr><td align='left'>{tbl.id}</td><td align='left'><a href='{tbl.id}Traits.html'>[online]</a></td><td align='left'><a href='{tbl.id}Missing.html'>[missing]</a></td></tr>")
 
@@ -442,7 +441,7 @@ def RefreshDatabase() -> None:
         json.dump(GlobalDict, fileson)
 
 
-def ReadTraitJson() -> None:
+def ReadJsonDict() -> None:
     with open('data.json', 'r') as file:
         data = json.load(file)
 
@@ -476,6 +475,6 @@ if __name__ == "__main__":
             print(PolyCol(T, n, LEN))
         print()
 
-    #test(Abel, 10)
-    #AnumbersToFile(Abel)
+    test(Abel, 10)
+    #AnumbersToFile(Abel, True)
     #RefreshDatabase()

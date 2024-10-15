@@ -30,7 +30,8 @@ def delannoy(n: int) -> list[int]:
     return row
 
 
-Delannoy = Table(delannoy, "Delannoy", ["A008288"], True)
+Delannoy = Table(delannoy, "Delannoy", ["A008288"], True,
+            r"\(T_{n, k} \ = \ \text{Hyper}([-k, k - n], [1], 2) \)" )
 
 
 if __name__ == "__main__":

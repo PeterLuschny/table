@@ -26,7 +26,8 @@ def abel(n: int) -> list[int]:
 
 
 Abel = Table(abel, "Abel", ["A137452", "A061356", "A139526"], True,
-    r"\(T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k}\)")
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k} }\)" )
+# r"\( \bbox[red,5pt]{T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k} } \)")
 
 if __name__ == "__main__":
     from _tablutils import PreView

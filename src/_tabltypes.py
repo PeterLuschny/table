@@ -69,6 +69,8 @@ def PseudoGenerator(T: tabl, max: int) -> rgen:
         return T[n]
     return gen
 
+# Useful for the LaTeX titels: https://latexeditor.lagrida.com/
+
 class Table:
     """Provides basic methods for manipulating integer triangles."""
     def __init__(
