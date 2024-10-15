@@ -352,10 +352,11 @@ def ShowdGlobalDict() -> None:
 
 def AnumberDict(
     T: Table, 
-    info: bool = False
+    info: bool = False,
+    add: bool = False
 ) -> Dict[str, tuple[int, int, int]]:
-    """Collects the A-nunmbers of traits present in the OEIS.
-    """
+    """Collects the A-nunmbers of the traits of T present in the OEIS."""
+    global GlobalDict
     tdict: Dict[str, tuple[int, int, int]] = {}
 
     for id, tr in AllTraits.items():
@@ -363,6 +364,8 @@ def AnumberDict(
         seq: list[int] = tr[0](T, tr[1]) 
         if seq != []:
             tdict[name] = QueryOEIS(seq, info)
+    if add:
+        GlobalDict[T.id] = tdict
     return tdict
 
 
@@ -370,18 +373,16 @@ header = '<html><head><title>Traits</title><meta charset="utf-8"><meta name="vie
 
 def AnumbersToFile(
     T: Table, 
+    dict: Dict[str, tuple[int, int, int]],
     info: bool = False
 )  -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
-    global GlobalDict
+    
     SRC = f'https://oeis.org/{T.sim[0]}'
-    SH = f'src={SRC}></iframe><p>'
-
+    SH = f'src={SRC}></iframe><p><span style="white-space: pre">     {T.id}</span><br>'
     print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
-    dict = AnumberDict(T, info)  # W
-    GlobalDict[T.id] = dict
 
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
@@ -410,12 +411,12 @@ def AnumbersToFile(
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
 
 
-indheader = "<!DOCTYPE html><html lang='en'><head><title>Index></title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
+indheader = "<!DOCTYPE html><html lang='en'><head><title>Index</title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
 
 def warn() -> None:
     print("Are you sure? This takes 3-4 hours.")
     print("Don't forget to update Tables.py first.")
-    print("Hit return:")
+    print("Hit return >")
     input()
 
 def RefreshDatabase() -> None:
@@ -428,9 +429,10 @@ def RefreshDatabase() -> None:
     with open(indexpath, "w+", encoding="utf-8") as index:
         index.write(indheader)
 
-        for tbl in TablesList:
-            AnumbersToFile(tbl, True) # type: ignore
-            index.write(f"<tr><td align='left'>{tbl.id}</td><td align='left'><a href='{tbl.id}Traits.html'>[online]</a></td><td align='left'><a href='{tbl.id}Missing.html'>[missing]</a></td></tr>")
+        for T in TablesList:
+            dict = AnumberDict(T, False, True)  # type: ignore 
+            AnumbersToFile(T, dict, True) # type: ignore
+            index.write(f"<tr><td align='left'>{T.id}</td><td align='left'><a href='{T.id}Traits.html'>[online]</a></td><td align='left'><a href='{T.id}Missing.html'>[missing]</a></td></tr>")
 
         index.write("</tbody></table></body></html>")
         index.flush()
@@ -442,12 +444,20 @@ def RefreshDatabase() -> None:
 
 
 def ReadJsonDict() -> None:
-    with open('data.json', 'r') as file:
-        data = json.load(file)
+    global GlobalDict
+    jsonpath = GetRoot(f"data/AllTraits.json")
+    with open(jsonpath, 'r') as file:
+        GlobalDict = json.load(file)
+    print("GlobalDict with all traits installed!")
 
-    # Now, data is a Python dictionary
-    print(data)
 
+def RefreshHtml() -> None:
+    global GlobalDict
+    ReadJsonDict()
+    for T in TablesList:
+        dict = GlobalDict[T.id]
+        AnumbersToFile(T, dict, True)    # type: ignore
+  
 
 if __name__ == "__main__":
 
@@ -475,6 +485,7 @@ if __name__ == "__main__":
             print(PolyCol(T, n, LEN))
         print()
 
-    test(Abel, 10)
+    # test(Abel, 10)
     #AnumbersToFile(Abel, True)
     #RefreshDatabase()
+    RefreshHtml()

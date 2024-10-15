@@ -1078,36 +1078,42 @@ GlobalDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
 
 
 def ShowdGlobalDict() -> None:
+    global GlobalDict
     for tabl, dict in GlobalDict.items():
         print(f"*** Table {tabl} ***")
         for trait in dict:
             print(f"    {trait} -> {dict[trait]}")
 
 
-def AnumberDict(T: Table, info: bool = False) -> Dict[str, tuple[int, int, int]]:
-    """Collects the A-nunmbers of traits present in the OEIS."""
+def AnumberDict(
+    T: Table, info: bool = False, add: bool = False
+) -> Dict[str, tuple[int, int, int]]:
+    """Collects the A-nunmbers of the traits of T present in the OEIS."""
+    global GlobalDict
     tdict: Dict[str, tuple[int, int, int]] = {}
     for id, tr in AllTraits.items():
         name = (T.id + ":" + id).ljust(10 + len(T.id), " ")
         seq: list[int] = tr[0](T, tr[1])
         if seq != []:
             tdict[name] = QueryOEIS(seq, info)
+    if add:
+        GlobalDict[T.id] = tdict
     return tdict
 
 
 header = '<html><head><title>Traits</title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> window.MathJax = {loader: {load: ["[tex]/bbox"]}, tex: {packages: {"[+]": ["bbox"]}}}</script></head><body width="38%"><iframe name="OEISframe" frameborder="0" scrolling="yes" width="62%" height="2200" align="left" title="Sequences"'
 
 
-def AnumbersToFile(T: Table, info: bool = False) -> None:
+def AnumbersToFile(
+    T: Table, dict: Dict[str, tuple[int, int, int]], info: bool = False
+) -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
+
     SRC = f"https://oeis.org/{T.sim[0]}"
-    SH = f"src={SRC}></iframe><p>"
+    SH = f'src={SRC}></iframe><p><span style="white-space: pre">     {T.id}</span><br>'
     print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
-    dict = AnumberDict(T, info)  # W
-    GlobalDict[T.id] = dict
-    print(GlobalDict[T.id])
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
             oeis.write(header)
@@ -1117,7 +1123,8 @@ def AnumbersToFile(T: Table, info: bool = False) -> None:
             miss.write(SH)
             miss.write(T.tex)
             for tr, anum in dict.items():
-                print(f"     {tr} -> {anum}")
+                if info:
+                    print(f"     {tr} -> {anum}")
                 tr, trn, tex = AllTraits[tr.split(":")[1]]
                 seq = SeqToString(tr(T, trn), 60, 24)
                 if anum[0] == 0:
@@ -1140,26 +1147,28 @@ def AnumbersToFile(T: Table, info: bool = False) -> None:
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
 
 
-indheader = "<!DOCTYPE html><html lang='en'><head><title>Index></title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
+indheader = "<!DOCTYPE html><html lang='en'><head><title>Index</title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
 
 
 def warn() -> None:
     print("Are you sure? This takes 3-4 hours.")
     print("Don't forget to update Tables.py first.")
-    print("Hit return:")
+    print("Hit return >")
     input()
 
 
 def RefreshDatabase() -> None:
     """Use with caution."""
     warn()
+    global GlobalDict
     indexpath = GetRoot(f"data/index.html")
     with open(indexpath, "w+", encoding="utf-8") as index:
         index.write(indheader)
-        for tbl in TablesList:
-            AnumbersToFile(tbl, True)
+        for T in TablesList:
+            dict = AnumberDict(T, False, True)  # type: ignore
+            AnumbersToFile(T, dict, True)  # type: ignore
             index.write(
-                f"<tr><td align='left'>{tbl.id}</td><td align='left'><a href='{tbl.id}Traits.html'>[online]</a></td><td align='left'><a href='{tbl.id}Missing.html'>[missing]</a></td></tr>"
+                f"<tr><td align='left'>{T.id}</td><td align='left'><a href='{T.id}Traits.html'>[online]</a></td><td align='left'><a href='{T.id}Missing.html'>[missing]</a></td></tr>"
             )
         index.write("</tbody></table></body></html>")
         index.flush()
@@ -1169,11 +1178,20 @@ def RefreshDatabase() -> None:
         json.dump(GlobalDict, fileson)
 
 
-def ReadTraitJson() -> None:
-    with open("data.json", "r") as file:
-        data = json.load(file)
-    # Now, data is a Python dictionary
-    print(data)
+def ReadJsonDict() -> None:
+    global GlobalDict
+    jsonpath = GetRoot(f"data/AllTraits.json")
+    with open(jsonpath, "r") as file:
+        GlobalDict = json.load(file)
+    print("GlobalDict with all traits installed!")
+
+
+def RefreshHtml() -> None:
+    global GlobalDict
+    ReadJsonDict()
+    for T in TablesList:
+        dict = GlobalDict[T.id]
+        AnumbersToFile(T, dict, True)  # type: ignore
 
 
 @cache
@@ -1254,7 +1272,13 @@ def bessel(n: int) -> list[int]:
     return row
 
 
-Bessel = Table(bessel, "Bessel", ["A132062", "A001497", "A001498", "A122850"], True)
+Bessel = Table(
+    bessel,
+    "Bessel",
+    ["A132062", "A001497", "A001498", "A122850"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = 2^{k - n} \binom{2n - 2k}{n - k} \binom{2n - k - 1}{k - 1} (n - k)! } \)",
+)
 
 
 @cache
@@ -1356,7 +1380,11 @@ def binomialcatalan(n: int) -> list[int]:
 
 
 BinomialCatalan = Table(
-    binomialcatalan, "BinomialCatalan", ["A124644", "A098474"], True
+    binomialcatalan,
+    "BinomialCatalan",
+    ["A124644", "A098474"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = \binom{n}{k} \text{Catalan}(n - k) }\)",
 )
 
 
@@ -1837,7 +1865,11 @@ def eulertan(n: int) -> list[int]:
 
 
 EulerTan = Table(
-    eulertan, "EulerTan", ["A162660", "A350972", "A155585", "A009006", "A000182"], False
+    eulertan,
+    "EulerTan",
+    ["A162660", "A350972", "A155585", "A009006", "A000182"],
+    False,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = [x^k]( -x^n + \sum_{k=0}^{n} \binom{n}{k} \text{Euler}(k) (x+1)^{n - k}) }\)",
 )
 
 
@@ -2038,7 +2070,13 @@ def harmonic(n: int) -> list[int]:
     return row
 
 
-Harmonic = Table(harmonic, "Harmonic", ["A358694", "A109822"], True)
+Harmonic = Table(
+    harmonic,
+    "Harmonic",
+    ["A358694", "A109822"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n,k} = T_{n - 1, k - 1} + (n - 1) T_{n - 1, k}, T_{n,n}=1, T_{n,1}=n!, T_{n,0}=0 } \)",
+)
 
 
 @cache
