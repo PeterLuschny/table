@@ -1097,6 +1097,7 @@ def AnumberDict(
     T: Table, info: bool = False, add: bool = False
 ) -> Dict[str, tuple[int, int, int]]:
     """Collects the A-nunmbers of the traits of T present in the OEIS."""
+    print(f"*** Table {T.id} under construction ***")
     global GlobalDict
     tdict: Dict[str, tuple[int, int, int]] = {}
     for id, tr in AllTraits.items():
@@ -1119,18 +1120,19 @@ def AnumbersToFile(
 
     SRC = f"https://oeis.org/{T.sim[0]}"
     SH = f'src={SRC}></iframe><p><span style="white-space: pre">     {T.id}</span><br>'
-    print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
     head = header.replace("Traits", T.id)
+    TeX = r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} \ = \ TTEX } \)"
+    TEX = TeX.replace("TTEX", T.tex)
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
             oeis.write(head)
             oeis.write(SH)
-            oeis.write(T.tex)
+            oeis.write(TEX)
             miss.write(head)
             miss.write(SH)
-            miss.write(T.tex)
+            miss.write(TEX)
             for tr, anum in dict.items():
                 if info:
                     print(f"     {tr} -> {anum}")
@@ -1195,12 +1197,25 @@ def ReadJsonDict() -> None:
     print("GlobalDict with all traits installed!")
 
 
+def AddTable(T: Table) -> None:
+    ReadJsonDict()
+    AnumbersToFile(T, AnumberDict(T, True, True), True)
+    jsonpath = GetRoot(f"data/AllTraits.json")
+    with open(jsonpath, "w") as fileson:
+        json.dump(GlobalDict, fileson)
+
+
 def RefreshHtml() -> None:
     global GlobalDict
     ReadJsonDict()
     for T in TablesList:
-        dict = GlobalDict[T.id]
-        AnumbersToFile(T, dict, True)  # type: ignore
+        try:
+            dict = GlobalDict[T.id]
+            AnumbersToFile(T, dict, True)  # type: ignore
+        except KeyError as e:
+            print("KeyError:", e)
+            input()
+            pass
 
 
 def OccList() -> None:
@@ -1212,8 +1227,6 @@ def OccList() -> None:
                 Occurences[anum[0]].append(name)
             else:
                 Occurences[anum[0]] = [name]
-    # Occurencesbynum = sorted(Occurences.items(), key=lambda x: len(x))
-    # sdict = dict(Occurencesbynum)
     for anum, names in Occurences.items():
         if len(names) > 10:
             print(str(anum).rjust(6, "0"), len(names))
@@ -1233,7 +1246,7 @@ Abel = Table(
     "Abel",
     ["A137452", "A061356", "A139526"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k} } \)",
+    r"is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k}",
 )
 
 
@@ -1282,7 +1295,7 @@ Bell = Table(
     "Bell",
     ["A011971", "A011972", "A123346"],
     False,
-    r"\(T_{n, k} = \sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}\)",
+    r"\sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}",
 )
 
 
@@ -1303,7 +1316,7 @@ Bessel = Table(
     "Bessel",
     ["A132062", "A001497", "A001498", "A122850"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = 2^{k - n} \binom{2n - 2k}{n - k} \binom{2n - k - 1}{k - 1} (n - k)! } \)",
+    r"2^{k - n} \binom{2n - 2k}{n - k} \binom{2n - k - 1}{k - 1} (n - k)!",
 )
 
 
@@ -1371,8 +1384,15 @@ Binomial = Table(
         "A154926",
     ],
     True,
+    r"n! \, / (k! \, (n - k)! )",
 )
-InvBinomial = Table(invbinomial, "InvBinomial", ["A130595"], True)
+InvBinomial = Table(
+    invbinomial,
+    "InvBinomial",
+    ["A130595"],
+    True,
+    r"(-1)^{n-k} \, n! \, / (k! \, (n - k)! )",
+)
 
 
 @cache
@@ -1410,7 +1430,7 @@ BinomialCatalan = Table(
     "BinomialCatalan",
     ["A124644", "A098474"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = \binom{n}{k} \text{Catalan}(n - k) }\)",
+    r"\binom{n}{k} \text{Catalan}(n - k)",
 )
 
 
@@ -1462,7 +1482,13 @@ def catalan(n: int) -> list[int]:
     return row
 
 
-Catalan = Table(catalan, "Catalan", ["A128899", "A039598"], True)
+Catalan = Table(
+    catalan,
+    "Catalan",
+    ["A128899", "A039598"],
+    True,
+    r"\sum_{i=1}^{n-k+1} \text{Catalan}(i) T(k-1, n-i)",
+)
 
 
 @cache
@@ -1484,7 +1510,7 @@ CatalanPaths = Table(
     "CatalanPaths",
     ["A053121", "A052173", "A112554", "A322378"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = 0)\ ? \ 0 :  ((k+1)/(n + 1)) \ \binom{n+1}{(n-k)/2} } \)",
+    r"is(k = 0)\ ? \ 0 :  ((k+1)/(n + 1)) \ \binom{n+1}{(n-k)/2}",
 )
 
 
@@ -1522,7 +1548,7 @@ CentralSet = Table(
     "CentralSet",
     ["A269945", "A008957", "A036969"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2 T(n-1, k) \)",
+    r"is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2\ T(n-1, k)",
 )
 
 
@@ -1577,7 +1603,7 @@ ChebyshevS = Table(
     "ChebyshevS",
     ["A049310", "A053119", "A112552", "A168561"],
     True,
-    r"\(is(n+k \text{ even}) ? \binom{(n+k)/2}{k} : 0 \)",
+    r"is(n+k \text{ even}) ? \binom{(n+k)/2}{k} : 0",
 )
 
 
@@ -1691,11 +1717,7 @@ def delannoy(n: int) -> list[int]:
 
 
 Delannoy = Table(
-    delannoy,
-    "Delannoy",
-    ["A008288"],
-    True,
-    r"\(T_{n, k} \ = \ \text{Hyper}([-k, k - n], [1], 2) \)",
+    delannoy, "Delannoy", ["A008288"], True, r"\text{Hyper}([-k, k - n], [1], 2)"
 )
 
 
@@ -1746,7 +1768,28 @@ DyckPaths = Table(
     "DyckPaths",
     ["A039599", "A050155"],
     True,
-    r"\(T_{n, k}\ =\ \binom{2n}{n - k} (2k + 1) / (n + k + 1)\)",
+    r"\binom{2n}{n - k} (2k + 1) / (n + k + 1)",
+)
+
+
+@cache
+def entringer(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    rowA = entringer(n - 1)
+    row = [0] + entringer(n - 1)
+    row[1] = row[n]
+    for k in range(2, n + 1):
+        row[k] = row[k - 1] + rowA[n - k]
+    return row
+
+
+Entringer = Table(
+    entringer,
+    "Entringer",
+    ["A008281", "A008282", "A010094"],
+    False,
+    r"is(k=0) \ ? \ 0^n : T(n, k-1) + T(n-1, n-k)",
 )
 
 
@@ -1765,11 +1808,7 @@ def euclid(n: int) -> list[int]:
 
 
 Euclid = Table(
-    euclid,
-    "Euclid",
-    ["A217831"],
-    False,
-    r"\(T_{n, k} = is(k \text{ prime to } n ) \ ? \ 1 : 0\)",
+    euclid, "Euclid", ["A217831"], False, r"is(k \text{ prime to } n ) \ ? \ 1 : 0"
 )
 
 
@@ -1789,7 +1828,7 @@ Euler = Table(
     "Euler",
     ["A363394", "A247453", "A109449"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n,k} = \binom{n}{k} 2^{n-k} \text{Euler}_{n-k}(1/2) }\)",
+    r"\binom{n}{k} 2^{n-k} \text{Euler}_{n-k}(1/2)",
 )
 
 
@@ -1905,7 +1944,7 @@ EulerTan = Table(
     "EulerTan",
     ["A162660", "A350972", "A155585", "A009006", "A000182"],
     False,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = [x^k]( -x^n + \sum_{k=0}^{n} \binom{n}{k} \text{Euler}(k) (x+1)^{n - k}) }\)",
+    r"[x^k]( -x^n + \sum_{k=0}^{n} \binom{n}{k} \text{Euler}(k) (x+1)^{n - k})",
 )
 
 
@@ -1955,7 +1994,7 @@ FallingFactorial = Table(
     "FallingFact",
     ["A008279", "A068424", "A094587", "A173333", "A181511"],
     False,
-    r"\(T_{n, k} =  n! / (n - k)! \)",
+    r"n! / (n - k)!",
 )
 
 
@@ -2042,7 +2081,7 @@ Fubini = Table(
     "Fubini",
     ["A131689", "A019538", "A090582", "A278075"],
     False,
-    r"\(T_{n, k} \ = \ k! \ {n \brace k} \)",
+    r"k! \ {n \brace k}",
 )
 
 
@@ -2111,7 +2150,7 @@ Harmonic = Table(
     "Harmonic",
     ["A358694", "A109822"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n,k} = T_{n - 1, k - 1} + (n - 1) T_{n - 1, k}, T_{n, 1} = n! } \)",
+    r"T_{n - 1, k - 1} + (n - 1) T_{n - 1, k}; \ T_{n, 1} = n!",
 )
 
 
@@ -2155,7 +2194,7 @@ HyperHarmonic = Table(
     "HyperHarmonic",
     ["A165675", "A093905", "A105954", "A165674"],
     True,
-    r"\(T_{n, k} \ = \ (n - k + 1)! \  \text{HyperHarmonic}(k, n - k)\)",
+    r"(n - k + 1)! \ \text{HyperHarmonic}(k, n - k)",
 )
 
 
@@ -2201,7 +2240,13 @@ def labeledgraphs(n: int) -> list[int]:
     return [0] + s + [b]
 
 
-LabeledGraphs = Table(labeledgraphs, "LabeledGraphs", ["A360603"], False)
+LabeledGraphs = Table(
+    labeledgraphs,
+    "LabeledGraphs",
+    ["A360603"],
+    False,
+    r"T(n, k) = 2^{\binom{n-k}{2}} \binom{n-1}{k-1} \text{A001187}(k)",
+)
 
 
 @cache
@@ -2219,7 +2264,7 @@ Laguerre = Table(
     "Laguerre",
     ["A021009", "A021010", "A144084"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = \binom{n}{k}\, n! \, / \, k! } \)",
+    r"\binom{n}{k}\, n! \, / \, k!",
 )
 
 
@@ -2239,7 +2284,7 @@ Lah = Table(
     "Lah",
     ["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"],
     True,
-    r"\(T_{n, k} = \binom{n}{k} \text{FallingFactorial}(n-1, n-k) \)",
+    r"\binom{n}{k} \text{FallingFactorial}(n-1, n-k)",
 )
 
 
@@ -2262,7 +2307,7 @@ Lehmer = Table(
     "Lehmer",
     ["A354794", "A039621"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(n = k)\ ? \ 1 : \sum_{j=0}^{k-1} (-1)^{j} (n-j-1)^{n-1} / (j! (k-1-j)!) } \)",
+    r"is(n = k)\ ? \ 1 : \sum_{j=0}^{k-1} (-1)^{j}(n-j-1)^{n-1}/(j! (k-1-j)!)",
 )
 
 
@@ -2335,7 +2380,9 @@ def lucas(n: int) -> list[int]:
     return row
 
 
-Lucas = Table(lucas, "Lucas", ["A029635", "A029653"])
+Lucas = Table(
+    lucas, "Lucas", ["A029635", "A029653"], False, r"\binom{n}{k} + \binom{n-1}{k-1}"
+)
 
 
 @cache
@@ -2354,7 +2401,9 @@ def lucaspoly(n: int) -> list[int]:
     return row
 
 
-LucasPoly = Table(lucaspoly, "LucasPoly", ["A374440"], False)
+LucasPoly = Table(
+    lucaspoly, "LucasPoly", ["A374440"], False, r"T_{n - 1, k} + T_{n - 2, k - 2}"
+)
 
 
 @cache
@@ -2383,7 +2432,7 @@ Moebius = Table(
     "Moebius",
     ["A363914", "A054525"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = M^{-1}(n, k), where M(n, k) = [k <= n and k | n] } \)",
+    r"M^{-1}(n, k), where M(n, k) = [k <= n and k | n]",
 )
 
 
@@ -2398,7 +2447,9 @@ def monotone(n: int) -> list[int]:
     return row
 
 
-Monotone = Table(monotone, "Monotone", ["A059481", "A027555"], True)
+Monotone = Table(
+    monotone, "Monotone", ["A059481", "A027555"], True, r"\binom{n+k-1}{k}"
+)
 
 
 @cache
@@ -2420,7 +2471,7 @@ Motzkin = Table(
     "Motzkin",
     ["A064189", "A026300", "A009766"],
     True,
-    r"\(T_{n, k} \ =\  \binom{n}{k} \text{Hyper}([(k-n)/2, (k-n+1)/2], [k+2], 4) \)",
+    r"\binom{n}{k} \text{Hyper}([(k-n)/2, (k-n+1)/2], [k+2], 4)",
 )
 
 
@@ -2459,7 +2510,7 @@ Narayana = Table(
     "Narayana",
     ["A090181", "A001263", "A131198"],
     True,
-    r"\(T_{n, k} = \binom{n}{n-k} \binom{n-1}{n-k} \frac{1}{n-k+1} \)",
+    r"\binom{n}{n-k} \binom{n-1}{n-k} \frac{1}{n-k+1}",
 )
 
 
@@ -2710,7 +2761,7 @@ Polygonal = Table(
     "Polygonal",
     ["A139600", "A057145", "A134394", "A139601"],
     False,
-    r"\(T_{n, k} = k + \frac{1}{2}\, n\, k\, (k-1) \)",
+    r"k + \frac{1}{2}\, n\, k\, (k-1)",
 )
 
 
@@ -2725,7 +2776,9 @@ def powlaguerre(n: int) -> list[int]:
     return row
 
 
-PowLaguerre = Table(powlaguerre, "PowLaguerre", ["A196347", "A021012"], False)
+PowLaguerre = Table(
+    powlaguerre, "PowLaguerre", ["A196347", "A021012"], False, r"n! \binom{n}{k}"
+)
 
 
 @cache
@@ -2740,7 +2793,13 @@ def rencontres(n: int) -> list[int]:
     return row
 
 
-Rencontres = Table(rencontres, "Rencontres", ["A008290", "A098825"], True)
+Rencontres = Table(
+    rencontres,
+    "Rencontres",
+    ["A008290", "A098825"],
+    True,
+    r"\binom{n}{k} Derangements(n - k)",
+)
 
 
 @cache
@@ -2755,11 +2814,7 @@ def risingfactorial(n: int) -> list[int]:
 
 
 RisingFactorial = Table(
-    risingfactorial,
-    "RisingFact",
-    ["A124320"],
-    False,
-    r"\(T_{n,k} = k! \binom{n+k-1}{k} \)",
+    risingfactorial, "RisingFact", ["A124320"], False, r"k! \binom{n+k-1}{k}"
 )
 
 
@@ -2823,28 +2878,11 @@ def schroederl(n: int) -> list[int]:
 SchroederL = Table(schroederl, "SchroederL", ["A172094"], True)
 
 
-@cache
 def seidel(n: int) -> list[int]:
-    if n == 0:
-        return [1]
-    rowA = seidel(n - 1)
-    row = [0] + seidel(n - 1)
-    row[1] = row[n]
-    for k in range(2, n + 1):
-        row[k] = row[k - 1] + rowA[n - k]
-    return row
+    return entringer(n) if n % 2 else entringer(n)[::-1]
 
 
-Seidel = Table(seidel, "Seidel", ["A008281", "A008282", "A010094"], False)
-
-
-def seidelboust(n: int) -> list[int]:
-    return seidel(n) if n % 2 else seidel(n)[::-1]
-
-
-SeidelBoust = Table(
-    seidelboust, "SeidelBoust", ["A008280", "A108040", "A236935", "A239005"], False
-)
+Seidel = Table(seidel, "Seidel", ["A008280", "A108040", "A236935", "A239005"], False)
 
 
 @cache
@@ -2857,6 +2895,7 @@ Sierpinski = Table(
     "Sierpinski",
     ["A047999", "A090971", "A114700", "A143200", "A166282"],
     True,
+    r"\binom{n}{k} mod 2",
 )
 
 
@@ -2938,7 +2977,7 @@ StirlingSet = Table(
         "A213735",
     ],
     True,
-    r"\(T(n, k)\ = \ (1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n} \)",
+    r"(1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n}",
 )
 
 
@@ -3017,7 +3056,13 @@ def wardset(n: int) -> list[int]:
     return row
 
 
-WardSet = Table(wardset, "WardSet", ["A269939", "A134991"], False)
+WardSet = Table(
+    wardset,
+    "WardSet",
+    ["A269939", "A134991"],
+    False,
+    r"\sum_{m=0}^{k} (-1)^{m + k} \binom{n+k}{n+m} {n+m, m}",
+)
 
 
 @cache
@@ -3032,7 +3077,13 @@ def wardcycle(n: int) -> list[int]:
     return row
 
 
-WardCycle = Table(wardcycle, "WardCycle", ["A269940", "A111999", "A259456"], False)
+WardCycle = Table(
+    wardcycle,
+    "WardCycle",
+    ["A269940", "A111999", "A259456"],
+    False,
+    r"\sum_{m=0}^{k} (-1)^{m+k} \binom{n+k}{n+m} |[n + m, m]|",
+)
 
 
 @cache
@@ -3050,6 +3101,7 @@ Worpitzky = Table(
     "Worpitzky",
     ["A028246", "A053440", "A075263", "A130850", "A163626"],
     False,
+    r"\sum_{j=0}^{n} \text{Eulerian}(n, j) \binom{n-j}{n-k}",
 )
 
 
@@ -3123,6 +3175,7 @@ TablesList: list[Table] = [
     Delannoy,
     Divisibility,
     DyckPaths,
+    Entringer,
     Euclid,
     Euler,
     Eulerian,
@@ -3187,7 +3240,6 @@ TablesList: list[Table] = [
     SchroederL,
     SchroederPaths,
     Seidel,
-    SeidelBoust,
     Sierpinski,
     StirlingCycle,
     StirlingCycle2,

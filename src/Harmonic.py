@@ -32,7 +32,7 @@ def harmonic(n: int) -> list[int]:
 
 
 Harmonic = Table(harmonic, "Harmonic", ["A358694", "A109822"], True,
-  r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n,k} = T_{n - 1, k - 1} + (n - 1) T_{n - 1, k}, T_{n, 1} = n! } \)" )
+r"T_{n - 1, k - 1} + (n - 1) T_{n - 1, k}; \ T_{n, 1} = n!" )
 
 
 if __name__ == "__main__":

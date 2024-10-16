@@ -28,7 +28,7 @@ def bell(n: int) -> list[int]:
 
 
 Bell = Table(bell, "Bell", ["A011971", "A011972", "A123346"], False,
-r"\(T_{n, k} = \sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}\)")
+r"\sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}")
 
 
 

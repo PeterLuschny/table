@@ -29,11 +29,8 @@ def stirlingcycle(n: int) -> list[int]:
     return row
 
 
-StirlingCycle = Table(
-    stirlingcycle,
-    "StirlingCycle",
-    ["A132393", "A008275", "A008276", "A048994", "A054654", "A094638", "A130534"],
-    True,
+StirlingCycle = Table(stirlingcycle, "StirlingCycle",
+["A132393", "A008275", "A008276", "A048994", "A054654", "A094638", "A130534"], True,
 )
 
 

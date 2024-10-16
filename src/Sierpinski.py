@@ -21,12 +21,9 @@ def sierpinski(n: int) -> list[int]:
     return [int(not ~n & k) for k in range(n + 1)]
 
 
-Sierpinski = Table(
-    sierpinski,
-    "Sierpinski",
-    ["A047999", "A090971", "A114700", "A143200", "A166282"],
-    True,
-)
+Sierpinski = Table(sierpinski, "Sierpinski",
+["A047999", "A090971", "A114700", "A143200", "A166282"], True,
+r"\binom{n}{k} mod 2" )
 
 
 if __name__ == "__main__":

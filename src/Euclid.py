@@ -33,7 +33,7 @@ def euclid(n: int) -> list[int]:
 
 
 Euclid = Table(euclid, "Euclid", ["A217831"], False,
-    r"\(T_{n, k} = is(k \text{ prime to } n ) \ ? \ 1 : 0\)" )
+r"is(k \text{ prime to } n ) \ ? \ 1 : 0" )
 
 
 

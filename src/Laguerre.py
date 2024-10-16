@@ -28,7 +28,7 @@ def laguerre(n: int) -> list[int]:
 
 
 Laguerre = Table(laguerre, "Laguerre", ["A021009", "A021010", "A144084"], True,
-r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = \binom{n}{k}\, n! \, / \, k! } \)" )
+r"\binom{n}{k}\, n! \, / \, k!" )
 
 
 if __name__ == "__main__":

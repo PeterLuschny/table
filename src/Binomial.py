@@ -16,7 +16,7 @@ from _tabltypes import Table
 [9]   1,   9,  36,  84, 126, 126,  84,  36,   9,   1;
 
 
-Inverse binomial triangle
+Inverse binomial triangle:
 
    1;
   -1,    1;
@@ -49,9 +49,12 @@ def invbinomial(n: int) -> list[int]:
 
 Binomial = Table(binomial, "Binomial", [
     "A007318", "A074909", "A108086", "A117440",
-    "A118433", "A130595", "A135278", "A154926" ], True )
+    "A118433", "A130595", "A135278", "A154926" ], True,
+    r"n! \, / (k! \, (n - k)! )")
 
-InvBinomial = Table(invbinomial, "InvBinomial", ["A130595"], True)
+
+InvBinomial = Table(invbinomial, "InvBinomial", ["A130595"], True,
+    r"(-1)^{n-k} \, n! \, / (k! \, (n - k)! )" )
 
 
 if __name__ == "__main__":

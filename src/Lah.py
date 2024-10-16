@@ -29,9 +29,9 @@ def lah(n: int) -> list[int]:
     return row
 
 
-Lah = Table(
-    lah, "Lah", ["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"], True,
-    r"\(T_{n, k} = \binom{n}{k} \text{FallingFactorial}(n-1, n-k) \)")
+Lah = Table(lah, "Lah", 
+["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"], True,
+r"\binom{n}{k} \text{FallingFactorial}(n-1, n-k)")
 
 
 if __name__ == "__main__":

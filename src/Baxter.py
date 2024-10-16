@@ -27,7 +27,6 @@ def F(n: int) -> int:
 def baxter(n: int) -> list[int]:
     if n == 0:
         return [1]
-
     return [0] + [(2 * F(n - 1)) // (F(k - 1) * F(n - k)) for k in range(1, n + 1)]
 
 

@@ -29,7 +29,7 @@ def centralset(n: int) -> list[int]:
 
 
 CentralSet = Table(centralset, "CentralSet", ["A269945", "A008957", "A036969"], True,
-r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2 T(n-1, k) \)" )
+r"is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2\ T(n-1, k)" )
 
 
 if __name__ == "__main__":

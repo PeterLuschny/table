@@ -32,7 +32,7 @@ def chebyshevs(n: int) -> list[int]:
 
 ChebyshevS = Table(
     chebyshevs, "ChebyshevS", ["A049310", "A053119", "A112552", "A168561"], True,
-    r"\(is(n+k \text{ even}) ? \binom{(n+k)/2}{k} : 0 \)")
+    r"is(n+k \text{ even}) ? \binom{(n+k)/2}{k} : 0")
 
 
 if __name__ == "__main__":

@@ -30,7 +30,7 @@ def euler(n: int) -> list[int]:
 
 
 Euler = Table(euler, "Euler", ["A363394", "A247453", "A109449"], True,
-r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n,k} = \binom{n}{k} 2^{n-k} \text{Euler}_{n-k}(1/2) }\)" )
+r"\binom{n}{k} 2^{n-k} \text{Euler}_{n-k}(1/2)" )
 
 
 

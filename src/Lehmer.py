@@ -31,7 +31,7 @@ def lehmer(n: int) -> list[int]:
 
 
 Lehmer = Table(lehmer, "Lehmer", ["A354794", "A039621"], True,
-r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(n = k)\ ? \ 1 : \sum_{j=0}^{k-1} (-1)^{j} (n-j-1)^{n-1} / (j! (k-1-j)!) } \)" )
+r"is(n = k)\ ? \ 1 : \sum_{j=0}^{k-1} (-1)^{j}(n-j-1)^{n-1}/(j! (k-1-j)!)" )
 
 
 if __name__ == "__main__":

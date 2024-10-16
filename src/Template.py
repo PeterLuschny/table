@@ -24,7 +24,7 @@ def template(n: int) -> list[int]:
     return row
 
 
-Template = Table(template, "Template", ["A000004"], False)
+Template = Table(template, "Template", ["A000004"], False, r"0")
 
 
 if __name__ == "__main__":

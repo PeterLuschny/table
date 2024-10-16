@@ -30,12 +30,8 @@ def schroeder(n: int) -> list[int]:
     return row
 
 
-Schroeder = Table(
-    schroeder,
-    "Schroeder",
-    ["A122538", "A033877", "A080245", "A080247", "A106579"],
-    True,
-)
+Schroeder = Table(schroeder, "Schroeder",
+["A122538", "A033877", "A080245", "A080247", "A106579"], True )
 
 
 if __name__ == "__main__":

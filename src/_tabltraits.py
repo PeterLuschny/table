@@ -356,6 +356,7 @@ def AnumberDict(
     add: bool = False
 ) -> Dict[str, tuple[int, int, int]]:
     """Collects the A-nunmbers of the traits of T present in the OEIS."""
+    print(f"*** Table {T.id} under construction ***")
     global GlobalDict
     tdict: Dict[str, tuple[int, int, int]] = {}
 
@@ -380,15 +381,16 @@ def AnumbersToFile(
     
     SRC = f'https://oeis.org/{T.sim[0]}'
     SH = f'src={SRC}></iframe><p><span style="white-space: pre">     {T.id}</span><br>'
-    print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
     head = header.replace("Traits", T.id)
+    TeX = r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} \ = \ TTEX } \)" 
+    TEX = TeX.replace("TTEX", T.tex)
 
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
-            oeis.write(head); oeis.write(SH); oeis.write(T.tex)
-            miss.write(head); miss.write(SH); miss.write(T.tex)
+            oeis.write(head); oeis.write(SH); oeis.write(TEX)
+            miss.write(head); miss.write(SH); miss.write(TEX)
 
             for tr, anum in dict.items():
                 if info: print(f"     {tr} -> {anum}")
@@ -432,7 +434,7 @@ def RefreshDatabase() -> None:
 
         for T in TablesList:
             dict = AnumberDict(T, False, True)  # type: ignore 
-            AnumbersToFile(T, dict, True) # type: ignore
+            AnumbersToFile(T, dict, True)       # type: ignore
             index.write(f"<tr><td align='left'>{T.id}</td><td align='left'><a href='{T.id}Traits.html'>[online]</a></td><td align='left'><a href='{T.id}Missing.html'>[missing]</a></td></tr>")
 
         index.write("</tbody></table></body></html>")
@@ -452,12 +454,25 @@ def ReadJsonDict() -> None:
     print("GlobalDict with all traits installed!")
 
 
+def AddTable(T: Table) -> None:    
+    ReadJsonDict()
+    AnumbersToFile(T, AnumberDict(T, True, True), True)
+    jsonpath = GetRoot(f"data/AllTraits.json")
+    with open(jsonpath, 'w') as fileson:
+        json.dump(GlobalDict, fileson)
+
+
 def RefreshHtml() -> None:
     global GlobalDict
     ReadJsonDict()
     for T in TablesList:
-        dict = GlobalDict[T.id]
-        AnumbersToFile(T, dict, True)    # type: ignore
+        try:
+            dict = GlobalDict[T.id]
+            AnumbersToFile(T, dict, True)    # type: ignore
+        except KeyError as e: 
+            print("KeyError:", e)
+            input()
+            pass
 
 
 def OccList() -> None:
@@ -488,6 +503,7 @@ if __name__ == "__main__":
     from StirlingSet import StirlingSet  # type: ignore
     from Motzkin import Motzkin          # type: ignore
     from Worpitzky import Worpitzky      # type: ignore
+    from Entringer import Entringer      # type: ignore
 
     def test(T: Table, LEN: int) -> None:
         print("TablCol")
@@ -505,7 +521,6 @@ if __name__ == "__main__":
         print()
 
     # test(Abel, 10)
-    #AnumbersToFile(Abel, True)
     #RefreshDatabase()
     RefreshHtml()
 

@@ -31,7 +31,8 @@ def labeledgraphs(n: int) -> list[int]:
     return [0] + s + [b]
 
 
-LabeledGraphs = Table(labeledgraphs, "LabeledGraphs", ["A360603"], False)
+LabeledGraphs = Table(labeledgraphs, "LabeledGraphs", ["A360603"], False,
+r"T(n, k) = 2^{\binom{n-k}{2}} \binom{n-1}{k-1} \text{A001187}(k)" )
 
 
 if __name__ == "__main__":

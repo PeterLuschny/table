@@ -31,7 +31,8 @@ def rencontres(n: int) -> list[int]:
     return row
 
 
-Rencontres = Table(rencontres, "Rencontres", ["A008290", "A098825"], True)
+Rencontres = Table(rencontres, "Rencontres", ["A008290", "A098825"], True,
+r"\binom{n}{k} Derangements(n - k)" )
 
 
 if __name__ == "__main__":

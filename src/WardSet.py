@@ -30,7 +30,8 @@ def wardset(n: int) -> list[int]:
     return row
 
 
-WardSet = Table(wardset, "WardSet", ["A269939", "A134991"], False)
+WardSet = Table(wardset, "WardSet", ["A269939", "A134991"], False,
+r"\sum_{m=0}^{k} (-1)^{m + k} \binom{n+k}{n+m} {n+m, m}" )
 
 
 if __name__ == "__main__":

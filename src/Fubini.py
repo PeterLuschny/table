@@ -30,8 +30,8 @@ def fubini(n: int) -> list[int]:
 
 
 Fubini = Table(fubini, "Fubini", 
-    ["A131689", "A019538", "A090582", "A278075"], False,
-    r"\(T_{n, k} \ = \ k! \ {n \brace k} \)")
+["A131689", "A019538", "A090582", "A278075"], False,
+r"k! \ {n \brace k}")
 
 
 if __name__ == "__main__":

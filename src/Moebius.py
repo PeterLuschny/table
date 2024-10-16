@@ -39,7 +39,7 @@ def moebius(n: int) -> list[int]:
 
 
 Moebius = Table(moebius, "Moebius", ["A363914", "A054525"], True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = M^{-1}(n, k), where M(n, k) = [k <= n and k | n] } \)" )
+r"M^{-1}(n, k), where M(n, k) = [k <= n and k | n]" )
 
 
 if __name__ == "__main__":

@@ -32,7 +32,7 @@ def catalanpaths(n: int) -> list[int]:
 
 CatalanPaths = Table(
     catalanpaths, "CatalanPaths", ["A053121", "A052173", "A112554", "A322378"], True,
-r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = 0)\ ? \ 0 :  ((k+1)/(n + 1)) \ \binom{n+1}{(n-k)/2} } \)" )
+r"is(k = 0)\ ? \ 0 :  ((k+1)/(n + 1)) \ \binom{n+1}{(n-k)/2}" )
 
 
 if __name__ == "__main__":

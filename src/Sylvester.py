@@ -19,10 +19,8 @@ from _tabltypes import Table
 @cache
 def sylvester(n: int) -> list[int]:
     def s(n: int, k: int) -> int:
-        return sum(
-            Binomial.val(n, k - j) * StirlingCycle.val(n - k + j, j) for j in range(k + 1)
-        )
-
+        return sum(Binomial.val(n, k - j) * StirlingCycle.val(n - k + j, j) 
+               for j in range(k + 1) )
     return [s(n, k) for k in range(n + 1)]
 
 

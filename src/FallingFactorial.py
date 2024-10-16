@@ -25,8 +25,8 @@ def fallingfactorial(n: int) -> list[int]:
 
 
 FallingFactorial = Table(fallingfactorial, "FallingFact",
-    ["A008279", "A068424", "A094587", "A173333", "A181511"], False,
-    r"\(T_{n, k} =  n! / (n - k)! \)" )
+["A008279", "A068424", "A094587", "A173333", "A181511"], False,
+r"n! / (n - k)!" )
 
 
 if __name__ == "__main__":
