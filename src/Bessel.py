@@ -29,7 +29,7 @@ def bessel(n: int) -> list[int]:
 
 
 Bessel = Table(bessel, "Bessel", ["A132062", "A001497", "A001498", "A122850"], True,
-      r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = 2^{k - n} \binom{2n - 2k}{n - k} \binom{2n - k - 1}{k - 1} (n - k)! } \)" )
+r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = 2^{k - n} \binom{2n - 2k}{n - k} \binom{2n - k - 1}{k - 1} (n - k)! } \)" )
 
 
 if __name__ == "__main__":

@@ -32,7 +32,7 @@ def binomialcatalan(n: int) -> list[int]:
 
 
 BinomialCatalan = Table(binomialcatalan, "BinomialCatalan", ["A124644", "A098474"], True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = \binom{n}{k} \text{Catalan}(n - k) }\)" )
+r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = \binom{n}{k} \text{Catalan}(n - k) }\)" )
 
 
 if __name__ == "__main__":

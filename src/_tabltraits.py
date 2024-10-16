@@ -323,13 +323,13 @@ AllTraits: dict[str, TraitInfo] = {
     "ColMiddle ": (ColMiddle, 28, r"\(n \mapsto T_{n, n / 2}\)"),
     "CentralE  ": (CentralE,  28, r"\(n \mapsto T_{2 n, n}\)"),
     "CentralO  ": (CentralO,  28, r"\(n \mapsto T_{2 n + 1, n}\)"),
-    "PosHalf   ": (PosHalf,   28, r"\(n \mapsto \sum_{k=0}^{n}   2^{n - k}\ T_{n, k}\)"),
-    "NegHalf   ": (NegHalf,   28, r"\(n \mapsto \sum_{k=0}^{n}(-2)^{n - k}\ T_{n, k}\)"),
+    "PosHalf   ": (PosHalf,   28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k} \ 2^{n - k} \)"),
+    "NegHalf   ": (NegHalf,   28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k} \ (-2)^{n - k} \)"),
     "TransNat0 ": (TransNat0, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k\)"),
     "TransNat1 ": (TransNat1, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (k + 1)\)"),
     "TransSqrs ": (TransSqrs, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k^{2}\)"),
-    "BinConv   ": (BinConv,   28, r"\(n \mapsto \sum_{k=0}^{n} \binom{n}{k} T_{n, k}\)"),
-    "InvBinConv": (InvBinConv, 28, r"\(n \mapsto \sum_{k=0}^{n} (-1)^{k}\ \binom{n}{k} T_{n, n-k}\)"),
+    "BinConv   ": (BinConv,   28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k} \ \binom{n}{k} \)"),
+    "InvBinConv": (InvBinConv, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, n-k} \ (-1)^{k} \ \binom{n}{k} \)"),
 }
 
 
@@ -383,11 +383,12 @@ def AnumbersToFile(
     print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
+    head = header.replace("Traits", T.id)
 
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
-            oeis.write(header); oeis.write(SH); oeis.write(T.tex)
-            miss.write(header); miss.write(SH); miss.write(T.tex)
+            oeis.write(head); oeis.write(SH); oeis.write(T.tex)
+            miss.write(head); miss.write(SH); miss.write(T.tex)
 
             for tr, anum in dict.items():
                 if info: print(f"     {tr} -> {anum}")
@@ -457,7 +458,25 @@ def RefreshHtml() -> None:
     for T in TablesList:
         dict = GlobalDict[T.id]
         AnumbersToFile(T, dict, True)    # type: ignore
-  
+
+
+def OccList() -> None:
+    Occurences: Dict[int, list[str]] = {}
+    ReadJsonDict()
+    for d in GlobalDict.values():
+        for name, anum in d.items():
+            if anum[0] in Occurences: 
+                Occurences[anum[0]].append(name)
+            else: 
+                Occurences[anum[0]] = [name]
+
+    for anum, names in Occurences.items():
+        if len(names) > 10:
+            print(str(anum).rjust(6, "0"), len(names))
+        #print(names)
+#Occurencesbynum = sorted(Occurences.items(), key=lambda x: len(x))
+#sdict = dict(Occurencesbynum)
+ 
 
 if __name__ == "__main__":
 
@@ -489,3 +508,33 @@ if __name__ == "__main__":
     #AnumbersToFile(Abel, True)
     #RefreshDatabase()
     RefreshHtml()
+
+'''
+000000 1795
+000012 209
+000027 160
+000007 138
+000142 36
+000217 36
+002378 33
+000079 30
+000035 21
+000984 20
+000111 19
+005843 17
+007318 17
+000290 16
+001147 15
+000244 14
+000292 14
+001700 14
+000045 12
+000085 12
+000110 12
+005563 12
+074909 12
+000108 11
+001405 11
+002522 11
+004526 11
+'''

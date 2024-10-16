@@ -1054,16 +1054,24 @@ AllTraits: dict[str, TraitInfo] = {
     "ColMiddle ": (ColMiddle, 28, r"\(n \mapsto T_{n, n / 2}\)"),
     "CentralE  ": (CentralE, 28, r"\(n \mapsto T_{2 n, n}\)"),
     "CentralO  ": (CentralO, 28, r"\(n \mapsto T_{2 n + 1, n}\)"),
-    "PosHalf   ": (PosHalf, 28, r"\(n \mapsto \sum_{k=0}^{n}   2^{n - k}\ T_{n, k}\)"),
-    "NegHalf   ": (NegHalf, 28, r"\(n \mapsto \sum_{k=0}^{n}(-2)^{n - k}\ T_{n, k}\)"),
+    "PosHalf   ": (PosHalf, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k} \ 2^{n - k} \)"),
+    "NegHalf   ": (
+        NegHalf,
+        28,
+        r"\(n \mapsto \sum_{k=0}^{n} T_{n, k} \ (-2)^{n - k} \)",
+    ),
     "TransNat0 ": (TransNat0, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k\)"),
     "TransNat1 ": (TransNat1, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  (k + 1)\)"),
     "TransSqrs ": (TransSqrs, 28, r"\(n \mapsto \sum_{k=0}^{n} T_{n, k}\  k^{2}\)"),
-    "BinConv   ": (BinConv, 28, r"\(n \mapsto \sum_{k=0}^{n} \binom{n}{k} T_{n, k}\)"),
+    "BinConv   ": (
+        BinConv,
+        28,
+        r"\(n \mapsto \sum_{k=0}^{n} T_{n, k} \ \binom{n}{k} \)",
+    ),
     "InvBinConv": (
         InvBinConv,
         28,
-        r"\(n \mapsto \sum_{k=0}^{n} (-1)^{k}\ \binom{n}{k} T_{n, n-k}\)",
+        r"\(n \mapsto \sum_{k=0}^{n} T_{n, n-k} \ (-1)^{k} \ \binom{n}{k} \)",
     ),
 }
 
@@ -1114,12 +1122,13 @@ def AnumbersToFile(
     print(f"*** Table {T.id} under construction ***")
     hitpath = GetRoot(f"data/{T.id}Traits.html")
     mispath = GetRoot(f"data/{T.id}Missing.html")
+    head = header.replace("Traits", T.id)
     with open(hitpath, "w+", encoding="utf-8") as oeis:
         with open(mispath, "w+", encoding="utf-8") as miss:
-            oeis.write(header)
+            oeis.write(head)
             oeis.write(SH)
             oeis.write(T.tex)
-            miss.write(header)
+            miss.write(head)
             miss.write(SH)
             miss.write(T.tex)
             for tr, anum in dict.items():
@@ -1194,6 +1203,23 @@ def RefreshHtml() -> None:
         AnumbersToFile(T, dict, True)  # type: ignore
 
 
+def OccList() -> None:
+    Occurences: Dict[int, list[str]] = {}
+    ReadJsonDict()
+    for d in GlobalDict.values():
+        for name, anum in d.items():
+            if anum[0] in Occurences:
+                Occurences[anum[0]].append(name)
+            else:
+                Occurences[anum[0]] = [name]
+    # Occurencesbynum = sorted(Occurences.items(), key=lambda x: len(x))
+    # sdict = dict(Occurencesbynum)
+    for anum, names in Occurences.items():
+        if len(names) > 10:
+            print(str(anum).rjust(6, "0"), len(names))
+        # print(names)
+
+
 @cache
 def abel(n: int) -> list[int]:
     if n == 0:
@@ -1207,7 +1233,7 @@ Abel = Table(
     "Abel",
     ["A137452", "A061356", "A139526"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k} }\)",
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k} } \)",
 )
 
 
@@ -1454,7 +1480,11 @@ def catalanpaths(n: int) -> list[int]:
 
 
 CatalanPaths = Table(
-    catalanpaths, "CatalanPaths", ["A053121", "A052173", "A112554", "A322378"], True
+    catalanpaths,
+    "CatalanPaths",
+    ["A053121", "A052173", "A112554", "A322378"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = 0)\ ? \ 0 :  ((k+1)/(n + 1)) \ \binom{n+1}{(n-k)/2} } \)",
 )
 
 
@@ -1487,7 +1517,13 @@ def centralset(n: int) -> list[int]:
     return row
 
 
-CentralSet = Table(centralset, "CentralSet", ["A269945", "A008957", "A036969"], True)
+CentralSet = Table(
+    centralset,
+    "CentralSet",
+    ["A269945", "A008957", "A036969"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2 T(n-1, k) \)",
+)
 
 
 @cache
@@ -2075,7 +2111,7 @@ Harmonic = Table(
     "Harmonic",
     ["A358694", "A109822"],
     True,
-    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n,k} = T_{n - 1, k - 1} + (n - 1) T_{n - 1, k}, T_{n,n}=1, T_{n,1}=n!, T_{n,0}=0 } \)",
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n,k} = T_{n - 1, k - 1} + (n - 1) T_{n - 1, k}, T_{n, 1} = n! } \)",
 )
 
 
@@ -2178,7 +2214,13 @@ def laguerre(n: int) -> list[int]:
     return row
 
 
-Laguerre = Table(laguerre, "Laguerre", ["A021009", "A021010", "A144084"], True)
+Laguerre = Table(
+    laguerre,
+    "Laguerre",
+    ["A021009", "A021010", "A144084"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = \binom{n}{k}\, n! \, / \, k! } \)",
+)
 
 
 @cache
@@ -2197,7 +2239,7 @@ Lah = Table(
     "Lah",
     ["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"],
     True,
-    r"\(T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n}{k} (n-1)!/(k-1)! \)",
+    r"\(T_{n, k} = \binom{n}{k} \text{FallingFactorial}(n-1, n-k) \)",
 )
 
 
@@ -2215,7 +2257,13 @@ def lehmer(n: int) -> list[int]:
     return [t(k - 1, n - k, n - k) if n != k else 1 for k in range(n + 1)]
 
 
-Lehmer = Table(lehmer, "Lehmer", ["A354794", "A039621"], True)
+Lehmer = Table(
+    lehmer,
+    "Lehmer",
+    ["A354794", "A039621"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = is(n = k)\ ? \ 1 : \sum_{j=0}^{k-1} (-1)^{j} (n-j-1)^{n-1} / (j! (k-1-j)!) } \)",
+)
 
 
 @cache
@@ -2330,7 +2378,13 @@ def moebius(n: int) -> list[int]:
     return r
 
 
-Moebius = Table(moebius, "Moebius", ["A363914", "A054525"], True)
+Moebius = Table(
+    moebius,
+    "Moebius",
+    ["A363914", "A054525"],
+    True,
+    r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} = M^{-1}(n, k), where M(n, k) = [k <= n and k | n] } \)",
+)
 
 
 @cache

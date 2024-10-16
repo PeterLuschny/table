@@ -31,7 +31,7 @@ def lah(n: int) -> list[int]:
 
 Lah = Table(
     lah, "Lah", ["A271703", "A008297", "A066667", "A089231", "A105278", "A111596"], True,
-    r"\(T_{n, k} = is(k = 0)\ ? \ 0^n : \binom{n}{k} (n-1)!/(k-1)! \)")
+    r"\(T_{n, k} = \binom{n}{k} \text{FallingFactorial}(n-1, n-k) \)")
 
 
 if __name__ == "__main__":
