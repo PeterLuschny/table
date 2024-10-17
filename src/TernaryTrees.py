@@ -28,7 +28,9 @@ def ternarytree(n: int) -> list[int]:
     return list(accumulate(accumulate(row)))
 
 
-TernaryTree = Table(ternarytree, "TernaryTrees", ["A355172"], False)
+TernaryTree = Table(ternarytree, "TernaryTrees", 
+["A355172"], False,
+r"")
 
 
 if __name__ == "__main__":

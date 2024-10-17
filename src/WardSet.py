@@ -31,7 +31,7 @@ def wardset(n: int) -> list[int]:
 
 
 WardSet = Table(wardset, "WardSet", ["A269939", "A134991"], False,
-r"\sum_{m=0}^{k} (-1)^{m + k} \binom{n+k}{n+m} {n+m, m}" )
+r"\sum_{m=0}^{k} (-1)^{m + k} \binom{n+k}{n+m} { n + m \brace m}" )
 
 
 if __name__ == "__main__":

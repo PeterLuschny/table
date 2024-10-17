@@ -30,9 +30,9 @@ def stirlingcycle2(n: int) -> list[int]:
     return row
 
 
-StirlingCycle2 = Table(
-    stirlingcycle2, "StirlingCyc2", ["A358622", "A008306", "A106828"], False
-)
+StirlingCycle2 = Table(stirlingcycle2, "StirlingCyc2",
+["A358622", "A008306", "A106828"], False,
+r"")
 
 
 if __name__ == "__main__":

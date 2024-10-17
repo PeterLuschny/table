@@ -25,7 +25,9 @@ def nicomachus(n: int) -> list[int]:
     return row
 
 
-Nicomachus = Table(nicomachus, "Nicomachus", ["A036561", "A081954", "A175840"], False)
+Nicomachus = Table(nicomachus, "Nicomachus", 
+["A036561", "A081954", "A175840"], False,
+r"")
 
 
 if __name__ == "__main__":

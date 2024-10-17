@@ -26,7 +26,9 @@ def fusscatalan(n: int) -> list[int]:
     return list(accumulate(row))
 
 
-FussCatalan = Table(fusscatalan, "FussCatalan", ["A355173", "A030237", "A054445"], False)
+FussCatalan = Table(fusscatalan, "FussCatalan", 
+["A355173", "A030237", "A054445"], False,
+r"is(k=0) \, ? \, 0^n : \frac{(n - k + 2) (n + k - 1)!}{(n + 1)! \, (k - 1)!}")
 
 
 if __name__ == "__main__":

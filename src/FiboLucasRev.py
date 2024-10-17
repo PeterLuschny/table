@@ -28,7 +28,9 @@ def fibolucasrev(n: int) -> list[int]:
     return list(reversed(fibolucas(n)))
 
 
-FiboLucasRev = Table(fibolucasrev, "FiboLucasRev", ["A124038"], True)
+FiboLucasRev = Table(fibolucasrev, "FiboLucasRev", 
+["A124038"], True,
+r"")
 
 
 if __name__ == "__main__":

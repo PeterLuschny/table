@@ -30,7 +30,9 @@ def schroederpaths(n: int) -> list[int]:
     return row
 
 
-SchroederPaths = Table(schroederpaths, "SchroederP", ["A104684", "A063007"], True)
+SchroederPaths = Table(schroederpaths, "SchroederP", 
+["A104684", "A063007"], True,
+r"")
 
 
 if __name__ == "__main__":

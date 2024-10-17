@@ -47,14 +47,14 @@ def invbinomial(n: int) -> list[int]:
     return [(-1)**(n + k) * binomial(n)[k] for k in range(n + 1)]
 
 
-Binomial = Table(binomial, "Binomial", [
-    "A007318", "A074909", "A108086", "A117440",
-    "A118433", "A130595", "A135278", "A154926" ], True,
-    r"n! \, / (k! \, (n - k)! )")
+Binomial = Table(binomial, "Binomial", 
+["A007318", "A074909", "A108086", "A117440",
+"A118433", "A130595", "A135278", "A154926" ], True,
+r"n! \, / (k! \, (n - k)! )")
 
 
 InvBinomial = Table(invbinomial, "InvBinomial", ["A130595"], True,
-    r"(-1)^{n-k} \, n! \, / (k! \, (n - k)! )" )
+r"(-1)^{n-k} \, n! \, / (k! \, (n - k)! )" )
 
 
 if __name__ == "__main__":

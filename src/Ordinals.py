@@ -21,8 +21,9 @@ def ordinals(n: int) -> list[int]:
     return ordinals(n - 1) + [n]
 
 
-Ordinals = Table(
-    ordinals, "Ordinals", ["A002262", "A002260", "A004736", "A025581"], False
+Ordinals = Table(ordinals, "Ordinals", 
+["A002262", "A002260", "A004736", "A025581"], False,
+r""
 )
 
 

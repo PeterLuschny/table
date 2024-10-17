@@ -29,7 +29,9 @@ def orderedcycle(n: int) -> list[int]:
     return row
 
 
-OrderedCycle = Table(orderedcycle, "OrderedCycle", ["A225479", "A048594", "A075181"], False)
+OrderedCycle = Table(orderedcycle, "OrderedCycle", 
+["A225479", "A048594", "A075181"], False,
+r"")
 
 
 if __name__ == "__main__":

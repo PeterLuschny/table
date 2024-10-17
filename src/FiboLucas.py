@@ -38,7 +38,9 @@ def fibolucas(n: int) -> list[int]:
     return row
 
 
-FiboLucas = Table(fibolucas, "FiboLucas", ["A374439"], False)
+FiboLucas = Table(fibolucas, "FiboLucas", 
+["A374439"], False,
+r"")
 
 
 if __name__ == "__main__":

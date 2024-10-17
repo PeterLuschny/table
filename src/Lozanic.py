@@ -37,7 +37,9 @@ def lozanic(n: int) -> list[int]:
     return row
 
 
-Lozanic = Table(lozanic, "Lozanic", ["A034851"], True)
+Lozanic = Table(lozanic, "Lozanic", 
+["A034851"], True,
+r"\frac{1}{2} \left( \binom{n}{k} + \binom{n \text{ mod } 2}{k \text{ mod } 2}  \binom{n \text{ div } 2}{k \text{ div } 2} \right)")
 
 
 if __name__ == "__main__":

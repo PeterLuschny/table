@@ -28,7 +28,9 @@ def gaussq2(n: int) -> list[int]:
     return pow
 
 
-Gaussq2 = Table(gaussq2, "Gaussq2", ["A022166"], True)
+Gaussq2 = Table(gaussq2, "Gaussq2", 
+["A022166"], True,
+r"\prod_{i=k+1}^{n} (2^i - 1) \ / \ \prod_{i=1}^{n-k} (2^i - 1)" )
 
 
 if __name__ == "__main__":

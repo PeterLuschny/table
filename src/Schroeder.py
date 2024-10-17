@@ -31,7 +31,8 @@ def schroeder(n: int) -> list[int]:
 
 
 Schroeder = Table(schroeder, "Schroeder",
-["A122538", "A033877", "A080245", "A080247", "A106579"], True )
+["A122538", "A033877", "A080245", "A080247", "A106579"], True,
+r"")
 
 
 if __name__ == "__main__":

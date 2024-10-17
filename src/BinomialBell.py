@@ -33,7 +33,9 @@ def binomialbell(n: int) -> list[int]:
     return a
 
 
-BinomialBell = Table(binomialbell, "BinomialBell", ["A056857", "A056860"], True)
+BinomialBell = Table(binomialbell, "BinomialBell", 
+["A056857", "A056860"], True,
+r"\binom{n}{k} \text{Bell}(n-k)")
 
 
 if __name__ == "__main__":

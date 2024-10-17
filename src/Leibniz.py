@@ -28,7 +28,9 @@ def leibniz(n: int) -> list[int]:
     return row
 
 
-Leibniz = Table(leibniz, "Leibniz", ["A003506"], False)
+Leibniz = Table(leibniz, "Leibniz", 
+["A003506"], False,
+r"")
 
 
 if __name__ == "__main__":

@@ -33,7 +33,7 @@ def catalan(n: int) -> list[int]:
 
 
 Catalan = Table(catalan, "Catalan", ["A128899", "A039598"], True,
-r"\sum_{i=1}^{n-k+1} \text{Catalan}(i) T(k-1, n-i)" )
+r"\sum_{i=1}^{n-k+1} \text{Catalan}(i) T_{k-1, n-i}" )
 
 
 if __name__ == "__main__":

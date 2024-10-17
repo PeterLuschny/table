@@ -31,7 +31,8 @@ def partition(n: int) -> list[int]:
     return [part(n, k) for k in range(n + 1)]
 
 
-Partition = Table(partition, "Partition", ["A072233", "A008284", "A058398"], True)
+Partition = Table(partition, "Partition", 
+["A072233", "A008284", "A058398"], True)
 
 
 if __name__ == "__main__":

@@ -23,7 +23,7 @@ def sierpinski(n: int) -> list[int]:
 
 Sierpinski = Table(sierpinski, "Sierpinski",
 ["A047999", "A090971", "A114700", "A143200", "A166282"], True,
-r"\binom{n}{k} mod 2" )
+r"\binom{n}{k} \text{ mod } 2" )
 
 
 if __name__ == "__main__":

@@ -33,7 +33,8 @@ def binomialpell(n: int) -> list[int]:
     return row
 
 
-BinomialPell = Table(binomialpell, "BinomialPell", ["A367211"], True)
+BinomialPell = Table(binomialpell, "BinomialPell", ["A367211"], True,
+r"\binom{n+1}{k}\, \text{Pell}(n+1-k)")
 
 
 if __name__ == "__main__":

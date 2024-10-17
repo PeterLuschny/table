@@ -22,7 +22,9 @@ def polyatree(n: int) -> list[int]:
     return [int(n < 1)] + [p[k] - p[k-1] for k in range(1, n + 1)]
 
 
-PolyaTree = Table(polyatree, "PolyaTree", ["A034781"])
+PolyaTree = Table(polyatree, "PolyaTree", 
+["A034781"], None,
+r"")
 
 
 if __name__ == "__main__":

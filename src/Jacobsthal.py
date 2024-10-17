@@ -32,7 +32,9 @@ def jacobsthal(n: int) -> list[int]:
     return row
 
 
-Jacobsthal = Table(jacobsthal, "Jacobsthal", ["A322942"], True)
+Jacobsthal = Table(jacobsthal, "Jacobsthal", 
+["A322942"], True,
+r"[x^k]\ ((x+1)\, \mathrm{J}(n-1, x) + 2\, \mathrm{J}(n-2, x))")
 
 
 if __name__ == "__main__":

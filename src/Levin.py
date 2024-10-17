@@ -29,7 +29,9 @@ def levin(n: int) -> list[int]:
     return row
 
 
-Levin = Table(levin, "Levin", ["A356546"], False)
+Levin = Table(levin, "Levin", 
+["A356546"], False,
+r"\binom{2n}{n} \ \binom{n}{k}" )
 
 
 if __name__ == "__main__":

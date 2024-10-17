@@ -22,7 +22,9 @@ def rootedtree(n: int) -> list[int]:
     return [0] + [p[k + 1] - p[k] for k in range(n)]
 
 
-RootedTree = Table(rootedtree, "RootedTree", ["A034781"])
+RootedTree = Table(rootedtree, "RootedTree", 
+["A034781"], False,
+r"")
 
 
 if __name__ == "__main__":

@@ -23,7 +23,8 @@ def partacc(n: int) -> list[int]:
     return list(accumulate(partition(n)))
 
 
-PartAcc = Table(partacc, "PartitionAcc", ["A026820", "A058400"], False)
+PartAcc = Table(partacc, "PartitionAcc", 
+["A026820", "A058400"], False)
 
 
 if __name__ == "__main__":

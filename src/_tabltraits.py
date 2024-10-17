@@ -478,8 +478,10 @@ def RefreshHtml() -> None:
 def OccList() -> None:
     Occurences: Dict[int, list[str]] = {}
     ReadJsonDict()
+    li: set[int] = set()
     for d in GlobalDict.values():
         for name, anum in d.items():
+            li.add(anum[0])
             if anum[0] in Occurences: 
                 Occurences[anum[0]].append(name)
             else: 
@@ -488,7 +490,8 @@ def OccList() -> None:
     for anum, names in Occurences.items():
         if len(names) > 10:
             print(str(anum).rjust(6, "0"), len(names))
-        #print(names)
+    print(sorted(li), len(li))
+
 #Occurencesbynum = sorted(Occurences.items(), key=lambda x: len(x))
 #sdict = dict(Occurencesbynum)
  
@@ -522,6 +525,7 @@ if __name__ == "__main__":
 
     # test(Abel, 10)
     #RefreshDatabase()
+    #OccList()
     RefreshHtml()
 
 '''

@@ -38,7 +38,8 @@ def moebius(n: int) -> list[int]:
     return r
 
 
-Moebius = Table(moebius, "Moebius", ["A363914", "A054525"], True,
+Moebius = Table(moebius, "Moebius", 
+["A363914", "A054525"], True,
 r"M^{-1}(n, k), where M(n, k) = [k <= n and k | n]" )
 
 

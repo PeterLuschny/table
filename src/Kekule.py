@@ -20,7 +20,9 @@ def kekule(n: int) -> list[int]:
     return [dist_latt(n - k, k) for k in range(n + 1)]
 
 
-Kekule = Table(kekule, "Kekule", ["A050446", "A050447"], True)
+Kekule = Table(kekule, "Kekule", 
+["A050446", "A050447"], True,
+r"")
 
 
 if __name__ == "__main__":

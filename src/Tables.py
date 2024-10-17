@@ -1221,8 +1221,10 @@ def RefreshHtml() -> None:
 def OccList() -> None:
     Occurences: Dict[int, list[str]] = {}
     ReadJsonDict()
+    li: set[int] = set()
     for d in GlobalDict.values():
         for name, anum in d.items():
+            li.add(anum[0])
             if anum[0] in Occurences:
                 Occurences[anum[0]].append(name)
             else:
@@ -1230,7 +1232,7 @@ def OccList() -> None:
     for anum, names in Occurences.items():
         if len(names) > 10:
             print(str(anum).rjust(6, "0"), len(names))
-        # print(names)
+    print(sorted(li), len(li))
 
 
 @cache
@@ -1262,7 +1264,13 @@ def andre(n: int) -> list[int]:
     return [abs(_andre(k, n)) for k in range(n + 1)]
 
 
-Andre = Table(andre, "Andre", ["A375555", "A181937"], True)
+Andre = Table(
+    andre,
+    "Andre",
+    ["A375555", "A181937"],
+    True,
+    r"-\sum_{j = 0 \text{ by } n }^{k-1} \binom{k}{j} T_{n, j}",
+)
 
 
 @cache
@@ -1338,6 +1346,7 @@ Bessel2 = Table(
     "Bessel2",
     ["A359760", "A073278", "A066325", "A099174", "A111924", "A144299", "A104556"],
     False,
+    r"is(k \text{ odd}) \, ? \, 0 : \binom{n}{k} \frac{k!}{2^{k/2} (k/2)!} ",
 )
 
 
@@ -1353,7 +1362,9 @@ def binarypell(n: int) -> list[int]:
     return row
 
 
-BinaryPell = Table(binarypell, "BinaryPell", ["A038207"], True)
+BinaryPell = Table(
+    binarypell, "BinaryPell", ["A038207"], True, r"\binom{n}{k} \, 2^{n-k}"
+)
 
 
 @cache
@@ -1409,7 +1420,13 @@ def binomialbell(n: int) -> list[int]:
     return a
 
 
-BinomialBell = Table(binomialbell, "BinomialBell", ["A056857", "A056860"], True)
+BinomialBell = Table(
+    binomialbell,
+    "BinomialBell",
+    ["A056857", "A056860"],
+    True,
+    r"\binom{n}{k} \text{Bell}(n-k)",
+)
 
 
 @cache
@@ -1448,7 +1465,13 @@ def binomialpell(n: int) -> list[int]:
     return row
 
 
-BinomialPell = Table(binomialpell, "BinomialPell", ["A367211"], True)
+BinomialPell = Table(
+    binomialpell,
+    "BinomialPell",
+    ["A367211"],
+    True,
+    r"\binom{n+1}{k}\, \text{Pell}(n+1-k)",
+)
 
 
 @cache
@@ -1465,7 +1488,13 @@ def binomialdiffpell(n: int) -> list[int]:
     return row
 
 
-BinomialDiffPell = Table(binomialdiffpell, "BinomialDiffPell", ["A367564"], True)
+BinomialDiffPell = Table(
+    binomialdiffpell,
+    "BinomialDiffPell",
+    ["A367564"],
+    True,
+    r"\frac{1}{2} \binom{n}{k} ((1-\sqrt{2})^{n-k} + (1+\sqrt{2})^{n-k})",
+)
 
 
 @cache
@@ -1487,7 +1516,7 @@ Catalan = Table(
     "Catalan",
     ["A128899", "A039598"],
     True,
-    r"\sum_{i=1}^{n-k+1} \text{Catalan}(i) T(k-1, n-i)",
+    r"\sum_{i=1}^{n-k+1} \text{Catalan}(i) T_{k-1, n-i}",
 )
 
 
@@ -1510,7 +1539,7 @@ CatalanPaths = Table(
     "CatalanPaths",
     ["A053121", "A052173", "A112554", "A322378"],
     True,
-    r"is(k = 0)\ ? \ 0 :  ((k+1)/(n + 1)) \ \binom{n+1}{(n-k)/2}",
+    r"is(k = 0)\ ? \ 0 : \frac{k+1}{n+1} \binom{n+1}{(n-k)/2}",
 )
 
 
@@ -1923,7 +1952,13 @@ def eulersec(n: int) -> list[int]:
     return row
 
 
-EulerSec = Table(eulersec, "EulerSec", ["A119879", "A081658", "A153641"], True)
+EulerSec = Table(
+    eulersec,
+    "EulerSec",
+    ["A119879", "A081658", "A153641"],
+    True,
+    r"\binom{n}{k}\, 2^{n-k}\ \text{Euler} (n-k, 1/2)",
+)
 
 
 def eulerS(n: int) -> int:
@@ -2014,7 +2049,7 @@ def fibolucas(n: int) -> list[int]:
     return row
 
 
-FiboLucas = Table(fibolucas, "FiboLucas", ["A374439"], False)
+FiboLucas = Table(fibolucas, "FiboLucas", ["A374439"], False, r"")
 
 
 @cache
@@ -2032,7 +2067,7 @@ def fibolucasinv(n: int) -> list[int]:
     return row
 
 
-FiboLucasInv = Table(fibolucasinv, "FiboLucasInv", ["A375025"], True)
+FiboLucasInv = Table(fibolucasinv, "FiboLucasInv", ["A375025"], True, r"")
 
 
 @cache
@@ -2042,7 +2077,7 @@ def fibolucasrev(n: int) -> list[int]:
     return list(reversed(fibolucas(n)))
 
 
-FiboLucasRev = Table(fibolucasrev, "FiboLucasRev", ["A124038"], True)
+FiboLucasRev = Table(fibolucasrev, "FiboLucasRev", ["A124038"], True, r"")
 
 
 @cache
@@ -2059,7 +2094,7 @@ def fibonacci(n: int) -> list[int]:
     return row
 
 
-Fibonacci = Table(fibonacci, "Fibonacci", ["A354267", "A105809", "A228074"], True)
+Fibonacci = Table(fibonacci, "Fibonacci", ["A354267", "A105809", "A228074"], True, r"")
 
 
 @cache
@@ -2096,7 +2131,11 @@ def fusscatalan(n: int) -> list[int]:
 
 
 FussCatalan = Table(
-    fusscatalan, "FussCatalan", ["A355173", "A030237", "A054445"], False
+    fusscatalan,
+    "FussCatalan",
+    ["A355173", "A030237", "A054445"],
+    False,
+    r"is(k=0) \, ? \, 0^n : \frac{(n - k + 2) (n + k - 1)!}{(n + 1)! \, (k - 1)!}",
 )
 
 
@@ -2113,7 +2152,13 @@ def gaussq2(n: int) -> list[int]:
     return pow
 
 
-Gaussq2 = Table(gaussq2, "Gaussq2", ["A022166"], True)
+Gaussq2 = Table(
+    gaussq2,
+    "Gaussq2",
+    ["A022166"],
+    True,
+    r"\prod_{i=k+1}^{n} (2^i - 1) \ / \ \prod_{i=1}^{n-k} (2^i - 1)",
+)
 
 
 @cache
@@ -2128,7 +2173,7 @@ def genocchi(n: int) -> list[int]:
     return row[1:]
 
 
-Genocchi = Table(genocchi, "Genocchi", ["A297703"], False)
+Genocchi = Table(genocchi, "Genocchi", ["A297703"], False, r"")
 
 
 @cache
@@ -2163,7 +2208,13 @@ def hermitee(n: int) -> list[int]:
     return row
 
 
-HermiteE = Table(hermitee, "HermiteE", ["A099174", "A066325", "A073278"], True)
+HermiteE = Table(
+    hermitee,
+    "HermiteE",
+    ["A099174", "A066325", "A073278"],
+    True,
+    r"is(n - k odd)\, ? \, 0 : n! /(k! \, (n-k)!!)",
+)
 
 
 @cache
@@ -2175,7 +2226,13 @@ def hermiteh(n: int) -> list[int]:
     return row
 
 
-HermiteH = Table(hermiteh, "HermiteH", ["A060821"], False)
+HermiteH = Table(
+    hermiteh,
+    "HermiteH",
+    ["A060821"],
+    False,
+    r"is(n - k odd)\, ? \, 0 : (-1)^{(n-k)/2}\ 2^k \ n! \ / \ (k! \ (\frac{n-k}{2})!)",
+)
 
 
 @cache
@@ -2215,7 +2272,13 @@ def jacobsthal(n: int) -> list[int]:
     return row
 
 
-Jacobsthal = Table(jacobsthal, "Jacobsthal", ["A322942"], True)
+Jacobsthal = Table(
+    jacobsthal,
+    "Jacobsthal",
+    ["A322942"],
+    True,
+    r"[x^k]\ ((x+1)\, \mathrm{J}(n-1, x) + 2\, \mathrm{J}(n-2, x))",
+)
 
 
 @cache
@@ -2223,7 +2286,7 @@ def kekule(n: int) -> list[int]:
     return [dist_latt(n - k, k) for k in range(n + 1)]
 
 
-Kekule = Table(kekule, "Kekule", ["A050446", "A050447"], True)
+Kekule = Table(kekule, "Kekule", ["A050446", "A050447"], True, r"")
 
 
 @cache
@@ -2245,7 +2308,7 @@ LabeledGraphs = Table(
     "LabeledGraphs",
     ["A360603"],
     False,
-    r"T(n, k) = 2^{\binom{n-k}{2}} \binom{n-1}{k-1} \text{A001187}(k)",
+    r"2^{\binom{n-k}{2}} \binom{n-1}{k-1} \text{A001187}(k)",
 )
 
 
@@ -2322,7 +2385,7 @@ def leibniz(n: int) -> list[int]:
     return row
 
 
-Leibniz = Table(leibniz, "Leibniz", ["A003506"], False)
+Leibniz = Table(leibniz, "Leibniz", ["A003506"], False, r"")
 
 
 @cache
@@ -2333,7 +2396,7 @@ def leibnizscheme(n: int) -> list[int]:
     return [L[k] + k for k in range(n)] + [n]
 
 
-LeibnizScheme = Table(leibnizscheme, "LeibnizScheme", ["A003991"])
+LeibnizScheme = Table(leibnizscheme, "LeibnizScheme", ["A003991"], None, r"")
 
 
 @cache
@@ -2347,7 +2410,7 @@ def levin(n: int) -> list[int]:
     return row
 
 
-Levin = Table(levin, "Levin", ["A356546"], False)
+Levin = Table(levin, "Levin", ["A356546"], False, r"\binom{2n}{n} \ \binom{n}{k}")
 
 
 @cache
@@ -2365,7 +2428,13 @@ def lozanic(n: int) -> list[int]:
     return row
 
 
-Lozanic = Table(lozanic, "Lozanic", ["A034851"], True)
+Lozanic = Table(
+    lozanic,
+    "Lozanic",
+    ["A034851"],
+    True,
+    r"\frac{1}{2} \left( \binom{n}{k} + \binom{n \text{ mod } 2}{k \text{ mod } 2}  \binom{n \text{ div } 2}{k \text{ div } 2} \right)",
+)
 
 
 @cache
@@ -2533,7 +2602,9 @@ def nicomachus(n: int) -> list[int]:
     return row
 
 
-Nicomachus = Table(nicomachus, "Nicomachus", ["A036561", "A081954", "A175840"], False)
+Nicomachus = Table(
+    nicomachus, "Nicomachus", ["A036561", "A081954", "A175840"], False, r""
+)
 
 
 @cache
@@ -2562,7 +2633,7 @@ def ordinals(n: int) -> list[int]:
 
 
 Ordinals = Table(
-    ordinals, "Ordinals", ["A002262", "A002260", "A004736", "A025581"], False
+    ordinals, "Ordinals", ["A002262", "A002260", "A004736", "A025581"], False, r""
 )
 
 
@@ -2580,7 +2651,7 @@ def orderedcycle(n: int) -> list[int]:
 
 
 OrderedCycle = Table(
-    orderedcycle, "OrderedCycle", ["A225479", "A048594", "A075181"], False
+    orderedcycle, "OrderedCycle", ["A225479", "A048594", "A075181"], False, r""
 )
 
 
@@ -2599,7 +2670,7 @@ def parades(n: int) -> list[int]:
     return [A(n - k, k) for k in range(n + 1)]
 
 
-Parades = Table(parades, "Parades", ["A371761", "A272644"], False)
+Parades = Table(parades, "Parades", ["A371761", "A272644"], False, r"")
 
 
 @cache
@@ -2667,7 +2738,7 @@ def partdistsize(n: int) -> list[int]:
 
 
 PartDistSize = Table(
-    partdistsize, "PartitionDistSize", ["A365676", "A116608", "A060177"], False
+    partdistsize, "PartitionDistSize", ["A365676", "A116608", "A060177"], False, r""
 )
 
 
@@ -2695,6 +2766,7 @@ Pascal = Table(
         "A154926",
     ],
     True,
+    r"",
 )
 
 
@@ -2730,7 +2802,7 @@ def polyatreeacc(n: int) -> list[int]:
     return [T(n + 1, k + 1) for k in range(n + 1)]
 
 
-PolyaTreeAcc = Table(polyatreeacc, "PolyaTreeAcc", ["A375467"])
+PolyaTreeAcc = Table(polyatreeacc, "PolyaTreeAcc", ["A375467"], False, r"")
 
 
 @cache
@@ -2739,7 +2811,7 @@ def polyatree(n: int) -> list[int]:
     return [int(n < 1)] + [p[k] - p[k - 1] for k in range(1, n + 1)]
 
 
-PolyaTree = Table(polyatree, "PolyaTree", ["A034781"])
+PolyaTree = Table(polyatree, "PolyaTree", ["A034781"], None, r"")
 
 
 @cache
@@ -2798,7 +2870,7 @@ Rencontres = Table(
     "Rencontres",
     ["A008290", "A098825"],
     True,
-    r"\binom{n}{k} Derangements(n - k)",
+    r"\binom{n}{k} derangements(n - k)",
 )
 
 
@@ -2824,7 +2896,7 @@ def rootedtree(n: int) -> list[int]:
     return [0] + [p[k + 1] - p[k] for k in range(n)]
 
 
-RootedTree = Table(rootedtree, "RootedTree", ["A034781"])
+RootedTree = Table(rootedtree, "RootedTree", ["A034781"], False, r"")
 
 
 @cache
@@ -2844,6 +2916,7 @@ Schroeder = Table(
     "Schroeder",
     ["A122538", "A033877", "A080245", "A080247", "A106579"],
     True,
+    r"",
 )
 
 
@@ -2858,7 +2931,7 @@ def schroederpaths(n: int) -> list[int]:
     return row
 
 
-SchroederPaths = Table(schroederpaths, "SchroederP", ["A104684", "A063007"], True)
+SchroederPaths = Table(schroederpaths, "SchroederP", ["A104684", "A063007"], True, r"")
 
 
 @cache
@@ -2875,14 +2948,16 @@ def schroederl(n: int) -> list[int]:
     return row
 
 
-SchroederL = Table(schroederl, "SchroederL", ["A172094"], True)
+SchroederL = Table(schroederl, "SchroederL", ["A172094"], True, r"")
 
 
 def seidel(n: int) -> list[int]:
     return entringer(n) if n % 2 else entringer(n)[::-1]
 
 
-Seidel = Table(seidel, "Seidel", ["A008280", "A108040", "A236935", "A239005"], False)
+Seidel = Table(
+    seidel, "Seidel", ["A008280", "A108040", "A236935", "A239005"], False, r""
+)
 
 
 @cache
@@ -2895,7 +2970,7 @@ Sierpinski = Table(
     "Sierpinski",
     ["A047999", "A090971", "A114700", "A143200", "A166282"],
     True,
-    r"\binom{n}{k} mod 2",
+    r"\binom{n}{k} \text{ mod } 2",
 )
 
 
@@ -2914,6 +2989,7 @@ StirlingCycle = Table(
     "StirlingCycle",
     ["A132393", "A008275", "A008276", "A048994", "A054654", "A094638", "A130534"],
     True,
+    r"",
 )
 
 
@@ -2931,7 +3007,7 @@ def stirlingcycle2(n: int) -> list[int]:
 
 
 StirlingCycle2 = Table(
-    stirlingcycle2, "StirlingCyc2", ["A358622", "A008306", "A106828"], False
+    stirlingcycle2, "StirlingCyc2", ["A358622", "A008306", "A106828"], False, r""
 )
 
 
@@ -2948,7 +3024,11 @@ def stirlingcycleb(n: int) -> list[int]:
 
 
 StirlingCycleB = Table(
-    stirlingcycleb, "StirlingCycB", ["A028338", "A039757", "A039758", "A109692"], True
+    stirlingcycleb,
+    "StirlingCycB",
+    ["A028338", "A039757", "A039758", "A109692"],
+    True,
+    r"",
 )
 
 
@@ -2995,7 +3075,7 @@ def stirlingset2(n: int) -> list[int]:
 
 
 StirlingSet2 = Table(
-    stirlingset2, "StirlingSet2", ["A358623", "A008299", "A137375"], False
+    stirlingset2, "StirlingSet2", ["A358623", "A008299", "A137375"], False, r""
 )
 
 
@@ -3014,7 +3094,7 @@ def stirlingsetb(n: int) -> list[int]:
     return row
 
 
-StirlingSetB = Table(stirlingsetb, "StirlingSetB", ["A154602"], True)
+StirlingSetB = Table(stirlingsetb, "StirlingSetB", ["A154602"], True, r"")
 
 
 @cache
@@ -3028,7 +3108,7 @@ def sylvester(n: int) -> list[int]:
     return [s(n, k) for k in range(n + 1)]
 
 
-Sylvester = Table(sylvester, "Sylvester", ["A341101"], False)
+Sylvester = Table(sylvester, "Sylvester", ["A341101"], False, r"")
 
 
 @cache
@@ -3041,7 +3121,7 @@ def ternarytree(n: int) -> list[int]:
     return list(accumulate(accumulate(row)))
 
 
-TernaryTree = Table(ternarytree, "TernaryTrees", ["A355172"], False)
+TernaryTree = Table(ternarytree, "TernaryTrees", ["A355172"], False, r"")
 
 
 @cache
@@ -3061,7 +3141,7 @@ WardSet = Table(
     "WardSet",
     ["A269939", "A134991"],
     False,
-    r"\sum_{m=0}^{k} (-1)^{m + k} \binom{n+k}{n+m} {n+m, m}",
+    r"\sum_{m=0}^{k} (-1)^{m + k} \binom{n+k}{n+m} { n + m \brace m}",
 )
 
 
@@ -3082,7 +3162,7 @@ WardCycle = Table(
     "WardCycle",
     ["A269940", "A111999", "A259456"],
     False,
-    r"\sum_{m=0}^{k} (-1)^{m+k} \binom{n+k}{n+m} |[n + m, m]|",
+    r"\sum_{m=0}^{k} (-1)^{m+k} \binom{n+k}{n+m} { n + m \brack m}",
 )
 
 

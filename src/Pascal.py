@@ -28,15 +28,10 @@ def pascal(n: int) -> list[int]:
     return row
 
 
-Pascal = Table(
-    pascal,
-    "Pascal",
-    [
-        "A007318", "A074909", "A108086", "A117440",
-        "A118433", "A130595", "A135278", "A154926",
-    ],
-    True,
-)
+Pascal = Table(pascal, "Pascal",
+["A007318", "A074909", "A108086", "A117440",
+ "A118433", "A130595", "A135278", "A154926"], True,
+r"")
 
 
 if __name__ == "__main__":

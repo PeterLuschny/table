@@ -28,7 +28,9 @@ def powlaguerre(n: int) -> list[int]:
     return row
 
 
-PowLaguerre = Table(powlaguerre, "PowLaguerre", ["A196347", "A021012"], False, r"n! \binom{n}{k}" )
+PowLaguerre = Table(powlaguerre, "PowLaguerre", 
+["A196347", "A021012"], False, 
+r"n! \binom{n}{k}" )
 
 
 if __name__ == "__main__":

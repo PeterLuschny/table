@@ -32,7 +32,9 @@ def stirlingset2(n: int) -> list[int]:
     return row
 
 
-StirlingSet2 = Table(stirlingset2, "StirlingSet2", ["A358623", "A008299", "A137375"], False)
+StirlingSet2 = Table(stirlingset2, "StirlingSet2", 
+["A358623", "A008299", "A137375"], False,
+r"")
 
 
 if __name__ == "__main__":
