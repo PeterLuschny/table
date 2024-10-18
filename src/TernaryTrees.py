@@ -30,7 +30,7 @@ def ternarytree(n: int) -> list[int]:
 
 TernaryTree = Table(ternarytree, "TernaryTrees", 
 ["A355172"], False,
-r"")
+r"is(k=0)\, ?\, 0^n : \frac{(2n-2k+3) \, (2n+k-1)!}{(2n+1)! \, (k-1)!}")
 
 
 if __name__ == "__main__":

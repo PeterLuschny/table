@@ -17,11 +17,11 @@ from _tabltypes import Table
 
 
 @cache
-def schroederpaths(n: int) -> list[int]:
+def schroederp(n: int) -> list[int]:
     if n == 0:
         return [1]
 
-    row = schroederpaths(n - 1) + [1]
+    row = schroederp(n - 1) + [1]
 
     for k in range(n, 0, -1):
         row[k] = (row[k - 1] * (2 * n - k)) // k
@@ -30,12 +30,12 @@ def schroederpaths(n: int) -> list[int]:
     return row
 
 
-SchroederPaths = Table(schroederpaths, "SchroederP", 
+SchroederP = Table(schroederp, "SchroederP", 
 ["A104684", "A063007"], True,
-r"")
+r"\binom{n}{k} \binom{2n - k}{n}")
 
 
 if __name__ == "__main__":
     from _tablutils import PreView
 
-    PreView(SchroederPaths)
+    PreView(SchroederP)

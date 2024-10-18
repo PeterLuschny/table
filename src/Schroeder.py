@@ -32,7 +32,7 @@ def schroeder(n: int) -> list[int]:
 
 Schroeder = Table(schroeder, "Schroeder",
 ["A122538", "A033877", "A080245", "A080247", "A106579"], True,
-r"")
+r"is(k = 0)\ ? \ 0^{n} : T(n-1,k-1)+T(n-1,k)+T(n,k+1)")
 
 
 if __name__ == "__main__":

@@ -173,9 +173,16 @@ class Table:
         self.sim = sim
         self.invQ = invQ
         self.tex = tex
+        self.impact = 0
 
     def __getitem__(self, n: int) -> list[int]:
         return self.gen(n)
+
+    def _set_impact_(self, imp: int) -> None:
+        self.impact = imp
+
+    def get_impact_(self) -> int:
+        return self.impact
 
     def itr(self, size: int) -> Iterator[list[int]]:
         return islice(iter(self.tab(size)), size)
@@ -1729,7 +1736,13 @@ def ctree(n: int) -> list[int]:
     return [1, 0] * (n // 2) + [1]
 
 
-CTree = Table(ctree, "CTree", ["A106465", "A106470"], True)
+CTree = Table(
+    ctree,
+    "CTree",
+    ["A106465", "A106470"],
+    True,
+    r"is(n \text{ odd})\ ? \ 1 : (k + 1) \text{ mod } 2",
+)
 
 
 @cache
@@ -1766,7 +1779,13 @@ def divisibility(n: int) -> list[int]:
     return L
 
 
-Divisibility = Table(divisibility, "Divisibility", ["A113704", "A051731"], True)
+Divisibility = Table(
+    divisibility,
+    "Divisibility",
+    ["A113704", "A051731"],
+    True,
+    r"n=0 \text{ or } k \text{ divides } n",
+)
 
 
 @cache
@@ -1883,7 +1902,13 @@ def eulerian(n: int) -> list[int]:
     return row
 
 
-Eulerian = Table(eulerian, "Eulerian", ["A123125", "A173018", "A008292"], True)
+Eulerian = Table(
+    eulerian,
+    "Eulerian",
+    ["A173018", "A123125", "A008292"],
+    True,
+    r"\sum_{j=0}^{k} (-1)^{j} \binom{n+1}{j} (k+1-j)^{n}",
+)
 
 
 @cache
@@ -1903,6 +1928,7 @@ Eulerian2 = Table(
     "Eulerian2",
     ["A340556", "A201637", "A008517", "A112007", "A163936"],
     False,
+    r"",
 )
 
 
@@ -1916,7 +1942,7 @@ def eulerianb(n: int) -> list[int]:
     return row
 
 
-EulerianB = Table(eulerianb, "EulerianB", ["A060187", "A138076"], True)
+EulerianB = Table(eulerianb, "EulerianB", ["A060187", "A138076"], True, r"")
 
 
 @cache
@@ -1938,7 +1964,7 @@ def ezz(n: int) -> list[int]:
     ]
 
 
-EulerianZigZag = Table(eulerianzigzag, "EulerianZigZag", ["A205497"], False)
+EulerianZigZag = Table(eulerianzigzag, "EulerianZigZag", ["A205497"], False, r"")
 
 
 @cache
@@ -2049,7 +2075,13 @@ def fibolucas(n: int) -> list[int]:
     return row
 
 
-FiboLucas = Table(fibolucas, "FiboLucas", ["A374439"], False, r"")
+FiboLucas = Table(
+    fibolucas,
+    "FiboLucas",
+    ["A374439"],
+    False,
+    r"2^{k'} \, \binom{n - k' - (k - k') / 2}{(k - k') / 2} \text{ where } k' = k \text{ mod } 2",
+)
 
 
 @cache
@@ -2327,7 +2359,7 @@ Laguerre = Table(
     "Laguerre",
     ["A021009", "A021010", "A144084"],
     True,
-    r"\binom{n}{k}\, n! \, / \, k!",
+    r"\binom{n}{k}\, \frac{n!}{k!}",
 )
 
 
@@ -2385,7 +2417,7 @@ def leibniz(n: int) -> list[int]:
     return row
 
 
-Leibniz = Table(leibniz, "Leibniz", ["A003506"], False, r"")
+Leibniz = Table(leibniz, "Leibniz", ["A003506"], False, r"(k+1) \, \binom{n+1}{k+1}")
 
 
 @cache
@@ -2396,7 +2428,9 @@ def leibnizscheme(n: int) -> list[int]:
     return [L[k] + k for k in range(n)] + [n]
 
 
-LeibnizScheme = Table(leibnizscheme, "LeibnizScheme", ["A003991"], None, r"")
+LeibnizScheme = Table(
+    leibnizscheme, "LeibnizScheme", ["A003991"], None, r"k\,(n - k + 1)"
+)
 
 
 @cache
@@ -2622,7 +2656,7 @@ def one(n: int) -> list[int]:
     return one(n - 1) + [1]
 
 
-One = Table(one, "One", ["A000012", "A008836", "A014077"], True)
+One = Table(one, "One", ["A000012", "A008836", "A014077"], True, r"1")
 
 
 @cache
@@ -2633,7 +2667,7 @@ def ordinals(n: int) -> list[int]:
 
 
 Ordinals = Table(
-    ordinals, "Ordinals", ["A002262", "A002260", "A004736", "A025581"], False, r""
+    ordinals, "Ordinals", ["A002262", "A002260", "A004736", "A025581"], False, r"k"
 )
 
 
@@ -2651,7 +2685,11 @@ def orderedcycle(n: int) -> list[int]:
 
 
 OrderedCycle = Table(
-    orderedcycle, "OrderedCycle", ["A225479", "A048594", "A075181"], False, r""
+    orderedcycle,
+    "OrderedCycle",
+    ["A225479", "A048594", "A075181"],
+    False,
+    r"k! {n \brack k}",
 )
 
 
@@ -2687,7 +2725,13 @@ def partition(n: int) -> list[int]:
     return [part(n, k) for k in range(n + 1)]
 
 
-Partition = Table(partition, "Partition", ["A072233", "A008284", "A058398"], True)
+Partition = Table(
+    partition,
+    "Partition",
+    ["A072233", "A008284", "A058398"],
+    True,
+    r"T_{n - 1, k - 1} + T_{n - k, k}",
+)
 
 
 @cache
@@ -2916,22 +2960,8 @@ Schroeder = Table(
     "Schroeder",
     ["A122538", "A033877", "A080245", "A080247", "A106579"],
     True,
-    r"",
+    r"is(k = 0)\ ? \ 0^{n} : T(n-1,k-1)+T(n-1,k)+T(n,k+1)",
 )
-
-
-@cache
-def schroederpaths(n: int) -> list[int]:
-    if n == 0:
-        return [1]
-    row = schroederpaths(n - 1) + [1]
-    for k in range(n, 0, -1):
-        row[k] = (row[k - 1] * (2 * n - k)) // k
-    row[0] = (row[0] * (4 * n - 2)) // n
-    return row
-
-
-SchroederPaths = Table(schroederpaths, "SchroederP", ["A104684", "A063007"], True, r"")
 
 
 @cache
@@ -2949,6 +2979,26 @@ def schroederl(n: int) -> list[int]:
 
 
 SchroederL = Table(schroederl, "SchroederL", ["A172094"], True, r"")
+
+
+@cache
+def schroederp(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    row = schroederp(n - 1) + [1]
+    for k in range(n, 0, -1):
+        row[k] = (row[k - 1] * (2 * n - k)) // k
+    row[0] = (row[0] * (4 * n - 2)) // n
+    return row
+
+
+SchroederP = Table(
+    schroederp,
+    "SchroederP",
+    ["A104684", "A063007"],
+    True,
+    r"\binom{n}{k} \binom{2n - k}{n}",
+)
 
 
 def seidel(n: int) -> list[int]:
@@ -2989,7 +3039,7 @@ StirlingCycle = Table(
     "StirlingCycle",
     ["A132393", "A008275", "A008276", "A048994", "A054654", "A094638", "A130534"],
     True,
-    r"",
+    r"{n \brack k}",
 )
 
 
@@ -3007,7 +3057,11 @@ def stirlingcycle2(n: int) -> list[int]:
 
 
 StirlingCycle2 = Table(
-    stirlingcycle2, "StirlingCyc2", ["A358622", "A008306", "A106828"], False, r""
+    stirlingcycle2,
+    "StirlingCyc2",
+    ["A358622", "A008306", "A106828"],
+    False,
+    r"n! [z^k][t^n] (\exp(t) (1 - t))^{-z}",
 )
 
 
@@ -3028,7 +3082,7 @@ StirlingCycleB = Table(
     "StirlingCycB",
     ["A028338", "A039757", "A039758", "A109692"],
     True,
-    r"",
+    r"\sum_{i=k}^{n} (-2)^{n-i} \binom{i}{k} {n \brack i}",
 )
 
 
@@ -3057,7 +3111,7 @@ StirlingSet = Table(
         "A213735",
     ],
     True,
-    r"(1/k!) \sum_{j=0}^{k} (-1)^{k-j} \binom{k}{j} j^{n}",
+    r"{n \brace k}",
 )
 
 
@@ -3075,7 +3129,11 @@ def stirlingset2(n: int) -> list[int]:
 
 
 StirlingSet2 = Table(
-    stirlingset2, "StirlingSet2", ["A358623", "A008299", "A137375"], False, r""
+    stirlingset2,
+    "StirlingSet2",
+    ["A358623", "A008299", "A137375"],
+    False,
+    r"\sum_{j=0}^{k} (-1)^{k-j} \binom{n}{k-j} {n-k+j \brace j}",
 )
 
 
@@ -3094,7 +3152,13 @@ def stirlingsetb(n: int) -> list[int]:
     return row
 
 
-StirlingSetB = Table(stirlingsetb, "StirlingSetB", ["A154602"], True, r"")
+StirlingSetB = Table(
+    stirlingsetb,
+    "StirlingSetB",
+    ["A154602"],
+    True,
+    r"\sum_{j=k}^{n} 2^{n-j} \binom{j}{k} {n \brace j}",
+)
 
 
 @cache
@@ -3108,7 +3172,13 @@ def sylvester(n: int) -> list[int]:
     return [s(n, k) for k in range(n + 1)]
 
 
-Sylvester = Table(sylvester, "Sylvester", ["A341101"], False, r"")
+Sylvester = Table(
+    sylvester,
+    "Sylvester",
+    ["A341101"],
+    False,
+    r"\sum_{j=0}^{k} (-1)^{n-k} \binom{n}{k-j} {n - k + j \brack j}",
+)
 
 
 @cache
@@ -3121,7 +3191,13 @@ def ternarytree(n: int) -> list[int]:
     return list(accumulate(accumulate(row)))
 
 
-TernaryTree = Table(ternarytree, "TernaryTrees", ["A355172"], False, r"")
+TernaryTree = Table(
+    ternarytree,
+    "TernaryTrees",
+    ["A355172"],
+    False,
+    r"is(k=0)\, ?\, 0^n : \frac{(2n-2k+3) \, (2n+k-1)!}{(2n+1)! \, (k-1)!}",
+)
 
 
 @cache
@@ -3318,7 +3394,7 @@ TablesList: list[Table] = [
     RootedTree,
     Schroeder,
     SchroederL,
-    SchroederPaths,
+    SchroederP,
     Seidel,
     Sierpinski,
     StirlingCycle,

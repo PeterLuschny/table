@@ -22,9 +22,7 @@ def ordinals(n: int) -> list[int]:
 
 
 Ordinals = Table(ordinals, "Ordinals", 
-["A002262", "A002260", "A004736", "A025581"], False,
-r""
-)
+["A002262", "A002260", "A004736", "A025581"], False, r"k" )
 
 
 if __name__ == "__main__":

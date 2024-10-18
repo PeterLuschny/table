@@ -29,7 +29,7 @@ def laguerre(n: int) -> list[int]:
 
 Laguerre = Table(laguerre, "Laguerre", 
 ["A021009", "A021010", "A144084"], True,
-r"\binom{n}{k}\, n! \, / \, k!" )
+r"\binom{n}{k}\, \frac{n!}{k!}" )
 
 
 if __name__ == "__main__":

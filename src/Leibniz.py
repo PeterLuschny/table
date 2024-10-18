@@ -30,7 +30,7 @@ def leibniz(n: int) -> list[int]:
 
 Leibniz = Table(leibniz, "Leibniz", 
 ["A003506"], False,
-r"")
+r"(k+1) \, \binom{n+1}{k+1}")
 
 
 if __name__ == "__main__":

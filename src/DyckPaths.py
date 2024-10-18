@@ -32,7 +32,8 @@ def dyckpaths(n: int) -> list[int]:
     return row
 
 
-DyckPaths = Table(dyckpaths, "DyckPaths", ["A039599", "A050155"], True,
+DyckPaths = Table(dyckpaths, "DyckPaths", 
+["A039599", "A050155"], True,
 r'\binom{2n}{n - k} (2k + 1) / (n + k + 1)' )
 
 

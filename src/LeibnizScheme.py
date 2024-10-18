@@ -24,7 +24,7 @@ def leibnizscheme(n: int) -> list[int]:
 
 LeibnizScheme = Table(leibnizscheme, "LeibnizScheme", 
 ["A003991"], None,
-r"")
+r"k\,(n - k + 1)")
 
 
 if __name__ == "__main__":

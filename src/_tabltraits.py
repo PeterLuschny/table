@@ -527,6 +527,16 @@ if __name__ == "__main__":
     #RefreshDatabase()
     #OccList()
     RefreshHtml()
+    
+    #for T in TablesList:
+    #    print(T.id, T.tex)
+        
+    #ReadJsonDict()
+    #for k, v in GlobalDict.items():
+    #    print(k, len(v.values()))
+       
+    
+
 
 '''
 000000 1795

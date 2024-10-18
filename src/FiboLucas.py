@@ -40,7 +40,7 @@ def fibolucas(n: int) -> list[int]:
 
 FiboLucas = Table(fibolucas, "FiboLucas", 
 ["A374439"], False,
-r"")
+r"2^{k'} \, \binom{n - k' - (k - k') / 2}{(k - k') / 2} \text{ where } k' = k \text{ mod } 2")
 
 
 if __name__ == "__main__":

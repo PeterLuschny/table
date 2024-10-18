@@ -1,0 +1,37 @@
+from typing import Dict
+
+Ranking : Dict[int, list[str]] = {
+    1: ['A048993', 'StirlingSet'],
+    2: ['A132393', 'StirlingCycle'],
+    3: ['A008279', 'FallingFact'],
+    4: ['A039599', 'DyckPaths'],
+    5: ['A064189', 'Motzkin'],
+    6: ['A128899', 'Catalan'],
+    7: ['A113704', 'Divisibility'],
+    8: ['A363914', 'Moebius'],
+    9: ['A038207', 'BinaryPell'],
+    10: ['A122538', 'Schroeder'],
+    11: ['A059481', 'Monotone'],
+    12: ['A137452', 'Abel'],
+    13: ['A072233', 'Partition'],
+    14: ['A056857', 'BinomialBell'],
+    15: ['A271703', 'Lah'],
+    16: ['A132062', 'Bessel'],
+    17: ['A090181', 'Narayana'],
+    18: ['A008290', 'Rencontres'],
+    19: ['A002262', 'Ordinals'],
+    20: ['A131689', 'Fubini'],
+    21: ['A053121', 'CatalanPaths'],
+    22: ['A049310', 'ChebyshevS'],
+    23: ['A124644', 'BinomialCatalan'],
+    24: ['A119879', 'EulerSec'],
+    25: ['A000012', 'One'],
+    26: ['A028246', 'Worpitzky'],
+    27: ['A106465', 'CTree'],
+    28: ['A008288', 'Delannoy'],
+    29: ['A123125', 'Eulerian'],
+    30: ['A021009', 'Laguerre'],
+    31: ['A104684', 'SchroederP'],
+    32: ['A028338', 'StirlingCycB']
+}
+ 

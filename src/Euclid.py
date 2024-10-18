@@ -32,7 +32,8 @@ def euclid(n: int) -> list[int]:
     return [_euclid(i, n) for i in range(n + 1)]
 
 
-Euclid = Table(euclid, "Euclid", ["A217831"], False,
+Euclid = Table(euclid, "Euclid", 
+["A217831"], False,
 r"is(k \text{ prime to } n ) \ ? \ 1 : 0" )
 
 

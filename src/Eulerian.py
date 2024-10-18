@@ -49,7 +49,9 @@ def eulerian(n: int) -> list[int]:
     return row
 
 
-Eulerian = Table(eulerian, "Eulerian", ["A123125", "A173018", "A008292"], True)
+Eulerian = Table(eulerian, "Eulerian", 
+["A173018", "A123125", "A008292"], True,
+r"\sum_{j=0}^{k} (-1)^{j} \binom{n+1}{j} (k+1-j)^{n}")
 
 
 if __name__ == "__main__":

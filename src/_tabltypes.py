@@ -102,9 +102,16 @@ class Table:
         self.sim = sim
         self.invQ = invQ
         self.tex = tex
+        self.impact = 0
 
     def __getitem__(self, n: int) -> list[int]:
         return self.gen(n)
+
+    def _set_impact_(self, imp: int) -> None:
+        self.impact = imp
+        
+    def get_impact_(self) -> int:
+        return self.impact
 
     def itr(self, size: int) -> Iterator[list[int]]:
         return islice(iter(self.tab(size)), size)

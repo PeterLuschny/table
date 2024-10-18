@@ -33,7 +33,8 @@ def ezz(n: int) -> list[int]:
             for k in range(n - 1)]
 
 
-EulerianZigZag = Table(eulerianzigzag, "EulerianZigZag", ["A205497"], False)
+EulerianZigZag = Table(eulerianzigzag, "EulerianZigZag", ["A205497"], False,
+r"")
 
 
 if __name__ == "__main__":

@@ -26,7 +26,9 @@ def eulerianb(n: int) -> list[int]:
     return row
 
 
-EulerianB = Table(eulerianb, "EulerianB", ["A060187", "A138076"], True)
+EulerianB = Table(eulerianb, "EulerianB", 
+["A060187", "A138076"], True,
+r"")
 
 
 if __name__ == "__main__":

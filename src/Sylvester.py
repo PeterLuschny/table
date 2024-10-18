@@ -26,7 +26,7 @@ def sylvester(n: int) -> list[int]:
 
 Sylvester = Table(sylvester, "Sylvester", 
 ["A341101"], False,
-r"")
+r"\sum_{j=0}^{k} (-1)^{n-k} \binom{n}{k-j} {n - k + j \brack j}")
 
 
 if __name__ == "__main__":
