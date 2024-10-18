@@ -29,7 +29,8 @@ def binarypell(n: int) -> list[int]:
     return row
 
 
-BinaryPell = Table(binarypell, "BinaryPell", ["A038207"], True,
+BinaryPell = Table(binarypell, "BinaryPell", 
+["A038207"], True,
 r"\binom{n}{k} \, 2^{n-k}")
 
 

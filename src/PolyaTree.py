@@ -24,7 +24,7 @@ def polyatree(n: int) -> list[int]:
 
 PolyaTree = Table(polyatree, "PolyaTree", 
 ["A034781"], None,
-r"")
+r"S(n, k) - S(n, k - 1) where S=A375467")
 
 
 if __name__ == "__main__":

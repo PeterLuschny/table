@@ -28,7 +28,8 @@ def centralcycle(n: int) -> list[int]:
     return row
 
 
-CentralCycle = Table(centralcycle, "CentralCycle", ["A269940", "A111999", "A259456"], False)
+CentralCycle = Table(centralcycle, "CentralCycle", 
+["A269940", "A111999", "A259456"], False)
 
 
 if __name__ == "__main__":

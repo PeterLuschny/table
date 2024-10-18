@@ -31,7 +31,9 @@ def chebyshevt(n: int) -> list[int]:
     return row
 
 
-ChebyshevT = Table(chebyshevt, "ChebyshevT", ["A053120", "A039991", "A081265"], True)
+ChebyshevT = Table(chebyshevt, "ChebyshevT", 
+["A053120", "A039991", "A081265"], True,
+r"")
 
 
 if __name__ == "__main__":

@@ -109,13 +109,13 @@ class Table:
 
     def _set_impact_(self, imp: int) -> None:
         self.impact = imp
-        
+
     def get_impact_(self) -> int:
         return self.impact
 
     def itr(self, size: int) -> Iterator[list[int]]:
         return islice(iter(self.tab(size)), size)
-    
+
     def tab(self, size: int) -> tabl:
         """
         Args:

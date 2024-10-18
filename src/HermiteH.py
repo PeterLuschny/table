@@ -25,8 +25,9 @@ def hermiteh(n: int) -> list[int]:
     return row
 
 
-HermiteH = Table(hermiteh, "HermiteH", ["A060821"], False,
-r"is(n - k odd)\, ? \, 0 : (-1)^{(n-k)/2}\ 2^k \ n! \ / \ (k! \ (\frac{n-k}{2})!)")
+HermiteH = Table(hermiteh, "HermiteH", 
+["A060821"], False,
+r"is(n - k odd)\, ? \, 0 : (-1)^{(n-k)/2} \ \frac{n!}{k!} \ \frac{2^k}{((n-k)/2)!}")
 
 
 if __name__ == "__main__":

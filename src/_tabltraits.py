@@ -524,18 +524,19 @@ if __name__ == "__main__":
         print()
 
     # test(Abel, 10)
-    #RefreshDatabase()
+
     #OccList()
-    RefreshHtml()
-    
-    #for T in TablesList:
-    #    print(T.id, T.tex)
-        
+    #RefreshHtml()
+    #RefreshDatabase()
+
+    for T in TablesList:
+        print(T.id, T.tex)
+
     #ReadJsonDict()
     #for k, v in GlobalDict.items():
     #    print(k, len(v.values()))
-       
-    
+
+
 
 
 '''

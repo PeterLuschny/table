@@ -31,7 +31,8 @@ def binomialcatalan(n: int) -> list[int]:
     return row
 
 
-BinomialCatalan = Table(binomialcatalan, "BinomialCatalan", ["A124644", "A098474"], True,
+BinomialCatalan = Table(binomialcatalan, "BinomialCatalan", 
+["A124644", "A098474"], True,
 r"\binom{n}{k} \text{Catalan}(n - k)" )
 
 

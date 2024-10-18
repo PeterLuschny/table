@@ -1310,7 +1310,7 @@ Bell = Table(
     "Bell",
     ["A011971", "A011972", "A123346"],
     False,
-    r"\sum_{j=0}^{k} \binom{k}{j} Bell_{n - k + j}",
+    r"\sum_{j=0}^{k} \binom{k}{j} Bell(n - k + j)",
 )
 
 
@@ -1618,7 +1618,13 @@ def charlier(n: int) -> list[int]:
     return c
 
 
-Charlier = Table(charlier, "Charlier", ["A046716", "A094816"], True)
+Charlier = Table(
+    charlier,
+    "Charlier",
+    ["A046716", "A094816"],
+    True,
+    r"\sum_{j=0}^{k} (-1)^k \, \binom{n}{k-j}\,{j+n-k \brack n-k}",
+)
 
 
 @cache
@@ -1657,7 +1663,9 @@ def chebyshevt(n: int) -> list[int]:
     return row
 
 
-ChebyshevT = Table(chebyshevt, "ChebyshevT", ["A053120", "A039991", "A081265"], True)
+ChebyshevT = Table(
+    chebyshevt, "ChebyshevT", ["A053120", "A039991", "A081265"], True, r""
+)
 
 
 @cache
@@ -2245,7 +2253,7 @@ HermiteE = Table(
     "HermiteE",
     ["A099174", "A066325", "A073278"],
     True,
-    r"is(n - k odd)\, ? \, 0 : n! /(k! \, (n-k)!!)",
+    r"is(n - k \text{ odd})\, ? \, 0 : \frac{n!}{k!} \, \frac{1}{(n-k)!!} )",
 )
 
 
@@ -2263,7 +2271,7 @@ HermiteH = Table(
     "HermiteH",
     ["A060821"],
     False,
-    r"is(n - k odd)\, ? \, 0 : (-1)^{(n-k)/2}\ 2^k \ n! \ / \ (k! \ (\frac{n-k}{2})!)",
+    r"is(n - k odd)\, ? \, 0 : (-1)^{(n-k)/2} \ \frac{n!}{k!} \ \frac{2^k}{((n-k)/2)!}",
 )
 
 
@@ -2855,7 +2863,9 @@ def polyatree(n: int) -> list[int]:
     return [int(n < 1)] + [p[k] - p[k - 1] for k in range(1, n + 1)]
 
 
-PolyaTree = Table(polyatree, "PolyaTree", ["A034781"], None, r"")
+PolyaTree = Table(
+    polyatree, "PolyaTree", ["A034781"], None, r"S(n, k) - S(n, k - 1) where S=A375467"
+)
 
 
 @cache
@@ -2940,7 +2950,13 @@ def rootedtree(n: int) -> list[int]:
     return [0] + [p[k + 1] - p[k] for k in range(n)]
 
 
-RootedTree = Table(rootedtree, "RootedTree", ["A034781"], False, r"")
+RootedTree = Table(
+    rootedtree,
+    "RootedTree",
+    ["A034781"],
+    False,
+    r"S(n, k) - S(n, k - 1) where S = A375467",
+)
 
 
 @cache
@@ -3304,109 +3320,109 @@ def riordan_num(n: int) -> int:
 
 TablesList: list[Table] = [
     Abel,
-    Andre,
-    Baxter,
-    Bell,
+    #    Andre,
+    #    Baxter,
+    #    Bell,
     Bessel,
-    Bessel2,
+    #    Bessel2,
     BinaryPell,
-    Binomial,
+    #    Binomial,
     BinomialBell,
     BinomialCatalan,
-    BinomialPell,
-    BinomialDiffPell,
+    #    BinomialPell,
+    #    BinomialDiffPell,
     Catalan,
     CatalanPaths,
-    CentralCycle,
-    CentralSet,
-    Chains,
-    Charlier,
+    #    CentralCycle,
+    #    CentralSet,
+    #    Chains,
+    #    Charlier,
     ChebyshevS,
-    ChebyshevT,
-    ChebyshevU,
-    Composition,
-    CompoAcc,
-    CompoDist,
+    #    ChebyshevT,
+    #    ChebyshevU,
+    #    Composition,
+    #    CompoAcc,
+    #    CompoDist,
     CTree,
     Delannoy,
     Divisibility,
     DyckPaths,
-    Entringer,
-    Euclid,
-    Euler,
+    #    Entringer,
+    #    Euclid,
+    #    Euler,
     Eulerian,
-    Eulerian2,
-    EulerianB,
-    EulerianZigZag,
+    #    Eulerian2,
+    #    EulerianB,
+    #    EulerianZigZag,
     EulerSec,
-    EulerTan,
-    EytzingerOrder,
-    EytzingerPermutation,
+    #    EulerTan,
+    #    EytzingerOrder,
+    #    EytzingerPermutation,
     FallingFactorial,
-    FiboLucas,
-    FiboLucasInv,
-    FiboLucasRev,
-    Fibonacci,
+    #    FiboLucas,
+    #    FiboLucasInv,
+    #    FiboLucasRev,
+    #    Fibonacci,
     Fubini,
-    FussCatalan,
-    Gaussq2,
-    Genocchi,
-    Harmonic,
-    HermiteE,
-    HermiteH,
-    HyperHarmonic,
-    InvBinomial,
-    Jacobsthal,
-    Kekule,
-    LabeledGraphs,
+    #    FussCatalan,
+    #    Gaussq2,
+    #    Genocchi,
+    #    Harmonic,
+    #    HermiteE,
+    #    HermiteH,
+    #    HyperHarmonic,
+    #    InvBinomial,
+    #    Jacobsthal,
+    #    Kekule,
+    #    LabeledGraphs,
     Laguerre,
     Lah,
-    Lehmer,
-    Leibniz,
-    LeibnizScheme,
-    Levin,
-    Lozanic,
-    Lucas,
-    LucasPoly,
+    #    Lehmer,
+    #    Leibniz,
+    #    LeibnizScheme,
+    #    Levin,
+    #    Lozanic,
+    #    Lucas,
+    #    LucasPoly,
     Moebius,
     Monotone,
     Motzkin,
-    MotzkinPoly,
+    #    MotzkinPoly,
     Narayana,
-    Naturals,
-    Nicomachus,
-    NimSum,
+    #    Naturals,
+    #    Nicomachus,
+    #    NimSum,
     One,
     Ordinals,
     OrderedCycle,
-    Parades,
+    #    Parades,
     Partition,
-    PartAcc,
-    PartDist,
-    PartDistSize,
-    Pascal,
-    PolyaTreeAcc,
-    PolyaTree,
-    Polygonal,
-    PowLaguerre,
+    #    PartAcc,
+    #    PartDist,
+    #    PartDistSize,
+    #    Pascal,
+    #    PolyaTreeAcc,
+    #    PolyaTree,
+    #    Polygonal,
+    #    PowLaguerre,
     Rencontres,
-    RisingFactorial,
-    RootedTree,
+    #    RisingFactorial,
+    #    RootedTree,
     Schroeder,
-    SchroederL,
+    #    SchroederL,
     SchroederP,
-    Seidel,
-    Sierpinski,
+    #    Seidel,
+    #    Sierpinski,
     StirlingCycle,
-    StirlingCycle2,
+    #    StirlingCycle2,
     StirlingCycleB,
     StirlingSet,
-    StirlingSet2,
-    StirlingSetB,
-    Sylvester,
-    TernaryTree,
-    WardSet,
-    WardCycle,
+    #    StirlingSet2,
+    #    StirlingSetB,
+    #    Sylvester,
+    #    TernaryTree,
+    #    WardSet,
+    #    WardCycle,
     Worpitzky,
 ]
 # QuickView()
