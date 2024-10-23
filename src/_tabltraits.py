@@ -1,6 +1,6 @@
 from Tables import TablesList
 from Binomial import Binomial, InvBinomial
-from _tabltypes import Table, rgen, trait
+from _tabltypes import Table, RevTable, rgen, trait
 from _tabloeis import QueryOEIS
 from _tablutils import SeqToString
 from _tablpaths import GetRoot
@@ -339,7 +339,7 @@ def TableTraits(T: Table) -> None:
         print(name, tr[0](T, tr[1]))
 
 
-GlobalDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
+GlobalDict: Dict[str, Dict[str, int]] = {}
 
 
 def ShowdGlobalDict() -> None:
@@ -350,23 +350,43 @@ def ShowdGlobalDict() -> None:
             print(f"    {trait} -> {dict[trait]}")
 
 
+def FilterDict(olddict: Dict[str, int] )  -> Dict[str, int]:
+    anumlist: set[int] = set()
+    newdict: Dict[str, int] = {}
+    for k, v in olddict.items():
+        if not v in anumlist: 
+            newdict[k] = v
+        anumlist.add(v)
+    return newdict
+
+
 def AnumberDict(
     T: Table, 
     info: bool = False,
-    add: bool = False
-) -> Dict[str, tuple[int, int, int]]:
+    addtoglobal: bool = False,
+    addreversed: bool = False,
+    filter: bool = False
+) -> Dict[str, int]:
     """Collects the A-nunmbers of the traits of T present in the OEIS."""
     print(f"*** Table {T.id} under construction ***")
     global GlobalDict
-    tdict: Dict[str, tuple[int, int, int]] = {}
 
-    for id, tr in AllTraits.items():
-        name = (T.id + ":" + id).ljust(10 + len(T.id), " ")
-        seq: list[int] = tr[0](T, tr[1]) 
-        if seq != []:
-            tdict[name] = QueryOEIS(seq, info)
-    if add:
-        GlobalDict[T.id] = tdict
+    TableList = [T, RevTable(T)] if addreversed else [T]
+    tdict: Dict[str, int] = {}
+    for t in TableList:
+
+        for trid, tr in AllTraits.items():
+            name = (t.id + "#" + trid).ljust(10 + len(t.id), " ")
+            seq: list[int] = tr[0](t, tr[1]) 
+            if seq != []:
+                tdict[name] = QueryOEIS(seq, info)
+                
+        if filter:
+            tdict = FilterDict(tdict)
+
+        if addtoglobal:
+            GlobalDict[t.id] = tdict
+
     return tdict
 
 
@@ -374,7 +394,7 @@ header = '<html><head><title>Traits</title><meta charset="utf-8"><meta name="vie
 
 def AnumbersToFile(
     T: Table, 
-    dict: Dict[str, tuple[int, int, int]],
+    dict: Dict[str, int],
     info: bool = False
 )  -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
@@ -394,13 +414,13 @@ def AnumbersToFile(
 
             for tr, anum in dict.items():
                 if info: print(f"     {tr} -> {anum}")
-                tr, trn, tex = AllTraits[tr.split(":")[1]]
+                tr, trn, tex = AllTraits[tr.split("#")[1]]
                 seq = SeqToString(tr(T, trn), 60, 24) 
-                if anum[0] == 0:
+                if anum == 0:
                     miss.write(f"<br><span style='white-space: pre'>{tr}</span> {tex}<br>")
                     miss.write(seq) 
                 else:
-                    num = str(anum[0]).rjust(6, "0")
+                    num = str(anum).rjust(6, "0")
                     url = f"<a href='https://oeis.org/A{num}' target='OEISframe'>A{num}</a>"
                     oeis.write(f"<br>{url} <span style='white-space: pre'>{tr}</span> {tex}<br>")
                     oeis.write(seq) 
@@ -433,7 +453,7 @@ def RefreshDatabase() -> None:
         index.write(indheader)
 
         for T in TablesList:
-            dict = AnumberDict(T, False, True)  # type: ignore 
+            dict = AnumberDict(T, True, True, True, True)  # type: ignore 
             AnumbersToFile(T, dict, True)       # type: ignore
             index.write(f"<tr><td align='left'>{T.id}</td><td align='left'><a href='{T.id}Traits.html'>[online]</a></td><td align='left'><a href='{T.id}Missing.html'>[missing]</a></td></tr>")
 
@@ -453,22 +473,32 @@ def ReadJsonDict() -> None:
         GlobalDict = json.load(file)
     print("GlobalDict with all traits installed!")
 
-
-def AddTable(T: Table) -> None:    
+def AddTable(
+    T: Table, 
+    addrev: bool=False, 
+    filter: bool=False
+) -> Dict[str, int]:
     ReadJsonDict()
-    AnumbersToFile(T, AnumberDict(T, True, True), True)
+    dict = AnumberDict(T, True, True, addrev, filter)
+    print("Dict length:", len(dict))
+    AnumbersToFile(T, dict , True)
     jsonpath = GetRoot(f"data/AllTraits.json")
     with open(jsonpath, 'w') as fileson:
         json.dump(GlobalDict, fileson)
+    return dict
 
 
-def RefreshHtml() -> None:
+def RefreshHtml(filter: bool=False) -> None:
     global GlobalDict
     ReadJsonDict()
     for T in TablesList:
         try:
             dict = GlobalDict[T.id]
-            AnumbersToFile(T, dict, True)    # type: ignore
+            if filter:
+                dict = FilterDict(dict)
+            AnumbersToFile(T, dict)    # type: ignore
+            print(T.id, "dict length:", len(dict))
+            T.set_impact(len(dict))
         except KeyError as e: 
             print("KeyError:", e)
             input()
@@ -481,20 +511,18 @@ def OccList() -> None:
     li: set[int] = set()
     for d in GlobalDict.values():
         for name, anum in d.items():
-            li.add(anum[0])
-            if anum[0] in Occurences: 
-                Occurences[anum[0]].append(name)
+            li.add(anum)
+            if anum in Occurences: 
+                Occurences[anum].append(name)
             else: 
-                Occurences[anum[0]] = [name]
+                Occurences[anum] = [name]
 
     for anum, names in Occurences.items():
         if len(names) > 10:
             print(str(anum).rjust(6, "0"), len(names))
     print(sorted(li), len(li))
 
-#Occurencesbynum = sorted(Occurences.items(), key=lambda x: len(x))
-#sdict = dict(Occurencesbynum)
- 
+
 
 if __name__ == "__main__":
 
@@ -526,45 +554,18 @@ if __name__ == "__main__":
     # test(Abel, 10)
 
     #OccList()
-    #RefreshHtml()
+
+    # RefreshHtml(True)
+    
     #RefreshDatabase()
 
-    for T in TablesList:
-        print(T.id, T.tex)
+    #for T in TablesList:
+    #    print(T.id, T.tex)
 
     #ReadJsonDict()
     #for k, v in GlobalDict.items():
     #    print(k, len(v.values()))
-
-
-
-
-'''
-000000 1795
-000012 209
-000027 160
-000007 138
-000142 36
-000217 36
-002378 33
-000079 30
-000035 21
-000984 20
-000111 19
-005843 17
-007318 17
-000290 16
-001147 15
-000244 14
-000292 14
-001700 14
-000045 12
-000085 12
-000110 12
-005563 12
-074909 12
-000108 11
-001405 11
-002522 11
-004526 11
-'''
+    
+    #dict = AddTable(StirlingSet, True, True)
+    #for k, v in dict.items():
+    #    print(k, v)

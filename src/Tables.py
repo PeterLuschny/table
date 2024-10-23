@@ -178,10 +178,10 @@ class Table:
     def __getitem__(self, n: int) -> list[int]:
         return self.gen(n)
 
-    def _set_impact_(self, imp: int) -> None:
+    def set_impact(self, imp: int) -> None:
         self.impact = imp
 
-    def get_impact_(self) -> int:
+    def get_impact(self) -> int:
         return self.impact
 
     def itr(self, size: int) -> Iterator[list[int]]:
@@ -671,7 +671,7 @@ def lcsubstr(s: str, t: str) -> tuple[int, int]:
 
 def QueryOEIS(
     seqlist: list[int], maxnum: int = 1, info: bool = False, minlen: int = 24
-) -> tuple[int, int, int]:
+) -> int:
     """
     Query if a given sequence is present in the OEIS. At least 24 terms of
     the sequence must be given. The first three terms and signs are disregard.
@@ -683,11 +683,9 @@ def QueryOEIS(
         info: Prints details, otherwise is quiet except for warnings. Defaults to False.
         minlen: At least {minlen} terms are required.
     Returns:
-        Returns a triple (anum, sl, dl) of integers:
+        Returns
         - anum is the A-number of the sequence,
-        - sl is the number is of unmatched terms at the start of the sequence,
-        - dl is the number of the matched terms.
-        Returns (0, 0, 0) if the sequence was not found.
+        Returns 0 if the sequence was not found.
         If sl < 5 and dl > 12, then anum probably matches the sequence,
         modulo a couple of first terms and the signs.
     Raises:
@@ -696,7 +694,7 @@ def QueryOEIS(
     if len(seqlist) < minlen:
         print(f"Sequence is too short! We require at least {minlen} terms.")
         print("You provided:", seqlist)
-        return (0, 0, 0)
+        return 0
     # Warning. These 'magical' constants are very sensible!
     seqstr = SeqToString(seqlist, 180, 50, ",", 3, True)
     url = f"https://oeis.org/search?q={seqstr}&fmt=json"
@@ -705,9 +703,8 @@ def QueryOEIS(
         if info:
             print(f"[{repeat}]")
         try:
-            jdata: None | list[dict[str, int | str | list[str]]] = get(
-                url, timeout=20
-            ).json()
+            # jdata: None | list[dict[str, int | str | list[str] ]] = get(url, timeout=20).json()
+            jdata = get(url, timeout=20).json()
             if jdata == None:
                 if 0 == sum(seqlist[::2]) or 0 == sum(seqlist[1::2]):
                     seqlist = [k for k in seqlist if k != 0]
@@ -718,8 +715,8 @@ def QueryOEIS(
                     raise ValueError("Try again")
                 if info:
                     print("Sorry, no match found for:", seqstr)
-                return (0, 0, 0)
-            number = sl = dl = ol = 0
+                return 0
+            number = dl = ol = 0
             for j in range(min(maxnum, len(jdata))):
                 seq = jdata[j]
                 number = seq["number"]
@@ -740,7 +737,7 @@ def QueryOEIS(
                     print("***FOUND***", anumber, name)
                 if dl > 12:
                     break
-            return (int(number), int(sl), int(dl))  # type: ignore
+            return int(number)
         except ValueError:
             continue
         except requests.exceptions.RequestException as e:
@@ -1089,7 +1086,7 @@ def TableTraits(T: Table) -> None:
         print(name, tr[0](T, tr[1]))
 
 
-GlobalDict: Dict[str, Dict[str, tuple[int, int, int]]] = {}
+GlobalDict: Dict[str, Dict[str, int]] = {}
 
 
 def ShowdGlobalDict() -> None:
@@ -1100,29 +1097,46 @@ def ShowdGlobalDict() -> None:
             print(f"    {trait} -> {dict[trait]}")
 
 
+def FilterDict(olddict: Dict[str, int]) -> Dict[str, int]:
+    anumlist: set[int] = set()
+    newdict: Dict[str, int] = {}
+    for k, v in olddict.items():
+        if not v in anumlist:
+            newdict[k] = v
+        anumlist.add(v)
+    return newdict
+
+
 def AnumberDict(
-    T: Table, info: bool = False, add: bool = False
-) -> Dict[str, tuple[int, int, int]]:
+    T: Table,
+    info: bool = False,
+    addtoglobal: bool = False,
+    addreversed: bool = False,
+    filter: bool = False,
+) -> Dict[str, int]:
     """Collects the A-nunmbers of the traits of T present in the OEIS."""
     print(f"*** Table {T.id} under construction ***")
     global GlobalDict
-    tdict: Dict[str, tuple[int, int, int]] = {}
-    for id, tr in AllTraits.items():
-        name = (T.id + ":" + id).ljust(10 + len(T.id), " ")
-        seq: list[int] = tr[0](T, tr[1])
-        if seq != []:
-            tdict[name] = QueryOEIS(seq, info)
-    if add:
-        GlobalDict[T.id] = tdict
+    TableList = [T, RevTable(T)] if addreversed else [T]
+    tdict: Dict[str, int] = {}
+    for t in TableList:
+        for trid, tr in AllTraits.items():
+            name = (t.id + "#" + trid).ljust(10 + len(t.id), " ")
+            seq: list[int] = tr[0](t, tr[1])
+            if seq != []:
+                tdict[name] = QueryOEIS(seq, info)
+
+        if filter:
+            tdict = FilterDict(tdict)
+        if addtoglobal:
+            GlobalDict[t.id] = tdict
     return tdict
 
 
 header = '<html><head><title>Traits</title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> window.MathJax = {loader: {load: ["[tex]/bbox"]}, tex: {packages: {"[+]": ["bbox"]}}}</script></head><body width="38%"><iframe name="OEISframe" frameborder="0" scrolling="yes" width="62%" height="2200" align="left" title="Sequences"'
 
 
-def AnumbersToFile(
-    T: Table, dict: Dict[str, tuple[int, int, int]], info: bool = False
-) -> None:
+def AnumbersToFile(T: Table, dict: Dict[str, int], info: bool = False) -> None:
     """Saves the A-numbers of traits present in the OEIS to a file."""
 
     SRC = f"https://oeis.org/{T.sim[0]}"
@@ -1143,15 +1157,15 @@ def AnumbersToFile(
             for tr, anum in dict.items():
                 if info:
                     print(f"     {tr} -> {anum}")
-                tr, trn, tex = AllTraits[tr.split(":")[1]]
+                tr, trn, tex = AllTraits[tr.split("#")[1]]
                 seq = SeqToString(tr(T, trn), 60, 24)
-                if anum[0] == 0:
+                if anum == 0:
                     miss.write(
                         f"<br><span style='white-space: pre'>{tr}</span> {tex}<br>"
                     )
                     miss.write(seq)
                 else:
-                    num = str(anum[0]).rjust(6, "0")
+                    num = str(anum).rjust(6, "0")
                     url = f"<a href='https://oeis.org/A{num}' target='OEISframe'>A{num}</a>"
                     oeis.write(
                         f"<br>{url} <span style='white-space: pre'>{tr}</span> {tex}<br>"
@@ -1183,7 +1197,7 @@ def RefreshDatabase() -> None:
     with open(indexpath, "w+", encoding="utf-8") as index:
         index.write(indheader)
         for T in TablesList:
-            dict = AnumberDict(T, False, True)  # type: ignore
+            dict = AnumberDict(T, True, True, True, True)  # type: ignore
             AnumbersToFile(T, dict, True)  # type: ignore
             index.write(
                 f"<tr><td align='left'>{T.id}</td><td align='left'><a href='{T.id}Traits.html'>[online]</a></td><td align='left'><a href='{T.id}Missing.html'>[missing]</a></td></tr>"
@@ -1204,21 +1218,28 @@ def ReadJsonDict() -> None:
     print("GlobalDict with all traits installed!")
 
 
-def AddTable(T: Table) -> None:
+def AddTable(T: Table, addrev: bool = False, filter: bool = False) -> Dict[str, int]:
     ReadJsonDict()
-    AnumbersToFile(T, AnumberDict(T, True, True), True)
+    dict = AnumberDict(T, True, True, addrev, filter)
+    print("Dict length:", len(dict))
+    AnumbersToFile(T, dict, True)
     jsonpath = GetRoot(f"data/AllTraits.json")
     with open(jsonpath, "w") as fileson:
         json.dump(GlobalDict, fileson)
+    return dict
 
 
-def RefreshHtml() -> None:
+def RefreshHtml(filter: bool = False) -> None:
     global GlobalDict
     ReadJsonDict()
     for T in TablesList:
         try:
             dict = GlobalDict[T.id]
-            AnumbersToFile(T, dict, True)  # type: ignore
+            if filter:
+                dict = FilterDict(dict)
+            AnumbersToFile(T, dict)  # type: ignore
+            print(T.id, "dict length:", len(dict))
+            T.set_impact(len(dict))
         except KeyError as e:
             print("KeyError:", e)
             input()
@@ -1231,11 +1252,11 @@ def OccList() -> None:
     li: set[int] = set()
     for d in GlobalDict.values():
         for name, anum in d.items():
-            li.add(anum[0])
-            if anum[0] in Occurences:
-                Occurences[anum[0]].append(name)
+            li.add(anum)
+            if anum in Occurences:
+                Occurences[anum].append(name)
             else:
-                Occurences[anum[0]] = [name]
+                Occurences[anum] = [name]
     for anum, names in Occurences.items():
         if len(names) > 10:
             print(str(anum).rjust(6, "0"), len(names))
@@ -1792,7 +1813,7 @@ Divisibility = Table(
     "Divisibility",
     ["A113704", "A051731"],
     True,
-    r"n=0 \text{ or } k \text{ divides } n",
+    r"[n=0 \text{ or } k \text{ divides } n]",
 )
 
 

@@ -107,10 +107,10 @@ class Table:
     def __getitem__(self, n: int) -> list[int]:
         return self.gen(n)
 
-    def _set_impact_(self, imp: int) -> None:
+    def set_impact(self, imp: int) -> None:
         self.impact = imp
 
-    def get_impact_(self) -> int:
+    def get_impact(self) -> int:
         return self.impact
 
     def itr(self, size: int) -> Iterator[list[int]]:

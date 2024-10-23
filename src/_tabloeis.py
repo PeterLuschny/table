@@ -175,7 +175,7 @@ def QueryOEIS(
         maxnum: int = 1,
         info: bool = False, 
         minlen: int = 24 
-    ) -> tuple[int, int, int]:
+    ) -> int:
     """
     Query if a given sequence is present in the OEIS. At least 24 terms of
     the sequence must be given. The first three terms and signs are disregard.
@@ -189,11 +189,9 @@ def QueryOEIS(
         minlen: At least {minlen} terms are required.
 
     Returns:
-        Returns a triple (anum, sl, dl) of integers: 
+        Returns 
         - anum is the A-number of the sequence, 
-        - sl is the number is of unmatched terms at the start of the sequence,
-        - dl is the number of the matched terms. 
-        Returns (0, 0, 0) if the sequence was not found.
+        Returns 0 if the sequence was not found.
         If sl < 5 and dl > 12, then anum probably matches the sequence,
         modulo a couple of first terms and the signs.
 
@@ -203,7 +201,7 @@ def QueryOEIS(
     if len(seqlist) < minlen:
       print(f"Sequence is too short! We require at least {minlen} terms.")
       print("You provided:", seqlist)
-      return (0, 0, 0)
+      return 0
 
     # Warning. These 'magical' constants are very sensible!
     seqstr = SeqToString(seqlist, 180, 50, ",", 3, True)
@@ -213,7 +211,8 @@ def QueryOEIS(
         time.sleep(0.5)  # give the OEIS server some time to relax
         if info: print(f"[{repeat}]")
         try:
-            jdata: None | list[dict[str, int | str | list[str] ]] = get(url, timeout=20).json()
+            #jdata: None | list[dict[str, int | str | list[str] ]] = get(url, timeout=20).json()
+            jdata = get(url, timeout=20).json()
             if jdata == None:
                 if 0 == sum(seqlist[::2]) or 0 == sum(seqlist[1::2]): 
                     seqlist = [k for k in seqlist if k != 0]
@@ -224,9 +223,9 @@ def QueryOEIS(
                     raise ValueError('Try again')
                 if info:
                     print("Sorry, no match found for:", seqstr)
-                return (0, 0, 0)
+                return 0
 
-            number = sl = dl = ol = 0
+            number = dl = ol = 0
             for j in range(min(maxnum, len(jdata))):
                 seq = jdata[j]
                 number = seq["number"]
@@ -248,7 +247,7 @@ def QueryOEIS(
                 if dl > 12:
                     break
 
-            return (int(number), int(sl), int(dl))  # type: ignore
+            return int(number)  
 
         except ValueError: 
             continue
