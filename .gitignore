@@ -1,6 +1,7 @@
 incubator/
 __pycache__/
+.vs
 .vscode
 .gitignore
 data/*.html
-
+fulldata/*

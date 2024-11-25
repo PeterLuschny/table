@@ -40,7 +40,7 @@ def moebius(n: int) -> list[int]:
 
 Moebius = Table(moebius, "Moebius", 
 ["A363914", "A054525"], True,
-r"M^{-1}(n, k), where M(n, k) = [k <= n and k | n]" )
+r"M^{-1}(n, k); M(n, k) = [k \le n \ \& \ k | n]" )
 
 
 if __name__ == "__main__":

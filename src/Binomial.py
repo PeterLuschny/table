@@ -44,7 +44,7 @@ def binomial(n: int) -> list[int]:
 
 
 def invbinomial(n: int) -> list[int]:
-    return [(-1)**(n + k) * binomial(n)[k] for k in range(n + 1)]
+    return [(-1)**(n - k) * binomial(n)[k] for k in range(n + 1)]
 
 
 Binomial = Table(binomial, "Binomial", 

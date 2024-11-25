@@ -1,15 +1,53 @@
 from typing import Dict
 
+"""
+Abel 77, Abel:Rev 36
+Bessel 74, Bessel:Rev 34
+BinaryPell 75, BinaryPell:Rev 45
+BinomialBell 74, BinomialBell:Rev 35
+BinomialCatalan 71, BinomialCatalan:Rev 33
+Catalan 76, Catalan:Rev 37
+CatalanPaths 74, CatalanPaths:Rev 34
+ChebyshevS 74, ChebyshevS:Rev 34
+CTree 67, CTree:Rev 20
+Delannoy 73, Delannoy:Rev 26
+Divisibility 74, Divisibility:Rev 35
+DyckPaths 78, DyckPaths:Rev 39
+Eulerian 74, Eulerian:Rev 37
+EulerSec 68, EulerSec:Rev 25
+FallingFact 80, FallingFact:Rev 48
+Fubini 80, Fubini:Rev 42
+Laguerre 77, Laguerre:Rev 36
+Lah 82, Lah:Rev 45
+Moebius 69, Moebius:Rev 26
+Monotone 73, Monotone:Rev 37
+Motzkin 78, Motzkin:Rev 38
+Narayana 74, Narayana:Rev 36
+One 64, One:Rev 16
+Ordinals 75, Ordinals:Rev 40
+OrderedCycle 71, OrderedCycle:Rev 33
+Partition 79, Partition:Rev 43
+Rencontres 73, Rencontres:Rev 32
+Schroeder 74, Schroeder:Rev 35
+SchroederP 68, SchroederP:Rev 30
+StirlingCycle 81, StirlingCycle:Rev 44
+StirlingCycB 69, StirlingCycB:Rev 28
+StirlingSet 88, StirlingSet:Rev 53
+Worpitzky 74, Worpitzky:Rev 31
+
+"""
+
+
 Ranking : Dict[int, list[str]] = {
-    1: ['A048993', 'StirlingSet'],
-    2: ['A132393', 'StirlingCycle'],
-    3: ['A008279', 'FallingFact'],
-    4: ['A039599', 'DyckPaths'],
-    5: ['A064189', 'Motzkin'],
-    6: ['A128899', 'Catalan'],
-    7: ['A113704', 'Divisibility'],
-    8: ['A363914', 'Moebius'],
-    9: ['A038207', 'BinaryPell'],
+     1: ['A048993', 'StirlingSet'],
+     2: ['A132393', 'StirlingCycle'],
+     3: ['A008279', 'FallingFact'],
+     4: ['A039599', 'DyckPaths'],
+     5: ['A064189', 'Motzkin'],
+     6: ['A128899', 'Catalan'],
+     7: ['A113704', 'Divisibility'],
+     8: ['A363914', 'Moebius'],
+     9: ['A038207', 'BinaryPell'],
     10: ['A122538', 'Schroeder'],
     11: ['A059481', 'Monotone'],
     12: ['A137452', 'Abel'],
