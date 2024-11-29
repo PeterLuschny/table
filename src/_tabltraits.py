@@ -813,7 +813,7 @@ def DictToHtml(
                     hits += 1
                     anumlist.add(anum)
 
-            L = "<a href='https://luschny.de/math/seq/tabls/"
+            L = "<a href='https://peterluschny.github.io/table/"
             A = f"{L}{T.id}Traits.html'>[online]</a>"
             B = f"{L}{T.id}Missing.html'>[missing]</a>"
             C = f"{L}index.html'>[index]</a>"
@@ -825,7 +825,7 @@ def DictToHtml(
     return (hits, misses, doubles)
 
 
-indheader = "<!DOCTYPE html><html lang='en'><head><title>Index</title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://luschny.de/math/seq/tabls/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
+indheader = "<!DOCTYPE html><html lang='en'><head><title>Index</title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://peterluschny.github.io/table/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
 
 def warn() -> None:
     print("Are you sure? This takes 3-4 hours.")
