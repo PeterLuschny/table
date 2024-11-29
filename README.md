@@ -2,7 +2,7 @@
 
 # The objectives of this library
 
-* The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. If you are new to this subject look into the [ranking](https://github.com/PeterLuschny/table/blob/main/src/Ranking.txt) of the triangles to see where to begin your studies.
+* The library aims to provide the ~100 most interesting integer triangles listed in the OEIS. If you are new to this subject look into the [ranking](https://github.com/PeterLuschny/table/blob/main/data/Ranking.txt) of the triangles to see where to begin your studies.
 
 * In addition, it provides a dozen methods for manipulating the triangles.
 
