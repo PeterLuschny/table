@@ -30,6 +30,8 @@ r"is(k = 0)\ ? \ 0^n : \binom{n-1}{k-1} (-n)^{n - k}" )
 
 
 if __name__ == "__main__":
+    """https://peterluschny.github.io/table/AbelTraits.html"""
+
     from _tablutils import PreView
 
     PreView(Abel)
@@ -107,7 +109,4 @@ The traits of the Abel triangle as represented in the OEIS.
 | 56 | B065513 | Rev-TransNat0    | Number of endofunctions of [n] with a cycle a->b->c->a and for all x i  |
 | 57 | B100536 | Inv:Rev-PolyRow3 | a(n) = 3*n^2 - 2                                                        |
 | 58 | B366151 | Alt-PolyRow3     | a(n) = T(n, 3), where T(n, k) = Sum_{i=0..n} i^k * binomial(n, i) * (1  |
-
-With much better navigation and the missing sequences:
-    https://luschny.de/math/oeis/Abel.html
 '''

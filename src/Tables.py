@@ -1479,7 +1479,7 @@ def AnumberDict(
     return tdict
 
 
-header = '<html><head><title>Traits</title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> window.MathJax = {loader: {load: ["[tex]/bbox"]}, tex: {packages: {"[+]": ["bbox"]}}}</script></head><body width="40%"><iframe name="OEISframe" frameborder="0" scrolling="yes" width="58%" height="2200" align="left" title="Sequences"'
+header = '<!DOCTYPE html lang="en"><head><title>Traits</title><meta charset="utf-8"><meta name="viewport" content="width=device-width"><script id="MathJax-script" async src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"> window.MathJax = {loader: {load: ["[tex]/bbox"]}, tex: {packages: {"[+]": ["bbox"] } } }</script></head><body width="40%"><iframe name="OEISframe" scrolling="yes" width="58%" height="2200" align="left" title="Sequences"'
 
 
 def DictToHtml(
@@ -1492,8 +1492,8 @@ def DictToHtml(
     SRC = f"https://oeis.org/{T.sim[0]}"
     TID = (T.id).capitalize()
     SH = f'src={SRC}></iframe><p><span style="white-space: pre">     {TID}</span><br>'
-    hitpath = GetRoot(f"data/{T.id}Traits.html")
-    mispath = GetRoot(f"data/{T.id}Missing.html")
+    hitpath = GetRoot(f"docs/{T.id}Traits.html")
+    mispath = GetRoot(f"docs/{T.id}Missing.html")
     head = header.replace("Traits", T.id)
     TeX = r"\(\bbox[yellow, 5px]{\color{DarkGreen} T_{n, k} \ = \ TTEX } \)"
     TEX = TeX.replace("TTEX", T.tex)
@@ -1561,7 +1561,7 @@ def RefreshDatabase() -> None:
     """Use with caution."""
     warn()
     global GlobalDict
-    indexpath = GetRoot(f"data/index.html")
+    indexpath = GetRoot(f"docs/index.html")
     with open(indexpath, "w+", encoding="utf-8") as index:
         index.write(indheader)
         for T in TablesList:
