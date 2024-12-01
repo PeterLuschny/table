@@ -6,7 +6,7 @@
 
 * In addition, it provides a dozen methods for manipulating the triangles.
 
-* Further, the library serves as the basis for a project in which the triangles are analyzed in more detail and connections to other sequences are investigated.  You can take a look here: [TriangleAnalyser](https://luschny.de/math/oeis/Abel.html).
+* Further, the library serves as the basis for a project in which the triangles are analyzed in more detail and connections to other sequences are investigated. You can take a look here: [TriangleAnalyser](https://peterluschny.github.io/tabl/Abel.html).
 
 # Installation
 
