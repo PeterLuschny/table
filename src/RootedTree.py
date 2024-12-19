@@ -22,9 +22,13 @@ def rootedtree(n: int) -> list[int]:
     return [0] + [p[k + 1] - p[k] for k in range(n)]
 
 
-RootedTree = Table(rootedtree, "RootedTree", 
-["A034781"], False,
-r"S(n, k) - S(n, k - 1) where S = A375467")
+RootedTree = Table(
+    rootedtree,
+    "RootedTree",
+    ["A034781"],
+    "",
+    r"S(n, k) - S(n, k - 1) where S = A375467",
+)
 
 
 if __name__ == "__main__":

@@ -139,7 +139,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print()
     print("NAME       ", T.id)
     print("similars   ", T.sim)
-    print("invertible ", T.invQ)
+    print("invertible ", T.invid)
     print("value      ", T.val(size-1, (size-1)//2))
     print("row        ", T.row(size-1))
     print("col        ", T.col(2, size))

@@ -21,9 +21,13 @@ def seidel(n: int) -> list[int]:
     return entringer(n) if n % 2 else entringer(n)[::-1]
 
 
-Seidel = Table(seidel, "Seidel", 
-["A008280", "A108040", "A236935", "A239005"], False,
-r"")
+Seidel = Table(
+    seidel, 
+    "Seidel", 
+    ["A008280", "A108040", "A236935", "A239005"], 
+    "", 
+    r""
+)
 
 
 if __name__ == "__main__":

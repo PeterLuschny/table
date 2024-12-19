@@ -24,9 +24,13 @@ def ctree(n: int) -> list[int]:
     return [1, 0] * (n // 2) + [1]
 
 
-CTree = Table(ctree, "CTree", 
-["A106465", "A106470"], True,
-r"is(n \text{ odd})\ ? \ 1 : (k + 1) \text{ mod } 2")
+CTree = Table(
+    ctree, 
+    "CTree", 
+    ["A106465", "A106470"], 
+    "A00000",
+    r"is(n \text{ odd})\ ? \ 1 : (k + 1) \text{ mod } 2"
+)
 
 
 if __name__ == "__main__":

@@ -32,9 +32,13 @@ def lucaspoly(n: int) -> list[int]:
     return row
 
 
-LucasPoly = Table(lucaspoly, "LucasPoly", 
-["A374440"], False,
-r"T_{n - 1, k} + T_{n - 2, k - 2}" )
+LucasPoly = Table(
+    lucaspoly, 
+    "LucasPoly", 
+    ["A374440"], 
+    "", 
+    r"T_{n - 1, k} + T_{n - 2, k - 2}"
+)
 
 
 if __name__ == "__main__":

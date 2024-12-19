@@ -29,9 +29,13 @@ def orderedcycle(n: int) -> list[int]:
     return row
 
 
-OrderedCycle = Table(orderedcycle, "OrderedCycle", 
-["A225479", "A048594", "A075181"], False,
-r"k! {n \brack k}")
+OrderedCycle = Table(
+    orderedcycle,
+    "OrderedCycle",
+    ["A225479", "A048594", "A075181"],
+    "",
+    r"k! {n \brack k}",
+)
 
 
 if __name__ == "__main__":

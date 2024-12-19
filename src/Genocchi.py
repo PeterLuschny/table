@@ -30,8 +30,13 @@ def genocchi(n: int) -> list[int]:
     return row[1:]
 
 
-Genocchi = Table(genocchi, "Genocchi", 
-["A297703"], False, r"")
+Genocchi = Table(
+    genocchi, 
+    "Genocchi", 
+    ["A297703"], 
+    "", 
+    r"%%"
+)
 
 
 if __name__ == "__main__":

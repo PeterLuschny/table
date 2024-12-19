@@ -33,9 +33,13 @@ def binomialdiffpell(n: int) -> list[int]:
     return row
 
 
-BinomialDiffPell = Table(binomialdiffpell, "BinomialDiffPell", 
-["A367564"], True,
-r"\frac{1}{2} \binom{n}{k} ((1-\sqrt{2})^{n-k} + (1+\sqrt{2})^{n-k})")
+BinomialDiffPell = Table(
+    binomialdiffpell,
+    "BinomialDiffPell",
+    ["A367564"],
+    "A000000",
+    r"\frac{1}{2} \binom{n}{k} ((1-\sqrt{2})^{n-k} + (1+\sqrt{2})^{n-k})"
+)
 
 
 if __name__ == "__main__":

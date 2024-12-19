@@ -64,7 +64,13 @@ def eytzingerorder(n: int) -> list[int]:
     return row
 
 
-EytzingerOrder = Table(eytzingerorder, "EytzingerOrder", ["A375825"])
+EytzingerOrder = Table(
+    eytzingerorder, 
+    "EytzingerOrder", 
+    ["A375825"],
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

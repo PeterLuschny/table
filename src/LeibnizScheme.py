@@ -22,9 +22,13 @@ def leibnizscheme(n: int) -> list[int]:
     L = leibnizscheme(n - 1)
     return [L[k] + k for k in range(n)] + [n]
 
-LeibnizScheme = Table(leibnizscheme, "LeibnizScheme", 
-["A003991"], None,
-r"k\,(n - k + 1)")
+LeibnizScheme = Table(
+    leibnizscheme, 
+    "LeibnizScheme", 
+    ["A003991"], 
+    "", 
+    r"k\,(n - k + 1)"
+)
 
 
 if __name__ == "__main__":

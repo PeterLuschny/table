@@ -26,9 +26,13 @@ def lucas(n: int) -> list[int]:
     return row
 
 
-Lucas = Table(lucas, "Lucas", 
-["A029635", "A029653"], False,
-r"\binom{n}{k} + \binom{n-1}{k-1}" )
+Lucas = Table(
+    lucas, 
+    "Lucas", 
+    ["A029635", "A029653"], 
+    "", 
+    r"\binom{n}{k} + \binom{n-1}{k-1}"
+)
 
 
 if __name__ == "__main__":

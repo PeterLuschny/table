@@ -32,9 +32,13 @@ def schroederl(n: int) -> list[int]:
     return row
 
 
-SchroederL = Table(schroederl, "SchroederL", 
-["A172094"], True,
-r"")
+SchroederL = Table(
+    schroederl, 
+    "SchroederL", 
+    ["A172094"], 
+    "A000000", 
+    r"%%"
+)
 
 
 if __name__ == "__main__":

@@ -30,9 +30,13 @@ def schroederp(n: int) -> list[int]:
     return row
 
 
-SchroederP = Table(schroederp, "SchroederP", 
-["A104684", "A063007"], True,
-r"\binom{n}{k} \binom{2n - k}{n}")
+SchroederP = Table(
+    schroederp,
+    "SchroederP",
+    ["A104684", "A063007"],
+    "A000000",
+    r"\binom{n}{k} \binom{2n - k}{n}",
+)
 
 
 if __name__ == "__main__":

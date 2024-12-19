@@ -29,9 +29,13 @@ def wardcycle(n: int) -> list[int]:
     return row
 
 
-WardCycle = Table(wardcycle, "WardCycle", 
-["A269940", "A111999", "A259456"], False, 
-r"\sum_{m=0}^{k} (-1)^{m+k} \binom{n+k}{n+m} { n + m \brack m}")
+WardCycle = Table(
+    wardcycle,
+    "WardCycle",
+    ["A269940", "A111999", "A259456"],
+    "",
+    r"\sum_{m=0}^{k} (-1)^{m+k} \binom{n+k}{n+m} { n + m \brack m}",
+)
 
 
 if __name__ == "__main__":

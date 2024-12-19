@@ -30,9 +30,13 @@ def motzkin(n: int) -> list[int]:
     return row
 
 
-Motzkin = Table(motzkin, "Motzkin", 
-["A064189", "A026300", "A009766"], True, 
-r'\binom{n}{k} \text{Hyper}([(k-n)/2, (k-n+1)/2], [k+2], 4)')
+Motzkin = Table(
+    motzkin,
+    "Motzkin",
+    ["A064189", "A026300", "A009766"],
+    "A000000",
+    r"\binom{n}{k} \text{Hyper}([(k-n)/2, (k-n+1)/2], [k+2], 4)",
+)
 
 
 if __name__ == "__main__":

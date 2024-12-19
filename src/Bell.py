@@ -27,10 +27,15 @@ def bell(n: int) -> list[int]:
     return row
 
 
-Bell = Table(bell, "Bell", ["A011971", "A011972", "A123346"], False,
-r"\sum_{j=0}^{k} \binom{k}{j} Bell(n - k + j)")
+Bell = Table(
+    bell, 
+    "Bell", 
+    ["A011971", "A011972", "A123346"], 
+    "",
+    r"\sum_{j=0}^{k} \binom{k}{j} Bell(n - k + j)"
+)
 
-
+# No inverse!
 
 if __name__ == "__main__":
     from _tablutils import PreView

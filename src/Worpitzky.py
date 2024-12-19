@@ -26,9 +26,13 @@ def worpitzky(n: int) -> list[int]:
     return row
 
 
-Worpitzky = Table(worpitzky, "Worpitzky",
-["A028246", "A053440", "A075263", "A130850", "A163626"], False,
-r"\sum_{j=0}^{n} \text{Eulerian}(n, j) \binom{n-j}{n-k}" )
+Worpitzky = Table(
+    worpitzky,
+    "Worpitzky",
+    ["A028246", "A053440", "A075263", "A130850", "A163626"],
+    "",
+    r"\sum_{j=0}^{n} \text{Eulerian}(n, j) \binom{n-j}{n-k}",
+)
 
 
 if __name__ == "__main__":

@@ -32,9 +32,13 @@ def parades(n: int) -> list[int]:
     return [A(n - k, k) for k in range(n + 1)]
 
 
-Parades = Table(parades, "Parades", 
-["A371761", "A272644"], False,
-r"")
+Parades = Table(
+    parades, 
+    "Parades", 
+    ["A371761", "A272644"], 
+    "", 
+    r""
+)
 
 
 if __name__ == "__main__":

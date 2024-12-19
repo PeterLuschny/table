@@ -32,8 +32,13 @@ def chebyshevu(n: int) -> list[int]:
     return row
 
 
-ChebyshevU = Table(chebyshevu, "ChebyshevU", 
-["A053117", "A053118", "A115322"], True)
+ChebyshevU = Table(
+    chebyshevu, 
+    "ChebyshevU", 
+    ["A053117", "A053118", "A115322"], 
+    "A000000",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

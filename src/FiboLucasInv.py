@@ -30,9 +30,13 @@ def fibolucasinv(n: int) -> list[int]:
     return row
 
 
-FiboLucasInv = Table(fibolucasinv, "FiboLucasInv", 
-["A375025"], True,
-r"")
+FiboLucasInv = Table(
+    fibolucasinv, 
+    "FiboLucasInv", 
+    ["A375025"], 
+    "A000000", 
+    r"%%"
+)
 
 
 if __name__ == "__main__":

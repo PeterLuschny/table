@@ -30,7 +30,13 @@ def motzkinpoly(n: int) -> list[int]:
     return row
 
 
-MotzkinPoly = Table(motzkinpoly, "MotzkinPoly", ["A359364"], False)
+MotzkinPoly = Table(
+    motzkinpoly,
+    "MotzkinPoly",
+    ["A359364"],
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

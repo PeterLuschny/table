@@ -31,9 +31,13 @@ def fibonacci(n: int) -> list[int]:
     return row
 
 
-Fibonacci = Table(fibonacci, "Fibonacci", 
-["A354267", "A105809", "A228074"], True,
-r"")
+Fibonacci = Table(
+    fibonacci, 
+    "Fibonacci", 
+    ["A354267", "A105809", "A228074"], 
+    "A000000", 
+    r"%%"
+)
 
 
 if __name__ == "__main__":

@@ -22,7 +22,13 @@ def one(n: int) -> list[int]:
     return one(n - 1) + [1]
 
 
-One = Table(one, "One", ["A000012", "A008836", "A014077"], True, r"1")
+One = Table(
+    one, 
+    "One", 
+    ["A000012", "A008836", "A014077"], 
+    "A000000",
+    r"1"
+)
 
 
 if __name__ == "__main__":

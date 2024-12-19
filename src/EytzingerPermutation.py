@@ -28,7 +28,13 @@ def eytzingerpermutation(n: int) -> list[int]:
     return [eytzingerorder(n)[k] + t for k in range(n + 1)]
 
 
-EytzingerPermutation = Table(eytzingerpermutation, "EytzingerPerm", ["A375469"])
+EytzingerPermutation = Table(
+    eytzingerpermutation, 
+    "EytzingerPerm", 
+    ["A375469"],
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

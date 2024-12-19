@@ -28,8 +28,13 @@ def bessel(n: int) -> list[int]:
     return row
 
 
-Bessel = Table(bessel, "Bessel", ["A132062", "A001497", "A001498", "A122850"], True,
-r"2^{k - n} \binom{2n - 2k}{n - k} \binom{2n - k - 1}{k - 1} (n - k)!" )
+Bessel = Table(
+    bessel, 
+    "Bessel", 
+    ["A132062", "A001497", "A001498", "A122850"], 
+    "A122848",
+    r"2^{k - n} \binom{2n - 2k}{n - k} \binom{2n - k - 1}{k - 1} (n - k)!" 
+)
 
 
 if __name__ == "__main__":

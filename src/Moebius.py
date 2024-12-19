@@ -38,9 +38,13 @@ def moebius(n: int) -> list[int]:
     return r
 
 
-Moebius = Table(moebius, "Moebius", 
-["A363914", "A054525"], True,
-r"M^{-1}(n, k); M(n, k) = [k \le n \ \& \ k | n]" )
+Moebius = Table(
+    moebius,
+    "Moebius",
+    ["A363914", "A054525"],
+    "A000000",
+    r"M^{-1}(n, k); M(n, k) = [k \le n \ \& \ k | n]",
+)
 
 
 if __name__ == "__main__":

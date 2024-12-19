@@ -38,7 +38,13 @@ def partdist(n: int) -> list[int]:
     return [_partdist(n, k) if k <= f else 0 for k in range(n + 1)]
 
 
-PartDist = Table(partdist, "PartitionDist", ["A008289"], False)
+PartDist = Table(
+    partdist, 
+    "PartitionDist", 
+    ["A008289"], 
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

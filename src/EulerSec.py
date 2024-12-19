@@ -28,9 +28,13 @@ def eulersec(n: int) -> list[int]:
     return row
 
 
-EulerSec = Table(eulersec, "EulerSec", 
-["A119879", "A081658", "A153641"], True,
-r"\binom{n}{k}\, 2^{n-k}\ \text{Euler} (n-k, 1/2)")
+EulerSec = Table(
+    eulersec,
+    "EulerSec",
+    ["A119879", "A081658", "A153641"],
+    "A000000",
+    r"\binom{n}{k}\, 2^{n-k}\ \text{Euler} (n-k, 1/2)",
+)
 
 
 def eulerS(n: int) -> int:

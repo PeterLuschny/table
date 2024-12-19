@@ -22,7 +22,13 @@ def nimsum(n: int) -> list[int]:
     return [k ^ (n - k) for k in range(n + 1)]
 
 
-NimSum = Table(nimsum, "NimSum", ["A003987"], False)
+NimSum = Table(
+    nimsum, 
+    "NimSum", 
+    ["A003987"], 
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

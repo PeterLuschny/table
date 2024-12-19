@@ -32,9 +32,13 @@ def dyckpaths(n: int) -> list[int]:
     return row
 
 
-DyckPaths = Table(dyckpaths, "DyckPaths", 
-["A039599", "A050155"], True,
-r'\binom{2n}{n - k} (2k + 1) / (n + k + 1)' )
+DyckPaths = Table(
+    dyckpaths,
+    "DyckPaths",
+    ["A039599", "A050155"],
+    "A000000",
+    r"\binom{2n}{n - k} (2k + 1) / (n + k + 1)",
+)
 
 
 if __name__ == "__main__":

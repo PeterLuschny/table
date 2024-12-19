@@ -27,10 +27,23 @@ def stirlingset(n: int) -> list[int]:
     return row
 
 
-StirlingSet = Table(stirlingset, "StirlingSet",
-["A048993", "A008277", "A008278", "A080417",
-"A106800", "A151511", "A151512", "A154959", "A213735" ], True, 
-r"{n \brace k}")
+StirlingSet = Table(
+    stirlingset,
+    "StirlingSet",
+    [
+        "A048993",
+        "A008277",
+        "A008278",
+        "A080417",
+        "A106800",
+        "A151511",
+        "A151512",
+        "A154959",
+        "A213735",
+    ],
+    "A000000",
+    r"{n \brace k}",
+)
 
 
 if __name__ == "__main__":

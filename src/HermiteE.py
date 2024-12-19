@@ -23,9 +23,13 @@ def hermitee(n: int) -> list[int]:
     return row
 
 
-HermiteE = Table(hermitee, "HermiteE", 
-["A099174", "A066325", "A073278"], True,
-r"is(n - k \text{ odd})\, ? \, 0 : \frac{n!}{k!} \, \frac{1}{(n-k)!!} )")
+HermiteE = Table(
+    hermitee,
+    "HermiteE",
+    ["A099174", "A066325", "A073278"],
+    "A000000",
+    r"is(n - k \text{ odd})\, ? \, 0 : \frac{n!}{k!} \, \frac{1}{(n-k)!!} )",
+)
 
 
 if __name__ == "__main__":

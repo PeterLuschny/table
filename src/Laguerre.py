@@ -27,9 +27,13 @@ def laguerre(n: int) -> list[int]:
     return row
 
 
-Laguerre = Table(laguerre, "Laguerre", 
-["A021009", "A021010", "A144084"], True,
-r"\binom{n}{k}\, \frac{n!}{k!}" )
+Laguerre = Table(
+    laguerre,
+    "Laguerre",
+    ["A021009", "A021010", "A144084"],
+    "A000000",
+    r"\binom{n}{k}\, \frac{n!}{k!}",
+)
 
 
 if __name__ == "__main__":

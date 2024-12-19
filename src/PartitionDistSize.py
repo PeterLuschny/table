@@ -39,13 +39,16 @@ def partdistsize(n: int) -> list[int]:
     return [_partdistsize(n, k, n) if k <= f else 0 for k in range(n + 1)]
 
 
-PartDistSize = Table(partdistsize, "PartitionDistSize", 
-["A365676", "A116608", "A060177"], False,
-r"")
+PartDistSize = Table(
+    partdistsize, 
+    "PartitionDistSize", 
+    ["A365676", "A116608", "A060177"], 
+    "", 
+    r"%%"
+)
 
 
 if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(PartDistSize)
-

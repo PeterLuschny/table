@@ -29,9 +29,13 @@ def doublepochhammer(n: int) -> list[int]:
     return row
 
 
-DoublePochhammer = Table(doublepochhammer, "DoublePochhammer", 
-['A039683'], True,
-r"[x^k]\, x(x-2)(x-4)...(x-2n+2)")
+DoublePochhammer = Table(
+    doublepochhammer,
+    "DoublePochhammer",
+    ["A039683"],
+    "A00000",
+    r"[x^k]\, x(x-2)(x-4)...(x-2n+2)",
+)
 
 
 if __name__ == "__main__":

@@ -35,9 +35,13 @@ def divisibility(n: int) -> list[int]:
     return L
 
 
-Divisibility = Table(divisibility, "Divisibility", 
-["A113704", "A051731"], True,
-r"[n=0 \text{ or } k \text{ divides } n]")
+Divisibility = Table(
+    divisibility,
+    "Divisibility",
+    ["A113704", "A051731"],
+    "A000000",
+    r"[n=0 \text{ or } k \text{ divides } n]",
+)
 
 
 if __name__ == "__main__":

@@ -15,7 +15,13 @@ def naturals(n: int) -> list[int]:
     return [i + 1 for i in R]
 
 
-Naturals = Table(naturals, "Naturals", ['A000027', 'A001477'], True)
+Naturals = Table(
+    naturals, 
+    "Naturals", 
+    ["A000027", "A001477"],
+    "A00000",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

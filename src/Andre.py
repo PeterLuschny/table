@@ -31,8 +31,13 @@ def andre(n: int) -> list[int]:
     return [abs(_andre(k, n)) for k in range(n + 1)]
 
 
-Andre = Table(andre, "Andre", ["A375555", "A181937"], True,
-r"-\sum_{j = 0 \text{ by } n }^{k-1} \binom{k}{j} T_{n, j}" )
+Andre = Table(
+    andre, 
+    "Andre", 
+    ["A375555", "A181937"], 
+    "A000000",
+    r"-\sum_{j = 0 \text{ by } n }^{k-1} \binom{k}{j} T_{n, j}" 
+)
 
 
 if __name__ == "__main__":

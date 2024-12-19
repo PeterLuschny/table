@@ -29,9 +29,13 @@ def fubini(n: int) -> list[int]:
     return row
 
 
-Fubini = Table(fubini, "Fubini", 
-["A131689", "A019538", "A090582", "A278075"], False,
-r"k! \ {n \brace k}")
+Fubini = Table(
+    fubini,
+    "Fubini",
+    ["A131689", "A019538", "A090582", "A278075"],
+    "",
+    r"k! \ {n \brace k}",
+)
 
 
 if __name__ == "__main__":

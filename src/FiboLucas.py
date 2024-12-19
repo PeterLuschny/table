@@ -38,9 +38,13 @@ def fibolucas(n: int) -> list[int]:
     return row
 
 
-FiboLucas = Table(fibolucas, "FiboLucas", 
-["A374439"], False,
-r"2^{k'} \, \binom{n - k' - (k - k') / 2}{(k - k') / 2} \text{ where } k' = k \text{ mod } 2")
+FiboLucas = Table(
+    fibolucas,
+    "FiboLucas",
+    ["A374439"],
+    "",
+    r"2^{k'} \, \binom{n - k' - (k - k') / 2}{(k - k') / 2} \text{ where } k' = k \text{ mod } 2",
+)
 
 
 if __name__ == "__main__":

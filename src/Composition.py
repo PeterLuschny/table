@@ -35,7 +35,13 @@ def composition(n: int) -> list[int]:
     return [_composition(n - 1, k - 1) for k in range(n + 1)]
 
 
-Composition = Table(composition, "Composition", ["A048004"], True)
+Composition = Table(
+    composition, 
+    "Composition", 
+    ["A048004"], 
+    "A000000", 
+    r"%%"
+)
 
 
 if __name__ == "__main__":

@@ -27,9 +27,13 @@ def entringer(n: int) -> list[int]:
     return row
 
 
-Entringer = Table(entringer, "Entringer", 
-["A008281", "A008282", "A010094"], False,
-r"is(k=0) \ ? \ 0^n : T(n, k-1) + T(n-1, n-k)" )
+Entringer = Table(
+    entringer,
+    "Entringer",
+    ["A008281", "A008282", "A010094"],
+    "A000000",
+    r"is(k=0) \ ? \ 0^n : T(n, k-1) + T(n-1, n-k)",
+)
 
 
 if __name__ == "__main__":

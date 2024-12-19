@@ -26,9 +26,13 @@ def risingfactorial(n: int) -> list[int]:
     return row
 
 
-RisingFactorial = Table(risingfactorial, "RisingFact", 
-["A124320"], False, 
-r"k! \binom{n+k-1}{k}" )
+RisingFactorial = Table(
+    risingfactorial, 
+    "RisingFact", 
+    ["A124320"], 
+    "", 
+    r"k! \binom{n+k-1}{k}",
+)
 
 
 if __name__ == "__main__":

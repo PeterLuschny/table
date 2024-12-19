@@ -24,7 +24,13 @@ def template(n: int) -> list[int]:
     return row
 
 
-Template = Table(template, "Template", ["A000004"], False, r"0")
+Template = Table(
+    template,    # the generating function
+    "Template",  # name of the table
+    ["A000004"], # similar sequences in OEIS
+    "",          # id of inverse sequence
+    r"T(n,k)=0"  # TeX of defining formula
+)
 
 
 if __name__ == "__main__":

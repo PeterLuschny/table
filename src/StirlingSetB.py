@@ -34,9 +34,13 @@ def stirlingsetb(n: int) -> list[int]:
     return row
 
 
-StirlingSetB = Table(stirlingsetb, "StirlingSetB", 
-["A154602"], True,
-r"\sum_{j=k}^{n} 2^{n-j} \binom{j}{k} {n \brace j}")
+StirlingSetB = Table(
+    stirlingsetb,
+    "StirlingSetB",
+    ["A154602"],
+    "A000000",
+    r"\sum_{j=k}^{n} 2^{n-j} \binom{j}{k} {n \brace j}",
+)
 
 
 if __name__ == "__main__":

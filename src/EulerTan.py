@@ -27,9 +27,13 @@ def eulertan(n: int) -> list[int]:
     return row
 
 
-EulerTan = Table(eulertan, "EulerTan", 
-["A162660", "A350972", "A155585", "A009006", "A000182"], False,
-r"[x^k]( -x^n + \sum_{k=0}^{n} \binom{n}{k} \text{Euler}(k) (x+1)^{n - k})" )
+EulerTan = Table(
+    eulertan,
+    "EulerTan",
+    ["A162660", "A350972", "A155585", "A009006", "A000182"],
+    "",
+    r"[x^k]( -x^n + \sum_{k=0}^{n} \binom{n}{k} \text{Euler}(k) (x+1)^{n - k})",
+)
 
 def eulerT(n: int) -> int:
     return 0 if n % 2 == 0 else eulertan(n)[0]

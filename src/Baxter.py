@@ -30,7 +30,12 @@ def baxter(n: int) -> list[int]:
     return [0] + [(2 * F(n - 1)) // (F(k - 1) * F(n - k)) for k in range(1, n + 1)]
 
 
-Baxter = Table(baxter, "Baxter", ["A359363", "A056939"])
+Baxter = Table(
+    baxter, 
+    "Baxter", 
+    ["A359363", "A056939"],
+    "x Hyper([-1 - n, -n, 1 - n], [2, 3], -x)"
+ )
 
 
 if __name__ == "__main__":

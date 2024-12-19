@@ -30,7 +30,13 @@ def chains(n: int) -> list[int]:
     return row
 
 
-Chains = Table(chains, "Chains", ["A038719"], False)
+Chains = Table(
+    chains, 
+    "Chains", 
+    ["A038719"], 
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

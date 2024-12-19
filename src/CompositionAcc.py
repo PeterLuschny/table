@@ -24,7 +24,13 @@ def compoacc(n: int) -> list[int]:
     return list(accumulate(composition(n)))
 
 
-CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], False)
+CompoAcc = Table(
+    compoacc, 
+    "CompositionAcc", 
+    ["A126198"], 
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

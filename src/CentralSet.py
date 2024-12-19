@@ -28,9 +28,13 @@ def centralset(n: int) -> list[int]:
     return row
 
 
-CentralSet = Table(centralset, "CentralSet", 
-["A269945", "A008957", "A036969"], True,
-r"is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2\ T(n-1, k)" )
+CentralSet = Table(
+    centralset,
+    "CentralSet",
+    ["A269945", "A008957", "A036969"],
+    "A000000",
+    r"is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2\ T(n-1, k)",
+)
 
 
 if __name__ == "__main__":

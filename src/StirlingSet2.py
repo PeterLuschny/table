@@ -32,9 +32,13 @@ def stirlingset2(n: int) -> list[int]:
     return row
 
 
-StirlingSet2 = Table(stirlingset2, "StirlingSet2", 
-["A358623", "A008299", "A137375"], False,
-r"\sum_{j=0}^{k} (-1)^{k-j} \binom{n}{k-j} {n-k+j \brace j}")
+StirlingSet2 = Table(
+    stirlingset2,
+    "StirlingSet2",
+    ["A358623", "A008299", "A137375"],
+    "",
+    r"\sum_{j=0}^{k} (-1)^{k-j} \binom{n}{k-j} {n-k+j \brace j}",
+)
 
 
 if __name__ == "__main__":

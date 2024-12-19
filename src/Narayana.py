@@ -34,9 +34,13 @@ def narayana(n: int) -> list[int]:
     return row
 
 
-Narayana = Table(narayana, "Narayana", 
-["A090181", "A001263", "A131198"], True,
-r"\binom{n}{n-k} \binom{n-1}{n-k} \frac{1}{n-k+1}" )
+Narayana = Table(
+    narayana,
+    "Narayana",
+    ["A090181", "A001263", "A131198"],
+    "A000000",
+    r"\binom{n}{n-k} \binom{n-1}{n-k} \frac{1}{n-k+1}",
+)
 
 
 if __name__ == "__main__":

@@ -30,9 +30,13 @@ def lehmer(n: int) -> list[int]:
     return [t(k - 1, n - k, n - k) if n != k else 1 for k in range(n + 1)]
 
 
-Lehmer = Table(lehmer, "Lehmer", 
-["A354794", "A039621"], True,
-r"is(n = k)\ ? \ 1 : \sum_{j=0}^{k-1} (-1)^{j}(n-j-1)^{n-1}/(j! (k-1-j)!)" )
+Lehmer = Table(
+    lehmer,
+    "Lehmer",
+    ["A354794", "A039621"],
+    "A000000",
+    r"is(n = k)\ ? \ 1 : \sum_{j=0}^{k-1} (-1)^{j}(n-j-1)^{n-1}/(j! (k-1-j)!)",
+)
 
 
 if __name__ == "__main__":

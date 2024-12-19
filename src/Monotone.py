@@ -28,9 +28,13 @@ def monotone(n: int) -> list[int]:
     return row
 
 
-Monotone = Table(monotone, "Monotone", 
-["A059481", "A027555"], True,
-r"\binom{n+k-1}{k}")
+Monotone = Table(
+    monotone, 
+    "Monotone", 
+    ["A059481", "A027555"], 
+    "A000000", 
+    r"\binom{n+k-1}{k}",
+)
 
 
 if __name__ == "__main__":

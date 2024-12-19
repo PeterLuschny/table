@@ -29,9 +29,13 @@ def stirlingcycleb(n: int) -> list[int]:
     return row
 
 
-StirlingCycleB = Table(stirlingcycleb, "StirlingCycB", 
-["A028338", "A039757", "A039758", "A109692"], True,
-r"\sum_{i=k}^{n} (-2)^{n-i} \binom{i}{k} {n \brack i}")
+StirlingCycleB = Table(
+    stirlingcycleb,
+    "StirlingCycB",
+    ["A028338", "A039757", "A039758", "A109692"],
+    "A000000",
+    r"\sum_{i=k}^{n} (-2)^{n-i} \binom{i}{k} {n \brack i}",
+)
 
 
 if __name__ == "__main__":

@@ -37,7 +37,13 @@ def compodist(n: int) -> list[int]:
     return [_compodist(n, k) if k <= f else 0 for k in range(n + 1)]
 
 
-CompoDist = Table(compodist, "CompositionDist", ["A072574", "A216652"])
+CompoDist = Table(
+    compodist, 
+    "CompositionDist", 
+    ["A072574", "A216652"],
+    "",
+    r"%%"
+)
 
 
 if __name__ == "__main__":

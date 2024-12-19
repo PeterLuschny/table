@@ -32,9 +32,13 @@ def charlier(n: int) -> list[int]:
     return c
 
 
-Charlier = Table(charlier, "Charlier", 
-["A046716", "A094816"], True,
-r"\sum_{j=0}^{k} (-1)^k \, \binom{n}{k-j}\,{j+n-k \brack n-k}")
+Charlier = Table(
+    charlier,
+    "Charlier",
+    ["A046716", "A094816"],
+    "A000000",
+    r"\sum_{j=0}^{k} (-1)^k \, \binom{n}{k-j}\,{j+n-k \brack n-k}",
+)
 
 
 if __name__ == "__main__":

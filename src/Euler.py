@@ -29,10 +29,13 @@ def euler(n: int) -> list[int]:
     return row
 
 
-Euler = Table(euler, "Euler", 
-["A363394", "A247453", "A109449"], True,
-r"\binom{n}{k} 2^{n-k} \text{Euler}_{n-k}(1/2)" )
-
+Euler = Table(
+    euler,
+    "Euler",
+    ["A363394", "A247453", "A109449"],
+    "A000000",
+    r"\binom{n}{k} 2^{n-k} \text{Euler}_{n-k}(1/2)",
+)
 
 
 if __name__ == "__main__":

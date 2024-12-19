@@ -28,9 +28,13 @@ def ternarytree(n: int) -> list[int]:
     return list(accumulate(accumulate(row)))
 
 
-TernaryTree = Table(ternarytree, "TernaryTrees", 
-["A355172"], False,
-r"is(k=0)\, ?\, 0^n : \frac{(2n-2k+3) \, (2n+k-1)!}{(2n+1)! \, (k-1)!}")
+TernaryTree = Table(
+    ternarytree,
+    "TernaryTrees",
+    ["A355172"],
+    "",
+    r"is(k=0)\, ?\, 0^n : \frac{(2n-2k+3) \, (2n+k-1)!}{(2n+1)! \, (k-1)!}",
+)
 
 
 if __name__ == "__main__":

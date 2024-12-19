@@ -57,9 +57,13 @@ def polyatreeacc(n: int) -> list[int]:
     return [T(n + 1, k + 1) for k in range(n + 1)]
 
 
-PolyaTreeAcc = Table(polyatreeacc, "PolyaTreeAcc", 
-["A375467"], False,
-r"")
+PolyaTreeAcc = Table(
+    polyatreeacc, 
+    "PolyaTreeAcc", 
+    ["A375467"], 
+    "", 
+    r"%%"
+)
 
 
 if __name__ == "__main__":

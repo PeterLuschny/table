@@ -29,9 +29,13 @@ def binarypell(n: int) -> list[int]:
     return row
 
 
-BinaryPell = Table(binarypell, "BinaryPell", 
-["A038207"], True,
-r"\binom{n}{k} \, 2^{n-k}")
+BinaryPell = Table(
+    binarypell,
+    "BinaryPell",
+    ["A038207"],
+    "A0000",
+    r"\binom{n}{k} \, 2^{n-k}"
+)
 
 
 if __name__ == "__main__":
