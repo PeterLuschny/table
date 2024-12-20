@@ -33,7 +33,7 @@ BinaryPell = Table(
     binarypell,
     "BinaryPell",
     ["A038207"],
-    "A0000",
+    "A000000",
     r"\binom{n}{k} \, 2^{n-k}"
 )
 
@@ -44,43 +44,74 @@ if __name__ == "__main__":
     PreView(BinaryPell)
 
 '''
-* Statistic about BinomialPell:
-The number of ...
-        all      hashes    is 122.
-        distinct hashes    is 64.
-        core     triangles is 1.
-        distinct types     is 3.
-        missing  sequences is 68.
-        all      A-numbers is 54.
-        distinct A-numbers is 25.
-
-The traits of the BinomialPell triangle as represented in the OEIS.
-
-|    | A-number| trait        | A-name                                                                 |
-|----|---------|--------------|------------------------------------------------------------------------|
-| 1  | A000027 | Std-ColRight | The positive integers. Also called the natural numbers, the whole numb |
-| 2  | A003484 | Std-RowGcd   | Radon function, also called Hurwitz-Radon numbers                      |
-| 3  | A007070 | Std-RowSum   | a(n) = 4*a(n-1) - 2*a(n-2) with a(0) = 1, a(1) = 4                     |
-| 4  | A053228 | Std-PolyRow1 | n for which second differences of sigma(n) are positive                |
-| 5  | A077957 | Std-AltSum   | Powers of 2 alternating with zeros                                     |
-| 6  | A077985 | Std-ColLeft  | Expansion of 1/(1 + 2*x - x^2)                                         |
-| 7  | A112415 | Std-DiagRow3 | a(n) = C(1+n,1) * C(2+n,1) * C(4+n,2)                                  |
-| 8  | A120328 | Alt-PolyRow2 | Sum of three consecutive squares: a(n) = n^2 + (n + 1)^2 + (n + 2)^2   |
-| 9  | A239229 | Alt-PolyRow1 | Euler characteristic of n-holed torus: 2 - 2*n                         |
-| 10 | A292022 | Std-PolyRow3 | a(n) = 4n(n^2+2)                                                       |
-| 11 | A367211 | Std-Triangle | Triangular array T(n,k), read by rows: coefficients of strong divisibi |
-| 12 | B001109 | Std-PosHalf  | a(n)^2 is a triangular number: a(n) = 6*a(n-1) - a(n-2) with a(0)=0, a |
-| 13 | B002378 | Std-DiagRow1 | Oblong (or promic, pronic, or heteromecic) numbers: a(n) = n*(n+1)     |
-| 14 | B005918 | Std-PolyRow2 | Number of points on surface of square pyramid: 3*n^2 + 2 (n>0)         |
-| 15 | B015519 | Std-NegHalf  | a(n) = 2*a(n-1) + 7*a(n-2)                                             |
-| 16 | B081179 | Std-PolyCol2 | 3rd binomial transform of (0,1,0,2,0,4,0,8,0,16,...)                   |
-| 17 | B081180 | Std-PolyCol3 | 4th binomial transform of (0,1,0,2,0,4,0,8,0,16,...)                   |
-| 18 | B093968 | Alt-AccSum   | Inverse binomial transform of n*Pell(n)                                |
-| 19 | B094038 | Std-EvenSum  | Binomial transform of (Pell(-n)+Pell(n))/2                             |
-| 20 | B099626 | Std-DiagSum  | A transform of the Pell numbers                                        |
-| 21 | B112575 | Alt-DiagSum  | Chebyshev transform of the second kind of the Pell numbers             |
-| 22 | B134481 | Std-DiagRow2 | Row sums of triangle A134480                                           |
-| 23 | B190331 | Rev-PolyCol3 | a(n) = 8*a(n-1) + 2*a(n-2), with a(0)=0, a(1)=1                        |
-| 24 | B292022 | Alt-PolyRow3 | a(n) = 4n(n^2+2)                                                       |
-| 25 | B361732 | Std-DiagCol1 | a(n) = [x^n] (x^5 + 5*x^4 + 4*x^3 - 3*x + 1)/(x^2 + 2*x - 1)^2         |
+Dict length: 68
+   BinaryPell_Toff11        -> 0
+   BinaryPell_Trev11        -> 0
+   BinaryPell_Tinv11        -> 0
+   BinaryPell_Trevinv11     -> 0
+   BinaryPell_Tacc          -> 0
+   BinaryPell_Tder          -> 0
+   BinaryPell_TablLcm       -> 0
+   BinaryPell_ColMiddle     -> 0
+   BinaryPell_TransSqrs     -> 0
+   BinaryPell_InvBinConv    -> 0
+   BinaryPell_RevTrev11     -> 0
+   BinaryPell_RevTacc       -> 0
+   BinaryPell_RevTder       -> 0
+   BinaryPell_RevNegHalf    -> 7
+   BinaryPell_TablDiag0     -> 12
+   BinaryPell_AltSum        -> 12
+   BinaryPell_PolyRow1      -> 27
+   BinaryPell_TablCol0      -> 79
+   BinaryPell_AntiDSum      -> 129
+   BinaryPell_TablSum       -> 244
+   BinaryPell_AbsSum        -> 244
+   BinaryPell_NegHalf       -> 244
+   BinaryPell_PolyDiag      -> 272
+   BinaryPell_PolyRow2      -> 290
+   BinaryPell_PolyCol2      -> 302
+   BinaryPell_PosHalf       -> 351
+   BinaryPell_PolyCol3      -> 351
+   BinaryPell_RevPolyCol3   -> 420
+   BinaryPell_PolyRow3      -> 578
+   BinaryPell_RevAntiDSum   -> 1045
+   BinaryPell_TablCol1      -> 1787
+   BinaryPell_TablCol2      -> 1788
+   BinaryPell_TablCol3      -> 1789
+   BinaryPell_BinConv       -> 1850
+   BinaryPell_OddSum        -> 3462
+   BinaryPell_RevPolyRow1   -> 5408
+   BinaryPell_TablDiag1     -> 5843
+   BinaryPell_AccRevSum     -> 6234
+   BinaryPell_TransNat1     -> 6234
+   BinaryPell_EvenSum       -> 7051
+   BinaryPell_Trev          -> 13609
+   BinaryPell_Trevinv       -> 13609
+   BinaryPell_RevTalt       -> 13609
+   BinaryPell_RevPolyRow2   -> 16754
+   BinaryPell_RevPolyRow3   -> 16755
+   BinaryPell_TransNat0     -> 27471
+   BinaryPell_Triangle      -> 38207
+   BinaryPell_Tinv          -> 38207
+   BinaryPell_Talt          -> 38207
+   BinaryPell_TablDiag2     -> 46092
+   BinaryPell_RevEvenSum    -> 46717
+   BinaryPell_CentralE      -> 59304
+   BinaryPell_RevTransSqrs  -> 62189
+   BinaryPell_RevCentralO   -> 69720
+   BinaryPell_CentralO      -> 69723
+   BinaryPell_AccSum        -> 81038
+   BinaryPell_RevAccRevSum  -> 81038
+   BinaryPell_RevTransNat1  -> 81038
+   BinaryPell_RevPolyDiag   -> 85527
+   BinaryPell_RevColMiddle  -> 98660
+   BinaryPell_TablMax       -> 109388
+   BinaryPell_RevTantidiag  -> 128099
+   BinaryPell_TablDiag3     -> 130809
+   BinaryPell_RevOddSum     -> 152011
+   BinaryPell_TablGcd       -> 171977
+   BinaryPell_Tantidiag     -> 207538
+   BinaryPell_RevTransNat0  -> 212697
+   BinaryPell_RevToff11     -> 276985
+Hits: 55, Misses: 13, Doubles: 11, Distinct: 44
 '''

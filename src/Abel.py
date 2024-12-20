@@ -35,83 +35,80 @@ Abel = Table(
 
 
 if __name__ == "__main__":
-    """https://peterluschny.github.io/table/AbelTraits.html"""
-
     from _tablutils import PreView
 
     PreView(Abel)
 
 '''
-* Statistic about Abel:
-The number of ...
-        all      hashes    is 199.
-        distinct hashes    is 116.
-        core     triangles is 1.
-        distinct types     is 5.
-        missing  sequences is 86.
-        all      A-numbers is 113.
-        distinct A-numbers is 58.
+https://peterluschny.github.io/table/AbelTraits.html
 
-The traits of the Abel triangle as represented in the OEIS.
-
-|    | A-number| trait            | A-name                                                                  |
-|----|---------|------------------|-------------------------------------------------------------------------|
-| 1  | A000027 | Inv-DiagCol1     | The positive integers. Also called the natural numbers, the whole numb  |
-| 2  | A000169 | Std-RowMax       | Number of labeled rooted trees with n nodes: n^(n-1)                    |
-| 3  | A000248 | Inv-AltSum       | Expansion of e.g.f. exp(x*exp(x))                                       |
-| 4  | A001477 | Std-PolyRow1     | The nonnegative integers                                                |
-| 5  | A002378 | Std-DiagRow1     | Oblong (or promic, pronic, or heteromecic) numbers: a(n) = n*(n+1)      |
-| 6  | A003725 | Inv-RowSum       | E.g.f.: exp( x * exp(-x) )                                              |
-| 7  | A005408 | Rev-PolyRow2     | The odd numbers: a(n) = 2*n + 1                                         |
-| 8  | A005563 | Std-PolyRow2     | a(n) = n*(n+2) = (n+1)^2 - 1                                            |
-| 9  | A007334 | Std-PolyCol2     | Number of spanning trees in the graph K_{n}/e, which results from cont  |
-| 10 | A009121 | Inv-EvenSum      | Expansion of e.g.f. cosh(exp(x)*x)                                      |
-| 11 | A009565 | Inv-OddSum       | Expansion of e.g.f. sinh(exp(x)*x)                                      |
-| 12 | A014026 | Alt-PolyDiag     | Inverse of 17th cyclotomic polynomial                                   |
-| 13 | A016778 | Rev-PolyRow3     | a(n) = (3*n+1)^2                                                        |
-| 14 | A028310 | Std-RowGcd       | Expansion of (1 - x + x^2) / (1 - x)^2 in powers of x                   |
-| 15 | A033683 | Alt-TransNat0    | a(n) = 1 if n is an odd square not divisible by 3, otherwise 0          |
-| 16 | A036216 | Inv-DiagCol3     | Expansion of 1/(1 - 3*x)^4; 4-fold convolution of A000244 (powers of 3  |
-| 17 | A052750 | Std-PosHalf      | a(n) = (2*n + 1)^(n - 1)                                                |
-| 18 | A052752 | Rev-PolyCol3     | a(n) = (3*n+1)^(n-1)                                                    |
-| 19 | A059297 | Std-Inv          | Triangle of idempotent numbers binomial(n,k)*k^(n-k), version 1         |
-| 20 | A059299 | Std-RevInv       | Triangle of idempotent numbers (version 3), T(n, k) = binomial(n, k) *  |
-| 21 | A060747 | Inv:Rev-PolyRow2 | a(n) = 2*n - 1                                                          |
-| 22 | A067998 | Alt-PolyRow2     | a(n) = n^2 - 2*n                                                        |
-| 23 | A085527 | Std-NegHalf      | a(n) = (2n+1)^n                                                         |
-| 24 | A089946 | Std-TransNat0    | Secondary diagonal of array A089944, in which the n-th row is the n-th  |
-| 25 | A137452 | Std-Triangle     | Triangular array of the coefficients of the sequence of Abel polynomia  |
-| 26 | A177885 | Std-AltSum       | a(n) = (1-n)^(n-1)                                                      |
-| 27 | A193678 | Std-PolyDiag     | Discriminant of Chebyshev C-polynomials                                 |
-| 28 | A195136 | Std-OddSum       | a(n) = ((n+1)^(n-1) + (n-1)^(n-1))/2 for n>=1                           |
-| 29 | A195509 | Inv:Rev-EvenSum  | Expansion of e.g.f. (exp(x*exp(x)) + exp(x/exp(x)))/2                   |
-| 30 | A208879 | Inv:Rev-Poly     | Number of words A(n,k), either empty or beginning with the first lette  |
-| 31 | A216689 | Inv-NegHalf      | E.g.f. exp( x * exp(x)^2 )                                              |
-| 32 | A225497 | Std-TransSqrs    | Total number of rooted labeled trees over all forests on {1,2,...,n} i  |
-| 33 | A232006 | Std-Poly         | Triangular array read by rows: T(n,k) is the number of simple labeled   |
-| 34 | A274278 | Std-EvenSum      | a(n) = ((n+1)^(n-1) - (n-1)^(n-1))/2 for n>=1                           |
-| 35 | A274741 | Rev-Poly         | Table of coefficients in functions that satisfy W_n(x) = W_{n-1}(x)^W_  |
-| 36 | A275707 | Inv:Rev-NegHalf  | Number of partial functions f:{1,2,...,n}->{1,2,...,n} such that ever   |
-| 37 | A320258 | Inv:Rev-PolyDiag | a(n) = n! * [x^n] exp(x*exp(-n*x))                                      |
-| 38 | A356819 | Inv-PosHalf      | Expansion of e.g.f. exp(-x * exp(2*x))                                  |
-| 39 | A356820 | Inv:Rev-PolyCol3 | Expansion of e.g.f. exp(-x * exp(3*x))                                  |
-| 40 | A360814 | Inv-DiagSum      | Expansion of Sum_{k>=0} x^(2*k) / (1 - k*x)^(k+1)                       |
-| 41 | A362354 | Std-PolyCol3     | a(n) = 3*(n+3)^(n-1)                                                    |
-| 42 | A367254 | Std-CentralE     | a(n) = binomial(2*n - 1, n - 1)*(2*n)^n                                 |
-| 43 | A367255 | Std-AccRevSum    | a(n) = (n + 1)^(n - 2)*(3*n + 1)                                        |
-| 44 | A367256 | Std-BinConv      | a(n) = Sum_{k=0..n} binomial(n, k) * binomial(n - 1, k - 1) * n^(n - k  |
-| 45 | A367257 | Std-InvBinConv   | a(n) = Sum_{k=0..n} binomial(n, k) * binomial(n - 1, n - k - 1) * (-n)  |
-| 46 | A367271 | Inv-CentralE     | a(n) = binomial(2*n, n) * n^n                                           |
-| 47 | A367272 | Inv-InvBinConv   | a(n) = Sum_{k=0..n} binomial(n, k)^2 * k^(n - k)                        |
-| 48 | A367273 | Inv-BinConv      | a(n) = Sum_{k=0..n} binomial(n, k)^2 * (k - n)^k                        |
-| 49 | A367274 | Inv:Rev-ColMiddle| a(n) = binomial(n, k) * (n - k)^k where k = floor(n/2)                  |
-| 50 | B000272 | Std-RowSum       | Number of trees on n labeled nodes: n^(n-2) with a(0)=1                 |
-| 51 | B000312 | Alt-AccRevSum    | a(n) = n^n; number of labeled mappings from n points to themselves (en  |
-| 52 | B001788 | Inv-DiagCol2     | a(n) = n*(n+1)*2^(n-2)                                                  |
-| 53 | B053506 | Std-DiagCol2     | a(n) = (n-1)*n^(n-2)                                                    |
-| 54 | B053507 | Std-DiagCol3     | a(n) = binomial(n-1,2)*n^(n-3)                                          |
-| 55 | B055541 | Alt-TransSqrs    | Total number of leaves (nodes of vertex degree 1) in all labeled trees  |
-| 56 | B065513 | Rev-TransNat0    | Number of endofunctions of [n] with a cycle a->b->c->a and for all x i  |
-| 57 | B100536 | Inv:Rev-PolyRow3 | a(n) = 3*n^2 - 2                                                        |
-| 58 | B366151 | Alt-PolyRow3     | a(n) = T(n, 3), where T(n, k) = Sum_{i=0..n} i^k * binomial(n, i) * (1  |
+   Abel_Trev          -> 0
+   Abel_Tantidiag     -> 0
+   Abel_Tacc          -> 0
+   Abel_TablDiag2     -> 0
+   Abel_TablDiag3     -> 0
+   Abel_TablLcm       -> 0
+   Abel_AccSum        -> 0
+   Abel_AntiDSum      -> 0
+   Abel_ColMiddle     -> 0
+   Abel_CentralO      -> 0
+   Abel_PolyRow3      -> 0
+   Abel_RevToff11     -> 0
+   Abel_RevTrev11     -> 0
+   Abel_RevTantidiag  -> 0
+   Abel_RevTacc       -> 0
+   Abel_RevTalt       -> 0
+   Abel_RevTder       -> 0
+   Abel_RevEvenSum    -> 0
+   Abel_RevOddSum     -> 0
+   Abel_RevAccRevSum  -> 0
+   Abel_RevAntiDSum   -> 0
+   Abel_RevColMiddle  -> 0
+   Abel_RevCentralO   -> 0
+   Abel_RevNegHalf    -> 0
+   Abel_RevTransNat1  -> 0
+   Abel_RevTransSqrs  -> 0
+   Abel_RevPolyDiag   -> 0
+   Abel_TablCol0      -> 7
+   Abel_TablDiag0     -> 12
+   Abel_RevPolyRow1   -> 12
+   Abel_TablGcd       -> 27
+   Abel_PolyRow1      -> 27
+   Abel_TablCol1      -> 169
+   Abel_TablMax       -> 169
+   Abel_TablSum       -> 272
+   Abel_AbsSum        -> 272
+   Abel_AltSum        -> 312
+   Abel_TablDiag1     -> 2378
+   Abel_RevPolyRow2   -> 5408
+   Abel_PolyRow2      -> 5563
+   Abel_PolyCol2      -> 7334
+   Abel_RevPolyRow3   -> 16778
+   Abel_PosHalf       -> 52750
+   Abel_RevPolyCol3   -> 52752
+   Abel_TablCol2      -> 53506
+   Abel_TablCol3      -> 53507
+   Abel_Tinv          -> 59297
+   Abel_Tinv11        -> 59298
+   Abel_Trevinv       -> 59299
+   Abel_Trevinv11     -> 59300
+   Abel_Toff11        -> 61356
+   Abel_RevTransNat0  -> 65513
+   Abel_NegHalf       -> 85527
+   Abel_TransNat0     -> 89946
+   Abel_Triangle      -> 137452
+   Abel_Talt          -> 137452
+   Abel_Trev11        -> 139526
+   Abel_PolyDiag      -> 193678
+   Abel_OddSum        -> 195136
+   Abel_Tder          -> 225465
+   Abel_TransSqrs     -> 225497
+   Abel_EvenSum       -> 274278
+   Abel_PolyCol3      -> 362354
+   Abel_CentralE      -> 367254
+   Abel_AccRevSum     -> 367255
+   Abel_TransNat1     -> 367255
+   Abel_BinConv       -> 367256
+   Abel_InvBinConv    -> 367257
+Hits: 41, Misses: 27, Doubles: 6
 '''

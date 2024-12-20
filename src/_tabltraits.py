@@ -768,7 +768,7 @@ def DictToHtml(
     T: Table, 
     dict: Dict[str, int],
     info: bool = False
-)  -> tuple[int, int, int]:
+)  -> tuple[int, int, int, int]:
     """Transforms a dictionary {trait, anum} representing the Table T
         into two Html files: TNameTraits.html and TNameMissing.html.
         A trait is 'missing' if the anum in the dictionary is 0.
@@ -821,8 +821,9 @@ def DictToHtml(
             oeis.write(f"<p style='color:blue'>{B}{C}</p></body></html>")
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
 
-    print(f"Hits: {hits}, Misses: {misses}, Doubles: {doubles}")
-    return (hits, misses, doubles)
+    distincts = len(anumlist)
+    print(f"Hits: {hits}, Distinct: {distincts}, Misses: {misses}, Doubles: {doubles}")
+    return (hits, distincts, doubles, misses)
 
 
 indheader = "<!DOCTYPE html><html lang='en'><head><title>Index</title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://peterluschny.github.io/table/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
@@ -846,7 +847,7 @@ def RefreshDatabase() -> None:
 
         for T in TablesList:
             dict = AnumberDict(T, True, True)  # type: ignore 
-            DictToHtml(T, dict, True)       # type: ignore
+            DictToHtml(T, dict, True)          # type: ignore
             index.write(f"<tr><td align='left'>{T.id}</td><td align='left'><a href='{T.id}Traits.html'>[online]</a></td><td align='left'><a href='{T.id}Missing.html'>[missing]</a></td></tr>")
 
         index.write("</tbody></table></body></html>")
@@ -928,9 +929,13 @@ def OccList() -> None:
 if __name__ == "__main__":
 
     from Abel import Abel                # type: ignore
-    from Narayana import Narayana        # type: ignore
+    from AbelInv import AbelInv          # type: ignore
+    from Power import Power              # type: ignore
+    from BinaryPell import BinaryPell    # type: ignore
     from FallingFactorial import FallingFactorial  # type: ignore
     from Divisibility import Divisibility  # type: ignore
+    from Moebius import Moebius          # type: ignore
+    from CatalanInv import CatalanInv    # type: ignore
 
     def test(T: Table, LEN: int) -> None:
         print("TablCol")
@@ -960,7 +965,7 @@ if __name__ == "__main__":
     #for k, v in GlobalDict.items():
     #    print(k, len(v.values()))
 
-    #AddTable(Moebius) # type: ignore
+    AddTable(BinaryPell) # type: ignore
 
     #for k, v in dict.items():
     #    print(k, v)

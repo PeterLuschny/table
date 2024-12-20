@@ -168,6 +168,7 @@ class Table:
         self.sim = sim
         self.invid = invid
         self.tex = tex
+        self.invQ = invid != ""
         self.impact = 0
 
     def __getitem__(self, n: int) -> list[int]:
@@ -604,8 +605,9 @@ def PreView(T: Table, size: int = 7) -> None:
     """
     print()
     print("NAME       ", T.id)
+    print("formula    ", T.tex)
     print("similars   ", T.sim)
-    print("invertible ", T.invid)
+    print("invertible ", T.invid if T.invQ else "No")
     print("value      ", T.val(size - 1, (size - 1) // 2))
     print("row        ", T.row(size - 1))
     print("col        ", T.col(2, size))
@@ -685,6 +687,7 @@ def QueryOEIS(
         modulo a couple of first terms and the signs.
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
+        Currently, the function will return -999999 if the OEIS server cannot be reached.
     """
     if len(seqlist) < minlen:
         print(f"Sequence is too short! We require at least {minlen} terms.")
@@ -737,7 +740,9 @@ def QueryOEIS(
             continue
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
-    raise Exception(f"Could not open {url}.")
+    # raise Exception(f"Could not open {url}.")
+    print(f"Exception! Could not open {url}.")
+    return -999999
 
 
 def dotproduct(vec: list[int], tor: list[int]) -> int:
@@ -1479,7 +1484,7 @@ header = '<!DOCTYPE html lang="en"><head><title>Traits</title><meta charset="utf
 
 def DictToHtml(
     T: Table, dict: Dict[str, int], info: bool = False
-) -> tuple[int, int, int]:
+) -> tuple[int, int, int, int]:
     """Transforms a dictionary {trait, anum} representing the Table T
     into two Html files: TNameTraits.html and TNameMissing.html.
     A trait is 'missing' if the anum in the dictionary is 0.
@@ -1537,8 +1542,9 @@ def DictToHtml(
             C = f"{L}index.html'>[index]</a>"
             oeis.write(f"<p style='color:blue'>{B}{C}</p></body></html>")
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
-    print(f"Hits: {hits}, Misses: {misses}, Doubles: {doubles}")
-    return (hits, misses, doubles)
+    distincts = len(anumlist)
+    print(f"Hits: {hits}, Misses: {misses}, Doubles: {doubles}, Distinct: {distincts}")
+    return (hits, distincts, doubles, misses)
 
 
 indheader = "<!DOCTYPE html><html lang='en'><head><title>Index</title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://peterluschny.github.io/table/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
@@ -1651,6 +1657,22 @@ Abel = Table(
 
 
 @cache
+def abelinv(n: int) -> list[int]:
+    b = binomial(n)
+    p = power(n)
+    return [b[k] * p[k] for k in range(n + 1)]
+
+
+AbelInv = Table(
+    abelinv,
+    "AbelInv",
+    ["A059297", "A059298"],
+    "A137452",
+    r"\binom{n}{k} k^{n - k}",
+)
+
+
+@cache
 def _andre(n: int, k: int) -> int:
     if k == 0 or n == 0:
         return 1
@@ -1684,7 +1706,11 @@ def baxter(n: int) -> list[int]:
 
 
 Baxter = Table(
-    baxter, "Baxter", ["A359363", "A056939"], "x Hyper([-1 - n, -n, 1 - n], [2, 3], -x)"
+    baxter,
+    "Baxter",
+    ["A359363", "A056939"],
+    "A000000",
+    "x Hyper([-1 - n, -n, 1 - n], [2, 3], -x)",
 )
 
 
@@ -1702,7 +1728,7 @@ Bell = Table(
     bell,
     "Bell",
     ["A011971", "A011972", "A123346"],
-    "",
+    "",  # No inverse!
     r"\sum_{j=0}^{k} \binom{k}{j} Bell(n - k + j)",
 )
 
@@ -1729,6 +1755,23 @@ Bessel = Table(
 
 
 @cache
+def besselinv(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    b = besselinv(n - 1)
+    return [0] + [(2 * k - n + 1) * b[k] + b[k - 1] for k in range(1, n)] + [1]
+
+
+BesselInv = Table(
+    besselinv,  # the generating function
+    "BesselInv",  # name of the table
+    ["A122848", "A104556", "A096713"],  # similar sequences in OEIS
+    "A132062",  # id of inverse sequence
+    r"T(n,k)",  # TeX of defining formula
+)
+
+
+@cache
 def bessel2(n: int) -> list[int]:
     if n == 0:
         return [1]
@@ -1746,7 +1789,7 @@ Bessel2 = Table(
     "Bessel2",
     ["A359760", "A073278", "A066325", "A099174", "A111924", "A144299", "A104556"],
     "",
-    r"is(k \text{ odd}) \, ? \, 0 : \binom{n}{k} \frac{k!}{2^{k/2} (k/2)!} ",
+    r"is(k \text{ odd}) \, ? \, 0 : \binom{n}{k} \frac{k!}{2^{k/2} (k/2)!}",
 )
 
 
@@ -1917,6 +1960,29 @@ Catalan = Table(
     ["A128899", "A039598"],
     "A128908",
     r"\sum_{i=1}^{n-k+1} \text{Catalan}(i) T_{k-1, n-i}",
+)
+
+
+@cache
+def catalaninv(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    if n == 1:
+        return [0, 1]
+    row = [0] * (n + 1)
+    c0 = catalaninv(n - 2) + [0, 0]
+    c1 = catalaninv(n - 1) + [0]
+    for k in range(1, n + 1):
+        row[k] = c1[k - 1] + 2 * c1[k] - c0[k]
+    return row
+
+
+CatalanInv = Table(
+    catalaninv,  # the generating function
+    "CatalanInv",  # name of the table
+    ["A128908", "A053122", "A285072"],  # similar sequences in OEIS
+    "A128899",  # id of inverse sequence
+    r"T(n,k)=0",  # TeX of defining formula
 )
 
 
@@ -3111,11 +3177,7 @@ def ordinals(n: int) -> list[int]:
 
 
 Ordinals = Table(
-    ordinals,
-    "Ordinals",
-    ["A002262", "A002260", "A004736", "A025581"],
-    "",
-    r"T(n,k) = k",
+    ordinals, "Ordinals", ["A002262", "A002260", "A004736", "A025581"], "", r"k"
 )
 
 
@@ -3308,7 +3370,7 @@ PolyaTree = Table(
     "PolyaTree",
     ["A034781"],
     "",
-    r"S(n, k) - S(n, k - 1) [S=A375467]",
+    r"A375467(n, k) - A375467(n, k - 1)",
 )
 
 
@@ -3348,6 +3410,23 @@ def powlaguerre(n: int) -> list[int]:
 
 PowLaguerre = Table(
     powlaguerre, "PowLaguerre", ["A196347", "A021012"], "", r"n! \binom{n}{k}"
+)
+
+
+@cache
+def power(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    lrow = power(n - 1)
+    return [k * lrow[k] for k in range(n)] + [1]
+
+
+Power = Table(
+    power,  # the generating function
+    "Power",  # name of the table
+    ["A004248", "A009998", "A051129"],  # similar sequences in OEIS
+    "A000000",  # inverse triangle exists, but not in OEIS
+    r"k^{n - k}",  # TeX of defining formula
 )
 
 
@@ -3403,7 +3482,7 @@ RootedTree = Table(
     "RootedTree",
     ["A034781"],
     "",
-    r"S(n, k) - S(n, k - 1) where S = A375467",
+    r"A375467(n, k) - A375467(n, k - 1)",
 )
 
 
@@ -3766,10 +3845,12 @@ def riordan_num(n: int) -> int:
 
 TablesList: list[Table] = [
     Abel,
+    AbelInv,
     #    Andre,
     #    Baxter,
     #    Bell,
     Bessel,
+    BesselInv,
     #    Bessel2,
     BinaryPell,
     #    Binomial,
@@ -3778,6 +3859,7 @@ TablesList: list[Table] = [
     #    BinomialPell,
     #    BinomialDiffPell,
     Catalan,
+    CatalanInv,
     CatalanPaths,
     #    CentralCycle,
     #    CentralSet,
@@ -3852,6 +3934,7 @@ TablesList: list[Table] = [
     #    PolyaTree,
     #    Polygonal,
     #    PowLaguerre,
+    Power,
     Rencontres,
     #    RisingFactorial,
     #    RootedTree,

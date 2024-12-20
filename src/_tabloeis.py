@@ -197,6 +197,7 @@ def QueryOEIS(
 
     Raises:
         Exception: If the OEIS server cannot be reached after multiple attempts.
+        Currently, the function will return -999999 if the OEIS server cannot be reached.
     """
     if len(seqlist) < minlen:
       print(f"Sequence is too short! We require at least {minlen} terms.")
@@ -254,7 +255,9 @@ def QueryOEIS(
         except requests.exceptions.RequestException as e:
             print(f"Error: {e}")
 
-    raise Exception(f"Could not open {url}.")
+    #raise Exception(f"Could not open {url}.")
+    print(f"Exception! Could not open {url}.")
+    return -999999
 
 
 if __name__ == "__main__":
@@ -279,3 +282,10 @@ if __name__ == "__main__":
     #test()
     #testQuerySum()
     #print(QueryOEIS(data4))
+    
+    """
+    Is this a bug in OEIS?
+    
+    https://oeis.org/search?q=1%2C1%2C2%2C1%2C1%2C3%2C2%2C1%2C4%2C3%2C2%2C2%2C1%2C5%2C4%2C6%2C4%2C2%2C&go=Search
+    https://oeis.org/search?q=1%2C1%2C2%2C1%2C1%2C3%2C2%2C1%2C4%2C3%2C2%2C2%2C1%2C5%2C4%2C6%2C4%2C2%2C&fmt=json
+    """
