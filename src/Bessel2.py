@@ -31,11 +31,11 @@ def bessel2(n: int) -> list[int]:
 
 
 Bessel2 = Table(
-    bessel2, 
+    bessel2,
     "Bessel2",
-    ["A359760", "A073278", "A066325", "A099174", "A111924", "A144299", "A104556"], 
+    ["A359760", "A073278", "A066325", "A099174", "A111924", "A144299", "A104556"],
     "",
-    r"is(k \text{ odd}) \, ? \, 0 : \binom{n}{k} \frac{k!}{2^{k/2} (k/2)!} "
+    r"is(k \text{ odd}) \, ? \, 0 : \binom{n}{k} \frac{k!}{2^{k/2} (k/2)!}"
 )
 
 

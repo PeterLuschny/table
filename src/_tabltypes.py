@@ -97,11 +97,11 @@ class Table:
 #    self.gen = PseudoGenerator(gen, len(gen))
 #else:
         self.gen = gen
-
         self.id = id
         self.sim = sim
         self.invid = invid
         self.tex = tex
+        self.invQ = invid != ''
         self.impact = 0
 
     def __getitem__(self, n: int) -> list[int]:

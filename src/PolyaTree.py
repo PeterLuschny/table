@@ -27,7 +27,7 @@ PolyaTree = Table(
     "PolyaTree", 
     ["A034781"], 
     "", 
-    r"S(n, k) - S(n, k - 1) [S=A375467]",
+    r"A375467(n, k) - A375467(n, k - 1)",
 )
 
 

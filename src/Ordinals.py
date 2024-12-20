@@ -26,7 +26,7 @@ Ordinals = Table(
     "Ordinals", 
     ["A002262", "A002260", "A004736", "A025581"], 
     "", 
-    r"T(n,k) = k"
+    r"k"
 )
 
 
