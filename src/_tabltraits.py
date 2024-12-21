@@ -739,15 +739,40 @@ def FilterDict(olddict: Dict[str, int] )  -> Dict[str, int]:
     return newdict
 
 
+def AddAnumsToSrcfile(name: str, dict: Dict[str, int] = {}) -> None:
+    global GlobalDict
+
+    if dict == {}:
+        ReadJsonDict()
+        dict = GlobalDict[name]
+
+    srcpath = GetRoot(f"src/{name}.py")
+    with open(srcpath, "a+", encoding="utf-8") as dest:
+        d = {k: v for k, v in sorted(dict.items(), key=lambda item: item[1])}
+        dest.write("\n\n" + r"'''" + " OEIS\n")
+        for fullname, anum in d.items():
+            if anum != 0:
+                dest.write(f"    {fullname} -> https://oeis.org/A{anum}\n")
+            else:
+                dest.write(f"    {fullname} -> 0 \n")
+
+        misses = len([v for v in d.values() if v == 0])
+        hits = len(d.values()) - misses
+        distincts = len(set(d.values()))
+
+        dest.write(f"{name:16}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
+        dest.write(r"'''" + "\n")
+
+
 def AnumberDict(
     T: Table, 
     info: bool = False,
     addtoglobal: bool = False
 ) -> Dict[str, int]:
     """Collects the A-nunmbers of the traits of T present in the OEIS."""
-    print(f"*** Table {T.id} under construction ***")
+    
     global GlobalDict
-
+    print(f"*** Table {T.id} under construction ***")
 
     tdict: Dict[str, int] = {}
     for trid, tr in AllTraits.items():
@@ -768,7 +793,7 @@ def DictToHtml(
     T: Table, 
     dict: Dict[str, int],
     info: bool = False
-)  -> tuple[int, int, int, int]:
+)  -> tuple[int, int, int]:
     """Transforms a dictionary {trait, anum} representing the Table T
         into two Html files: TNameTraits.html and TNameMissing.html.
         A trait is 'missing' if the anum in the dictionary is 0.
@@ -794,7 +819,9 @@ def DictToHtml(
             d = {k: v for k, v in sorted(dict.items(), key=lambda item: item[1])}
 
             for fullname, anum in d.items():
-                if info: print(f"   {fullname} -> {anum}")
+                if info: 
+                    print(f"   {fullname} -> {anum}") # prints sorted dict 
+                
                 traitfun, size, tex = AllTraits[fullname.split("_")[1]]
                 seq = SeqToString(traitfun(T, size), 40, 20) 
                 if anum == 0:
@@ -822,8 +849,8 @@ def DictToHtml(
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
 
     distincts = len(anumlist)
-    print(f"Hits: {hits}, Distinct: {distincts}, Misses: {misses}, Doubles: {doubles}")
-    return (hits, distincts, doubles, misses)
+    print(f"{T.id:16}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
+    return (distincts, hits, misses)
 
 
 indheader = "<!DOCTYPE html><html lang='en'><head><title>Index</title><meta name='viewport' content='width=device-width,initial-scale=1'><style type='text/css'>body{font-family:Calabri,Arial,sans-serif;font-size:18px;background-color: #804040; color: #C0C0C0}</style><base href='https://peterluschny.github.io/table/' target='_blank'></head><body><table><thead><tr><th align='left'>Sequence</th><th align='left'>OEIS</th><th align='left'>Missing</th></tr></thead><tbody><tr>"
@@ -847,8 +874,10 @@ def RefreshDatabase() -> None:
 
         for T in TablesList:
             dict = AnumberDict(T, True, True)  # type: ignore 
-            DictToHtml(T, dict, True)          # type: ignore
+            DictToHtml(T, dict, False)         # type: ignore
             index.write(f"<tr><td align='left'>{T.id}</td><td align='left'><a href='{T.id}Traits.html'>[online]</a></td><td align='left'><a href='{T.id}Missing.html'>[missing]</a></td></tr>")
+
+            AddAnumsToSrcfile(T.id, dict)
 
         index.write("</tbody></table></body></html>")
         index.flush()
@@ -936,6 +965,7 @@ if __name__ == "__main__":
     from Divisibility import Divisibility  # type: ignore
     from Moebius import Moebius          # type: ignore
     from CatalanInv import CatalanInv    # type: ignore
+    from WardSet import WardSet    # type: ignore
 
     def test(T: Table, LEN: int) -> None:
         print("TablCol")
@@ -957,7 +987,7 @@ if __name__ == "__main__":
     # OccList()
     # RefreshHtml(True)
 
-    #RefreshDatabase()
+    # RefreshDatabase()
 
     #for T in TablesList:
     #    print(T.id, T.tex)
@@ -965,7 +995,9 @@ if __name__ == "__main__":
     #for k, v in GlobalDict.items():
     #    print(k, len(v.values()))
 
-    AddTable(BinaryPell) # type: ignore
+    AddTable(WardSet) # type: ignore
+    
+    #AddAnumsToSrcfile("Fubini")
 
     #for k, v in dict.items():
     #    print(k, v)

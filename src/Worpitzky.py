@@ -39,3 +39,76 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Worpitzky)
+
+
+''' OEIS
+   Worpitzky_Trev11        -> 0 
+   Worpitzky_Tantidiag     -> 0 
+   Worpitzky_Tacc          -> 0 
+   Worpitzky_Tder          -> 0 
+   Worpitzky_TablLcm       -> 0 
+   Worpitzky_TablMax       -> 0 
+   Worpitzky_AccSum        -> 0 
+   Worpitzky_ColMiddle     -> 0 
+   Worpitzky_CentralO      -> 0 
+   Worpitzky_TransSqrs     -> 0 
+   Worpitzky_PolyRow3      -> 0 
+   Worpitzky_RevToff11     -> 0 
+   Worpitzky_RevTrev11     -> 0 
+   Worpitzky_RevTinv11     -> 0 
+   Worpitzky_RevTrevinv11  -> 0 
+   Worpitzky_RevTantidiag  -> 0 
+   Worpitzky_RevTder       -> 0 
+   Worpitzky_RevAccRevSum  -> 0 
+   Worpitzky_RevAntiDSum   -> 0 
+   Worpitzky_RevColMiddle  -> 0 
+   Worpitzky_RevCentralO   -> 0 
+   Worpitzky_RevTransNat0  -> 0 
+   Worpitzky_RevTransNat1  -> 0 
+   Worpitzky_RevTransSqrs  -> 0 
+   Worpitzky_RevPolyRow3   -> 0 
+   Worpitzky_RevPolyDiag   -> 0 
+   Worpitzky_AltSum        -> https://oeis.org/A7
+   Worpitzky_TablCol0      -> https://oeis.org/A12
+   Worpitzky_TablGcd       -> https://oeis.org/A12
+   Worpitzky_PolyRow1      -> https://oeis.org/A27
+   Worpitzky_RevPolyRow1   -> https://oeis.org/A27
+   Worpitzky_TablDiag0     -> https://oeis.org/A142
+   Worpitzky_BinConv       -> https://oeis.org/A169
+   Worpitzky_TablCol1      -> https://oeis.org/A225
+   Worpitzky_PolyRow2      -> https://oeis.org/A384
+   Worpitzky_TablSum       -> https://oeis.org/A629
+   Worpitzky_AbsSum        -> https://oeis.org/A629
+   Worpitzky_EvenSum       -> https://oeis.org/A670
+   Worpitzky_OddSum        -> https://oeis.org/A670
+   Worpitzky_AccRevSum     -> https://oeis.org/A670
+   Worpitzky_TransNat1     -> https://oeis.org/A670
+   Worpitzky_RevEvenSum    -> https://oeis.org/A670
+   Worpitzky_RevOddSum     -> https://oeis.org/A670
+   Worpitzky_RevNegHalf    -> https://oeis.org/A670
+   Worpitzky_TablDiag1     -> https://oeis.org/A1710
+   Worpitzky_RevPolyRow2   -> https://oeis.org/A2378
+   Worpitzky_TablDiag2     -> https://oeis.org/A5460
+   Worpitzky_TablDiag3     -> https://oeis.org/A5461
+   Worpitzky_NegHalf       -> https://oeis.org/A9006
+   Worpitzky_TablCol2      -> https://oeis.org/A28243
+   Worpitzky_TablCol3      -> https://oeis.org/A28244
+   Worpitzky_Triangle      -> https://oeis.org/A28246
+   Worpitzky_Talt          -> https://oeis.org/A28246
+   Worpitzky_Toff11        -> https://oeis.org/A53440
+   Worpitzky_RevTacc       -> https://oeis.org/A54255
+   Worpitzky_Tinvrev       -> https://oeis.org/A106340
+   Worpitzky_PosHalf       -> https://oeis.org/A123227
+   Worpitzky_Trev          -> https://oeis.org/A130850
+   Worpitzky_RevTalt       -> https://oeis.org/A130850
+   Worpitzky_CentralE      -> https://oeis.org/A185157
+   Worpitzky_PolyCol2      -> https://oeis.org/A201339
+   Worpitzky_PolyCol3      -> https://oeis.org/A201354
+   Worpitzky_RevPolyCol3   -> https://oeis.org/A201355
+   Worpitzky_AntiDSum      -> https://oeis.org/A229046
+   Worpitzky_TransNat0     -> https://oeis.org/A343583
+   Worpitzky_InvBinConv    -> https://oeis.org/A343584
+   Worpitzky_PolyDiag      -> https://oeis.org/A372312
+
+   Hits: 41, Distinct: 30, Misses: 26, Doubles: 11
+'''

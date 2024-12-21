@@ -2,7 +2,7 @@ from functools import cache
 from _tabltypes import Table
 
 """
-The divisibility matrix, the indicator function for divisibility.
+The divisibility matrix, the indicator function for divisibility. The Matrix inverse of the Moebius Matrix.
 
 [ 0]  1
 [ 1]  0  1
@@ -50,76 +50,76 @@ if __name__ == "__main__":
     PreView(Divisibility)
 
 
-"""
-Dict length: 69
-   Divisibility_Trev          -> 0
-   Divisibility_Tantidiag     -> 0
-   Divisibility_Tacc          -> 0
-   Divisibility_NegHalf       -> 0
-   Divisibility_InvBinConv    -> 0
-   Divisibility_RevToff11     -> 0
-   Divisibility_RevTantidiag  -> 0
-   Divisibility_RevTacc       -> 0
-   Divisibility_RevTalt       -> 0
-   Divisibility_RevTder       -> 0
-   Divisibility_RevNegHalf    -> 0
-   Divisibility_RevPolyDiag   -> 0
-   Divisibility_TablSum       -> 5
-   Divisibility_AbsSum        -> 5
-   Divisibility_TablCol0      -> 7
-   Divisibility_TablDiag1     -> 7
-   Divisibility_TablDiag2     -> 7
-   Divisibility_TablDiag3     -> 7
-   Divisibility_CentralO      -> 7
-   Divisibility_RevCentralO   -> 7
-   Divisibility_Trevinv       -> 12
-   Divisibility_Trevinv11     -> 12
-   Divisibility_Tinvrev11     -> 12
-   Divisibility_TablCol1      -> 12
-   Divisibility_TablDiag0     -> 12
-   Divisibility_TablLcm       -> 12
-   Divisibility_TablGcd       -> 12
-   Divisibility_TablMax       -> 12
-   Divisibility_CentralE      -> 12
-   Divisibility_RevPolyRow1   -> 12
-   Divisibility_PolyRow1      -> 27
-   Divisibility_RevPolyRow2   -> 27
-   Divisibility_TablCol2      -> 35
-   Divisibility_RevColMiddle  -> 35
-   Divisibility_TransNat0     -> 203
-   Divisibility_TransSqrs     -> 1157
-   Divisibility_OddSum        -> 1227
-   Divisibility_RevOddSum     -> 1227
-   Divisibility_RevAntiDSum   -> 1227
-   Divisibility_PolyRow2      -> 2378
-   Divisibility_RevPolyRow3   -> 2522
-   Divisibility_AccRevSum     -> 7503
-   Divisibility_TransNat1     -> 7503
-   Divisibility_AntiDSum      -> 32741
-   Divisibility_PolyRow3      -> 34262
-   Divisibility_Toff11        -> 51731
-   Divisibility_PolyCol2      -> 55895
-   Divisibility_BinConv       -> 56045
-   Divisibility_PolyDiag      -> 66108
-   Divisibility_PosHalf       -> 74854
-   Divisibility_TablCol3      -> 79978
-   Divisibility_AccSum        -> 81307
-   Divisibility_RevAccRevSum  -> 81307
-   Divisibility_RevTransNat1  -> 81307
-   Divisibility_RevTransNat0  -> 94471
-   Divisibility_AltSum        -> 112329
-   Divisibility_Triangle      -> 113704
-   Divisibility_Talt          -> 113704
-   Divisibility_Trev11        -> 113998
-   Divisibility_Tder          -> 127093
-   Divisibility_ColMiddle     -> 128174
-   Divisibility_Tinv11        -> 174852
-   Divisibility_RevTrev11     -> 175992
-   Divisibility_EvenSum       -> 183063
-   Divisibility_RevEvenSum    -> 320111
-   Divisibility_RevPolyCol3   -> 357051
-   Divisibility_PolyCol3      -> 363913
-   Divisibility_Tinv          -> 363914
-   Divisibility_RevTransSqrs  -> 367326
-Hits: 57, Misses: 12, Doubles: 23
-"""
+''' OEIS
+   Divisibility_Trev          -> 0 
+   Divisibility_Tantidiag     -> 0 
+   Divisibility_Tacc          -> 0 
+   Divisibility_NegHalf       -> 0 
+   Divisibility_InvBinConv    -> 0 
+   Divisibility_RevToff11     -> 0 
+   Divisibility_RevTantidiag  -> 0 
+   Divisibility_RevTacc       -> 0 
+   Divisibility_RevTalt       -> 0 
+   Divisibility_RevTder       -> 0 
+   Divisibility_RevNegHalf    -> 0 
+   Divisibility_RevPolyDiag   -> 0 
+   Divisibility_TablSum       -> https://oeis.org/A5
+   Divisibility_AbsSum        -> https://oeis.org/A5
+   Divisibility_TablCol0      -> https://oeis.org/A7
+   Divisibility_TablDiag1     -> https://oeis.org/A7
+   Divisibility_TablDiag2     -> https://oeis.org/A7
+   Divisibility_TablDiag3     -> https://oeis.org/A7
+   Divisibility_CentralO      -> https://oeis.org/A7
+   Divisibility_RevCentralO   -> https://oeis.org/A7
+   Divisibility_Trevinv       -> https://oeis.org/A12
+   Divisibility_Trevinv11     -> https://oeis.org/A12
+   Divisibility_Tinvrev11     -> https://oeis.org/A12
+   Divisibility_TablCol1      -> https://oeis.org/A12
+   Divisibility_TablDiag0     -> https://oeis.org/A12
+   Divisibility_TablLcm       -> https://oeis.org/A12
+   Divisibility_TablGcd       -> https://oeis.org/A12
+   Divisibility_TablMax       -> https://oeis.org/A12
+   Divisibility_CentralE      -> https://oeis.org/A12
+   Divisibility_RevPolyRow1   -> https://oeis.org/A12
+   Divisibility_PolyRow1      -> https://oeis.org/A27
+   Divisibility_RevPolyRow2   -> https://oeis.org/A27
+   Divisibility_TablCol2      -> https://oeis.org/A35
+   Divisibility_RevColMiddle  -> https://oeis.org/A35
+   Divisibility_TransNat0     -> https://oeis.org/A203
+   Divisibility_TransSqrs     -> https://oeis.org/A1157
+   Divisibility_OddSum        -> https://oeis.org/A1227
+   Divisibility_RevOddSum     -> https://oeis.org/A1227
+   Divisibility_RevAntiDSum   -> https://oeis.org/A1227
+   Divisibility_PolyRow2      -> https://oeis.org/A2378
+   Divisibility_RevPolyRow3   -> https://oeis.org/A2522
+   Divisibility_AccRevSum     -> https://oeis.org/A7503
+   Divisibility_TransNat1     -> https://oeis.org/A7503
+   Divisibility_AntiDSum      -> https://oeis.org/A32741
+   Divisibility_PolyRow3      -> https://oeis.org/A34262
+   Divisibility_Toff11        -> https://oeis.org/A51731
+   Divisibility_PolyCol2      -> https://oeis.org/A55895
+   Divisibility_BinConv       -> https://oeis.org/A56045
+   Divisibility_PolyDiag      -> https://oeis.org/A66108
+   Divisibility_PosHalf       -> https://oeis.org/A74854
+   Divisibility_TablCol3      -> https://oeis.org/A79978
+   Divisibility_AccSum        -> https://oeis.org/A81307
+   Divisibility_RevAccRevSum  -> https://oeis.org/A81307
+   Divisibility_RevTransNat1  -> https://oeis.org/A81307
+   Divisibility_RevTransNat0  -> https://oeis.org/A94471
+   Divisibility_AltSum        -> https://oeis.org/A112329
+   Divisibility_Triangle      -> https://oeis.org/A113704
+   Divisibility_Talt          -> https://oeis.org/A113704
+   Divisibility_Trev11        -> https://oeis.org/A113998
+   Divisibility_Tder          -> https://oeis.org/A127093
+   Divisibility_ColMiddle     -> https://oeis.org/A128174
+   Divisibility_Tinv11        -> https://oeis.org/A174852
+   Divisibility_RevTrev11     -> https://oeis.org/A175992
+   Divisibility_EvenSum       -> https://oeis.org/A183063
+   Divisibility_RevEvenSum    -> https://oeis.org/A320111
+   Divisibility_RevPolyCol3   -> https://oeis.org/A357051
+   Divisibility_PolyCol3      -> https://oeis.org/A363913
+   Divisibility_Tinv          -> https://oeis.org/A363914
+   Divisibility_RevTransSqrs  -> https://oeis.org/A367326
+
+   Hits: 57, Distinct: 34, Misses: 12, Doubles: 23
+'''

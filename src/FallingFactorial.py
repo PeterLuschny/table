@@ -29,7 +29,7 @@ def fallingfactorial(n: int) -> list[int]:
 
 FallingFactorial = Table(
     fallingfactorial,
-    "FallingFact",
+    "FallingFactorial",
     ["A008279", "A068424", "A094587", "A173333", "A181511"],
     "",
     r"n! / (n - k)!",
@@ -42,74 +42,74 @@ if __name__ == "__main__":
     PreView(FallingFactorial)
 
 
-"""
-Dict length: 67
-   FallingFact_Trev11        -> 0
-   FallingFact_Tder          -> 0
-   FallingFact_PolyRow3      -> 0
-   FallingFact_RevTinv11     -> 0
-   FallingFact_RevTrevinv11  -> 0
-   FallingFact_RevTantidiag  -> 0
-   FallingFact_RevTder       -> 0
-   FallingFact_RevPolyRow3   -> 0
-   FallingFact_TablCol0      -> 12
-   FallingFact_NegHalf       -> 23
-   FallingFact_TablCol1      -> 27
-   FallingFact_TablGcd       -> 27
-   FallingFact_PolyRow1      -> 27
-   FallingFact_RevPolyRow1   -> 27
-   FallingFact_TablDiag0     -> 142
-   FallingFact_TablDiag1     -> 142
-   FallingFact_TablLcm       -> 142
-   FallingFact_TablMax       -> 142
-   FallingFact_AltSum        -> 166
-   FallingFact_RevNegHalf    -> 354
-   FallingFact_RevCentralO   -> 407
-   FallingFact_TablSum       -> 522
-   FallingFact_AbsSum        -> 522
-   FallingFact_AccRevSum     -> 1339
-   FallingFact_TransNat1     -> 1339
-   FallingFact_TablDiag2     -> 1710
-   FallingFact_TablDiag3     -> 1715
-   FallingFact_CentralE      -> 1813
-   FallingFact_PolyRow2      -> 1844
-   FallingFact_TablCol2      -> 2378
-   FallingFact_RevPolyRow2   -> 2522
-   FallingFact_BinConv       -> 2720
-   FallingFact_OddSum        -> 2747
-   FallingFact_RevAntiDSum   -> 3470
-   FallingFact_CentralO      -> 6963
-   FallingFact_RevTransNat0  -> 7526
-   FallingFact_TablCol3      -> 7531
-   FallingFact_Triangle      -> 8279
-   FallingFact_Talt          -> 8279
-   FallingFact_RevEvenSum    -> 9179
-   FallingFact_InvBinConv    -> 9940
-   FallingFact_PosHalf       -> 10842
-   FallingFact_PolyCol2      -> 10844
-   FallingFact_PolyCol3      -> 10845
-   FallingFact_RevTransSqrs  -> 30297
-   FallingFact_RevPolyCol3   -> 53486
-   FallingFact_RevPolyDiag   -> 63170
-   FallingFact_Toff11        -> 68424
-   FallingFact_AntiDSum      -> 72374
-   FallingFact_RevColMiddle  -> 81125
-   FallingFact_EvenSum       -> 87208
-   FallingFact_TransNat0     -> 93964
-   FallingFact_Trev          -> 94587
-   FallingFact_RevTalt       -> 94587
-   FallingFact_AccSum        -> 111063
-   FallingFact_RevAccRevSum  -> 111063
-   FallingFact_RevTransNat1  -> 111063
-   FallingFact_Tinvrev       -> 128229
-   FallingFact_RevToff11     -> 173333
-   FallingFact_RevTrev11     -> 181511
-   FallingFact_RevOddSum     -> 186763
-   FallingFact_ColMiddle     -> 205825
-   FallingFact_PolyDiag      -> 277452
-   FallingFact_TransSqrs     -> 343276
-   FallingFact_Tantidiag     -> 344391
-   FallingFact_Tacc          -> 347667
-   FallingFact_RevTacc       -> 367962
-Hits: 59, Misses: 8, Doubles: 12
-"""
+''' OEIS
+   FallingFact_Trev11        -> 0 
+   FallingFact_Tder          -> 0 
+   FallingFact_PolyRow3      -> 0 
+   FallingFact_RevTinv11     -> 0 
+   FallingFact_RevTrevinv11  -> 0 
+   FallingFact_RevTantidiag  -> 0 
+   FallingFact_RevTder       -> 0 
+   FallingFact_RevPolyRow3   -> 0 
+   FallingFact_TablCol0      -> https://oeis.org/A12
+   FallingFact_NegHalf       -> https://oeis.org/A23
+   FallingFact_TablCol1      -> https://oeis.org/A27
+   FallingFact_TablGcd       -> https://oeis.org/A27
+   FallingFact_PolyRow1      -> https://oeis.org/A27
+   FallingFact_RevPolyRow1   -> https://oeis.org/A27
+   FallingFact_TablDiag0     -> https://oeis.org/A142
+   FallingFact_TablDiag1     -> https://oeis.org/A142
+   FallingFact_TablLcm       -> https://oeis.org/A142
+   FallingFact_TablMax       -> https://oeis.org/A142
+   FallingFact_AltSum        -> https://oeis.org/A166
+   FallingFact_RevNegHalf    -> https://oeis.org/A354
+   FallingFact_RevCentralO   -> https://oeis.org/A407
+   FallingFact_TablSum       -> https://oeis.org/A522
+   FallingFact_AbsSum        -> https://oeis.org/A522
+   FallingFact_AccRevSum     -> https://oeis.org/A1339
+   FallingFact_TransNat1     -> https://oeis.org/A1339
+   FallingFact_TablDiag2     -> https://oeis.org/A1710
+   FallingFact_TablDiag3     -> https://oeis.org/A1715
+   FallingFact_CentralE      -> https://oeis.org/A1813
+   FallingFact_PolyRow2      -> https://oeis.org/A1844
+   FallingFact_TablCol2      -> https://oeis.org/A2378
+   FallingFact_RevPolyRow2   -> https://oeis.org/A2522
+   FallingFact_BinConv       -> https://oeis.org/A2720
+   FallingFact_OddSum        -> https://oeis.org/A2747
+   FallingFact_RevAntiDSum   -> https://oeis.org/A3470
+   FallingFact_CentralO      -> https://oeis.org/A6963
+   FallingFact_RevTransNat0  -> https://oeis.org/A7526
+   FallingFact_TablCol3      -> https://oeis.org/A7531
+   FallingFact_Triangle      -> https://oeis.org/A8279
+   FallingFact_Talt          -> https://oeis.org/A8279
+   FallingFact_RevEvenSum    -> https://oeis.org/A9179
+   FallingFact_InvBinConv    -> https://oeis.org/A9940
+   FallingFact_PosHalf       -> https://oeis.org/A10842
+   FallingFact_PolyCol2      -> https://oeis.org/A10844
+   FallingFact_PolyCol3      -> https://oeis.org/A10845
+   FallingFact_RevTransSqrs  -> https://oeis.org/A30297
+   FallingFact_RevPolyCol3   -> https://oeis.org/A53486
+   FallingFact_RevPolyDiag   -> https://oeis.org/A63170
+   FallingFact_Toff11        -> https://oeis.org/A68424
+   FallingFact_AntiDSum      -> https://oeis.org/A72374
+   FallingFact_RevColMiddle  -> https://oeis.org/A81125
+   FallingFact_EvenSum       -> https://oeis.org/A87208
+   FallingFact_TransNat0     -> https://oeis.org/A93964
+   FallingFact_Trev          -> https://oeis.org/A94587
+   FallingFact_RevTalt       -> https://oeis.org/A94587
+   FallingFact_AccSum        -> https://oeis.org/A111063
+   FallingFact_RevAccRevSum  -> https://oeis.org/A111063
+   FallingFact_RevTransNat1  -> https://oeis.org/A111063
+   FallingFact_Tinvrev       -> https://oeis.org/A128229
+   FallingFact_RevToff11     -> https://oeis.org/A173333
+   FallingFact_RevTrev11     -> https://oeis.org/A181511
+   FallingFact_RevOddSum     -> https://oeis.org/A186763
+   FallingFact_ColMiddle     -> https://oeis.org/A205825
+   FallingFact_PolyDiag      -> https://oeis.org/A277452
+   FallingFact_TransSqrs     -> https://oeis.org/A343276
+   FallingFact_Tantidiag     -> https://oeis.org/A344391
+   FallingFact_Tacc          -> https://oeis.org/A347667
+   FallingFact_RevTacc       -> https://oeis.org/A367962
+
+    Hits: 59, Distinct: 47, Misses: 8, Doubles: 12
+'''

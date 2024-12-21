@@ -45,3 +45,80 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Charlier)
+
+
+''' OEIS
+   Charlier_Tinv          -> 0 
+   Charlier_Trevinv       -> 0 
+   Charlier_Toff11        -> 0 
+   Charlier_Trev11        -> 0 
+   Charlier_Tinv11        -> 0 
+   Charlier_Trevinv11     -> 0 
+   Charlier_Tantidiag     -> 0 
+   Charlier_Tacc          -> 0 
+   Charlier_Tder          -> 0 
+   Charlier_TablDiag2     -> 0 
+   Charlier_TablDiag3     -> 0 
+   Charlier_TablLcm       -> 0 
+   Charlier_TablMax       -> 0 
+   Charlier_EvenSum       -> 0 
+   Charlier_OddSum        -> 0 
+   Charlier_AccSum        -> 0 
+   Charlier_AccRevSum     -> 0 
+   Charlier_AntiDSum      -> 0 
+   Charlier_ColMiddle     -> 0 
+   Charlier_CentralE      -> 0 
+   Charlier_CentralO      -> 0 
+   Charlier_TransNat0     -> 0 
+   Charlier_TransNat1     -> 0 
+   Charlier_TransSqrs     -> 0 
+   Charlier_BinConv       -> 0 
+   Charlier_InvBinConv    -> 0 
+   Charlier_PolyRow3      -> 0 
+   Charlier_PolyCol2      -> 0 
+   Charlier_PolyCol3      -> 0 
+   Charlier_PolyDiag      -> 0 
+   Charlier_RevToff11     -> 0 
+   Charlier_RevTrev11     -> 0 
+   Charlier_RevTinv11     -> 0 
+   Charlier_RevTrevinv11  -> 0 
+   Charlier_RevTantidiag  -> 0 
+   Charlier_RevTacc       -> 0 
+   Charlier_RevTder       -> 0 
+   Charlier_RevAccRevSum  -> 0 
+   Charlier_RevAntiDSum   -> 0 
+   Charlier_RevColMiddle  -> 0 
+   Charlier_RevCentralO   -> 0 
+   Charlier_RevTransNat0  -> 0 
+   Charlier_RevTransNat1  -> 0 
+   Charlier_RevTransSqrs  -> 0 
+   Charlier_RevPolyRow3   -> 0 
+   Charlier_RevPolyCol3   -> 0 
+   Charlier_TablCol0      -> https://oeis.org/A12
+   Charlier_TablDiag0     -> https://oeis.org/A12
+   Charlier_TablSum       -> https://oeis.org/A27
+   Charlier_PolyRow1      -> https://oeis.org/A27
+   Charlier_RevPolyRow1   -> https://oeis.org/A27
+   Charlier_TablCol1      -> https://oeis.org/A217
+   Charlier_AltSum        -> https://oeis.org/A522
+   Charlier_AbsSum        -> https://oeis.org/A522
+   Charlier_NegHalf       -> https://oeis.org/A1339
+   Charlier_TablDiag1     -> https://oeis.org/A2104
+   Charlier_RevEvenSum    -> https://oeis.org/A9132
+   Charlier_RevOddSum     -> https://oeis.org/A9578
+   Charlier_RevPolyDiag   -> https://oeis.org/A9940
+   Charlier_PosHalf       -> https://oeis.org/A28387
+   Charlier_PolyRow2      -> https://oeis.org/A28387
+   Charlier_RevPolyRow2   -> https://oeis.org/A28387
+   Charlier_Triangle      -> https://oeis.org/A46716
+   Charlier_Talt          -> https://oeis.org/A46716
+   Charlier_Tinvrev       -> https://oeis.org/A49020
+   Charlier_RevNegHalf    -> https://oeis.org/A81367
+   Charlier_Trev          -> https://oeis.org/A94816
+   Charlier_RevTalt       -> https://oeis.org/A94816
+   Charlier_TablGcd       -> https://oeis.org/A174965
+   Charlier_TablCol2      -> https://oeis.org/A290312
+   Charlier_TablCol3      -> https://oeis.org/A290313
+
+    Hits: 25, Distinct: 17, Misses: 46, Doubles: 8
+'''

@@ -45,3 +45,77 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Catalan)
+
+
+''' OEIS
+   Catalan_Trev          -> 0 
+   Catalan_Trevinv       -> 0 
+   Catalan_Tantidiag     -> 0 
+   Catalan_Tacc          -> 0 
+   Catalan_Tder          -> 0 
+   Catalan_TablDiag3     -> 0 
+   Catalan_TablLcm       -> 0 
+   Catalan_TablMax       -> 0 
+   Catalan_ColMiddle     -> 0 
+   Catalan_CentralO      -> 0 
+   Catalan_InvBinConv    -> 0 
+   Catalan_PolyRow3      -> 0 
+   Catalan_PolyDiag      -> 0 
+   Catalan_RevToff11     -> 0 
+   Catalan_RevTrev11     -> 0 
+   Catalan_RevTantidiag  -> 0 
+   Catalan_RevTacc       -> 0 
+   Catalan_RevTalt       -> 0 
+   Catalan_RevTder       -> 0 
+   Catalan_RevEvenSum    -> 0 
+   Catalan_RevOddSum     -> 0 
+   Catalan_RevColMiddle  -> 0 
+   Catalan_RevNegHalf    -> 0 
+   Catalan_RevTransSqrs  -> 0 
+   Catalan_RevPolyDiag   -> 0 
+   Catalan_TablCol0      -> https://oeis.org/A7
+   Catalan_TablDiag0     -> https://oeis.org/A12
+   Catalan_RevPolyRow1   -> https://oeis.org/A12
+   Catalan_PolyRow1      -> https://oeis.org/A27
+   Catalan_TablCol1      -> https://oeis.org/A108
+   Catalan_AltSum        -> https://oeis.org/A108
+   Catalan_TransNat0     -> https://oeis.org/A302
+   Catalan_AntiDSum      -> https://oeis.org/A957
+   Catalan_OddSum        -> https://oeis.org/A984
+   Catalan_TablSum       -> https://oeis.org/A1700
+   Catalan_AbsSum        -> https://oeis.org/A1700
+   Catalan_EvenSum       -> https://oeis.org/A1791
+   Catalan_TablCol2      -> https://oeis.org/A2057
+   Catalan_TransSqrs     -> https://oeis.org/A2457
+   Catalan_TablCol3      -> https://oeis.org/A3517
+   Catalan_RevPolyRow2   -> https://oeis.org/A5408
+   Catalan_PolyRow2      -> https://oeis.org/A5563
+   Catalan_TablDiag1     -> https://oeis.org/A5843
+   Catalan_TablDiag2     -> https://oeis.org/A14106
+   Catalan_BinConv       -> https://oeis.org/A25174
+   Catalan_RevCentralO   -> https://oeis.org/A26005
+   Catalan_Toff11        -> https://oeis.org/A39598
+   Catalan_Trev11        -> https://oeis.org/A50166
+   Catalan_NegHalf       -> https://oeis.org/A64062
+   Catalan_PolyCol2      -> https://oeis.org/A67336
+   Catalan_Tinv11        -> https://oeis.org/A78812
+   Catalan_RevPolyRow3   -> https://oeis.org/A79273
+   Catalan_PolyCol3      -> https://oeis.org/A104530
+   Catalan_AccRevSum     -> https://oeis.org/A114121
+   Catalan_TransNat1     -> https://oeis.org/A114121
+   Catalan_Triangle      -> https://oeis.org/A128899
+   Catalan_Talt          -> https://oeis.org/A128899
+   Catalan_Tinv          -> https://oeis.org/A128908
+   Catalan_RevTransNat0  -> https://oeis.org/A172060
+   Catalan_Trevinv11     -> https://oeis.org/A172431
+   Catalan_PosHalf       -> https://oeis.org/A194723
+   Catalan_RevPolyCol3   -> https://oeis.org/A194724
+   Catalan_RevAntiDSum   -> https://oeis.org/A224747
+   Catalan_AccSum        -> https://oeis.org/A296770
+   Catalan_RevAccRevSum  -> https://oeis.org/A296770
+   Catalan_RevTransNat1  -> https://oeis.org/A296770
+   Catalan_TablGcd       -> https://oeis.org/A318829
+   Catalan_CentralE      -> https://oeis.org/A359108
+
+    Hits: 43, Distinct: 36, Misses: 25, Doubles: 7
+'''

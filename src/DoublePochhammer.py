@@ -42,3 +42,77 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(DoublePochhammer)  # type: ignore
+
+
+''' OEIS
+   DoublePochhammer_Triangle      -> 0 
+   DoublePochhammer_Tinv          -> 0 
+   DoublePochhammer_Trev          -> 0 
+   DoublePochhammer_Trevinv       -> 0 
+   DoublePochhammer_Trev11        -> 0 
+   DoublePochhammer_Trevinv11     -> 0 
+   DoublePochhammer_Tantidiag     -> 0 
+   DoublePochhammer_Tacc          -> 0 
+   DoublePochhammer_Talt          -> 0 
+   DoublePochhammer_Tder          -> 0 
+   DoublePochhammer_TablCol3      -> 0 
+   DoublePochhammer_TablDiag3     -> 0 
+   DoublePochhammer_TablLcm       -> 0 
+   DoublePochhammer_TablMax       -> 0 
+   DoublePochhammer_AccSum        -> 0 
+   DoublePochhammer_ColMiddle     -> 0 
+   DoublePochhammer_CentralE      -> 0 
+   DoublePochhammer_CentralO      -> 0 
+   DoublePochhammer_TransSqrs     -> 0 
+   DoublePochhammer_BinConv       -> 0 
+   DoublePochhammer_InvBinConv    -> 0 
+   DoublePochhammer_RevToff11     -> 0 
+   DoublePochhammer_RevTrev11     -> 0 
+   DoublePochhammer_RevTantidiag  -> 0 
+   DoublePochhammer_RevTacc       -> 0 
+   DoublePochhammer_RevTalt       -> 0 
+   DoublePochhammer_RevTder       -> 0 
+   DoublePochhammer_RevEvenSum    -> 0 
+   DoublePochhammer_RevOddSum     -> 0 
+   DoublePochhammer_RevAccRevSum  -> 0 
+   DoublePochhammer_RevAntiDSum   -> 0 
+   DoublePochhammer_RevColMiddle  -> 0 
+   DoublePochhammer_RevCentralO   -> 0 
+   DoublePochhammer_RevTransNat0  -> 0 
+   DoublePochhammer_RevTransNat1  -> 0 
+   DoublePochhammer_RevTransSqrs  -> 0 
+   DoublePochhammer_RevPolyDiag   -> 0 
+   DoublePochhammer_TablCol0      -> https://oeis.org/A7
+   DoublePochhammer_RevNegHalf    -> https://oeis.org/A7
+   DoublePochhammer_TablDiag0     -> https://oeis.org/A12
+   DoublePochhammer_RevPolyRow1   -> https://oeis.org/A12
+   DoublePochhammer_PolyRow1      -> https://oeis.org/A27
+   DoublePochhammer_TablCol1      -> https://oeis.org/A165
+   DoublePochhammer_PolyCol2      -> https://oeis.org/A165
+   DoublePochhammer_TablSum       -> https://oeis.org/A1147
+   DoublePochhammer_AltSum        -> https://oeis.org/A1147
+   DoublePochhammer_AbsSum        -> https://oeis.org/A1147
+   DoublePochhammer_PolyCol3      -> https://oeis.org/A1147
+   DoublePochhammer_OddSum        -> https://oeis.org/A1193
+   DoublePochhammer_EvenSum       -> https://oeis.org/A1879
+   DoublePochhammer_TablDiag1     -> https://oeis.org/A2378
+   DoublePochhammer_TransNat0     -> https://oeis.org/A4041
+   DoublePochhammer_RevPolyRow2   -> https://oeis.org/A5408
+   DoublePochhammer_PolyRow2      -> https://oeis.org/A5563
+   DoublePochhammer_PosHalf       -> https://oeis.org/A7696
+   DoublePochhammer_RevPolyCol3   -> https://oeis.org/A8542
+   DoublePochhammer_NegHalf       -> https://oeis.org/A8545
+   DoublePochhammer_RevPolyRow3   -> https://oeis.org/A14634
+   DoublePochhammer_TablDiag2     -> https://oeis.org/A36464
+   DoublePochhammer_Toff11        -> https://oeis.org/A39683
+   DoublePochhammer_TablGcd       -> https://oeis.org/A65176
+   DoublePochhammer_Tinv11        -> https://oeis.org/A75497
+   DoublePochhammer_PolyDiag      -> https://oeis.org/A113551
+   DoublePochhammer_AccRevSum     -> https://oeis.org/A114160
+   DoublePochhammer_TransNat1     -> https://oeis.org/A114160
+   DoublePochhammer_TablCol2      -> https://oeis.org/A203159
+   DoublePochhammer_AntiDSum      -> https://oeis.org/A353255
+   DoublePochhammer_PolyRow3      -> https://oeis.org/A370912
+
+   Hits: 31, Distinct: 24, Misses: 37, Doubles: 7
+'''

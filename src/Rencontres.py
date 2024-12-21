@@ -44,3 +44,77 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Rencontres)
+
+
+''' OEIS
+   Rencontres_Trevinv       -> 0 
+   Rencontres_Toff11        -> 0 
+   Rencontres_Trev11        -> 0 
+   Rencontres_Tinv11        -> 0 
+   Rencontres_Trevinv11     -> 0 
+   Rencontres_Tantidiag     -> 0 
+   Rencontres_Tacc          -> 0 
+   Rencontres_TablLcm       -> 0 
+   Rencontres_AntiDSum      -> 0 
+   Rencontres_ColMiddle     -> 0 
+   Rencontres_CentralO      -> 0 
+   Rencontres_BinConv       -> 0 
+   Rencontres_InvBinConv    -> 0 
+   Rencontres_PolyRow3      -> 0 
+   Rencontres_RevToff11     -> 0 
+   Rencontres_RevTrev11     -> 0 
+   Rencontres_RevTacc       -> 0 
+   Rencontres_RevTder       -> 0 
+   Rencontres_RevEvenSum    -> 0 
+   Rencontres_RevOddSum     -> 0 
+   Rencontres_RevColMiddle  -> 0 
+   Rencontres_RevCentralO   -> 0 
+   Rencontres_RevTransSqrs  -> 0 
+   Rencontres_RevPolyRow3   -> 0 
+   Rencontres_RevPolyCol3   -> 0 
+   Rencontres_RevPolyDiag   -> 0 
+   Rencontres_TablDiag1     -> https://oeis.org/A7
+   Rencontres_TablDiag0     -> https://oeis.org/A12
+   Rencontres_TablGcd       -> https://oeis.org/A12
+   Rencontres_RevPolyRow1   -> https://oeis.org/A12
+   Rencontres_AltSum        -> https://oeis.org/A23
+   Rencontres_PolyRow1      -> https://oeis.org/A27
+   Rencontres_TablSum       -> https://oeis.org/A142
+   Rencontres_AbsSum        -> https://oeis.org/A142
+   Rencontres_TransNat0     -> https://oeis.org/A142
+   Rencontres_TablCol0      -> https://oeis.org/A166
+   Rencontres_TablDiag2     -> https://oeis.org/A217
+   Rencontres_TablCol1      -> https://oeis.org/A240
+   Rencontres_PosHalf       -> https://oeis.org/A354
+   Rencontres_TablCol2      -> https://oeis.org/A387
+   Rencontres_TablCol3      -> https://oeis.org/A449
+   Rencontres_PolyCol2      -> https://oeis.org/A522
+   Rencontres_AccSum        -> https://oeis.org/A1563
+   Rencontres_RevAccRevSum  -> https://oeis.org/A1563
+   Rencontres_RevTransNat1  -> https://oeis.org/A1563
+   Rencontres_PolyRow2      -> https://oeis.org/A2522
+   Rencontres_RevPolyRow2   -> https://oeis.org/A2522
+   Rencontres_TablDiag3     -> https://oeis.org/A7290
+   Rencontres_Triangle      -> https://oeis.org/A8290
+   Rencontres_Talt          -> https://oeis.org/A8290
+   Rencontres_PolyCol3      -> https://oeis.org/A10842
+   Rencontres_RevNegHalf    -> https://oeis.org/A10843
+   Rencontres_AccRevSum     -> https://oeis.org/A52849
+   Rencontres_TransNat1     -> https://oeis.org/A52849
+   Rencontres_TransSqrs     -> https://oeis.org/A52849
+   Rencontres_Tinv          -> https://oeis.org/A55137
+   Rencontres_RevTransNat0  -> https://oeis.org/A62119
+   Rencontres_EvenSum       -> https://oeis.org/A62282
+   Rencontres_OddSum        -> https://oeis.org/A63083
+   Rencontres_Trev          -> https://oeis.org/A98825
+   Rencontres_RevTalt       -> https://oeis.org/A98825
+   Rencontres_TablMax       -> https://oeis.org/A174318
+   Rencontres_Tder          -> https://oeis.org/A180188
+   Rencontres_PolyDiag      -> https://oeis.org/A217701
+   Rencontres_CentralE      -> https://oeis.org/A281262
+   Rencontres_NegHalf       -> https://oeis.org/A343582
+   Rencontres_RevTantidiag  -> https://oeis.org/A371995
+   Rencontres_RevAntiDSum   -> https://oeis.org/A372102
+
+   Hits: 42, Distinct: 31, Misses: 26, Doubles: 11
+'''

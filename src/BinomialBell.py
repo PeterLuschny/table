@@ -46,3 +46,77 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(BinomialBell)
+
+
+''' OEIS
+   BinomialBell_Trev11        -> 0 
+   BinomialBell_Tinv11        -> 0 
+   BinomialBell_Trevinv11     -> 0 
+   BinomialBell_Tantidiag     -> 0 
+   BinomialBell_Tacc          -> 0 
+   BinomialBell_Tder          -> 0 
+   BinomialBell_TablLcm       -> 0 
+   BinomialBell_TablGcd       -> 0 
+   BinomialBell_TablMax       -> 0 
+   BinomialBell_AccSum        -> 0 
+   BinomialBell_AntiDSum      -> 0 
+   BinomialBell_ColMiddle     -> 0 
+   BinomialBell_BinConv       -> 0 
+   BinomialBell_InvBinConv    -> 0 
+   BinomialBell_RevToff11     -> 0 
+   BinomialBell_RevTrev11     -> 0 
+   BinomialBell_RevTantidiag  -> 0 
+   BinomialBell_RevTacc       -> 0 
+   BinomialBell_RevTder       -> 0 
+   BinomialBell_RevEvenSum    -> 0 
+   BinomialBell_RevOddSum     -> 0 
+   BinomialBell_RevAccRevSum  -> 0 
+   BinomialBell_RevColMiddle  -> 0 
+   BinomialBell_RevCentralO   -> 0 
+   BinomialBell_RevTransNat1  -> 0 
+   BinomialBell_RevTransSqrs  -> 0 
+   BinomialBell_RevPolyRow3   -> 0 
+   BinomialBell_TablDiag0     -> https://oeis.org/A12
+   BinomialBell_TablDiag1     -> https://oeis.org/A27
+   BinomialBell_PolyRow1      -> https://oeis.org/A27
+   BinomialBell_RevPolyRow1   -> https://oeis.org/A27
+   BinomialBell_TablCol0      -> https://oeis.org/A110
+   BinomialBell_TablSum       -> https://oeis.org/A110
+   BinomialBell_AbsSum        -> https://oeis.org/A110
+   BinomialBell_AltSum        -> https://oeis.org/A296
+   BinomialBell_RevPolyRow2   -> https://oeis.org/A1844
+   BinomialBell_TablDiag2     -> https://oeis.org/A2378
+   BinomialBell_PolyRow2      -> https://oeis.org/A2522
+   BinomialBell_PolyRow3      -> https://oeis.org/A5491
+   BinomialBell_PolyCol2      -> https://oeis.org/A5493
+   BinomialBell_PolyCol3      -> https://oeis.org/A5494
+   BinomialBell_TablCol1      -> https://oeis.org/A52889
+   BinomialBell_Triangle      -> https://oeis.org/A56857
+   BinomialBell_Talt          -> https://oeis.org/A56857
+   BinomialBell_Trev          -> https://oeis.org/A56860
+   BinomialBell_RevTalt       -> https://oeis.org/A56860
+   BinomialBell_TransNat0     -> https://oeis.org/A70071
+   BinomialBell_OddSum        -> https://oeis.org/A102286
+   BinomialBell_TablCol2      -> https://oeis.org/A105479
+   BinomialBell_TablCol3      -> https://oeis.org/A105480
+   BinomialBell_CentralE      -> https://oeis.org/A124102
+   BinomialBell_NegHalf       -> https://oeis.org/A124311
+   BinomialBell_AccRevSum     -> https://oeis.org/A124427
+   BinomialBell_TransNat1     -> https://oeis.org/A124427
+   BinomialBell_PosHalf       -> https://oeis.org/A126390
+   BinomialBell_RevNegHalf    -> https://oeis.org/A126617
+   BinomialBell_RevTransNat0  -> https://oeis.org/A127741
+   BinomialBell_Tinv          -> https://oeis.org/A129334
+   BinomialBell_TablDiag3     -> https://oeis.org/A134481
+   BinomialBell_PolyDiag      -> https://oeis.org/A134980
+   BinomialBell_Trevinv       -> https://oeis.org/A143987
+   BinomialBell_TransSqrs     -> https://oeis.org/A175716
+   BinomialBell_Toff11        -> https://oeis.org/A175757
+   BinomialBell_EvenSum       -> https://oeis.org/A224271
+   BinomialBell_RevPolyCol3   -> https://oeis.org/A284859
+   BinomialBell_CentralO      -> https://oeis.org/A297926
+   BinomialBell_RevAntiDSum   -> https://oeis.org/A303586
+   BinomialBell_RevPolyDiag   -> https://oeis.org/A307066
+
+   Hits: 41, Distinct: 34, Misses: 27, Doubles: 7
+'''
