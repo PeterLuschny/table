@@ -55,3 +55,74 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Polygonal)
+
+
+''' OEIS
+    Polygonal_Trev          -> 0 
+    Polygonal_Tinvrev11     -> 0 
+    Polygonal_Tantidiag     -> 0 
+    Polygonal_Tacc          -> 0 
+    Polygonal_Tder          -> 0 
+    Polygonal_TablLcm       -> 0 
+    Polygonal_TablMax       -> 0 
+    Polygonal_EvenSum       -> 0 
+    Polygonal_OddSum        -> 0 
+    Polygonal_AltSum        -> 0 
+    Polygonal_AccSum        -> 0 
+    Polygonal_AccRevSum     -> 0 
+    Polygonal_AntiDSum      -> 0 
+    Polygonal_ColMiddle     -> 0 
+    Polygonal_TransNat0     -> 0 
+    Polygonal_TransNat1     -> 0 
+    Polygonal_TransSqrs     -> 0 
+    Polygonal_BinConv       -> 0 
+    Polygonal_PolyCol2      -> 0 
+    Polygonal_PolyCol3      -> 0 
+    Polygonal_PolyDiag      -> 0 
+    Polygonal_RevToff11     -> 0 
+    Polygonal_RevTantidiag  -> 0 
+    Polygonal_RevTacc       -> 0 
+    Polygonal_RevTalt       -> 0 
+    Polygonal_RevTder       -> 0 
+    Polygonal_RevEvenSum    -> 0 
+    Polygonal_RevOddSum     -> 0 
+    Polygonal_RevAccRevSum  -> 0 
+    Polygonal_RevAntiDSum   -> 0 
+    Polygonal_RevColMiddle  -> 0 
+    Polygonal_RevNegHalf    -> 0 
+    Polygonal_RevTransNat0  -> 0 
+    Polygonal_RevTransNat1  -> 0 
+    Polygonal_RevTransSqrs  -> 0 
+    Polygonal_RevPolyCol3   -> 0 
+    Polygonal_RevPolyDiag   -> 0 
+    Polygonal_TablCol0      -> https://oeis.org/A7
+    Polygonal_TablCol1      -> https://oeis.org/A12
+    Polygonal_RevPolyRow1   -> https://oeis.org/A12
+    Polygonal_TablCol2      -> https://oeis.org/A27
+    Polygonal_TablDiag0     -> https://oeis.org/A27
+    Polygonal_PolyRow1      -> https://oeis.org/A27
+    Polygonal_RevPolyRow2   -> https://oeis.org/A27
+    Polygonal_TablDiag1     -> https://oeis.org/A217
+    Polygonal_TablDiag2     -> https://oeis.org/A290
+    Polygonal_TablDiag3     -> https://oeis.org/A326
+    Polygonal_RevPolyRow3   -> https://oeis.org/A2061
+    Polygonal_CentralE      -> https://oeis.org/A6000
+    Polygonal_CentralO      -> https://oeis.org/A6003
+    Polygonal_TablCol3      -> https://oeis.org/A8585
+    Polygonal_PolyRow2      -> https://oeis.org/A14105
+    Polygonal_TablSum       -> https://oeis.org/A55795
+    Polygonal_AbsSum        -> https://oeis.org/A55795
+    Polygonal_Toff11        -> https://oeis.org/A57145
+    Polygonal_RevCentralO   -> https://oeis.org/A64808
+    Polygonal_InvBinConv    -> https://oeis.org/A80300
+    Polygonal_TablGcd       -> https://oeis.org/A114890
+    Polygonal_Trev11        -> https://oeis.org/A134394
+    Polygonal_Triangle      -> https://oeis.org/A139600
+    Polygonal_Talt          -> https://oeis.org/A139600
+    Polygonal_RevTrev11     -> https://oeis.org/A139601
+    Polygonal_PolyRow3      -> https://oeis.org/A249354
+    Polygonal_NegHalf       -> https://oeis.org/A360605
+    Polygonal_PosHalf       -> https://oeis.org/A360606
+
+    Polygonal       , Distinct: 23, Hits: 28, Misses: 37
+'''

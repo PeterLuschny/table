@@ -45,3 +45,77 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Jacobsthal)
+
+
+''' OEIS
+    Jacobsthal_Trev          -> 0 
+    Jacobsthal_Trevinv       -> 0 
+    Jacobsthal_Toff11        -> 0 
+    Jacobsthal_Trev11        -> 0 
+    Jacobsthal_Tinv11        -> 0 
+    Jacobsthal_Trevinv11     -> 0 
+    Jacobsthal_Tantidiag     -> 0 
+    Jacobsthal_Tacc          -> 0 
+    Jacobsthal_Tder          -> 0 
+    Jacobsthal_TablCol2      -> 0 
+    Jacobsthal_TablCol3      -> 0 
+    Jacobsthal_TablDiag3     -> 0 
+    Jacobsthal_TablLcm       -> 0 
+    Jacobsthal_TablMax       -> 0 
+    Jacobsthal_AccSum        -> 0 
+    Jacobsthal_ColMiddle     -> 0 
+    Jacobsthal_CentralE      -> 0 
+    Jacobsthal_CentralO      -> 0 
+    Jacobsthal_TransSqrs     -> 0 
+    Jacobsthal_BinConv       -> 0 
+    Jacobsthal_InvBinConv    -> 0 
+    Jacobsthal_PolyCol2      -> 0 
+    Jacobsthal_PolyCol3      -> 0 
+    Jacobsthal_PolyDiag      -> 0 
+    Jacobsthal_RevToff11     -> 0 
+    Jacobsthal_RevTrev11     -> 0 
+    Jacobsthal_RevTantidiag  -> 0 
+    Jacobsthal_RevTacc       -> 0 
+    Jacobsthal_RevTalt       -> 0 
+    Jacobsthal_RevTder       -> 0 
+    Jacobsthal_RevAccRevSum  -> 0 
+    Jacobsthal_RevAntiDSum   -> 0 
+    Jacobsthal_RevColMiddle  -> 0 
+    Jacobsthal_RevCentralO   -> 0 
+    Jacobsthal_RevTransNat0  -> 0 
+    Jacobsthal_RevTransNat1  -> 0 
+    Jacobsthal_RevTransSqrs  -> 0 
+    Jacobsthal_RevPolyRow3   -> 0 
+    Jacobsthal_RevPolyCol3   -> 0 
+    Jacobsthal_RevPolyDiag   -> 0 
+    Jacobsthal_AltSum        -> https://oeis.org/A7
+    Jacobsthal_TablDiag0     -> https://oeis.org/A12
+    Jacobsthal_TablGcd       -> https://oeis.org/A12
+    Jacobsthal_TablDiag1     -> https://oeis.org/A27
+    Jacobsthal_PolyRow1      -> https://oeis.org/A27
+    Jacobsthal_RevPolyRow1   -> https://oeis.org/A27
+    Jacobsthal_PolyRow2      -> https://oeis.org/A290
+    Jacobsthal_RevPolyRow2   -> https://oeis.org/A290
+    Jacobsthal_TablCol0      -> https://oeis.org/A1045
+    Jacobsthal_RevNegHalf    -> https://oeis.org/A1045
+    Jacobsthal_EvenSum       -> https://oeis.org/A2605
+    Jacobsthal_OddSum        -> https://oeis.org/A2605
+    Jacobsthal_RevEvenSum    -> https://oeis.org/A2605
+    Jacobsthal_RevOddSum     -> https://oeis.org/A2605
+    Jacobsthal_AntiDSum      -> https://oeis.org/A6138
+    Jacobsthal_NegHalf       -> https://oeis.org/A15443
+    Jacobsthal_TablSum       -> https://oeis.org/A28860
+    Jacobsthal_AbsSum        -> https://oeis.org/A28860
+    Jacobsthal_TablDiag2     -> https://oeis.org/A52905
+    Jacobsthal_PolyRow3      -> https://oeis.org/A54602
+    Jacobsthal_TablCol1      -> https://oeis.org/A91596
+    Jacobsthal_Triangle      -> https://oeis.org/A322942
+    Jacobsthal_Talt          -> https://oeis.org/A322942
+    Jacobsthal_PosHalf       -> https://oeis.org/A323232
+    Jacobsthal_Tinv          -> https://oeis.org/A330794
+    Jacobsthal_TransNat0     -> https://oeis.org/A331319
+    Jacobsthal_AccRevSum     -> https://oeis.org/A331320
+    Jacobsthal_TransNat1     -> https://oeis.org/A331320
+
+    Jacobsthal      , Distinct: 18, Hits: 28, Misses: 40
+'''

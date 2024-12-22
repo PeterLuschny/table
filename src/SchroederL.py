@@ -45,3 +45,77 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(SchroederL)
+
+
+''' OEIS
+    SchroederL_Trev          -> 0 
+    SchroederL_Trevinv       -> 0 
+    SchroederL_Toff11        -> 0 
+    SchroederL_Trev11        -> 0 
+    SchroederL_Tinv11        -> 0 
+    SchroederL_Trevinv11     -> 0 
+    SchroederL_Tantidiag     -> 0 
+    SchroederL_Tacc          -> 0 
+    SchroederL_Tder          -> 0 
+    SchroederL_TablCol2      -> 0 
+    SchroederL_TablCol3      -> 0 
+    SchroederL_TablDiag2     -> 0 
+    SchroederL_TablDiag3     -> 0 
+    SchroederL_TablLcm       -> 0 
+    SchroederL_TablMax       -> 0 
+    SchroederL_AccSum        -> 0 
+    SchroederL_AccRevSum     -> 0 
+    SchroederL_AntiDSum      -> 0 
+    SchroederL_ColMiddle     -> 0 
+    SchroederL_CentralE      -> 0 
+    SchroederL_CentralO      -> 0 
+    SchroederL_TransNat0     -> 0 
+    SchroederL_TransNat1     -> 0 
+    SchroederL_TransSqrs     -> 0 
+    SchroederL_BinConv       -> 0 
+    SchroederL_InvBinConv    -> 0 
+    SchroederL_PolyRow3      -> 0 
+    SchroederL_PolyCol2      -> 0 
+    SchroederL_PolyCol3      -> 0 
+    SchroederL_PolyDiag      -> 0 
+    SchroederL_RevToff11     -> 0 
+    SchroederL_RevTrev11     -> 0 
+    SchroederL_RevTantidiag  -> 0 
+    SchroederL_RevTacc       -> 0 
+    SchroederL_RevTalt       -> 0 
+    SchroederL_RevTder       -> 0 
+    SchroederL_RevAccRevSum  -> 0 
+    SchroederL_RevAntiDSum   -> 0 
+    SchroederL_RevColMiddle  -> 0 
+    SchroederL_RevCentralO   -> 0 
+    SchroederL_RevTransNat0  -> 0 
+    SchroederL_RevTransNat1  -> 0 
+    SchroederL_RevTransSqrs  -> 0 
+    SchroederL_RevPolyRow3   -> 0 
+    SchroederL_RevPolyCol3   -> 0 
+    SchroederL_RevPolyDiag   -> 0 
+    SchroederL_AltSum        -> https://oeis.org/A7
+    SchroederL_TablDiag0     -> https://oeis.org/A12
+    SchroederL_TablGcd       -> https://oeis.org/A12
+    SchroederL_PolyRow1      -> https://oeis.org/A27
+    SchroederL_RevPolyRow1   -> https://oeis.org/A27
+    SchroederL_RevPolyRow2   -> https://oeis.org/A567
+    SchroederL_TablCol0      -> https://oeis.org/A1003
+    SchroederL_RevNegHalf    -> https://oeis.org/A1003
+    SchroederL_PolyRow2      -> https://oeis.org/A5563
+    SchroederL_TablDiag1     -> https://oeis.org/A16777
+    SchroederL_TablSum       -> https://oeis.org/A109980
+    SchroederL_AbsSum        -> https://oeis.org/A109980
+    SchroederL_Triangle      -> https://oeis.org/A172094
+    SchroederL_Talt          -> https://oeis.org/A172094
+    SchroederL_EvenSum       -> https://oeis.org/A225887
+    SchroederL_OddSum        -> https://oeis.org/A225887
+    SchroederL_RevEvenSum    -> https://oeis.org/A225887
+    SchroederL_RevOddSum     -> https://oeis.org/A225887
+    SchroederL_TablCol1      -> https://oeis.org/A239204
+    SchroederL_NegHalf       -> https://oeis.org/A330802
+    SchroederL_PosHalf       -> https://oeis.org/A331328
+    SchroederL_Tinv          -> https://oeis.org/A331969
+
+    SchroederL      , Distinct: 15, Hits: 22, Misses: 46
+'''

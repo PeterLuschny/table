@@ -49,3 +49,73 @@ if __name__ == "__main__":
 
 
 # See also: https://oeis.org/wiki/User:Peter_Luschny/SwissKnifePolynomials
+
+
+''' OEIS
+    EulerTan_Trev          -> 0 
+    EulerTan_Toff11        -> 0 
+    EulerTan_Trev11        -> 0 
+    EulerTan_Tantidiag     -> 0 
+    EulerTan_Tacc          -> 0 
+    EulerTan_Tder          -> 0 
+    EulerTan_TablCol2      -> 0 
+    EulerTan_TablCol3      -> 0 
+    EulerTan_TablLcm       -> 0 
+    EulerTan_TablMax       -> 0 
+    EulerTan_AccSum        -> 0 
+    EulerTan_AccRevSum     -> 0 
+    EulerTan_AntiDSum      -> 0 
+    EulerTan_ColMiddle     -> 0 
+    EulerTan_CentralO      -> 0 
+    EulerTan_TransNat0     -> 0 
+    EulerTan_TransNat1     -> 0 
+    EulerTan_TransSqrs     -> 0 
+    EulerTan_BinConv       -> 0 
+    EulerTan_InvBinConv    -> 0 
+    EulerTan_PolyCol2      -> 0 
+    EulerTan_PolyCol3      -> 0 
+    EulerTan_RevToff11     -> 0 
+    EulerTan_RevTrev11     -> 0 
+    EulerTan_RevTantidiag  -> 0 
+    EulerTan_RevTacc       -> 0 
+    EulerTan_RevTalt       -> 0 
+    EulerTan_RevTder       -> 0 
+    EulerTan_RevAccRevSum  -> 0 
+    EulerTan_RevAntiDSum   -> 0 
+    EulerTan_RevColMiddle  -> 0 
+    EulerTan_RevCentralO   -> 0 
+    EulerTan_RevNegHalf    -> 0 
+    EulerTan_RevTransNat0  -> 0 
+    EulerTan_RevTransNat1  -> 0 
+    EulerTan_RevTransSqrs  -> 0 
+    EulerTan_RevPolyRow3   -> 0 
+    EulerTan_RevPolyCol3   -> 0 
+    EulerTan_RevPolyDiag   -> 0 
+    EulerTan_TablDiag0     -> https://oeis.org/A7
+    EulerTan_TablDiag2     -> https://oeis.org/A7
+    EulerTan_RevEvenSum    -> https://oeis.org/A7
+    EulerTan_PolyRow1      -> https://oeis.org/A12
+    EulerTan_TablDiag1     -> https://oeis.org/A27
+    EulerTan_RevPolyRow1   -> https://oeis.org/A27
+    EulerTan_EvenSum       -> https://oeis.org/A35
+    EulerTan_PolyRow2      -> https://oeis.org/A5843
+    EulerTan_RevPolyRow2   -> https://oeis.org/A5843
+    EulerTan_TablGcd       -> https://oeis.org/A6519
+    EulerTan_TablDiag3     -> https://oeis.org/A7290
+    EulerTan_TablCol0      -> https://oeis.org/A9006
+    EulerTan_AbsSum        -> https://oeis.org/A9739
+    EulerTan_OddSum        -> https://oeis.org/A9744
+    EulerTan_TablSum       -> https://oeis.org/A9832
+    EulerTan_AltSum        -> https://oeis.org/A9832
+    EulerTan_RevOddSum     -> https://oeis.org/A9832
+    EulerTan_PolyRow3      -> https://oeis.org/A100536
+    EulerTan_TablCol1      -> https://oeis.org/A109573
+    EulerTan_Triangle      -> https://oeis.org/A162660
+    EulerTan_Talt          -> https://oeis.org/A162660
+    EulerTan_CentralE      -> https://oeis.org/A214447
+    EulerTan_PolyDiag      -> https://oeis.org/A302587
+    EulerTan_PosHalf       -> https://oeis.org/A326325
+    EulerTan_NegHalf       -> https://oeis.org/A326325
+    
+    EulerTan        , Distinct: 18, Hits: 25, Misses: 39
+'''

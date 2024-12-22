@@ -43,3 +43,77 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(FiboLucasInv)
+
+
+''' OEIS
+    FiboLucasInv_Trev          -> 0 
+    FiboLucasInv_Toff11        -> 0 
+    FiboLucasInv_Trev11        -> 0 
+    FiboLucasInv_Tinv11        -> 0 
+    FiboLucasInv_Trevinv11     -> 0 
+    FiboLucasInv_Tantidiag     -> 0 
+    FiboLucasInv_Tacc          -> 0 
+    FiboLucasInv_Tder          -> 0 
+    FiboLucasInv_TablCol1      -> 0 
+    FiboLucasInv_TablCol2      -> 0 
+    FiboLucasInv_TablCol3      -> 0 
+    FiboLucasInv_TablLcm       -> 0 
+    FiboLucasInv_TablGcd       -> 0 
+    FiboLucasInv_TablMax       -> 0 
+    FiboLucasInv_EvenSum       -> 0 
+    FiboLucasInv_AbsSum        -> 0 
+    FiboLucasInv_AccSum        -> 0 
+    FiboLucasInv_AccRevSum     -> 0 
+    FiboLucasInv_AntiDSum      -> 0 
+    FiboLucasInv_ColMiddle     -> 0 
+    FiboLucasInv_CentralE      -> 0 
+    FiboLucasInv_CentralO      -> 0 
+    FiboLucasInv_NegHalf       -> 0 
+    FiboLucasInv_TransNat0     -> 0 
+    FiboLucasInv_TransNat1     -> 0 
+    FiboLucasInv_TransSqrs     -> 0 
+    FiboLucasInv_BinConv       -> 0 
+    FiboLucasInv_InvBinConv    -> 0 
+    FiboLucasInv_PolyRow3      -> 0 
+    FiboLucasInv_PolyCol3      -> 0 
+    FiboLucasInv_PolyDiag      -> 0 
+    FiboLucasInv_RevToff11     -> 0 
+    FiboLucasInv_RevTrev11     -> 0 
+    FiboLucasInv_RevTantidiag  -> 0 
+    FiboLucasInv_RevTacc       -> 0 
+    FiboLucasInv_RevTalt       -> 0 
+    FiboLucasInv_RevTder       -> 0 
+    FiboLucasInv_RevEvenSum    -> 0 
+    FiboLucasInv_RevOddSum     -> 0 
+    FiboLucasInv_RevAccRevSum  -> 0 
+    FiboLucasInv_RevAntiDSum   -> 0 
+    FiboLucasInv_RevColMiddle  -> 0 
+    FiboLucasInv_RevCentralO   -> 0 
+    FiboLucasInv_RevNegHalf    -> 0 
+    FiboLucasInv_RevTransNat0  -> 0 
+    FiboLucasInv_RevTransNat1  -> 0 
+    FiboLucasInv_RevTransSqrs  -> 0 
+    FiboLucasInv_RevPolyRow3   -> 0 
+    FiboLucasInv_RevPolyCol3   -> 0 
+    FiboLucasInv_RevPolyDiag   -> 0 
+    FiboLucasInv_TablDiag0     -> https://oeis.org/A12
+    FiboLucasInv_PolyRow1      -> https://oeis.org/A27
+    FiboLucasInv_PosHalf       -> https://oeis.org/A244
+    FiboLucasInv_TablDiag2     -> https://oeis.org/A1477
+    FiboLucasInv_RevPolyRow1   -> https://oeis.org/A5408
+    FiboLucasInv_TablDiag3     -> https://oeis.org/A5843
+    FiboLucasInv_TablDiag1     -> https://oeis.org/A55642
+    FiboLucasInv_RevPolyRow2   -> https://oeis.org/A56105
+    FiboLucasInv_PolyRow2      -> https://oeis.org/A59100
+    FiboLucasInv_TablCol0      -> https://oeis.org/A86990
+    FiboLucasInv_TablSum       -> https://oeis.org/A86990
+    FiboLucasInv_OddSum        -> https://oeis.org/A86990
+    FiboLucasInv_Tinv          -> https://oeis.org/A124038
+    FiboLucasInv_PolyCol2      -> https://oeis.org/A126982
+    FiboLucasInv_Trevinv       -> https://oeis.org/A374439
+    FiboLucasInv_Triangle      -> https://oeis.org/A375025
+    FiboLucasInv_Talt          -> https://oeis.org/A375025
+    FiboLucasInv_AltSum        -> https://oeis.org/A375026
+    
+    FiboLucasInv    , Distinct: 16, Hits: 18, Misses: 50
+'''

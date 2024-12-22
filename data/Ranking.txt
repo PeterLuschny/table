@@ -1,5 +1,45 @@
 Ranking of triangles with regard to their impact:
 
+*** Premier League ***
+
+Stirlingset     Hits: 62, Distinct: 52, Misses:  7, 
+Fallingfact     Hits: 59, Distinct: 47, Misses:  8, 
+Stirlingcycle   Hits: 62, Distinct: 43, Misses:  6, 
+Binarypell      Hits: 55, Distinct: 44, Misses: 13, 
+Lah             Hits: 54, Distinct: 44, Misses: 14, 
+Lucas           Hits: 60, Distinct: 44, Misses:  6,
+Partition       Hits: 54, Distinct: 42, Misses: 15, 
+Catalaninv      Hits: 48, Distinct: 41, Misses: 20, 
+Fubini          Hits: 49, Distinct: 41, Misses: 16, 
+Power           Hits: 49, Distinct: 39, Misses: 20, 
+Besselinv       Hits: 48, Distinct: 38, Misses: 20, 
+Dyckpaths       Hits: 50, Distinct: 38, Misses: 18, 
+Motzkin         Hits: 47, Distinct: 37, Misses: 21, 
+Catalan         Hits: 43, Distinct: 36, Misses: 25,
+Monotone        Hits: 51, Distinct: 36, Misses: 16, 
+Eulerian        Hits: 55, Distinct: 36, Misses: 14, 
+
+*** Second Division ***
+
+Abel            Hits: 41, Distinct: 35, Misses: 27, 
+Abelinv         Hits: 41, Distinct: 35, Misses: 27, 
+Schroeder       Hits: 44, Distinct: 35, Misses: 24, 
+Laguerre        Hits: 43, Distinct: 35, Misses: 25, 
+Narayana        Hits: 54, Distinct: 35, Misses: 15, 
+Bessel          Hits: 41, Distinct: 34, Misses: 27, 
+Binomialbell    Hits: 41, Distinct: 34, Misses: 27, 
+Divisibility    Hits: 57, Distinct: 34, Misses: 12, 
+Catalanpaths    Hits: 51, Distinct: 33, Misses: 17, 
+Chebyshevs      Hits: 48, Distinct: 33, Misses: 20, 
+Orderedcycle    Hits: 38, Distinct: 33, Misses: 26, 
+Nicomachus      Hits: 41, Distinct: 33, Misses: 23,
+Binomialcatalan Hits: 38, Distinct: 32, Misses: 29, 
+LeibnizScheme   Hits: 51, Distinct: 31, Misses: 13,
+Rencontres      Hits: 42, Distinct: 31, Misses: 26, 
+Worpitzky       Hits: 41, Distinct: 30, Misses: 26, 
+
+
+
  (1) [88] ('A048993', 'StirlingSet', 172, 88, 199, 113, 1, 5, 27)
  (2) [84] ('A132393', 'StirlingCycle', 171, 84, 199, 113, 1, 5, 28)
  (3) [75] ('A008279', 'FallingFact', 147, 75, 164, 88, 1, 4, 17)
@@ -204,4 +244,3 @@ It shows the time required to calculate the first 100 rows of each triangle
                 Worpitzky 0.0025 sec
 
                   103 tables tested!
-

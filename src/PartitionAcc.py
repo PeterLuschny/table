@@ -36,3 +36,74 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(PartAcc)
+
+
+''' OEIS
+    PartitionAcc_Triangle      -> 0 
+    PartitionAcc_Trev          -> 0 
+    PartitionAcc_Tantidiag     -> 0 
+    PartitionAcc_Tacc          -> 0 
+    PartitionAcc_Talt          -> 0 
+    PartitionAcc_Tder          -> 0 
+    PartitionAcc_TablLcm       -> 0 
+    PartitionAcc_EvenSum       -> 0 
+    PartitionAcc_OddSum        -> 0 
+    PartitionAcc_AccSum        -> 0 
+    PartitionAcc_AccRevSum     -> 0 
+    PartitionAcc_CentralO      -> 0 
+    PartitionAcc_PosHalf       -> 0 
+    PartitionAcc_NegHalf       -> 0 
+    PartitionAcc_TransNat0     -> 0 
+    PartitionAcc_TransNat1     -> 0 
+    PartitionAcc_TransSqrs     -> 0 
+    PartitionAcc_BinConv       -> 0 
+    PartitionAcc_InvBinConv    -> 0 
+    PartitionAcc_PolyCol2      -> 0 
+    PartitionAcc_PolyCol3      -> 0 
+    PartitionAcc_PolyDiag      -> 0 
+    PartitionAcc_RevToff11     -> 0 
+    PartitionAcc_RevTrev11     -> 0 
+    PartitionAcc_RevTantidiag  -> 0 
+    PartitionAcc_RevTacc       -> 0 
+    PartitionAcc_RevTalt       -> 0 
+    PartitionAcc_RevTder       -> 0 
+    PartitionAcc_RevEvenSum    -> 0 
+    PartitionAcc_RevOddSum     -> 0 
+    PartitionAcc_RevAccRevSum  -> 0 
+    PartitionAcc_RevAntiDSum   -> 0 
+    PartitionAcc_RevNegHalf    -> 0 
+    PartitionAcc_RevTransNat0  -> 0 
+    PartitionAcc_RevTransNat1  -> 0 
+    PartitionAcc_RevTransSqrs  -> 0 
+    PartitionAcc_RevPolyCol3   -> 0 
+    PartitionAcc_RevPolyDiag   -> 0 
+    PartitionAcc_TablCol0      -> https://oeis.org/A7
+    PartitionAcc_TablCol1      -> https://oeis.org/A12
+    PartitionAcc_TablGcd       -> https://oeis.org/A12
+    PartitionAcc_RevPolyRow1   -> https://oeis.org/A12
+    PartitionAcc_PolyRow1      -> https://oeis.org/A27
+    PartitionAcc_RevPolyRow2   -> https://oeis.org/A27
+    PartitionAcc_TablDiag0     -> https://oeis.org/A41
+    PartitionAcc_TablMax       -> https://oeis.org/A41
+    PartitionAcc_TablDiag1     -> https://oeis.org/A65
+    PartitionAcc_TablCol3      -> https://oeis.org/A1399
+    PartitionAcc_TablCol2      -> https://oeis.org/A4526
+    PartitionAcc_TablDiag2     -> https://oeis.org/A7042
+    PartitionAcc_PolyRow2      -> https://oeis.org/A14105
+    PartitionAcc_Toff11        -> https://oeis.org/A26820
+    PartitionAcc_AltSum        -> https://oeis.org/A46682
+    PartitionAcc_TablSum       -> https://oeis.org/A58397
+    PartitionAcc_AbsSum        -> https://oeis.org/A58397
+    PartitionAcc_Trev11        -> https://oeis.org/A58400
+    PartitionAcc_RevPolyRow3   -> https://oeis.org/A59100
+    PartitionAcc_PolyRow3      -> https://oeis.org/A67389
+    PartitionAcc_AntiDSum      -> https://oeis.org/A110618
+    PartitionAcc_ColMiddle     -> https://oeis.org/A110618
+    PartitionAcc_RevCentralO   -> https://oeis.org/A171985
+    PartitionAcc_CentralE      -> https://oeis.org/A209816
+    PartitionAcc_TablDiag3     -> https://oeis.org/A335323
+    PartitionAcc_RevColMiddle  -> https://oeis.org/A336106
+    PartitionAcc_Tinvrev11     -> https://oeis.org/A375383
+
+    PartitionAcc    , Distinct: 22, Hits: 27, Misses: 38
+'''

@@ -1479,8 +1479,10 @@ def AddAnumsToSrcfile(name: str, dict: Dict[str, int] = {}) -> None:
         misses = len([v for v in d.values() if v == 0])
         hits = len(d.values()) - misses
         distincts = len(set(d.values()))
-        dest.write(f"{name:16}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
-        dest.write(r"'''" + "\n")
+        dest.write(
+            f"\n    {name}: Distinct: {distincts}, Hits: {hits}, Misses: {misses}"
+        )
+        dest.write("\n" + r"'''" + "\n")
 
 
 def AnumberDict(
@@ -1566,7 +1568,7 @@ def DictToHtml(
             oeis.write(f"<p style='color:blue'>{B}{C}</p></body></html>")
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
     distincts = len(anumlist)
-    print(f"{T.id:16}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
+    print(f"{T.id:17}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
     return (distincts, hits, misses)
 
 
@@ -1583,8 +1585,10 @@ def warn() -> None:
 
 def RefreshDatabase() -> None:
     """Use with caution."""
-    warn()
+    # warn()
+
     global GlobalDict
+    ReadJsonDict()
     indexpath = GetRoot(f"docs/index.html")
     with open(indexpath, "w+", encoding="utf-8") as index:
         index.write(indheader)
@@ -1866,6 +1870,20 @@ Binomial = Table(
 )
 InvBinomial = Table(
     invbinomial,
+    "InvBinomial",
+    ["A130595"],
+    "A000000",
+    r"(-1)^{n-k} \, n! \, / (k! \, (n - k)! )",
+)
+
+
+@cache
+def binomialinv(n: int) -> list[int]:
+    return [(-1) ** (n - k) * binomial(n)[k] for k in range(n + 1)]
+
+
+BinomialInf = Table(
+    binomialinv,
     "InvBinomial",
     ["A130595"],
     "A000000",
@@ -2554,14 +2572,12 @@ EytzingerOrder = Table(eytzingerorder, "EytzingerOrder", ["A375825"], "", r"%%")
 
 
 @cache
-def eytzingerpermutation(n: int) -> list[int]:
+def eytzingerperm(n: int) -> list[int]:
     t = n * (n + 1) // 2
     return [eytzingerorder(n)[k] + t for k in range(n + 1)]
 
 
-EytzingerPermutation = Table(
-    eytzingerpermutation, "EytzingerPerm", ["A375469"], "", r"%%"
-)
+EytzingerPerm = Table(eytzingerperm, "EytzingerPerm", ["A375469"], "", r"%%")
 
 
 @cache
@@ -3488,7 +3504,7 @@ def risingfactorial(n: int) -> list[int]:
 
 RisingFactorial = Table(
     risingfactorial,
-    "RisingFact",
+    "RisingFactorial",
     ["A124320"],
     "",
     r"k! \binom{n+k-1}{k}",
@@ -3878,6 +3894,7 @@ TablesList: list[Table] = [
     #    Bessel2,
     BinaryPell,
     #    Binomial,
+    #    BinomialInv,
     BinomialBell,
     BinomialCatalan,
     #    BinomialPell,
@@ -3910,7 +3927,7 @@ TablesList: list[Table] = [
     EulerSec,
     #    EulerTan,
     #    EytzingerOrder,
-    #    EytzingerPermutation,
+    #    EytzingerPerm,
     FallingFactorial,
     #    FiboLucas,
     #    FiboLucasInv,
@@ -3924,7 +3941,6 @@ TablesList: list[Table] = [
     #    HermiteE,
     #    HermiteH,
     #    HyperHarmonic,
-    #    InvBinomial,
     #    Jacobsthal,
     #    Kekule,
     #    LabeledGraphs,

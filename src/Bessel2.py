@@ -43,3 +43,75 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Bessel2)
+
+
+''' OEIS
+    Bessel2_Toff11        -> 0 
+    Bessel2_Trev11        -> 0 
+    Bessel2_Tantidiag     -> 0 
+    Bessel2_Tacc          -> 0 
+    Bessel2_Tder          -> 0 
+    Bessel2_TablLcm       -> 0 
+    Bessel2_TablMax       -> 0 
+    Bessel2_AccRevSum     -> 0 
+    Bessel2_AntiDSum      -> 0 
+    Bessel2_ColMiddle     -> 0 
+    Bessel2_CentralO      -> 0 
+    Bessel2_TransNat0     -> 0 
+    Bessel2_TransNat1     -> 0 
+    Bessel2_TransSqrs     -> 0 
+    Bessel2_PolyCol3      -> 0 
+    Bessel2_RevToff11     -> 0 
+    Bessel2_RevTrev11     -> 0 
+    Bessel2_RevTinv11     -> 0 
+    Bessel2_RevTrevinv11  -> 0 
+    Bessel2_RevTantidiag  -> 0 
+    Bessel2_RevTacc       -> 0 
+    Bessel2_RevTder       -> 0 
+    Bessel2_RevColMiddle  -> 0 
+    Bessel2_RevCentralO   -> 0 
+    Bessel2_RevTransSqrs  -> 0 
+    Bessel2_RevPolyDiag   -> 0 
+    Bessel2_TablCol1      -> https://oeis.org/A7
+    Bessel2_TablCol3      -> https://oeis.org/A7
+    Bessel2_OddSum        -> https://oeis.org/A7
+    Bessel2_TablCol0      -> https://oeis.org/A12
+    Bessel2_PolyRow1      -> https://oeis.org/A12
+    Bessel2_RevPolyRow1   -> https://oeis.org/A27
+    Bessel2_TablSum       -> https://oeis.org/A85
+    Bessel2_EvenSum       -> https://oeis.org/A85
+    Bessel2_AltSum        -> https://oeis.org/A85
+    Bessel2_AbsSum        -> https://oeis.org/A85
+    Bessel2_AccSum        -> https://oeis.org/A85
+    Bessel2_RevAccRevSum  -> https://oeis.org/A85
+    Bessel2_RevTransNat1  -> https://oeis.org/A85
+    Bessel2_TablCol2      -> https://oeis.org/A217
+    Bessel2_TablDiag3     -> https://oeis.org/A457
+    Bessel2_RevAntiDSum   -> https://oeis.org/A1515
+    Bessel2_TablDiag2     -> https://oeis.org/A1879
+    Bessel2_PolyRow2      -> https://oeis.org/A2522
+    Bessel2_RevPolyRow2   -> https://oeis.org/A2522
+    Bessel2_PosHalf       -> https://oeis.org/A5425
+    Bessel2_NegHalf       -> https://oeis.org/A5425
+    Bessel2_RevTransNat0  -> https://oeis.org/A13989
+    Bessel2_PolyRow3      -> https://oeis.org/A56107
+    Bessel2_RevEvenSum    -> https://oeis.org/A66223
+    Bessel2_RevOddSum     -> https://oeis.org/A66224
+    Bessel2_TablGcd       -> https://oeis.org/A69834
+    Bessel2_RevPolyRow3   -> https://oeis.org/A79908
+    Bessel2_Trev          -> https://oeis.org/A99174
+    Bessel2_Tinvrev       -> https://oeis.org/A99174
+    Bessel2_RevTalt       -> https://oeis.org/A99174
+    Bessel2_PolyCol2      -> https://oeis.org/A115329
+    Bessel2_RevNegHalf    -> https://oeis.org/A115329
+    Bessel2_TablDiag0     -> https://oeis.org/A123023
+    Bessel2_TablDiag1     -> https://oeis.org/A123023
+    Bessel2_RevPolyCol3   -> https://oeis.org/A202834
+    Bessel2_BinConv       -> https://oeis.org/A344501
+    Bessel2_InvBinConv    -> https://oeis.org/A344501
+    Bessel2_PolyDiag      -> https://oeis.org/A359739
+    Bessel2_Triangle      -> https://oeis.org/A359760
+    Bessel2_Talt          -> https://oeis.org/A359760
+    Bessel2_CentralE      -> https://oeis.org/A359761
+    
+    Bessel2         , Distinct: 25, Hits: 41, Misses: 26'''

@@ -38,3 +38,73 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(HermiteH)
+
+
+''' OEIS
+    HermiteH_Trev          -> 0 
+    HermiteH_Toff11        -> 0 
+    HermiteH_Trev11        -> 0 
+    HermiteH_Tantidiag     -> 0 
+    HermiteH_Tacc          -> 0 
+    HermiteH_Tder          -> 0 
+    HermiteH_TablCol2      -> 0 
+    HermiteH_TablCol3      -> 0 
+    HermiteH_TablLcm       -> 0 
+    HermiteH_EvenSum       -> 0 
+    HermiteH_OddSum        -> 0 
+    HermiteH_AccSum        -> 0 
+    HermiteH_AccRevSum     -> 0 
+    HermiteH_AntiDSum      -> 0 
+    HermiteH_ColMiddle     -> 0 
+    HermiteH_CentralE      -> 0 
+    HermiteH_CentralO      -> 0 
+    HermiteH_PosHalf       -> 0 
+    HermiteH_NegHalf       -> 0 
+    HermiteH_TransNat0     -> 0 
+    HermiteH_TransNat1     -> 0 
+    HermiteH_TransSqrs     -> 0 
+    HermiteH_BinConv       -> 0 
+    HermiteH_InvBinConv    -> 0 
+    HermiteH_PolyRow3      -> 0 
+    HermiteH_PolyDiag      -> 0 
+    HermiteH_RevToff11     -> 0 
+    HermiteH_RevTrev11     -> 0 
+    HermiteH_RevTantidiag  -> 0 
+    HermiteH_RevTacc       -> 0 
+    HermiteH_RevTalt       -> 0 
+    HermiteH_RevTder       -> 0 
+    HermiteH_RevAccRevSum  -> 0 
+    HermiteH_RevAntiDSum   -> 0 
+    HermiteH_RevColMiddle  -> 0 
+    HermiteH_RevCentralO   -> 0 
+    HermiteH_RevTransNat0  -> 0 
+    HermiteH_RevTransNat1  -> 0 
+    HermiteH_RevTransSqrs  -> 0 
+    HermiteH_RevPolyRow3   -> 0 
+    HermiteH_RevPolyCol3   -> 0 
+    HermiteH_RevPolyDiag   -> 0 
+    HermiteH_TablDiag1     -> https://oeis.org/A7
+    HermiteH_TablDiag3     -> https://oeis.org/A7
+    HermiteH_RevOddSum     -> https://oeis.org/A7
+    HermiteH_TablDiag0     -> https://oeis.org/A79
+    HermiteH_TablSum       -> https://oeis.org/A898
+    HermiteH_AltSum        -> https://oeis.org/A898
+    HermiteH_AbsSum        -> https://oeis.org/A898
+    HermiteH_RevEvenSum    -> https://oeis.org/A898
+    HermiteH_TablDiag2     -> https://oeis.org/A1815
+    HermiteH_PolyRow1      -> https://oeis.org/A5843
+    HermiteH_PolyRow2      -> https://oeis.org/A5899
+    HermiteH_TablGcd       -> https://oeis.org/A16116
+    HermiteH_RevPolyRow1   -> https://oeis.org/A55642
+    HermiteH_Triangle      -> https://oeis.org/A60821
+    HermiteH_Talt          -> https://oeis.org/A60821
+    HermiteH_TablCol0      -> https://oeis.org/A67994
+    HermiteH_TablCol1      -> https://oeis.org/A67994
+    HermiteH_PolyCol3      -> https://oeis.org/A79949
+    HermiteH_PolyCol2      -> https://oeis.org/A127394
+    HermiteH_RevNegHalf    -> https://oeis.org/A127394
+    HermiteH_RevPolyRow2   -> https://oeis.org/A255843
+    HermiteH_TablMax       -> https://oeis.org/A277281
+    
+    HermiteH        , Distinct: 15, Hits: 22, Misses: 42
+'''

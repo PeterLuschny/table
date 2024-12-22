@@ -760,8 +760,8 @@ def AddAnumsToSrcfile(name: str, dict: Dict[str, int] = {}) -> None:
         hits = len(d.values()) - misses
         distincts = len(set(d.values()))
 
-        dest.write(f"{name:16}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
-        dest.write(r"'''" + "\n")
+        dest.write(f"\n    {name}: Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
+        dest.write("\n" + r"'''" + "\n")
 
 
 def AnumberDict(
@@ -849,7 +849,7 @@ def DictToHtml(
             miss.write(f"<p style='color:blue'>{A}{C}</p></body></html>")
 
     distincts = len(anumlist)
-    print(f"{T.id:16}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
+    print(f"{T.id:17}, Distinct: {distincts}, Hits: {hits}, Misses: {misses}")
     return (distincts, hits, misses)
 
 
@@ -864,9 +864,10 @@ def warn() -> None:
 
 def RefreshDatabase() -> None:
     """Use with caution."""
-    warn()
-
+    #warn()
+    
     global GlobalDict
+    ReadJsonDict()
 
     indexpath = GetRoot(f"docs/index.html")
     with open(indexpath, "w+", encoding="utf-8") as index:
@@ -987,7 +988,7 @@ if __name__ == "__main__":
     # OccList()
     # RefreshHtml(True)
 
-    # RefreshDatabase()
+    RefreshDatabase()
 
     #for T in TablesList:
     #    print(T.id, T.tex)
@@ -995,7 +996,7 @@ if __name__ == "__main__":
     #for k, v in GlobalDict.items():
     #    print(k, len(v.values()))
 
-    AddTable(WardSet) # type: ignore
+    # AddTable(WardSet) # type: ignore
     
     #AddAnumsToSrcfile("Fubini")
 

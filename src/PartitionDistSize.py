@@ -52,3 +52,73 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(PartDistSize)
+
+
+''' OEIS
+    PartitionDistSize_Trev          -> 0 
+    PartitionDistSize_Toff11        -> 0 
+    PartitionDistSize_Trev11        -> 0 
+    PartitionDistSize_Tantidiag     -> 0 
+    PartitionDistSize_Tacc          -> 0 
+    PartitionDistSize_Tder          -> 0 
+    PartitionDistSize_TablLcm       -> 0 
+    PartitionDistSize_TablGcd       -> 0 
+    PartitionDistSize_TablMax       -> 0 
+    PartitionDistSize_AntiDSum      -> 0 
+    PartitionDistSize_ColMiddle     -> 0 
+    PartitionDistSize_PosHalf       -> 0 
+    PartitionDistSize_NegHalf       -> 0 
+    PartitionDistSize_BinConv       -> 0 
+    PartitionDistSize_InvBinConv    -> 0 
+    PartitionDistSize_RevToff11     -> 0 
+    PartitionDistSize_RevTrev11     -> 0 
+    PartitionDistSize_RevTantidiag  -> 0 
+    PartitionDistSize_RevTacc       -> 0 
+    PartitionDistSize_RevTalt       -> 0 
+    PartitionDistSize_RevTder       -> 0 
+    PartitionDistSize_RevEvenSum    -> 0 
+    PartitionDistSize_RevOddSum     -> 0 
+    PartitionDistSize_RevAntiDSum   -> 0 
+    PartitionDistSize_RevNegHalf    -> 0 
+    PartitionDistSize_RevTransSqrs  -> 0 
+    PartitionDistSize_RevPolyCol3   -> 0 
+    PartitionDistSize_RevPolyDiag   -> 0 
+    PartitionDistSize_TablCol1      -> https://oeis.org/A5
+    PartitionDistSize_TablCol0      -> https://oeis.org/A7
+    PartitionDistSize_TablDiag0     -> https://oeis.org/A7
+    PartitionDistSize_TablDiag1     -> https://oeis.org/A7
+    PartitionDistSize_TablDiag2     -> https://oeis.org/A7
+    PartitionDistSize_TablDiag3     -> https://oeis.org/A7
+    PartitionDistSize_CentralE      -> https://oeis.org/A7
+    PartitionDistSize_RevCentralO   -> https://oeis.org/A7
+    PartitionDistSize_RevPolyRow1   -> https://oeis.org/A12
+    PartitionDistSize_PolyRow1      -> https://oeis.org/A27
+    PartitionDistSize_CentralO      -> https://oeis.org/A38
+    PartitionDistSize_TablSum       -> https://oeis.org/A41
+    PartitionDistSize_AbsSum        -> https://oeis.org/A41
+    PartitionDistSize_AccRevSum     -> https://oeis.org/A70
+    PartitionDistSize_TransNat0     -> https://oeis.org/A70
+    PartitionDistSize_TransNat1     -> https://oeis.org/A70
+    PartitionDistSize_TablCol2      -> https://oeis.org/A2133
+    PartitionDistSize_TablCol3      -> https://oeis.org/A2134
+    PartitionDistSize_PolyRow3      -> https://oeis.org/A5563
+    PartitionDistSize_PolyRow2      -> https://oeis.org/A5843
+    PartitionDistSize_RevPolyRow2   -> https://oeis.org/A5843
+    PartitionDistSize_RevPolyRow3   -> https://oeis.org/A14105
+    PartitionDistSize_PolyCol2      -> https://oeis.org/A15128
+    PartitionDistSize_OddSum        -> https://oeis.org/A90794
+    PartitionDistSize_EvenSum       -> https://oeis.org/A92306
+    PartitionDistSize_AltSum        -> https://oeis.org/A104575
+    PartitionDistSize_TransSqrs     -> https://oeis.org/A135348
+    PartitionDistSize_RevColMiddle  -> https://oeis.org/A138954
+    PartitionDistSize_RevTransNat0  -> https://oeis.org/A194552
+    PartitionDistSize_PolyCol3      -> https://oeis.org/A264686
+    PartitionDistSize_PolyDiag      -> https://oeis.org/A321880
+    PartitionDistSize_AccSum        -> https://oeis.org/A365675
+    PartitionDistSize_RevAccRevSum  -> https://oeis.org/A365675
+    PartitionDistSize_RevTransNat1  -> https://oeis.org/A365675
+    PartitionDistSize_Triangle      -> https://oeis.org/A365676
+    PartitionDistSize_Talt          -> https://oeis.org/A365676
+
+    PartitionDistSize, Distinct: 24, Hits: 36, Misses: 28
+'''

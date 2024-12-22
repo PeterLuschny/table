@@ -19,6 +19,7 @@ tabl_files: list[str] = [
     "Bessel2.py",
     "BinaryPell.py",
     "Binomial.py",
+    "BinomialInv.py",
     "BinomialBell.py",
     "BinomialCatalan.py",
     "BinomialPell.py",
@@ -26,7 +27,7 @@ tabl_files: list[str] = [
     "Catalan.py",
     "CatalanInv.py",
     "CatalanPaths.py",
-    "CentralCyc.py",
+    "CentralCycle.py",
     "CentralSet.py",
     "Chains.py",
     "Charlier.py",
@@ -52,7 +53,7 @@ tabl_files: list[str] = [
     "EulerSec.py",
     "EulerTan.py",
     "EytzingerOrder.py",
-    "EytzingerPermutation.py",
+    "EytzingerPerm.py",
     "FallingFactorial.py",
     "FiboLucas.py",
     "FiboLucasInv.py",
@@ -143,6 +144,7 @@ TablesList: list[Table] = [
 #    Bessel2,
     BinaryPell,
 #    Binomial,
+#    BinomialInv,
     BinomialBell,
     BinomialCatalan,
 #    BinomialPell,
@@ -175,7 +177,7 @@ TablesList: list[Table] = [
     EulerSec,
 #    EulerTan,
 #    EytzingerOrder,
-#    EytzingerPermutation,
+#    EytzingerPerm,
     FallingFactorial,
 #    FiboLucas,
 #    FiboLucasInv,
@@ -189,7 +191,6 @@ TablesList: list[Table] = [
 #    HermiteE,
 #    HermiteH,
 #    HyperHarmonic,
-#    InvBinomial,
 #    Jacobsthal,
 #    Kekule,
 #    LabeledGraphs,
@@ -244,6 +245,7 @@ TablesList: list[Table] = [
 #    WardCycle,
     Worpitzky,
 ]\n""".format()
+
 
 import_header: list[str] = [
     "from functools import cache\n",

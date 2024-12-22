@@ -40,3 +40,73 @@ if __name__ == "__main__":
     from _tablutils import PreView
 
     PreView(Bell)
+
+
+''' OEIS
+    Bell_Trev11        -> 0 
+    Bell_Tantidiag     -> 0 
+    Bell_Tacc          -> 0 
+    Bell_Tder          -> 0 
+    Bell_TablLcm       -> 0 
+    Bell_EvenSum       -> 0 
+    Bell_OddSum        -> 0 
+    Bell_AntiDSum      -> 0 
+    Bell_TransNat0     -> 0 
+    Bell_TransSqrs     -> 0 
+    Bell_PolyRow2      -> 0 
+    Bell_PolyRow3      -> 0 
+    Bell_PolyCol3      -> 0 
+    Bell_PolyDiag      -> 0 
+    Bell_RevToff11     -> 0 
+    Bell_RevTantidiag  -> 0 
+    Bell_RevTacc       -> 0 
+    Bell_RevTder       -> 0 
+    Bell_RevEvenSum    -> 0 
+    Bell_RevOddSum     -> 0 
+    Bell_RevAntiDSum   -> 0 
+    Bell_RevNegHalf    -> 0 
+    Bell_RevTransSqrs  -> 0 
+    Bell_RevPolyRow2   -> 0 
+    Bell_RevPolyRow3   -> 0 
+    Bell_RevPolyCol3   -> 0 
+    Bell_RevPolyDiag   -> 0 
+    Bell_TablGcd       -> https://oeis.org/A12
+    Bell_InvBinConv    -> https://oeis.org/A12
+    Bell_RevPolyRow1   -> https://oeis.org/A27
+    Bell_TablCol0      -> https://oeis.org/A110
+    Bell_TablDiag0     -> https://oeis.org/A110
+    Bell_TablMax       -> https://oeis.org/A110
+    Bell_PolyRow1      -> https://oeis.org/A5408
+    Bell_TablDiag1     -> https://oeis.org/A5493
+    Bell_TablSum       -> https://oeis.org/A5493
+    Bell_AbsSum        -> https://oeis.org/A5493
+    Bell_TablDiag2     -> https://oeis.org/A11965
+    Bell_TablDiag3     -> https://oeis.org/A11966
+    Bell_TablCol1      -> https://oeis.org/A11968
+    Bell_TablCol2      -> https://oeis.org/A11969
+    Bell_TablCol3      -> https://oeis.org/A11970
+    Bell_Triangle      -> https://oeis.org/A11971
+    Bell_Talt          -> https://oeis.org/A11971
+    Bell_Toff11        -> https://oeis.org/A11972
+    Bell_RevTrev11     -> https://oeis.org/A11972
+    Bell_CentralO      -> https://oeis.org/A20556
+    Bell_RevTransNat0  -> https://oeis.org/A92923
+    Bell_CentralE      -> https://oeis.org/A94577
+    Bell_PolyCol2      -> https://oeis.org/A95676
+    Bell_Trev          -> https://oeis.org/A123346
+    Bell_RevTalt       -> https://oeis.org/A123346
+    Bell_AccSum        -> https://oeis.org/A124325
+    Bell_RevAccRevSum  -> https://oeis.org/A124325
+    Bell_RevTransNat1  -> https://oeis.org/A124325
+    Bell_BinConv       -> https://oeis.org/A126390
+    Bell_RevCentralO   -> https://oeis.org/A208782
+    Bell_ColMiddle     -> https://oeis.org/A216078
+    Bell_RevColMiddle  -> https://oeis.org/A216332
+    Bell_AccRevSum     -> https://oeis.org/A278677
+    Bell_TransNat1     -> https://oeis.org/A278677
+    Bell_AltSum        -> https://oeis.org/A367775
+    Bell_PosHalf       -> https://oeis.org/A367808
+    Bell_NegHalf       -> https://oeis.org/A367809
+
+    Bell: Distinct: 27, Hits: 37, Misses: 27
+'''
