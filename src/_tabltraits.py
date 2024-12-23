@@ -820,7 +820,7 @@ def DictToHtml(
 
             for fullname, anum in d.items():
                 if info: 
-                    print(f"   {fullname} -> {anum}") # prints sorted dict 
+                    print(f"    {fullname} -> {anum}") # prints sorted dict 
                 
                 traitfun, size, tex = AllTraits[fullname.split("_")[1]]
                 seq = SeqToString(traitfun(T, size), 40, 20) 
@@ -966,7 +966,8 @@ if __name__ == "__main__":
     from Divisibility import Divisibility  # type: ignore
     from Moebius import Moebius          # type: ignore
     from CatalanInv import CatalanInv    # type: ignore
-    from WardSet import WardSet    # type: ignore
+    from WardSet import WardSet          # type: ignore
+    from LahInv import LahInv            # type: ignore
 
     def test(T: Table, LEN: int) -> None:
         print("TablCol")
@@ -982,13 +983,13 @@ if __name__ == "__main__":
         for n in range(4):
             print(PolyCol(T, n, LEN))
         print()
-
     # test(Abel, 10)
+
+    AddTable(LahInv) # type: ignore
 
     # OccList()
     # RefreshHtml(True)
-
-    RefreshDatabase()
+    # RefreshDatabase()
 
     #for T in TablesList:
     #    print(T.id, T.tex)
@@ -996,8 +997,6 @@ if __name__ == "__main__":
     #for k, v in GlobalDict.items():
     #    print(k, len(v.values()))
 
-    # AddTable(WardSet) # type: ignore
-    
     #AddAnumsToSrcfile("Fubini")
 
     #for k, v in dict.items():
