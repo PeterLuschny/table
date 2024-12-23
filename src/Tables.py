@@ -632,7 +632,7 @@ def PreView(T: Table, size: int = 7) -> None:
     print("trans      ", T.trans(lambda n: n * n, size))
     print("invtrans   ", T.invtrans(lambda n: n * n, size))
     print("TABLE      ")
-    T.show(size + 2)
+    T.show(size + 3)
     print("Timing 100 rows:", end="")
     QuickTiming(T)
 
@@ -1536,7 +1536,7 @@ def DictToHtml(
             d = {k: v for k, v in sorted(dict.items(), key=lambda item: item[1])}
             for fullname, anum in d.items():
                 if info:
-                    print(f"   {fullname} -> {anum}")  # prints sorted dict
+                    print(f"    {fullname} -> {anum}")  # prints sorted dict
 
                 traitfun, size, tex = AllTraits[fullname.split("_")[1]]
                 seq = SeqToString(traitfun(T, size), 40, 20)
@@ -3492,6 +3492,22 @@ Rencontres = Table(
 
 
 @cache
+def rencontresinv(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    return [(n - k - 1) * binomial(n)[k] for k in range(n)] + [1]
+
+
+RencontresInv = Table(
+    rencontresinv,
+    "RencontresInv",
+    ["A055137"],
+    "A008290",
+    r"\binom{n}{k} (n-k-1)",
+)
+
+
+@cache
 def risingfactorial(n: int) -> list[int]:
     if n == 0:
         return [1]
@@ -3976,6 +3992,7 @@ TablesList: list[Table] = [
     #    PowLaguerre,
     Power,
     Rencontres,
+    RencontresInv,
     #    RisingFactorial,
     #    RootedTree,
     Schroeder,
