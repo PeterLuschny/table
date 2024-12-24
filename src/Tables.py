@@ -5,13 +5,14 @@ from functools import reduce
 from math import factorial, sqrt, lcm, gcd
 from fractions import Fraction
 import operator
+from operator import itemgetter
 import time
 from pathlib import Path
 import requests
 import json
 from requests import get
 from sys import setrecursionlimit, set_int_max_str_digits
-from typing import Callable, TypeAlias, Iterator, Dict, Tuple
+from typing import Callable, TypeAlias, Iterator, Dict, Tuple, NamedTuple
 
 setrecursionlimit(3000)
 set_int_max_str_digits(5000)
@@ -1340,6 +1341,10 @@ def Rev_InvBinConv(t: Table, size: int = 28) -> list[int]:
     (Table:Class, Trait:Function) -> (Anum:Url, TreatInfo:TeXString)
 """
 TraitInfo: TypeAlias = Tuple[trait, int, str]
+"""The dictionary of all traits with their respective functions and TeX strings.
+   The size of the table is set to 7, 9 or 28 rows for the default case.
+   It is mandatory that this list starts with 'Triangle'!
+"""
 AllTraits: dict[str, TraitInfo] = {
     "Triangle     ": (Triangle, 7, r"\(T_{n, k}\)"),
     "Tinv         ": (Tinv, 7, r"\(T^{-1}_{n, k}\)"),
@@ -1607,7 +1612,7 @@ def RefreshDatabase() -> None:
         json.dump(GlobalDict, fileson)
 
 
-def ReadJsonDict() -> None:
+def ReadJsonDict() -> Dict[str, Dict[str, int]]:
     global GlobalDict
     jsonpath = GetRoot(f"data/AllTraits.json")
     try:
@@ -1617,8 +1622,9 @@ def ReadJsonDict() -> None:
         print("No file 'AllTraits.json' found.")
         GlobalDict = {}
         print("New GlobalDict created.")
-        return
+        return GlobalDict
     print("GlobalDict loaded with file AllTraits.json!")
+    return GlobalDict
 
 
 def AddTable(T: Table, dict: Dict[str, int] = {}) -> Dict[str, int]:
@@ -1665,6 +1671,40 @@ def OccList() -> None:
         if len(names) > 10:
             print(str(anum).rjust(6, "0"), len(names))
     print(sorted(li), len(li))
+
+
+class Rank(NamedTuple):
+    anum: str
+    name: str
+    distinct: int
+    hits: int
+    misses: int
+
+
+def Ranking() -> Dict[int, Rank]:
+    globaldict: Dict[str, Dict[str, int]] = ReadJsonDict()
+    ranks: list[Rank] = []
+    for name in globaldict:
+        v = list(globaldict[name].values())
+        a = len(v)
+        d = len(set(v))
+        m = len([k for k in v if k == 0])
+        anum = f"A{str(v[0]):6}"
+        ranks.append(Rank(anum, name, d, a - m, m))
+    sorted_ranks = sorted(ranks, key=itemgetter(2), reverse=True)
+    Rankings = {n: r for n, r in enumerate(sorted_ranks)}
+    print("\nRanking of triangles with regard to their impact:\n")
+    for n, r in Rankings.items():
+        print(
+            f"[{n:2}] {r.name:17} [{r.anum}]  Distinct: {r.distinct:2}, Hits: {r.hits:2}, Misses: {r.misses:2}."
+        )
+    return Rankings
+
+
+""" Note that we removed 
+    [11] LahInv            [A271703 ]  Distinct: 40, Hits: 47, Misses: 21.
+    because Lah is involutory.
+"""
 
 
 @cache
@@ -1834,7 +1874,11 @@ def binarypell(n: int) -> list[int]:
 
 
 BinaryPell = Table(
-    binarypell, "BinaryPell", ["A038207"], "A000000", r"\binom{n}{k} \, 2^{n-k}"
+    binarypell,
+    "BinaryPell",
+    ["A038207"],
+    "A065109",  # involutory
+    r"\binom{n}{k} \, 2^{n-k}",
 )
 
 
@@ -1865,7 +1909,7 @@ Binomial = Table(
         "A135278",
         "A154926",
     ],
-    "A000000",
+    "A130595",
     r"n! \, / (k! \, (n - k)! )",
 )
 InvBinomial = Table(
@@ -1886,7 +1930,7 @@ BinomialInf = Table(
     binomialinv,
     "InvBinomial",
     ["A130595"],
-    "A000000",
+    "A007318",
     r"(-1)^{n-k} \, n! \, / (k! \, (n - k)! )",
 )
 
@@ -1909,7 +1953,7 @@ BinomialBell = Table(
     binomialbell,
     "BinomialBell",
     ["A056857", "A056860"],
-    "A000000",
+    "",  # not invertible
     r"\binom{n}{k} \text{Bell}(n-k)",
 )
 
@@ -1931,7 +1975,7 @@ BinomialCatalan = Table(
     binomialcatalan,
     "BinomialCatalan",
     ["A124644", "A098474"],
-    "A000000",
+    "",  # not invertible
     r"\binom{n}{k} \text{Catalan}(n - k)",
 )
 
@@ -1954,7 +1998,7 @@ BinomialPell = Table(
     binomialpell,
     "BinomialPell",
     ["A367211"],
-    "A000000",
+    "",  # not invertible
     r"\binom{n+1}{k}\, \text{Pell}(n+1-k)",
 )
 
@@ -2046,7 +2090,7 @@ CatalanPaths = Table(
     catalanpaths,
     "CatalanPaths",
     ["A053121", "A052173", "A112554", "A322378"],
-    "A000000",
+    "A049310",  # this is the Chebyshev S triangle
     r"is(k = 0)\ ? \ 0 : \frac{k+1}{n+1} \binom{n+1}{(n-k)/2}",
 )
 
@@ -2067,7 +2111,7 @@ CentralCycle = Table(
     centralcycle,
     "CentralCycle",
     ["A269940", "A111999", "A259456"],
-    "",
+    "",  # not ivertible
     r"%%",
 )
 
@@ -2088,8 +2132,29 @@ CentralSet = Table(
     centralset,
     "CentralSet",
     ["A269945", "A008957", "A036969"],
-    "A000000",
+    "A269944",  # also "A204579"
     r"is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2\ T(n-1, k)",
+)
+
+
+@cache
+def centralsetinv(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    if n == 1:
+        return [0, 1]
+    row = centralsetinv(n - 1) + [1]
+    for k in range(n - 1, 0, -1):
+        row[k] = (n - 1) ** 2 * row[k] + row[k - 1]
+    return row
+
+
+CentralSetInv = Table(
+    centralsetinv,
+    "CentralSetInv",
+    ["A269944", "A204579"],
+    "A269945",
+    r"%%",
 )
 
 
@@ -2149,7 +2214,7 @@ ChebyshevS = Table(
     chebyshevs,
     "ChebyshevS",
     ["A049310", "A053119", "A112552", "A168561"],
-    "A000000",
+    "A053121",  # this is the Catalan Paths triangle
     r"is(n+k \text{ even}) ? \binom{(n+k)/2}{k} : 0",
 )
 
@@ -2169,7 +2234,11 @@ def chebyshevt(n: int) -> list[int]:
 
 
 ChebyshevT = Table(
-    chebyshevt, "ChebyshevT", ["A053120", "A039991", "A081265"], "A000000", r"%%"
+    chebyshevt,
+    "ChebyshevT",
+    ["A053120", "A039991", "A081265"],
+    "",  # not invertible
+    r"%%",
 )
 
 
@@ -2188,7 +2257,11 @@ def chebyshevu(n: int) -> list[int]:
 
 
 ChebyshevU = Table(
-    chebyshevu, "ChebyshevU", ["A053117", "A053118", "A115322"], "A000000", r"%%"
+    chebyshevu,
+    "ChebyshevU",
+    ["A053117", "A053118", "A115322"],
+    "",  # not integer-invertible
+    r"%%",
 )
 
 
@@ -2209,10 +2282,14 @@ def _composition(n: int, k: int) -> int:
 
 @cache
 def composition(n: int) -> list[int]:
+    if n == 0:
+        return [1]
     return [_composition(n - 1, k - 1) for k in range(n + 1)]
 
 
-Composition = Table(composition, "Composition", ["A048004"], "A000000", r"%%")
+Composition = Table(
+    composition, "Composition", ["A048004"], "A000000", r"%%"  # invertible, not in OEIS
+)
 
 
 @cache
@@ -2220,7 +2297,9 @@ def compoacc(n: int) -> list[int]:
     return list(accumulate(composition(n)))
 
 
-CompoAcc = Table(compoacc, "CompositionAcc", ["A126198"], "", r"%%")
+CompoAcc = Table(
+    compoacc, "CompositionAcc", ["A126198"], "", r"%%"  # not integer-invertible
+)
 
 
 @cache
@@ -2376,7 +2455,7 @@ Entringer = Table(
     entringer,
     "Entringer",
     ["A008281", "A008282", "A010094"],
-    "A000000",
+    "",  # not invertible
     r"is(k=0) \ ? \ 0^n : T(n, k-1) + T(n-1, n-k)",
 )
 
@@ -2963,16 +3042,14 @@ Leibniz = Table(leibniz, "Leibniz", ["A003506"], "", r"(k+1) \, \binom{n+1}{k+1}
 
 
 @cache
-def leibnizscheme(n: int) -> list[int]:
+def leibniztable(n: int) -> list[int]:
     if n == 0:
         return [0]
-    L = leibnizscheme(n - 1)
+    L = leibniztable(n - 1)
     return [L[k] + k for k in range(n)] + [n]
 
 
-LeibnizScheme = Table(
-    leibnizscheme, "LeibnizScheme", ["A003991"], "", r"k\,(n - k + 1)"
-)
+LeibnizTable = Table(leibniztable, "LeibnizTable", ["A003991"], "", r"k\,(n - k + 1)")
 
 
 @cache
@@ -3027,6 +3104,25 @@ def lucas(n: int) -> list[int]:
 
 Lucas = Table(
     lucas, "Lucas", ["A029635", "A029653"], "", r"\binom{n}{k} + \binom{n-1}{k-1}"
+)
+
+
+@cache
+def lucasinv(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+    r = [1] + lucasinv(n - 1)
+    for k in range(1, n):
+        r[k] += 2 * r[k + 1]
+    return r
+
+
+LucasInv = Table(
+    lucasinv,
+    "LucasInv",
+    ["A112857"],
+    "A029635",
+    r"\sum_{j=k^n} \binom{n}{j} \binom{j-1}{k-1}",
 )
 
 
@@ -3118,7 +3214,7 @@ def motzkin(n: int) -> list[int]:
 Motzkin = Table(
     motzkin,
     "Motzkin",
-    ["A064189", "A026300", "A009766"],
+    ["A064189", "A026300", "A009766", "A122896"],
     "A000000",
     r"\binom{n}{k} \text{Hyper}([(k-n)/2, (k-n+1)/2], [k+2], 4)",
 )
@@ -3920,6 +4016,7 @@ TablesList: list[Table] = [
     CatalanPaths,
     #    CentralCycle,
     #    CentralSet,
+    CentralSetInv,
     #    Chains,
     Charlier,
     ChebyshevS,
@@ -3964,10 +4061,11 @@ TablesList: list[Table] = [
     Lah,
     #    Lehmer,
     #    Leibniz,
-    #    LeibnizScheme,
+    #    LeibnizTable,
     #    Levin,
     #    Lozanic,
-    #    Lucas,
+    Lucas,
+    LucasInv,
     #    LucasPoly,
     Moebius,
     Monotone,

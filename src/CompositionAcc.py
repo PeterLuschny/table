@@ -28,7 +28,7 @@ CompoAcc = Table(
     compoacc, 
     "CompositionAcc", 
     ["A126198"], 
-    "",
+    "",  # not integer-invertible
     r"%%"
 )
 

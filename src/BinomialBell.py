@@ -37,7 +37,7 @@ BinomialBell = Table(
     binomialbell,
     "BinomialBell",
     ["A056857", "A056860"],
-    "A000000",
+    "",  # not invertible
     r"\binom{n}{k} \text{Bell}(n-k)",
 )
 

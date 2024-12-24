@@ -37,7 +37,7 @@ BinomialPell = Table(
     binomialpell,
     "BinomialPell",
     ["A367211"],
-    "A000000",
+    "", # not invertible
     r"\binom{n+1}{k}\, \text{Pell}(n+1-k)",
 )
 

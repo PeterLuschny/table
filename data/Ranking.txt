@@ -2,41 +2,43 @@ Ranking of triangles with regard to their impact:
 
 *** Premier League ***
 
-Stirlingset     Hits: 62, Distinct: 52, Misses:  7, 
-Fallingfact     Hits: 59, Distinct: 47, Misses:  8, 
-Stirlingcycle   Hits: 62, Distinct: 43, Misses:  6, 
-Binarypell      Hits: 55, Distinct: 44, Misses: 13, 
-Lah             Hits: 54, Distinct: 44, Misses: 14, 
-Lucas           Hits: 60, Distinct: 44, Misses:  6,
-Partition       Hits: 54, Distinct: 42, Misses: 15, 
-Catalaninv      Hits: 48, Distinct: 41, Misses: 20, 
-Fubini          Hits: 49, Distinct: 41, Misses: 16, 
-Power           Hits: 49, Distinct: 39, Misses: 20, 
-Besselinv       Hits: 48, Distinct: 38, Misses: 20, 
-Dyckpaths       Hits: 50, Distinct: 38, Misses: 18, 
-Motzkin         Hits: 47, Distinct: 37, Misses: 21, 
-Catalan         Hits: 43, Distinct: 36, Misses: 25,
-Monotone        Hits: 51, Distinct: 36, Misses: 16, 
-Eulerian        Hits: 55, Distinct: 36, Misses: 14, 
+[ 0] StirlingSet       [A48993  ]  Distinct: 53, Hits: 62, Misses:  7.
+[ 1] FallingFact       [A8279   ]  Distinct: 48, Hits: 59, Misses:  8.
+[ 2] BinaryPell        [A38207  ]  Distinct: 45, Hits: 55, Misses: 13.
+[ 3] Lah               [A271703 ]  Distinct: 45, Hits: 54, Misses: 14.
+[ 4] Lucas             [A29635  ]  Distinct: 45, Hits: 60, Misses:  6.
+[ 5] StirlingCycle     [A132393 ]  Distinct: 44, Hits: 62, Misses:  6.
+[ 6] Partition         [A72233  ]  Distinct: 43, Hits: 54, Misses: 15.
+[ 7] CatalanInv        [A128908 ]  Distinct: 42, Hits: 48, Misses: 20.
+[ 8] Fubini            [A131689 ]  Distinct: 42, Hits: 49, Misses: 16.
+[ 9] Ordinals          [A2262   ]  Distinct: 40, Hits: 65, Misses:  0.
+[10] Power             [A4248   ]  Distinct: 40, Hits: 49, Misses: 20.
+[11] BesselInv         [A122848 ]  Distinct: 39, Hits: 48, Misses: 20.
+[12] DyckPaths         [A39599  ]  Distinct: 39, Hits: 50, Misses: 18.
+[13] Motzkin           [A64189  ]  Distinct: 38, Hits: 47, Misses: 21.
+[14] Catalan           [A128899 ]  Distinct: 37, Hits: 43, Misses: 25.
+[15] Eulerian          [A173018 ]  Distinct: 37, Hits: 55, Misses: 14.
 
 *** Second Division ***
 
-Abel            Hits: 41, Distinct: 35, Misses: 27, 
-Abelinv         Hits: 41, Distinct: 35, Misses: 27, 
-Schroeder       Hits: 44, Distinct: 35, Misses: 24, 
-Laguerre        Hits: 43, Distinct: 35, Misses: 25, 
-Narayana        Hits: 54, Distinct: 35, Misses: 15, 
-Bessel          Hits: 41, Distinct: 34, Misses: 27, 
-Binomialbell    Hits: 41, Distinct: 34, Misses: 27, 
-Divisibility    Hits: 57, Distinct: 34, Misses: 12, 
-Catalanpaths    Hits: 51, Distinct: 33, Misses: 17, 
-Chebyshevs      Hits: 48, Distinct: 33, Misses: 20, 
-Orderedcycle    Hits: 38, Distinct: 33, Misses: 26, 
-Nicomachus      Hits: 41, Distinct: 33, Misses: 23,
-Binomialcatalan Hits: 38, Distinct: 32, Misses: 29, 
-LeibnizScheme   Hits: 51, Distinct: 31, Misses: 13,
-Rencontres      Hits: 42, Distinct: 31, Misses: 26, 
-Worpitzky       Hits: 41, Distinct: 30, Misses: 26, 
+[16] Monotone          [A59481  ]  Distinct: 37, Hits: 51, Misses: 16.
+[17] Abel              [A137452 ]  Distinct: 36, Hits: 41, Misses: 27.
+[18] AbelInv           [A59297  ]  Distinct: 36, Hits: 41, Misses: 27.
+[19] Laguerre          [A21009  ]  Distinct: 36, Hits: 43, Misses: 25.
+[20] Narayana          [A90181  ]  Distinct: 36, Hits: 54, Misses: 15.
+[21] Schroeder         [A122538 ]  Distinct: 36, Hits: 44, Misses: 24.
+[22] Bessel            [A132062 ]  Distinct: 35, Hits: 41, Misses: 27.
+[23] BinomialBell      [A56857  ]  Distinct: 35, Hits: 41, Misses: 27.
+[24] Divisibility      [A113704 ]  Distinct: 35, Hits: 57, Misses: 12.
+[25] CatalanPaths      [A53121  ]  Distinct: 34, Hits: 51, Misses: 17.
+[26] ChebyshevS        [A168561 ]  Distinct: 34, Hits: 48, Misses: 20.
+[27] OrderedCycle      [A225479 ]  Distinct: 34, Hits: 38, Misses: 26.
+[28] Nicomachus        [A36561  ]  Distinct: 34, Hits: 41, Misses: 23.
+[29] BinomialCatalan   [A98474  ]  Distinct: 33, Hits: 38, Misses: 29.
+[30] Rencontres        [A8290   ]  Distinct: 32, Hits: 42, Misses: 26.
+[31] LeibnizTable      [A94053  ]  Distinct: 32, Hits: 51, Misses: 13.
+[32] LucasInv          [A112857 ]  Distinct: 32, Hits: 42, Misses: 29.
+
 
 # Efficiency
 
@@ -102,7 +104,7 @@ It shows the time required to calculate the first 100 rows of each triangle
                       Lah 0.0096 sec
                    Lehmer 0.2257 sec
                   Leibniz 0.0018 sec
-            LeibnizScheme 0.0008 sec
+            LeibnizTable 0.0008 sec
                     Levin 0.0025 sec
                   Lozanic 0.0016 sec
                     Lucas 0.0011 sec

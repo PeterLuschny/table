@@ -3,7 +3,6 @@ from _tabltypes import Table
 
 """Schroeder bilateral paths.
 
-
 [0]     1;
 [1]     2,     1;
 [2]     6,     6,     1;

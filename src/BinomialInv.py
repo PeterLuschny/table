@@ -26,7 +26,7 @@ BinomialInf = Table(
     binomialinv,
     "InvBinomial",
     ["A130595"],
-    "A000000",
+    "A007318",
     r"(-1)^{n-k} \, n! \, / (k! \, (n - k)! )",
 )
 

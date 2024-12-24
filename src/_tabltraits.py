@@ -619,10 +619,10 @@ def Rev_InvBinConv(t: Table, size: int = 28) -> list[int]:
 
 TraitInfo: TypeAlias = Tuple[trait, int, str]
 
-# Registered symbol in superscript with \textbf{amssymb} package:\\[4pt]
-# Code\textsuperscript{\tiny{\circledR}}\\[4pt]
-# Code\textsuperscript{\circledR}\\[4pt]\\[4pt]
-
+'''The dictionary of all traits with their respective functions and TeX strings.
+   The size of the table is set to 7, 9 or 28 rows for the default case.
+   It is mandatory that this list starts with 'Triangle'!
+'''
 AllTraits: dict[str, TraitInfo] = {
     "Triangle     ": (Triangle,  7, r"\(T_{n, k}\)"),
     "Tinv         ": (Tinv,      7, r"\(T^{-1}_{n, k}\)"),

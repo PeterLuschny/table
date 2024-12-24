@@ -36,7 +36,7 @@ ChebyshevU = Table(
     chebyshevu, 
     "ChebyshevU", 
     ["A053117", "A053118", "A115322"], 
-    "A000000",
+    "",  # not integer-invertible
     r"%%"
 )
 

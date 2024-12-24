@@ -34,7 +34,7 @@ CatalanPaths = Table(
     catalanpaths,
     "CatalanPaths",
     ["A053121", "A052173", "A112554", "A322378"],
-    "A000000",
+    "A049310",  # this is the Chebyshev S triangle
     r"is(k = 0)\ ? \ 0 : \frac{k+1}{n+1} \binom{n+1}{(n-k)/2}",
 )
 

@@ -1,7 +1,8 @@
 from functools import cache
 from _tabltypes import Table
 
-"""Chains of length k in partially ordered set formed from subsets of n-set by inclusion.
+"""Chains of length k in partially ordered set 
+formed from subsets of n-set by inclusion.
 
 0  [  1]
 1  [  2,    1]

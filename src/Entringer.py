@@ -31,7 +31,7 @@ Entringer = Table(
     entringer,
     "Entringer",
     ["A008281", "A008282", "A010094"],
-    "A000000",
+    "",  # not invertible
     r"is(k=0) \ ? \ 0^n : T(n, k-1) + T(n-1, n-k)",
 )
 

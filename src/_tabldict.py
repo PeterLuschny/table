@@ -180,7 +180,7 @@ def RefreshDatabase() -> None:
         json.dump(GlobalDict, fileson)
 
 
-def ReadJsonDict() -> None:
+def ReadJsonDict() -> Dict[str, Dict[str, int]]:
     global GlobalDict
     jsonpath = GetRoot(f"data/AllTraits.json")
     try:
@@ -190,9 +190,10 @@ def ReadJsonDict() -> None:
         print("No file 'AllTraits.json' found.")
         GlobalDict = {}
         print("New GlobalDict created.")
-        return
+        return GlobalDict
 
     print("GlobalDict loaded with file AllTraits.json!")
+    return GlobalDict
 
 
 def AddTable(
@@ -257,9 +258,10 @@ if __name__ == "__main__":
     from Moebius import Moebius          # type: ignore
     from CatalanInv import CatalanInv    # type: ignore
     from WardSet import WardSet          # type: ignore
-    from LahInv import LahInv            # type: ignore
+    from LucasInv import LucasInv        # type: ignore
+    from CentralSetInv import CentralSetInv # type: ignore
 
-    AddTable(LahInv) # type: ignore
+    AddTable(CentralSetInv) # type: ignore
 
     # OccList()
     # RefreshHtml(True)

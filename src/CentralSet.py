@@ -32,7 +32,7 @@ CentralSet = Table(
     centralset,
     "CentralSet",
     ["A269945", "A008957", "A036969"],
-    "A000000",
+    "A269944",  # also "A204579"
     r"is(k = n)\ ? \ 1 : T(n-1, k-1) + k^2\ T(n-1, k)",
 )
 
@@ -114,5 +114,5 @@ if __name__ == "__main__":
     CentralSet_CentralE      -> https://oeis.org/A298851
     CentralSet_TablDiag3     -> https://oeis.org/A351105
     
-    CentralSet      , Distinct: 20, Hits: 24, Misses: 45
+    CentralSet: Distinct: 20, Hits: 24, Misses: 45
 '''

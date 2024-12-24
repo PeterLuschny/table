@@ -20,7 +20,8 @@ def _composition(n: int, k: int) -> int:
     if k < 0 or k > n:
         return 0
     if k == 0 or k == n:
-        return 1
+        return 1 
+
     return (
         2 * _composition(n - 1, k)
         + _composition(n - 1, k - 1)
@@ -32,6 +33,9 @@ def _composition(n: int, k: int) -> int:
 
 @cache
 def composition(n: int) -> list[int]:
+    if n == 0:
+        return [1]
+
     return [_composition(n - 1, k - 1) for k in range(n + 1)]
 
 
@@ -39,7 +43,7 @@ Composition = Table(
     composition, 
     "Composition", 
     ["A048004"], 
-    "A000000", 
+    "A000000",  # invertible, not in OEIS
     r"%%"
 )
 

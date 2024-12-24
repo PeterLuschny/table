@@ -33,7 +33,7 @@ BinaryPell = Table(
     binarypell,
     "BinaryPell",
     ["A038207"],
-    "A000000",
+    "A065109",  # involutory 
     r"\binom{n}{k} \, 2^{n-k}"
 )
 

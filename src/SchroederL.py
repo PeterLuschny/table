@@ -2,6 +2,7 @@ from functools import cache
 from _tabltypes import Table
 
 """Little Schroeder triangle.
+
 [0]      1;
 [1]      1,      1;
 [2]      3,      4,      1;

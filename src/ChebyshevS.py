@@ -34,7 +34,7 @@ ChebyshevS = Table(
     chebyshevs,
     "ChebyshevS",
     ["A049310", "A053119", "A112552", "A168561"],
-    "A000000",
+    "A053121",  # this is the Catalan Paths triangle
     r"is(n+k \text{ even}) ? \binom{(n+k)/2}{k} : 0",
 )
 

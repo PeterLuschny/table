@@ -27,7 +27,6 @@ def abelinv(n: int) -> list[int]:
     return [b[k] * p[k] for k in range(n + 1)]
 
 
-
 AbelInv = Table(
     abelinv,
     "AbelInv",

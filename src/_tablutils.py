@@ -194,4 +194,6 @@ if __name__ == "__main__":
     #QuickBench()
     #print(f"\n{len(Tables)} tables tested!\n")
     
-    print(AnumInListQ("A002426"))
+    # print(AnumInListQ("A002426"))
+    
+    print(AnumList())

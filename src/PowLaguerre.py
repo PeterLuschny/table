@@ -1,9 +1,7 @@
 from functools import cache
 from _tabltypes import Table
 
-
 """Expansion of x^n in terms of Laguerre (unsigned).
-
 
 [0] [   1]
 [1] [   1,     1]
@@ -14,7 +12,6 @@ from _tabltypes import Table
 [6] [ 720,  4320,  10800,  14400,  10800,   4320,   720]
 [7] [5040, 35280, 105840, 176400, 176400, 105840, 35280, 5040]
 """
-
 
 @cache
 def powlaguerre(n: int) -> list[int]:
